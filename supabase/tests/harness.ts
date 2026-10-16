@@ -39,6 +39,10 @@ const SUPABASE_STUBS = `
   );
 
   grant usage on schema public to anon, authenticated, service_role;
+
+  -- Supabase grants every new table in public to these roles by default, so a migration
+  -- must revoke before it grants. Reproduced here so a table that skips the revoke shows.
+  alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
 `;
 
 const MIGRATIONS_DIR = join(process.cwd(), "supabase", "migrations");

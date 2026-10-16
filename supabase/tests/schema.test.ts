@@ -3007,6 +3007,24 @@ describe("fixes from the audit (2026-10-16)", () => {
   const service = { role: "service_role" } as const;
   const bot = '{"kind":"bot","platform":"meet"}';
 
+  it("contacts grants only what the app uses: a user reads and deletes their own, nothing else", async () => {
+    const privilege = async (role: string, action: string) =>
+      (
+        await db.query<{ ok: boolean }>(
+          "select has_table_privilege($1, 'public.contacts', $2) as ok",
+          [role, action],
+        )
+      ).rows[0]?.ok;
+    for (const action of ["insert", "update", "truncate", "references", "trigger"]) {
+      expect(await privilege("authenticated", action), `authenticated ${action}`).toBe(false);
+    }
+    for (const action of ["select", "insert", "update", "delete"]) {
+      expect(await privilege("anon", action), `anon ${action}`).toBe(false);
+    }
+    expect(await privilege("authenticated", "select")).toBe(true);
+    expect(await privilege("authenticated", "delete")).toBe(true);
+  });
+
   it("a slow answer gets one chat line: the fallback only goes out if the answer has not started", async () => {
     await db.query(
       "insert into public.meetings (id, owner_id, title, status, bot_id, source) values ('slow', $1, 'Live', 'recording', 'bot_slow00001', $2)",
