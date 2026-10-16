@@ -3007,6 +3007,86 @@ describe("fixes from the audit (2026-10-16)", () => {
   const service = { role: "service_role" } as const;
   const bot = '{"kind":"bot","platform":"meet"}';
 
+  it("a slow answer gets one chat line: the fallback only goes out if the answer has not started", async () => {
+    await db.query(
+      "insert into public.meetings (id, owner_id, title, status, bot_id, source) values ('slow', $1, 'Live', 'recording', 'bot_slow00001', $2)",
+      [OWNER, bot],
+    );
+    const ask = async (key: string) =>
+      (
+        await as<{ command_id: string }>(
+          db,
+          service,
+          "select command_id from public.record_live_utterance('bot_slow00001', $1, 'Tess', 'spk-1', true, 1000, 900, 'AFK, what did we decide?', $2)",
+          [key, JSON.stringify({ kind: "ask", args: { question: "what did we decide?" } })],
+        )
+      )[0]!.command_id;
+    const fallback = async (commandId: string) =>
+      (
+        await as<{ ok: boolean }>(db, service, "select public.claim_live_fallback($1) as ok", [
+          commandId,
+        ])
+      )[0]?.ok;
+    const gate = async (job: Pick<Job, "id" | "claim_token">) =>
+      (
+        await as<{ gate: string }>(db, service, "select public.start_job_effect($1, $2) as gate", [
+          job.id,
+          job.claim_token,
+        ])
+      )[0]?.gate;
+
+    // Slow: the answer job is running (Claude is thinking) when the twenty seconds pass.
+    // No fallback; the answer posts when it is ready. One line.
+    const slow = await ask("k1");
+    const running = await claim(db, ["answer_in_meeting"]);
+    expect(running?.command_id).toBe(slow);
+    expect(await fallback(slow)).toBe(false);
+    expect(await gate(running!)).toBe("go");
+    expect(
+      await complete(db, running!, "done", {
+        kind: "answer",
+        text: "Blue.",
+        posted: true,
+        spoken: false,
+        cited: [1],
+      }),
+    ).toBe(true);
+
+    // Not started: nothing has taken the job by then. The fallback goes out, and the
+    // answer that starts later lands on the card only. One line.
+    const late = await ask("k2");
+    expect(await fallback(late)).toBe(true);
+    expect(await fallback(late)).toBe(false); // and only once
+    const lateJob = await claim(db, ["answer_in_meeting"]);
+    expect(lateJob?.command_id).toBe(late);
+    expect(await gate(lateJob!)).toBe("done_before");
+    await complete(db, lateJob!, "done", {
+      kind: "answer",
+      text: "Blue.",
+      posted: false,
+      spoken: false,
+      cited: [1],
+    });
+
+    // Cut off: the run that took it died and its lease ran out. The fallback goes out.
+    const cut = await ask("k3");
+    const dead = await claim(db, ["answer_in_meeting"]);
+    await db.query(
+      "update public.processing_jobs set lease_until = now() - interval '1 second' where id = $1",
+      [dead!.id],
+    );
+    expect(await fallback(cut)).toBe(true);
+
+    // Answered already: nothing more to say.
+    expect(await fallback(slow)).toBe(false);
+    // Only the server asks.
+    await expect(
+      as(db, { role: "authenticated", userId: OWNER }, "select public.claim_live_fallback($1)", [
+        cut,
+      ]),
+    ).rejects.toThrow(/permission denied/);
+  });
+
   it("the sweep leaves a scheduled bot's call alone while it is recording, timing it from its scheduled time", async () => {
     // Scheduled two days ago for an hour ago: the bot joined on time and is still in the call.
     await db.query(

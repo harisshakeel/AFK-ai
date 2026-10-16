@@ -33,8 +33,9 @@ import { log } from "@/server/log";
  *
  * The slow work happens after the response (there is no worker): a finished call's
  * ingest and notes, and a live question's answer, run here with the function's budget.
- * A question still unanswered after twenty seconds (the run that took it was cut off,
- * or nothing took it) gets the fallback line in the chat (L2). Any other command the
+ * A question whose answer has not started after twenty seconds (nothing took it, or
+ * the run that took it was cut off) gets the fallback line in the chat (L2); an answer
+ * that is merely slow is left to post, so the chat gets one line, never both. Any other command the
  * sender speaks gets one line in the chat saying it was heard and where its result
  * will be; the command itself waits for the final transcript.
  */
@@ -170,14 +171,16 @@ export async function POST(request: Request) {
       kickJobs({ meetingId: row.meeting_id ?? undefined });
       after(async () => {
         await new Promise((resolve) => setTimeout(resolve, LIVE_FALLBACK_AFTER_MS));
-        // The answer moves the command to done, a final failure to failed; anything
-        // else means the host is still waiting, whatever the job's own state.
-        const { data: pending } = await admin
-          .from("meeting_commands")
-          .select("status")
-          .eq("id", commandId)
-          .maybeSingle();
-        if (pending?.status !== "detected") return;
+        // One chat line per question: the fallback goes out only if the answer has not
+        // started, and once it has, the answer lands on the card only (audit F6).
+        const { data: claimed, error: claimError } = await admin.rpc("claim_live_fallback", {
+          p_command_id: commandId,
+        });
+        if (claimError) {
+          log.warn("webhook.live_fallback_failed", { botId, commandId, error: "db_error" });
+          return;
+        }
+        if (!claimed) return;
         try {
           await createAttendeeClient({ apiKey, baseUrl: env.ATTENDEE_API_URL }).sendChatMessage(
             botId,

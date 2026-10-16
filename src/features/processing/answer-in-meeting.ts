@@ -75,8 +75,9 @@ export async function runAnswerInMeeting(
   const text = grounded.cited.length > 0 ? grounded.text : NOT_DISCUSSED;
 
   // Into the call, while the bot is still there, once: an attempt after one that
-  // reached the chat (and then failed or was cut off) answers on the card only. A failed
-  // post is not the answer's failure: the card keeps it.
+  // reached the chat (and then failed or was cut off), or after the webhook's fallback
+  // line went out (claim_live_fallback), answers on the card only. A failed post is not
+  // the answer's failure: the card keeps it.
   let posted = false;
   let spoken = false;
   const botId = command.meetings.bot_id;

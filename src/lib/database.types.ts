@@ -1083,6 +1083,7 @@ export type Database = {
       }
       can_read_meeting: { Args: { p_meeting_id: string }; Returns: boolean }
       can_tick_item: { Args: { p_item_id: string }; Returns: boolean }
+      claim_live_fallback: { Args: { p_command_id: string }; Returns: boolean }
       claim_job: {
         Args: {
           p_kinds?: string[]
