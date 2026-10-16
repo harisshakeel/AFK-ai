@@ -1,0 +1,40 @@
+# Continuous integration. Vercel builds and deploys the app itself (production on every
+# push to main); this checks what Vercel doesn't: lint, types, formatting, the unit and
+# database tests. The browser journeys run from the owner's Mac before each commit
+# (owner's decision): they need the live database's keys, which stay off
+# GitHub.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Read-only token: CI never writes to the repository.
+permissions:
+  contents: read
+
+# A newer push to the same branch cancels the run still in progress.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, types, format, tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # Actions are pinned to full commit hashes; the comment names the release.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Installs the pnpm version named in package.json's packageManager field.
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: pnpm
+      # .npmrc sets strict-dep-builds: an unreviewed install script fails the job.
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check

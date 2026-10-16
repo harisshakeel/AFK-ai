@@ -1,4 +1,36 @@
+# dependencies and build output
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# environment: only the example with placeholders is committed
+.env
+.env.*
+!.env.example
+
+# tests and tooling
+coverage/
+playwright-report/
+test-results/
+.vercel/
+
+# OS and editors
+.DS_Store
+
+# Supabase CLI cache
+supabase/.temp/
+
+# Encoded seed audio (regenerate with tools/icsi/encode_audio.sh; uploaded to Supabase Storage)
+data/audio/
+
+# Performance measurements (e2e/metrics.spec.ts)
+.metrics/
+
 # capture-hook bookkeeping (the logs themselves in .agent-logs/ are committed)
 .claude/hooks/.state/
 .claude/settings.local.json
-.DS_Store
+
+# Database migrations stay local (owner's decision): the public repository leaves them out
+supabase/migrations/

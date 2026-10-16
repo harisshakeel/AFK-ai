@@ -1,0 +1,47 @@
+diff --git a/lib/constants.js b/lib/constants.js
+index 2bb3b8840382c56700869b3a9e1f958fcce01efd..35632d36a656cd18f5209aaa872198dcd9a38a24 100644
+--- a/lib/constants.js
++++ b/lib/constants.js
+@@ -2,6 +2,9 @@
+ 
+ module.exports = {
+   MAX_LENGTH: 10000,
++  // Nesting beyond this is literal text: the AST walkers recurse once per level, so an
++  // unbounded depth exhausts the call stack (GHSA-vfj7-8cjw-p6xm).
++  MAX_DEPTH: 100,
+ 
+   // Digits
+   CHAR_0: '0', /* 0 */
+diff --git a/lib/parse.js b/lib/parse.js
+index 3a6988e629f52aee6609dc5ec290a5e9ff47cecb..1e59c4fb6ebb836673146ca58c83ae4185244c45 100644
+--- a/lib/parse.js
++++ b/lib/parse.js
+@@ -8,6 +8,7 @@ const stringify = require('./stringify');
+ 
+ const {
+   MAX_LENGTH,
++  MAX_DEPTH,
+   CHAR_BACKSLASH, /* \ */
+   CHAR_BACKTICK, /* ` */
+   CHAR_COMMA, /* , */
+@@ -38,6 +39,7 @@ const parse = (input, options = {}) => {
+   if (input.length > max) {
+     throw new SyntaxError(`Input length (${input.length}), exceeds max characters (${max})`);
+   }
++  const maxDepth = typeof opts.maxDepth === 'number' ? opts.maxDepth : MAX_DEPTH;
+ 
+   const ast = { type: 'root', input, nodes: [] };
+   const stack = [ast];
+@@ -195,6 +197,12 @@ const parse = (input, options = {}) => {
+      */
+ 
+     if (value === CHAR_LEFT_CURLY_BRACE) {
++      // Past the nesting limit a brace is just a character, as an unbalanced one is.
++      if (depth >= maxDepth) {
++        push({ type: 'text', value });
++        continue;
++      }
++
+       depth++;
+ 
+       const dollar = prev.value && prev.value.slice(-1) === '$' || block.dollar === true;
