@@ -489,7 +489,7 @@ Acceptance criteria:
    for emails, invites and Slack posts, each with an example).
 2. **Every entry has a source.** A source is one of: told by the owner (typed or "AFK,
    remember …"), a quote from a meeting with a link to its moment ("learned from *Pricing
-   sync*, 12 Oct, 00:14:02: 'Sam owns the pricing page'"), or a connected account (a
+   sync*, 16 Oct, 00:14:02: 'Sam owns the pricing page'"), or a connected account (a
    calendar invite or Slack directory, named). An entry with no source cannot exist.
    **AFK.ai never invents an entry.**
 3. After each meeting, AFK.ai proposes new entries from what was said. Proposals appear
@@ -523,7 +523,7 @@ Acceptance criteria:
    waiting cards in place with "Connect … to send this".
 5. **Addresses are never filled in silently.** Recipient emails, Slack handles and
    channels come only from memory (FR-17), and each is shown on the card with its reason
-   ("sam@acme.com — from the invite to *Pricing sync*, 12 Oct"). If memory has nothing,
+   ("sam@acme.com — from the invite to *Pricing sync*, 16 Oct"). If memory has nothing,
    the field is empty and the card asks the owner. If memory has two candidates, both are
    shown and the owner picks.
 6. A connection that stops working (token revoked, scope removed) shows a reconnect

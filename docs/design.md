@@ -258,7 +258,7 @@ when Deepgram is on; with captions it is informational.
 │ ▸ Sam owns the pricing page   Pricing sync · 12:34  │
 │   "Sam owns the pricing page"  [Accept] [Edit] [✕]  │
 │ ALL                                                 │
-│ ▸ entry · source · edited 2 Oct                     │
+│ ▸ entry · source · edited 16 Oct                     │
 ```
 
 ### Loadout (`/app/loadout`)
@@ -281,7 +281,7 @@ Google connections are in Testing mode and expire after seven days; each card sh
 ```
 ┌ Spells            chips: Waiting · Sent · Needs check · Dismissed ┐
 │ ┌ ✉ Email to Sam Lee, Priya N.             Pricing sync · 12:34 ┐│
-│ │ sam@acme.com — from the invite to Pricing sync, 12 Oct         ││
+│ │ sam@acme.com — from the invite to Pricing sync, 16 Oct         ││
 │ │ Subject · body preview…                                        ││
 │ │ [Approve · sends from your Gmail]  [Send back]  [Dismiss]      ││
 │ └────────────────────────────────────────────────────────────────┘│
