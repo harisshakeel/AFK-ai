@@ -28,10 +28,13 @@ export function ensureVisitorSession(): Promise<void> {
 
 export class ApiError extends Error {
   readonly status: number;
-  constructor(message: string, status: number) {
+  /** Where the route says to go to put it right ("/connectors", "/sign-in"), when it says. */
+  readonly connect: string | null;
+  constructor(message: string, status: number, connect: string | null = null) {
     super(message);
     this.name = "ApiError";
     this.status = status;
+    this.connect = connect;
   }
 }
 
@@ -51,9 +54,16 @@ export async function visitorFetch<T>(
     // The browser's own wording ("Failed to fetch", "Load failed") means no connection.
     throw new ApiError("You seem to be offline. Check the connection and try again.", 0);
   }
-  const payload = (await response.json().catch(() => ({}))) as { error?: string } & T;
+  const payload = (await response.json().catch(() => ({}))) as {
+    error?: string;
+    connect?: unknown;
+  } & T;
   if (!response.ok) {
-    throw new ApiError(payload.error ?? "Something went wrong. Try again.", response.status);
+    throw new ApiError(
+      payload.error ?? "Something went wrong. Try again.",
+      response.status,
+      typeof payload.connect === "string" ? payload.connect : null,
+    );
   }
   return payload;
 }

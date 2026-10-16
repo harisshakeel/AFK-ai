@@ -65,6 +65,9 @@ export const publicEnv = parse(publicSchema, {
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
 });
 
+/** A production build (next build), whatever the deployment: Secure cookies, for one. */
+export const isProductionBuild = process.env.NODE_ENV === "production";
+
 export type ServerEnv = z.infer<typeof serverSchema>;
 
 let cachedServerEnv: ServerEnv | undefined;
@@ -72,6 +75,11 @@ let cachedServerEnv: ServerEnv | undefined;
 export function serverEnv(): ServerEnv {
   if (typeof window !== "undefined") {
     throw new Error("serverEnv() was called in the browser");
+  }
+  // The site URL defaults to localhost for development. A production deployment without
+  // it would send OAuth callbacks and share links to localhost, so it fails here instead.
+  if (process.env.VERCEL_ENV === "production" && !process.env.NEXT_PUBLIC_SITE_URL) {
+    throw new Error("NEXT_PUBLIC_SITE_URL must be set on the production deployment");
   }
   cachedServerEnv ??= parse(serverSchema, {
     SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,
