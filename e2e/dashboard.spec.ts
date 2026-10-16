@@ -211,6 +211,8 @@ test.describe("signed in", () => {
     context,
     baseURL,
   }) => {
+    // The cards and the record rise and fade in; the scans must see them still.
+    await page.emulateMedia({ reducedMotion: "reduce" });
     user = await signInAsNewUser(context, baseURL!);
     const meetingId = await addOwnedMeeting(user.id);
     await addProposedCommand(meetingId, {

@@ -205,7 +205,7 @@ test.describe("meeting page", () => {
   });
 
   test("has no serious accessibility violations", async ({ page }) => {
-    test.setTimeout(120_000); // axe over an hour-long transcript takes a while
+    test.setTimeout(180_000); // axe over an hour-long transcript takes a while
     await open(page, MEETING);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag22aa"])
