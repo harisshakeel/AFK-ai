@@ -1,0 +1,396 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Tailwind 4 reads @theme and generates utilities (bg-surface,
+ * text-fg-muted, font-display, ...). Semantic names, not raw colours, so dark mode and
+ * later palette changes happen here only. Colours are OKLCH for even contrast steps; the
+ * neutrals carry a little warmth (hue 60-85) so the page reads as paper, not a grid. The
+ * canvas and the accent are sampled from the hero animation (its cream as Chrome renders
+ * the video, #f9f6f0, and its violet #7041fb), so the landing and the animation are one
+ * surface.
+ */
+@theme {
+  --font-sans:
+    var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-canvas: oklch(97.4% 0.009 85);
+  /* The hero animation's own background, in both modes: the panel it sits on. */
+  --color-stage: oklch(97.4% 0.009 85);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-raised: oklch(93.5% 0.01 85);
+  --color-border: oklch(89.5% 0.01 85);
+  --color-border-strong: oklch(80.5% 0.014 85);
+
+  --color-fg: oklch(21% 0.015 60);
+  --color-fg-muted: oklch(45% 0.018 60);
+  /* the faintest text that still meets WCAG AA (4.5:1) on canvas and surface */
+  --color-fg-subtle: oklch(52% 0.015 60);
+
+  --color-accent: oklch(55% 0.255 286);
+  --color-accent-strong: oklch(45.6% 0.207 285);
+  --color-accent-soft: oklch(93.6% 0.031 298);
+  --color-on-accent: oklch(99% 0 0);
+  /* The edge under a pressed-looking button. */
+  --color-accent-deep: oklch(36% 0.17 286);
+  /* Ink and what sits on it: the record card, the same in both modes. */
+  --color-ink: oklch(19% 0.025 290);
+  --color-on-ink: oklch(96% 0.01 85);
+  /* The one data colour beside the violet: the current week, what is done, a lit dot. */
+  --color-signal: oklch(78% 0.11 200);
+
+  --color-success: oklch(55% 0.15 150);
+  --color-warning: oklch(70% 0.15 70);
+  --color-danger: oklch(55% 0.2 25);
+  /* Text on the tinted badge backgrounds (success/12, danger/10): the plain tones fall short of 4.5:1 there. */
+  --color-success-strong: oklch(40% 0.13 150);
+  --color-danger-strong: oklch(45% 0.19 25);
+
+  /* The current transcript line and selection share this so "now" is one colour everywhere. */
+  --color-now: oklch(93.5% 0.07 85);
+  --color-now-strong: oklch(72% 0.15 75);
+  /* Search matches, in the transcript and on the timeline. */
+  --color-match: oklch(88% 0.12 95);
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.125rem;
+  --radius-2xl: 1.5rem;
+
+  --shadow-xs: 0 1px 2px oklch(20% 0.02 60 / 0.06);
+  --shadow-raised: 0 1px 2px oklch(20% 0.02 60 / 0.06), 0 8px 24px -8px oklch(20% 0.02 60 / 0.14);
+  --shadow-float: 0 2px 4px oklch(20% 0.02 60 / 0.06), 0 20px 48px -16px oklch(20% 0.02 60 / 0.24);
+  /* Buttons: a keycap edge on the quiet ones, a tinted lift on the filled one. */
+  --shadow-key: inset 0 -1px 0 var(--color-border), 0 1px 2px oklch(20% 0.02 60 / 0.06);
+  --shadow-key-hover: inset 0 -1px 0 var(--color-border), 0 2px 6px -1px oklch(20% 0.02 60 / 0.12);
+  --shadow-accent: inset 0 1px 0 oklch(100% 0 0 / 0.16), 0 1px 2px oklch(55% 0.255 286 / 0.3);
+  --shadow-accent-hover:
+    inset 0 1px 0 oklch(100% 0 0 / 0.16), 0 4px 12px -2px oklch(55% 0.255 286 / 0.4);
+  /* The filled button as a keycap: a lit top edge, a deep edge beneath, a tinted glow. */
+  --shadow-press:
+    inset 0 1px 0 oklch(100% 0 0 / 0.28), 0 4px 0 var(--color-accent-deep),
+    0 12px 24px -8px oklch(55% 0.255 286 / 0.55);
+  --shadow-press-hover:
+    inset 0 1px 0 oklch(100% 0 0 / 0.32), 0 6px 0 var(--color-accent-deep),
+    0 18px 32px -10px oklch(55% 0.255 286 / 0.6);
+  --shadow-press-down:
+    inset 0 1px 0 oklch(100% 0 0 / 0.2), 0 1px 0 var(--color-accent-deep),
+    0 4px 10px -6px oklch(55% 0.255 286 / 0.5);
+  /* The quiet button as a keycap on a lighter edge. */
+  --shadow-keycap:
+    inset 0 1px 0 oklch(100% 0 0 / 0.8), 0 3px 0 var(--color-border-strong),
+    0 8px 16px -10px oklch(20% 0.02 60 / 0.25);
+  --shadow-keycap-hover:
+    inset 0 1px 0 oklch(100% 0 0 / 0.8), 0 5px 0 var(--color-border-strong),
+    0 12px 20px -10px oklch(20% 0.02 60 / 0.3);
+  --shadow-keycap-down: inset 0 1px 0 oklch(100% 0 0 / 0.8), 0 1px 0 var(--color-border-strong);
+  /* A badge's metal coin, and anything lit in the signal colour. */
+  --shadow-coin: inset 0 1px 0 oklch(100% 0 0 / 0.5), 0 6px 14px -6px oklch(55% 0.255 286 / 0.6);
+  --shadow-glow-signal: 0 0 12px oklch(78% 0.11 200 / 0.7);
+  /* The shine that sweeps a pressed button's face. */
+  --color-shine: oklch(100% 0 0 / 0.38);
+
+  --animate-toast-in: toast-in 0.25s ease-out both;
+  --animate-fade-up: fade-up 0.5s ease-out both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  /* Two slow violet drifts behind the landing's facts, and the caret of the typed commands. */
+  --animate-drift-a: drift-a 26s ease-in-out infinite alternate;
+  --animate-drift-b: drift-b 32s ease-in-out infinite alternate;
+  --animate-caret: caret 1s steps(2, start) infinite;
+  --animate-coin: coin 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  /* The loader's bars: the listening wave in miniature. */
+  --animate-wave: wave 0.9s ease-in-out infinite;
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+  @keyframes drift-a {
+    from {
+      transform: translate(0, 0) scale(1);
+    }
+    to {
+      transform: translate(14rem, 9rem) scale(1.15);
+    }
+  }
+  @keyframes drift-b {
+    from {
+      transform: translate(0, 0) scale(1.1);
+    }
+    to {
+      transform: translate(-12rem, -10rem) scale(0.95);
+    }
+  }
+  @keyframes caret {
+    to {
+      visibility: hidden;
+    }
+  }
+  @keyframes coin {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+  @keyframes wave {
+    0%,
+    100% {
+      transform: scaleY(0.35);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+}
+
+/*
+ * The app shell's sidebar collapses to a rail of icons: the toggle in its head sets
+ * `data-sidebar="rail"` on <html> and stores the choice as `afk-sidebar`, which the
+ * root layout's inline script restores before the first paint.
+ */
+.app-grid {
+  --sidebar: 16rem;
+}
+:root[data-sidebar="rail"] .app-grid {
+  --sidebar: 5.5rem;
+}
+:root[data-sidebar="rail"] .sidebar-label,
+:root[data-sidebar="rail"] .sidebar-wordmark > span {
+  display: none;
+}
+:root[data-sidebar="rail"] .sidebar-head {
+  justify-content: center;
+  gap: 0.25rem;
+  padding-inline: 0.5rem;
+}
+:root[data-sidebar="rail"] .sidebar-link {
+  justify-content: center;
+  padding-inline: 0;
+}
+:root[data-sidebar="rail"] .sidebar-foot {
+  flex-direction: column;
+  align-items: center;
+}
+
+/*
+ * Speaker colours live outside @theme: they are read through var() (inline styles and the
+ * --speaker variable), and Tailwind only emits @theme variables that a utility uses.
+ */
+:root {
+  /*
+   * Speaker colours: twelve hues at equal lightness, so no speaker looks more important
+   * and a twelve-speaker meeting repeats none. Colour is never the only cue: every
+   * speaker also has a letter or initials.
+   */
+  --color-speaker-1: oklch(62% 0.16 265);
+  --color-speaker-2: oklch(62% 0.15 160);
+  --color-speaker-3: oklch(62% 0.17 30);
+  --color-speaker-4: oklch(62% 0.15 310);
+  --color-speaker-5: oklch(62% 0.14 200);
+  --color-speaker-6: oklch(62% 0.15 75);
+  --color-speaker-7: oklch(62% 0.16 350);
+  --color-speaker-8: oklch(62% 0.12 120);
+  --color-speaker-9: oklch(62% 0.13 235);
+  --color-speaker-10: oklch(62% 0.14 50);
+  --color-speaker-11: oklch(62% 0.13 290);
+  --color-speaker-12: oklch(62% 0.13 180);
+}
+
+/*
+ * Dark mode is a choice, not the system's: the app is light by default, the landing's
+ * palette, and the sun/moon button in the app shell sets `data-theme="dark"` on <html>
+ * and remembers it in the browser (owner's decision). A small script in the
+ * root layout applies the stored choice before the first paint.
+ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-canvas: oklch(16% 0.01 60);
+  --color-surface: oklch(20% 0.01 60);
+  --color-surface-raised: oklch(25% 0.012 60);
+  --color-border: oklch(31% 0.012 60);
+  --color-border-strong: oklch(42% 0.012 60);
+  --color-fg: oklch(95% 0.008 80);
+  --color-fg-muted: oklch(73% 0.012 70);
+  --color-fg-subtle: oklch(66% 0.012 70);
+  --color-accent: oklch(72% 0.15 286);
+  --color-accent-strong: oklch(80% 0.13 286);
+  --color-accent-soft: oklch(30% 0.06 286);
+  --color-on-accent: oklch(15% 0.02 286);
+  --color-success-strong: oklch(80% 0.15 150);
+  --color-danger-strong: oklch(78% 0.16 25);
+  --color-now: oklch(40% 0.08 85);
+  --color-now-strong: oklch(78% 0.14 80);
+  --color-match: oklch(48% 0.1 95);
+  --shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.4);
+  --shadow-raised: 0 1px 2px oklch(0% 0 0 / 0.4), 0 8px 24px -8px oklch(0% 0 0 / 0.5);
+  --shadow-float: 0 2px 4px oklch(0% 0 0 / 0.4), 0 20px 48px -16px oklch(0% 0 0 / 0.6);
+  --shadow-key: inset 0 1px 0 oklch(100% 0 0 / 0.06), 0 1px 2px oklch(0% 0 0 / 0.4);
+  --shadow-key-hover: inset 0 1px 0 oklch(100% 0 0 / 0.08), 0 2px 6px -1px oklch(0% 0 0 / 0.5);
+  --shadow-accent: inset 0 1px 0 oklch(100% 0 0 / 0.25), 0 1px 2px oklch(0% 0 0 / 0.4);
+  --shadow-accent-hover:
+    inset 0 1px 0 oklch(100% 0 0 / 0.25), 0 4px 12px -2px oklch(72% 0.15 286 / 0.35);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-canvas text-fg antialiased;
+  }
+  ::selection {
+    background: var(--color-accent-soft);
+  }
+  /* Anything that can be pressed shows a hand, as on every web app people use daily. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+  /* One visible focus style everywhere; keyboard users must always see where they are. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/*
+ * The light palette as a class, for the landing page, which keeps the hero animation's
+ * cream and violet even when the app's dark mode is on. The values are the @theme
+ * defaults above; keep them in step. Custom properties inherit, so this wins inside the
+ * wrapper over the dark values set on :root.
+ */
+.theme-light {
+  color-scheme: light;
+  --color-canvas: oklch(97.4% 0.009 85);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-raised: oklch(93.5% 0.01 85);
+  --color-border: oklch(89.5% 0.01 85);
+  --color-border-strong: oklch(80.5% 0.014 85);
+  --color-fg: oklch(21% 0.015 60);
+  --color-fg-muted: oklch(45% 0.018 60);
+  --color-fg-subtle: oklch(52% 0.015 60);
+  --color-accent: oklch(55% 0.255 286);
+  --color-accent-strong: oklch(45.6% 0.207 285);
+  --color-accent-soft: oklch(93.6% 0.031 298);
+  --color-on-accent: oklch(99% 0 0);
+  --color-success-strong: oklch(40% 0.13 150);
+  --color-danger-strong: oklch(45% 0.19 25);
+  --shadow-xs: 0 1px 2px oklch(20% 0.02 60 / 0.06);
+  --shadow-raised: 0 1px 2px oklch(20% 0.02 60 / 0.06), 0 8px 24px -8px oklch(20% 0.02 60 / 0.14);
+  --shadow-float: 0 2px 4px oklch(20% 0.02 60 / 0.06), 0 20px 48px -16px oklch(20% 0.02 60 / 0.24);
+  --shadow-key: inset 0 -1px 0 var(--color-border), 0 1px 2px oklch(20% 0.02 60 / 0.06);
+  --shadow-key-hover: inset 0 -1px 0 var(--color-border), 0 2px 6px -1px oklch(20% 0.02 60 / 0.12);
+  --shadow-accent: inset 0 1px 0 oklch(100% 0 0 / 0.16), 0 1px 2px oklch(55% 0.255 286 / 0.3);
+  --shadow-accent-hover:
+    inset 0 1px 0 oklch(100% 0 0 / 0.16), 0 4px 12px -2px oklch(55% 0.255 286 / 0.4);
+}
+
+/*
+ * Pointer physics (interactions.tsx sets the variables): a tilted element turns toward
+ * the pointer and shows a glare where it is; the card of ink carries one violet glow
+ * that follows the pointer; a coin spins once on hover.
+ */
+.tilt {
+  transform-style: preserve-3d;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+  will-change: transform;
+}
+.tilt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    oklch(100% 0 0 / 0.32),
+    transparent 55%
+  );
+  opacity: var(--glare-on, 0);
+  transition: opacity 0.3s ease;
+}
+.ink-card {
+  background:
+    radial-gradient(
+      70% 110% at var(--glare-x, 78%) var(--glare-y, 18%),
+      oklch(55% 0.255 286 / 0.5),
+      transparent 62%
+    ),
+    linear-gradient(135deg, oklch(23% 0.04 290), var(--color-ink) 60%, oklch(20% 0.03 250));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .group:hover .coin {
+    animation: var(--animate-coin);
+  }
+}
+
+/* A faint dot grid behind the sign-in and welcome pages: texture without decoration. */
+@utility bg-dots {
+  background-image: radial-gradient(var(--color-border-strong) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Loading placeholders: a raised block with a slow sheen passing across it. */
+@utility skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, var(--color-surface) 50%, transparent);
+    opacity: 0.6;
+    animation: var(--animate-shimmer);
+  }
+}
+
+/*
+ * Titles are the wordmark's face, heavier and tighter, not a second family: one voice
+ * from the logo to the body text (owner's decision). The weight is the
+ * default for a title; a page's h1 adds `font-bold`, and smaller titles `font-medium`.
+ */
+@utility font-display {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
