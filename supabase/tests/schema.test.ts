@@ -3002,3 +3002,44 @@ describe("fixes from the system-design study", () => {
     ).rejects.toThrow(/permission denied/);
   });
 });
+
+describe("fixes from the audit (2026-10-16)", () => {
+  const service = { role: "service_role" } as const;
+  const bot = '{"kind":"bot","platform":"meet"}';
+
+  it("the sweep leaves a scheduled bot's call alone while it is recording, timing it from its scheduled time", async () => {
+    // Scheduled two days ago for an hour ago: the bot joined on time and is still in the call.
+    await db.query(
+      `insert into public.meetings (id, owner_id, title, status, bot_id, scheduled_for, calendar_event_id, source, created_at)
+       values ('live-cal', $1, 'Standup', 'recording', 'bot_livecal01', now() - interval '1 hour', 'evt_live', $2, now() - interval '2 days')`,
+      [OWNER, bot],
+    );
+    // Scheduled for seven hours ago and never heard from since: the call is long over.
+    await db.query(
+      `insert into public.meetings (id, owner_id, title, status, bot_id, scheduled_for, calendar_event_id, source, created_at)
+       values ('gone-cal', $1, 'Retro', 'recording', 'bot_gonecal01', now() - interval '7 hours', 'evt_gone', $2, now() - interval '2 days')`,
+      [STRANGER, bot],
+    );
+    const swept = (await as<{ n: number }>(db, service, "select public.sweep_stale_bots() as n"))[0]
+      ?.n;
+    expect(swept).toBe(1);
+    const rows = await db.query<{ id: string; status: string }>(
+      "select id, status from public.meetings where id in ('live-cal', 'gone-cal') order by id",
+    );
+    expect(rows.rows).toEqual([
+      { id: "gone-cal", status: "failed" },
+      { id: "live-cal", status: "recording" },
+    ]);
+    // The live call still ends the normal way, and its recording is ingested.
+    const finished = await as<{ mark_bot_finished: string | null }>(
+      db,
+      service,
+      "select public.mark_bot_finished('bot_livecal01', true)",
+    );
+    expect(finished[0]?.mark_bot_finished).toBe("live-cal");
+    const ingest = await db.query<{ kind: string }>(
+      "select kind from public.processing_jobs where meeting_id = 'live-cal'",
+    );
+    expect(ingest.rows).toEqual([{ kind: "ingest_media" }]);
+  });
+});
