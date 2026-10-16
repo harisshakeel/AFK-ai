@@ -101,16 +101,18 @@ with a quieter ".ai".
 
 ### Words
 
-Navigation speaks in game words; page titles, buttons and messages use plain words.
+Navigation speaks in game words, each followed by the plain name the copy uses ("the
+Memory page"), small and muted, in the sidebar and on the phone strip alike; page titles,
+buttons and messages use plain words.
 
-| Nav label | Route | Page title |
-|---|---|---|
-| Quests | `/dashboard` | Quest log |
-| Spells | `/tasks` | What AFK heard, and did |
-| Lore | `/memory` | What AFK knows about you |
-| Loadout | `/connectors` | What AFK may act through |
-| Tutorial | `/samples` | Sample meetings |
-| Summon AFK | `/send` | Send AFK to a meeting |
+| Nav label | Plain name | Route | Page title |
+|---|---|---|---|
+| Quests | Meetings | `/dashboard` | Quest log |
+| Spells | Tasks | `/tasks` | What AFK heard, and did |
+| Lore | Memory | `/memory` | What AFK knows about you |
+| Loadout | Connectors | `/connectors` | What AFK may act through |
+| Tutorial | Samples | `/samples` | Sample meetings |
+| Summon AFK | Send AFK | `/send` | Send AFK to a meeting |
 
 The dashboard keeps the game voice in its body too: "Player one: <name>", quests, side
 quests (open action items), spells awaiting your cast, and the Player card
@@ -182,7 +184,7 @@ Narrow screens (below 1024 px):
 ```
 ┌──────────────────────────────────┐
 │ ▣ [🔍 Search…          ] ☾  ⏻   │
-│ Quests Spells 3 Lore Loadout … → │  ← scrolls sideways
+│ Quests Meetings  Spells Tasks 3 … │  ← scrolls sideways
 ├──────────────────────────────────┤
 │ page content                     │
 ```
@@ -356,7 +358,7 @@ mouse.
 Wide screens (1024 px and up):
 
 ```
-┌ ← Pricing sync                      [🔗 Share] [Share the notes] [🗑] ⒶⒷⒸⒹ ┐
+┌ ← Pricing sync                      [🔗 Share] [Email the notes] [🗑] ⒶⒷⒸⒹ ┐
 │   Oct 16 · 1 hr 1 min · 8 speakers · ICSI <session> ⓘ                     │
 │   headline…                                                               │
 ├ notes (5 parts) ─────────────────────┬ transcript (7 parts) ───────────────┤
@@ -378,8 +380,10 @@ Wide screens (1024 px and up):
 - **The header** (`meeting-header.tsx`): a back arrow (to the dashboard, or to samples
   on a sample meeting), the title as `h1`, a mono line with date, length and speaker
   count, on a sample its ICSI session with an ⓘ disclosure about the corpus, and the
-  headline. The owner also sees the Share panel (link and PIN, below), "Share the notes"
-  (which drafts an email card) and Delete. The speaker marks show from 768 px.
+  headline. The owner also sees the Share panel (link and PIN, below), "Email the notes"
+  (which drafts an email card) and Delete, on a row of their own under the title below
+  640 px. Anyone else, on a sample, sees "Send AFK to your call", the journey's next
+  step. The speaker marks show from 768 px.
 - **Notes** (`src/features/summaries/notes-panel.tsx`), in tabs:
   - Summary: template chips, "Notes from the call" marked "said on the call", the
     template's sections with a timestamp button on every point, then potential tasks on
@@ -390,8 +394,9 @@ Wide screens (1024 px and up):
   - Tasks: the owner's commands as approval cards with a typed-command box; labelled
     example cards on a sample meeting. Above the cards a host line says whose spoken
     commands were taken ("Spoken commands were taken from Speaker B, matched to your
-    name." or "..., the only person who spoke."), or that AFK could not tell which
-    speaker was the owner, with a link to the "Name in calls" field of the profile. Under
+    name." or, when no name was known, "..., the only person who spoke."), or that AFK
+    could not tell which speaker was the owner, with a link to the "Name in calls" field
+    of the profile. Under
     them, "What you can say" is a disclosure listing each spoken command with an example.
     A failed card that is safe to run again (one that never started, or a follow-up or
     reminder) offers "Try again", which approves it again. An email card offers "Open in
@@ -566,7 +571,10 @@ approval cards the meeting's Tasks tab uses. Then "The record": one card per com
 its kind, its source, a status badge, the quoted sentence, the result or the error, and a
 link to its meeting's Tasks tab. An approval card shows each filled-in address with the
 reason it was chosen and offers "Approve and send" (or "post", or "add to calendar"),
-Rewrite and Dismiss.
+Rewrite and Dismiss. Rewrite is gone once a draft has been sent back three times. A Slack
+card lists the workspace's channels and starts on the one the Slack skill's topics name,
+else the default saved on the Connectors page; with no channels to list it shows the
+saved channel, or a link to choose one on the Connectors page.
 
 ### Connectors (`/connectors`)
 
@@ -582,7 +590,9 @@ with Google".
 - **Samples** (`/samples`): the meeting list of the public sample meetings, with the
   corpus credit under it.
 - **Sign-in** (`/sign-in`): a centred card on a faint dot grid, "Keep your workspace",
-  and the Google button.
+  and the Google button. After a link conflict (`?error=linked`) a note says the Google
+  account already has an AFK workspace and that what was made as a guest stays behind;
+  the "comes with you" line is hidden.
 - **Welcome** (`/welcome`): the same card and dot grid, five questions one screen each
   ("1 of 5" in mono), answers as chips or fields, every step skippable, then a
   confirmation screen. `?preview=1` shows it signed out without saving.
@@ -660,7 +670,7 @@ while Ctrl, Cmd or Alt is held:
 | Timeline (`role="slider"`) | Arrows 5 seconds, Page Up / Page Down 1 minute, Home / End |
 | Find in this meeting | Enter for the next match, Shift+Enter for the previous, Escape clears |
 | Tabs | Left and Right arrows, Home, End |
-| Approval form | Enter in a field approves; Cmd or Ctrl+Enter in the message |
+| Approval form | Cmd or Ctrl+Enter in a field approves; Enter alone in a one-line field does nothing, since approving sends something that cannot be taken back; in the rewrite note, Enter (with or without the key) sends the note back and never approves |
 | Full-screen video | The shortcuts keep working; Escape leaves |
 
 There is no shortcuts dialog. The hints are in the controls' names ("Play (K)", "Back 10
@@ -679,7 +689,7 @@ seconds (J)", "Highlight this moment (H)") and in a Kbd "H" on the wide Highligh
 - The hero video has an accessible name and a captions track that describes what
   happens; typed text keeps its full string in a visually hidden span.
 - The Spells count reads, for example, "3 awaiting your approval, the oldest since
-  Tuesday". The game nav labels carry no plain-word description.
+  Tuesday".
 
 ### Reduced motion
 
@@ -711,9 +721,6 @@ page.
 
 ## Known gaps
 
-- The dashboard's period sections and the privacy page's sections point
-  `aria-labelledby` at ids built from their titles, which contain spaces, so the
-  reference breaks into several ids and the section names are lost.
 - Playback speed goes back to 1× on reload; it is not stored.
 - Meeting dates always print in America/Los_Angeles (`MEETING_TIME_ZONE` in
   `src/lib/format-date.ts`), whatever the viewer's zone.

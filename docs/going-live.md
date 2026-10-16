@@ -21,7 +21,7 @@ only those, and everything else stays as set in the dashboard.
    `SUPABASE_SECRET_KEY`.
 2. Apply the schema: `supabase link --project-ref <your-project-ref>`, then
    `supabase db push`. The migrations are `20261016000001_meetings_and_turns.sql` to
-   `20261016000039_meeting_links.sql`.
+   `20261016000055_tie_notice.sql`.
 3. Load the samples. The seed audio is not in the repository (`data/audio/` is
    gitignored), so make it first: download each meeting's mixed headset channel
    `<Id>.interaction.wav` from the ICSI corpus site
@@ -44,6 +44,11 @@ only those, and everything else stays as set in the dashboard.
    what they made.
 7. **Rate limit.** Authentication → Rate Limits: anonymous users at 30 an hour per IP
    address. A visitor needs one identity, so this only stops abuse.
+8. **No email sign-ups.** `supabase config push` applies `[auth.email] enable_signup =
+   false`. The app and the database treat any identity without Google as a guest
+   (migration 44); this only stops strangers making accounts that never expire. The Email
+   provider stays on for the browser journeys, which sign a throwaway user in with a
+   password.
 
 ## 2. The Claude API
 
@@ -62,8 +67,8 @@ runs on the owner's machine.
 
 How much anyone can spend is bounded by the bot caps (one active bot per identity, five a
 day per identity and per place, and `bot_daily_cap`, an `app_settings` row, 20 a day
-across the deployment) and the command caps (20 spoken and 20 typed a meeting). Two gaps
-remain: scheduled bots have no per-user cap, and `rewrite_command` has no cap.
+across the deployment, half of it at most for guests), the command caps (20 spoken and 20 typed a meeting) and three
+rewrites a draft. One gap remains: scheduled bots have no per-user cap.
 
 ## 3. Vercel
 
@@ -151,9 +156,8 @@ Audience → Test users. Add yourself first.
 3. Bot Token Scopes: `chat:write`, `chat:write.public`, `channels:read`.
 4. Basic Information → App Credentials: put the Client ID and Client Secret into Vercel
    and `.env.local` as `SLACK_CLIENT_ID` and `SLACK_CLIENT_SECRET`. Redeploy.
-5. On `/connectors`, press Connect Slack and **choose a channel**. A Slack card cannot be
-   approved until a default channel is saved there, even when the Slack skill names one
-   (a known gap).
+5. On `/connectors`, press Connect Slack and **choose a channel**: the default each
+   Slack card starts with. A card can also pick another channel itself.
 6. To let other workspaces install it: Manage Distribution → Activate public
    distribution. No directory review is needed.
 

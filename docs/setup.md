@@ -93,6 +93,13 @@ region `ap-south-1`. Start at https://supabase.com/dashboard → the `afk-ai` pr
   in the shell for that one command; they are read by `config.toml` and never stored.
 - **Check:** `<NEXT_PUBLIC_SUPABASE_URL>/auth/v1/settings` shows `"google": true` under
   `external`. Within five minutes the live site shows "Continue with Google".
+- **Then stop email sign-ups:** `supabase config push` applies `[auth.email]
+  enable_signup = false` from `config.toml`. Google is the only way to sign up; the app
+  and the database treat any identity without Google as a guest anyway (migration 44),
+  so this only stops strangers making accounts that never expire. Leave the Email
+  provider itself on: the browser journeys create a throwaway user with the secret key
+  and sign it in with a password. **Check:** `POST <NEXT_PUBLIC_SUPABASE_URL>/auth/v1/signup`
+  with an email and password answers that sign-ups are not allowed.
 
 ### 1f. Redirect URLs
 
@@ -319,8 +326,8 @@ sign in → create a project named `AFK.ai`.
   and **Client Secret** (press Show).
 - **Goes in:** `.env.local` and Vercel. Secret.
 - **Check:** `/connectors` shows **Connect Slack**. Press it, approve, then **choose a
-  channel** on the page; a Slack card cannot be approved until a default channel is
-  saved. To let other workspaces install the app later: **Manage Distribution** →
+  channel** on the page, the default each Slack card starts with (a card can pick
+  another). To let other workspaces install the app later: **Manage Distribution** →
   **Activate Public Distribution**.
 
 ## 6. The rest
@@ -532,8 +539,8 @@ supabase config push
 ```
 
 Optional. Sends only the settings declared in `supabase/config.toml` (site URL, redirect
-URLs, anonymous sign-ins, manual linking, the anonymous rate limit, and the Google
-provider if `SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID` and
+URLs, anonymous sign-ins, manual linking, email sign-up off, the anonymous rate limit,
+and the Google provider if `SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID` and
 `SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET` are exported in the shell). It shows a diff and
 asks for confirmation. A correct result: `Finished supabase config push.`
 

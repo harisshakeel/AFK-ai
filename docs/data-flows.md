@@ -158,7 +158,8 @@ else; a revoked or wrong link shows a clear page.
 
 **What happens:** `POST /api/access-requests` inserts the lower-cased address into
 `access_requests` as the visitor (a guest identity is made if needed). The table's
-trigger counts the write against the visitor's limit. A repeat answers like a first, so
+trigger counts the write against the visitor's limit, and `cap_access_requests()` allows
+three requests per identity (a fourth answers 429). A repeat answers like a first, so
 the list cannot be probed.
 
 **Output:** "You're on the list." The owner reads the table and adds the address to
@@ -186,12 +187,13 @@ user's name is known).
 **What happens:** `POST /api/bot` validates the link
 (`src/features/capture/meeting-url.ts`): https only, and the host must be `zoom.us`,
 `zoom.com`, `meet.google.com`, `teams.microsoft.com` or `teams.live.com`, or any
-subdomain of one. Zoom and Meet links must also have a meeting path; Teams links have no
-path rule. The route then inserts the meeting row with the sender's names and a keyed
+subdomain of one. Every link must also have a meeting path (Teams: `/l/meetup-join/…` or
+`/meet/<id>`), so a bare host never takes a slot of the day's cap. The route then inserts the meeting row with the sender's names and a keyed
 hash of their address (`sender_key`). The database's trigger enforces, under one advisory lock: one active bot
 sent now per identity (a bot scheduled from the calendar joins at its time whatever else
 is in a call), five a day per identity, five a day per place, and the deployment's daily
-allowance (`bot_daily_cap` in `app_settings`, 20), counted in `bot_requests`. The route
+allowance (`bot_daily_cap` in `app_settings`, 20), of which guests together may use half,
+counted in `bot_requests`. The route
 then asks Attendee to create the bot, with the webhook address of the production site,
 video recording (MP4, speaker view, 720p) and live transcription on (the platform's
 captions, or Deepgram when `ATTENDEE_TRANSCRIPTION` says so), and stores the bot id.
@@ -199,15 +201,18 @@ captions, or Deepgram when `ATTENDEE_TRANSCRIPTION` says so), and stores the bot
 **Output:** a meeting in the Requested state on the person's dashboard, and a bot
 joining the call as "AFK.ai Notetaker".
 
-**Known gaps:**
-
-- A Teams address with no meeting in it (for example `https://teams.microsoft.com/`)
-  passes the check, inserts a row, uses a daily cap slot and then fails at Attendee
-  (audit D15).
-- The write of the bot id to the row is not checked (`src/server/bots.ts`). If it fails,
-  or `createBot` times out after Attendee accepted the bot, the bot is in the call while
-  the row has no `bot_id`: every webhook for it is unmatched, the sweep fails the row,
-  Attendee is never told to delete its data, and a retry sends a second bot (audit F3).
+**When the bot id does not reach the row** (audit F3): a failed write of the id takes
+the bot back at once (`deleteBot` for a scheduled one, `leaveBot` otherwise) and marks
+the row failed. A create that timed out after Attendee took it, or a function cut off
+between the two calls, leaves a bot no row knows; its events carry the meeting id it was
+made for (`bot_metadata`, signed with the rest), and the webhook's `adoptOrphanBot()`
+gives a row still waiting for its bot the id. Any other bot made for the meeting is
+taken back: its row failed (the sender was told to send again; the row then records its
+id, so a delete purges what it recorded), the meeting was deleted (Attendee is then also
+told to forget what it recorded), or the row has another bot. A bot Attendee no longer
+has (404, 410) counts as taken back; any other refusal is tried again on the bot's next
+event. A create that timed out fails only a row still without its
+bot: when the bot's first event placed it meanwhile, the send succeeded.
 
 ## 12. During the call: live utterances and answers
 
@@ -219,8 +224,8 @@ calls `record_live_utterance()`: the line is stored once in `live_utterances` (k
 Attendee's idempotency key). If the speaker's name matches the sender and the line
 starts with the wake word followed by a question or a recap request, the same call
 creates a live command and an `answer_in_meeting` job, and the webhook kicks the job
-runner after answering. The runner sends what has been heard so far to Claude with the
-host's memory as data. An answer with no surviving citation becomes "That wasn't
+runner after answering. The runner sends what has been heard so far to Claude, and
+nothing of the host's memory: the chat is read by everyone in the call. An answer with no surviving citation becomes "That wasn't
 discussed yet." The text is posted to the meeting chat once (`start_job_effect()`: a
 retry after a post answers on the card only), and spoken if the profile says "AFK speaks
 in calls: yes"; `finish_live_answer()` records it on the command. Twenty seconds after
@@ -230,7 +235,12 @@ the question the webhook calls `claim_live_fallback()`. If the answer has not st
 the answer that comes later lands on the card only. An answer that is merely slow posts
 itself and no fallback goes out: one chat line per question, never two.
 Someone other than the sender who says the wake word is told once, in the chat, that
-only the sender can give commands.
+only the sender can give commands. The sender is matched as after the call, with the tie
+rule over the names heard so far (`live_speaker_names()`, `isLiveSender()`): when a
+second speaker under another name also matches, neither gives commands, and the once-a-
+meeting notice says why (its own flag, `tie_noticed_at`, migration 55, so a stranger
+told earlier does not silence it). A redelivered line is stored once and acknowledged
+once.
 
 **Output:** an answer in the chat within seconds, and a card for it on the Tasks tab. A
 command of any other kind spoken by the sender gets one chat line saying it was heard
@@ -238,13 +248,10 @@ and where its result will be; the command itself waits for the final transcript.
 
 **Known gaps:**
 
-- The route ignores the duplicate flag `record_live_utterance()` returns, so a
-  redelivered webhook can post the "heard" chat line again.
-- The live match on the sender is a token-subset test (`matchesSender()` in
-  `src/features/commands/sender.ts`): a participant whose display name contains the
-  sender's name ("Haris Khan" for a sender "Haris") is treated as the sender, gets
-  answers in the chat and "heard" lines. The post-call parse is stricter: two matching
-  speakers count as nobody (audit F2).
+- The tie is decided over the speakers heard so far: a participant under a second
+  matching name who speaks to AFK before the sender has said anything is taken for the
+  sender until the sender speaks. Two people under one identical name cannot be told
+  apart live.
 
 ## 13. After the call: the recording comes in
 
@@ -269,7 +276,9 @@ view, which refreshes every ten seconds, turns into the meeting page.
 **Input:** the stored transcript of a bot meeting.
 
 **What happens:** the `detect_commands` job finds the sender among the speakers by name
-(or as the only speaker), then every turn of theirs that starts with the wake word.
+(or, only when no name is known for the sender, as the only speaker: a lone speaker
+whose name is not the sender's is someone else, and gives no commands), then every turn
+of theirs that starts with the wake word.
 Decisions, notes, highlights and remembers are applied word for word. Tasks, email
 drafts, follow-ups and reminders go to Claude in one call with the transcript, and the
 parse is grounded: owners must be speakers or named in the sentence, dates and
@@ -302,8 +311,10 @@ four runs read one cached prefix.
 click from its moment; action items that say "No owner mentioned" when none was;
 decisions; chapters.
 
-**Known gap:** re-running the analysis replaces the items, which deletes their ticks
-(`item_states`).
+Re-running the analysis replaces the items; `apply_analysis()` puts each visitor's tick
+back on the new action with the same text (case and outer spaces aside, migration 54).
+
+**Known gap:** an action the new analysis rewords is a new item and starts unticked.
 
 ## 16. What AFK learns
 
@@ -334,33 +345,36 @@ lock.
 **Output:** the item, clip, memory line or card at once, or a card once the model has
 parsed it; `/ask` after the call answers on the card.
 
-**Known gap:** a draft typed while a `detect_commands` job is already running is not
-parsed by it (the job read its waiting rows when it started) and no new job is queued
-(the one-active-job index refuses it), so the card stays "Drafting…" until a later event
-queues another parse (audit F8).
+A draft typed, or a card sent back, while a `detect_commands` job is already running is
+not read by that job (it read its waiting rows when it started), and the one-active-job
+index refuses a second; when the running parse finishes, a waiting row changed after it
+started queues one more (`requeue_late_drafts()`, migration 53, audit F8).
 
 ## 18. Approving a command that leaves the meeting
 
 **Input:** the confirmed details on a card: addresses, the date and time, the message,
 the Slack channel; Approve, or Dismiss.
 
-**What happens:** `POST /api/commands/<id>` reads the command as the owner, validates
-the details against the kind's schema, checks the app is connected and granted (a guest
-cannot have one), and calls `approve_command()`, which stores the approved arguments and
+**What happens:** `POST /api/commands/<id>` reads the command as the owner, refuses one
+that runs nothing (a failed live answer), validates the details against the kind's
+schema, refuses a message carrying a meeting address that is off or was replaced (a
+"Share the notes" draft holds the code and PIN as they were), checks the app is
+connected and granted (a guest cannot have one), and calls `approve_command()`, which stores the approved arguments and
 inserts at most one `run_command` job. The runner loads the connector's sealed token
 (bound to its row), refreshes a Google access token, then passes the at-most-once gate
 `start_command()` before calling the one adapter: Gmail send, Calendar insert with an id
 derived from the command, or Slack post. Email and Slack never retry; calendar retries
 find the event already there. `finish_command()` records the result and a line in
 `history/actions.md`, and learns the people the card went to as contacts (flow 25).
-Dismiss calls `dismiss_command()`, which removes what the command created; a command
+Dismiss calls `dismiss_command()`, which removes the item or highlight the command
+created (a line a remember added to memory stays, for the Memory page); a command
 that ran cannot be dismissed, the database refuses it and the route says why.
 
 **Output:** the mail sent, the event created, the message posted, from the owner's own
 accounts, with the result on the card and in the history file.
 
-**Known gap:** a Slack card cannot be approved until a default channel is saved on the
-Connectors page (Loadout), even when the card names a channel.
+A Slack card is approved with the channel picked on it (`canApproveWith()`: Slack only
+has to be connected); the channel saved on the Connectors page is its default.
 
 ## 19. Connecting an app
 
@@ -407,12 +421,10 @@ Tasks tab's "couldn't tell which speaker was you" note use it.
 
 **Known gaps:**
 
-- The route refuses edits to the two history files; `save_memory_file()` itself does
-  not, and the Data API grant on `content` lets a Google user overwrite `history/*.md`
-  directly (audit D8).
-- A file opened from its template (no row yet) is saved with no expected version, which
-  `save_memory_file()` reads as "overwrite whatever is there": if AFK created the row
-  meanwhile, its learned lines are replaced with no 409 (audit F13).
+- None of the earlier ones: since migration 51 the history files are refused by the
+  route, by `save_memory_file()` and by the insert and update policies (audit D8), and a
+  file opened from its template is saved as "create", so a row AFK made meanwhile is a
+  409, never overwritten (audit F13).
 
 ## 21. The dashboard
 
@@ -474,10 +486,9 @@ running one whose lease has gone stale.
 **Output:** every queued job done or failed with a report (tokens, cost, what grounding
 dropped), visible on `GET /api/health` as counts.
 
-**Known gap:** the failed-parse follow-up queues `analyze` and `summarize` even when the
-meeting already has notes (a parse queued by a rewrite or a typed command). The notes are
-then written again: the items are replaced (losing ticks), a second history line is
-added, and the owner gets a second email (audit F5).
+A parse that fails for good queues `analyze` and `summarize` only when the meeting has no
+notes yet, and marks the drafts that waited for it not understood; the owner's note goes
+out once per meeting, the first time its notes are written (migration 50, audit F5).
 
 ## 24. The daily keep-alive
 
@@ -516,11 +527,13 @@ source; a known one counts a use and keeps the new name as another name. The imp
 contacts" through the People API (read-only, names and addresses, at most three pages of
 a thousand each) and learns them without counting a use. When AFK is sent to a meeting,
 the sender's Google Calendar is read (`src/server/calendar-invitees.ts`) for the event
-it was scheduled from, else the event whose link this is, within 36 hours of the send;
-everyone on that invite but the host and the rooms (at most 50) is learned with the
+it was scheduled from, else the event whose link this is, within 36 hours of the send,
+and only an event the sender organised or accepted (a stranger's invite would put the
+names and addresses they chose in the address book); everyone on that invite but the host and the rooms (at most 50) is learned with the
 source `calendar`, unused, with the name the invite gives. The platforms give a bot
 names, never addresses, which is why the invite is the source. The people file is parsed
-as written on every page.
+as written on every page, the host's own zone only: a line under "Learned by AFK" holds
+what anyone on a call said and the meeting's title, so it is never an address source.
 
 A card resolves each heard name against all of it: the file first, then the most used,
 then the most recent. The best guess goes in the field with its reason ("used 3 times,
@@ -582,12 +595,14 @@ puts the command back in the parser's queue with the note in its arguments. The 
 runs after the response, reads every command waiting for it by its id (spoken commands
 it recorded before are not parsed again), reads "host's note on the last draft", writes
 it again, and the card comes back proposed. The meeting page refreshes itself while a
-card is being drafted.
+card is being drafted. Each draft can be sent back three times: `rewrite_command()`
+counts them in `meeting_commands.rewrites` and refuses a fourth, and it counts every
+rewrite against the visitor's write limit itself, so a call through the Data API is
+bounded the same way. The card hides Rewrite after the third; typing the command again
+starts a new card under the typed cap.
 
 **Output:** nothing waits behind a meeting page; a draft the host did not like is
-written again to their note, one parse per note.
-
-**Known gap:** `rewrite_command()` has no cap on how many times a draft is sent back.
+written again to their note, one parse per note, at most three per draft.
 
 ## 28. The wrap-up: after every meeting
 
@@ -631,22 +646,23 @@ written up unseen even when the app stays closed.
 
 ## 30. The nudge for stale cards, and approving by keyboard
 
-**Input:** a card that has waited a day; the Spells entry; Enter or Cmd/Ctrl+Enter on a
-card.
+**Input:** a card that has waited a day; the Spells entry; Cmd/Ctrl+Enter on a card.
 
 **What happens:** with no fresh wrap-up to show, `GET /api/wrap-up` looks for the oldest
 proposed card older than a day on a meeting not nudged for a day (`nudged_at`) and
 returns it in "nudge" mode: the dialog says "Still waiting for you" without the rating.
 Later and Done both call `POST /api/meetings/<id>/snooze` and `snooze_wrap_up()`, so it
 asks again tomorrow. The sidebar's badge carries since when the oldest card has waited,
-and the Tasks page heading says it. Enter in a single-line field submits the form; in a
-message box the command or control key with Enter does, so five cards clear in seconds.
+and the Tasks page heading says it. Cmd/Ctrl+Enter in any field submits the form, so
+five cards clear in seconds; Enter alone in a one-line field does nothing, since one
+address typed and Enter pressed must not send an email (in the rewrite note, Enter
+sends the note back).
 
 **Output:** no card waits unnoticed for more than a day; approvals take a keystroke.
 
 ## 31. Sharing the notes with the people on the call
 
-**Input:** "Share the notes" on an owned, ready meeting.
+**Input:** "Email the notes" (the Share the notes feature) on an owned, ready meeting.
 
 **What happens:** `POST /api/meetings/<id>/share-notes` reads the stored notes as the
 owner (the headline, the decisions, the action items with owners and dates, the default
@@ -659,9 +675,9 @@ each name to an address as any email card does, and the host approves once (flow
 **Output:** the notes in everyone's inbox, from the host's own address, after one
 approval.
 
-**Known gap:** the insert is unconditional, so each click (or a retried request) makes
-another card; approving two sends the notes twice. Only the twenty-typed-commands cap
-bounds it (audit F4).
+One card for the notes waits per meeting: a second click, a retried request or another
+tab gets the waiting card back (a partial unique index, migration 49, audit F4); once it
+is approved, sent or dismissed, the notes can be shared again.
 
 ## 32. The first-run checklist
 
@@ -678,12 +694,13 @@ away by itself.
 ## 33. Joining from the calendar
 
 **Input:** a Google user with Calendar connected opens the dashboard; "Send AFK" beside
-a calendar meeting; the switch "Join every meeting with a link"; the daily keep-alive.
+a calendar meeting; the switch "Join the meetings I accept"; the daily keep-alive.
 
 **What happens:** the dashboard reads the next seven days of the primary calendar with
 the calendar scope already granted and keeps the events with a Zoom, Meet or Teams link
 (`listUpcomingEvents()`, the link found in the conference data, the location or the
-description). Send AFK posts to `POST /api/bot` with the event's time and id: the
+description), each marked accepted when the user organised it or said yes
+(`isAccepted()`); the others read "not accepted". Send AFK posts to `POST /api/bot` with the event's time and id: the
 meeting row is Scheduled (`scheduled_for`, `calendar_event_id`, one per event), the
 Attendee bot is created with `join_at`, and the processing view shows the Scheduled
 step with its time. A scheduled bot does not block another; it joins by itself, and the
@@ -692,8 +709,10 @@ never reports an end, is swept six hours after its time (flow 24). Delete on a s
 switch (`POST /api/calendar/autojoin`) writes the profile line through the
 conflict-checked save; the keep-alive then reads every profile that says yes, lists the
 next thirty-six hours for each such user through their own connection
-(`src/server/calendar-autojoin.ts`), and schedules a bot per event, at most twenty a
-run, under the same daily caps.
+(`src/server/calendar-autojoin.ts`), and schedules a bot per accepted event, at most
+twenty a run, under the same daily caps. An invite the user has not accepted (declined,
+maybe, or never answered) is never joined on its own: anyone can put an invite on
+someone's calendar, and the bot would join a stranger's call under the user's name.
 
 **Output:** AFK is in the meetings on your calendar without the Send page, one click
 ahead of time or all of them by a switch.
@@ -717,7 +736,11 @@ transcript and, before storing it, hands the turns written in Devanagari or Arab
 script to `romanizeTurns()`: chunks of about 6 KB, each one Claude call with a JSON
 schema, run in parallel, at most 60 KB per meeting. The model transliterates into Roman
 Urdu ("kaise ho, aaj ka kya agenda hai"), never translating; only the ids asked for are
-accepted, one non-empty line each. A chunk that fails, no time left in the run, or no
+accepted, one non-empty line each, and only a line that can be the same words
+(`isFaithfulRomanization()`): the original's Latin words kept in order, no wake word,
+address or link it did not have, at most three times its length. Any other line stays
+as transcribed, so an instruction in one turn cannot rewrite another speaker's turn into
+a command. A chunk that fails, no time left in the run, or no
 API key leaves those turns as transcribed and the ingest goes on; the job's report
 carries the counts and the spend. The analysis, the summaries and the command parser are
 told the transcript may hold Roman Urdu or Devanagari and write the notes in English,
@@ -749,13 +772,14 @@ and a keyed hash of the visitor's address: under an advisory lock, a right PIN o
 enabled link of a ready meeting clears the visitor's tries and answers the meeting id; a
 wrong one, an unknown code or a switched-off link counts a failure in
 `meeting_link_tries`, the fifth locks that code and visitor for fifteen minutes, and the
-answer says only "wrong" or "locked". The count is not reset when a lock ends: after a
-lock, each further wrong try locks again for fifteen minutes, until a right PIN clears it
+answer says only "wrong" or "locked". Every fifth wrong try locks, so a lock that ran
+out gives five tries again; the count itself goes on, for the budget across clients
 (audit F17). The route then sets a grant cookie named for the
 code: the expiry and an HMAC under a key derived from the server secret, seven days,
 HttpOnly. With a grant, the page calls `get_shared_meeting()` with the service role:
-the meeting, its speakers and turns, the summary points and the notes said on the call,
-nothing else of the meeting and nothing of the owner. The recording plays through the
+the meeting, its speakers and turns, the summary points and the notes said on the call
+(a note the owner typed is left out), nothing else of the meeting and nothing of the
+owner. The recording plays through the
 same short-lived links, renewed through `GET /api/m/<code>/media`, which checks the
 grant and the link. The proxy counts `/m/<code>` and the PIN route in the share bucket
 and the media route in the media bucket. The keep-alive forgets tries older than a day
@@ -770,8 +794,9 @@ recording, the transcript or the notes and never a placeholder; any placeholder 
 **Output:** one address per meeting, the owner's to pass on and to take back; a page for
 anyone with the link and the PIN that shows the call and nothing else.
 
-**Known gaps:** the code carries 56 random bits, not 60: it is cut from the first fifteen
-hex digits of a UUID v4, one of which is the fixed version digit. The PIN lockout counts
-per visitor, not per link, so many addresses together can try more PINs on one code.
-A lock re-arms on every wrong try after the first five (audit F17). Switching a link
-off and on again does not end the grants already given (audit D20).
+**Limits and known gaps:** the code carries 56 random bits (fifteen hex digits of a UUID
+v4, one of them the fixed version digit), so it cannot be guessed; the PIN guards a code
+that leaked. Besides the lock per visitor, fifty wrong PINs on one code, summed over
+every address that tried it in the last day, switch the link off (migration 47); switching it back on clears
+its count. Switching
+a link off and on again does not end the grants already given (audit D20).

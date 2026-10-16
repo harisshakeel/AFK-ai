@@ -8,7 +8,8 @@ version; this is the detail. The reasons behind the system are in
 
 ```
 src/
-  app/              Routes only: page.tsx, layout.tsx, loading.tsx, error.tsx, route.ts.
+  app/              Routes only: page.tsx, layout.tsx, loading.tsx, error.tsx, route.ts
+                    (and a route's route.test.ts beside it).
                     A page composes feature components and calls feature queries.
     api/              Route handlers: webhooks/attendee, jobs/kick, cron/keepalive, health,
                       meetings/..., commands/..., memory/..., connectors/..., m/[code]/...
@@ -44,9 +45,14 @@ src/
                     speakers.ts, csp.ts, read-limit.ts, format-date.ts, cn.ts, log-line.ts,
                     fetch-all.ts (every row of a query, a page at a time), prompt-text.ts
                     (bending angle brackets in prompt data), site.ts (the name and
-                    tagline), visitor-api.ts (the browser's calls to visitor write routes),
-                    use-reduced-motion.ts, the generated database.types.ts, the browser
-                    and admin client builders.
+                    description), visitor-api.ts (the browser's calls to visitor write
+                    routes), use-reduced-motion.ts, google-user.ts (who is a Google user),
+                    same-origin.ts (cross-site writes), safe-path.ts (where a redirect
+                    may go), regexp.ts, words.ts (grounding's word matching), record.ts, fetch-deadline.ts and
+                    supabase-cookies.ts (the Supabase clients' deadline and cookie
+                    options), the generated database.types.ts, the browser and admin
+                    client builders.
+  test/             Test-only helpers, never imported by the app: fake-supabase.ts.
 scripts/            Operator scripts: import-seed.ts.
 tools/icsi/         One-off seed tools (parse_mrt.py, encode_audio.sh), not part of the
                     app build.
@@ -94,6 +100,9 @@ recording everywhere: `transcript_turns.start_sec` and `end_sec` are `numeric(10
 
 - `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride`, `verbatimModuleSyntax`.
   ESLint refuses `any` (`@typescript-eslint/no-explicit-any`); no `as` to silence an error.
+  An object literal is never asserted to a type (`@typescript-eslint/consistent-type-assertions`):
+  declare it (`const x: T = {...}`), or build a fixed-key record with `recordOf()` in
+  `src/lib/record.ts`.
   Type-only imports use `import type`.
 - External data is validated with Zod at the boundary: request bodies (`readJson` in
   `src/server/http.ts`), URL params, the seed files in `data/`, Claude output, Attendee
@@ -166,6 +175,7 @@ recording everywhere: `transcript_turns.start_sec` and `end_sec` are `numeric(10
 | Kind | Where | Runs with |
 |---|---|---|
 | Unit | Beside the code: `thing.ts` and `thing.test.ts` under `src/` | Vitest in Node (`pnpm test`) |
+| Route handlers | Beside the route: `route.test.ts` calls the exported handler with a `Request`. Only the edges are mocked (`vi.mock` of the Supabase client factories, Attendee's client, `kickJobs`, the logger), with `src/test/fake-supabase.ts` as the client; `requireVisitor`, the schemas and the owner checks run as written. `src/server/route-guards.test.ts` checks that every route calls an access check | Vitest (`pnpm test`) |
 | Database | `supabase/tests/`: `harness.ts` loads every migration into PGlite with stubs for `auth.uid()`, `auth.jwt()` and the Supabase roles | Vitest (`pnpm test`) |
 | Journeys | `e2e/*.spec.ts`, with the axe scan; `e2e/signed-in.ts` makes a throwaway signed-in user from `.env.local`; `e2e/global-setup.ts` loads each main page once first, so no journey meets a cold dev-server compile | Playwright on installed Chrome, `desktop` and `phone` (Pixel 7) projects (`pnpm e2e`) |
 | Performance | `e2e/metrics.spec.ts`, skipped unless `MEASURE=1`; numbers land in `.metrics/` | `MEASURE=1 pnpm e2e e2e/metrics.spec.ts --workers=1` |

@@ -23,6 +23,11 @@ requirement group stands, and what is left.
 https://github.com/harisshakeel/AFK-ai. CI (lint, types, formatting, unit and database
 tests) is green. The walkthrough is not recorded yet.
 
+**2026-10-17:** a security review and a quality review were worked through locally
+(the decisions dated 2026-10-17 below, migrations 43 to 55). Not yet committed or
+deployed: the migrations go to Supabase before the code ships, because the code reads
+the columns they add.
+
 ## Our reading of the brief
 
 The brief is in [assignment.md](assignment.md), verbatim. As we read it:
@@ -53,6 +58,37 @@ The flows the brief names, and where each lives:
 | Share a clip with someone not on the call | F7, and the whole meeting behind a PIN (A1) |
 | An eight-person call that runs an hour | The seed meeting `bmr007`: 60 minutes, 8 speakers |
 
+## What we built first, and what we left out
+
+The order, from the phase plan approved before any code (agent log
+`2026-10-16_05-33-31_…md`), and why: **reviewers open a link.** Each phase was one flow
+working end to end on the live link before the next began, and the link was deployed
+from the first phase on, so it never broke.
+
+1. **The live link, signed out,** with real seed meetings. A reviewer lands on real
+   recordings, never an empty list, before any sign-in, bot or Claude call exists.
+2. **The meeting page for the hour-long, eight-person call:** player, transcript that
+   follows, click to seek, keyboard, `?t=` links. This is the brief's hardest case and
+   the product's centre, so it came before anything around it.
+3. **Summaries, navigation and search on the seed meetings:** the first Claude work, done
+   once at seed time and committed, so the signed-out tour costs nothing per visit.
+4. **Guests and personal state:** ticks, highlights, clips, then Continue with Google.
+   Guest mode came before the bot so that "no account needed" held for everything.
+5. **The real bot,** for anyone: paste a link, record, transcribe, summarise.
+6. **Commands in the call,** typed afterwards, and answers in the meeting chat: the
+   difference from Fathom, which records only while you are present
+   ([research.md](research.md) §11). AFK is for the person who is not.
+7. **Memory, cards and the wrap-up,** drafts only, then **connectors and sending,** one
+   approval each, and last **sharing behind a PIN, Roman Urdu and the game layer.**
+
+What each phase was allowed to drop if time ran short was written down with it (for
+example speed persistence before seek-and-sync, Slack before Gmail). What we left out
+for good, and why, is the "Not built" row under Decisions: live highlighting during a
+replayed call, recording upload, allowed speakers beyond the sender, the morning brief,
+the outgoing webhook, read tools during drafting, a face for the bot, routines and teams.
+Each is either covered another way (`/ask` instead of chat-with-the-meeting) or matters
+only once the core journey is used daily.
+
 ## Decisions
 
 | Decision | Reason |
@@ -71,7 +107,7 @@ The flows the brief names, and where each lives:
 | Claude through the API (`@anthropic-ai/sdk`) inside the app's own functions; the model from `CLAUDE_MODEL`, default `claude-sonnet-5-5` | No worker or container to run or pay for; one model to test; the model changes without code |
 | Every Claude call has no tools, a JSON schema the API enforces, the transcript as data, and output grounded against the transcript before it is stored | A transcript can never trigger an action; citations, owners, dates and addresses are proved in code, the rest is dropped and reported |
 | Jobs live in Postgres (`processing_jobs`), leased with `for update skip locked`; the runner runs after a response in the webhook, the meeting page, the typed-command, approval and rewrite routes, `/api/jobs/kick` and the daily keep-alive, and chains through the kick route when its budget runs out | No queue service; leases make retries safe; chaining stays inside Vercel's 300 s per function |
-| Jobs are created only by the seed import, the Attendee webhook, a typed command, an approval, a rewrite (`rewrite_command()` queues `detect_commands`), `complete_job()` after a summary (`learn`), the notes trigger (`notify_owner`) and the daily keep-alive's scheduling (its bots queue their jobs through the webhook) | The bot and command caps then bound every Claude call anyone can cause; the rewrite is the exception, with no cap of its own (see known gaps) |
+| Jobs are created only by the seed import, the Attendee webhook, a typed command, an approval, a rewrite (`rewrite_command()` queues `detect_commands`), `complete_job()` after a summary (`learn`), the notes trigger (`notify_owner`) and the daily keep-alive's scheduling (its bots queue their jobs through the webhook) | The bot and command caps then bound every Claude call anyone can cause, the rewrite included: three per draft, counted in the database (migration 43) |
 | A job has at most 3 attempts, due again after 1 minute, then 4 minutes; the third failure is final | A passing fault gets two retries; a lasting one stops costing money |
 | Grounding drops failing items one by one and publishes what survives, with no failure threshold | A partly wrong answer still yields its proven items; a `summarize` with no surviving template stores an empty list |
 | Vercel Hobby in `bom1` with one daily cron (`/api/cron/keepalive`, 06:17 UTC) | Free; one real query a day keeps Supabase Free from pausing, and the same run prunes, sweeps and purges |
@@ -93,6 +129,29 @@ The flows the brief names, and where each lives:
 | Light by default, dark as a choice remembered in the browser | The landing's palette is the brand; the toggle is one click |
 | Browser journeys run from the owner's machine, not in CI | They need the live database's keys, which stay off GitHub; CI runs lint, types, formatting, unit and database tests |
 | The stale-bot sweep times every bot row from when its call was due, `coalesce(scheduled_for, created_at)`, not from a new started-at column (migration 40, audit F1) | A bot joins at its scheduled time and Attendee ends every call within three hours, so six hours from that time never closes a live call; no column, webhook change or backfill is needed |
+| A Google user is an identity with Google among its sign-in providers (`app_metadata.providers`), checked by `isGoogleUser()` in the app and `is_google_user()`/`is_guest()` in SQL; email sign-up is off through `config.toml`, the Email provider stays on for the browser journeys' throwaway user, which `e2e/signed-in.ts` marks with Google through the admin API (migration 44, security review 2026-10-17) | The checks used to ask only "not anonymous", and the project allowed email sign-up, so any confirmed address got memory, contacts and connectors and escaped the guest purge; `app_metadata` is written by Supabase Auth alone |
+| Fifty wrong PINs on one code, summed over every client that tried it in the last day, switch the link off; the owner's switch clears the count (migration 47, security review 2026-10-17) | The lock was per address only, so a couple of thousand addresses could try every PIN on a leaked code in minutes; the budget leaves a guesser about a 0.5% chance, and the owner makes a new link and PIN |
+| At most three access requests per identity (migration 46, security review 2026-10-17) | The write limit was the only bound, so one address minting guest identities could add tens of megabytes a day and push the Free-plan database to read-only |
+| Route handlers are tested beside the route, with only the edges mocked: the Supabase client factories (a small fake in `src/test/fake-supabase.ts`), Attendee's client, the job kick and the logger (quality review 2026-10-17) | The access decisions, the owner checks and the status rules live in the handlers; mocking our own modules would test the mocks. The approval, delete, PIN and proxy paths are covered first, as the ones that send, delete or open something |
+| The approval form's fields and the details they become live in `approval-draft.ts`, a pure module with tests; the component keeps the markup, in `approval-form.tsx`, apart from the Tasks tab (`tasks-tab.tsx`), the card's rewrite and email actions (`card-actions.tsx`) and the typed command box (`typed-command-form.tsx`) | The form was a 450-line component mixing state, building and markup; the build is what an approval sends, so it is now tested on its own |
+| One media-link hook for the meeting page and a meeting's address, `useRenewingMedia()` (quality review 2026-10-17) | The two copies differed (one blind cast, two minimum waits) and an expiry that did not parse renewed in a loop; the hook checks the route's answer with Zod and waits a minute on an unreadable expiry |
+| Smaller fixes from the security review (2026-10-17) | Approve refuses a command that runs nothing; approval refuses a message with a meeting address that is off or replaced; a "Share the notes" card cannot be rewritten; deleting a meeting treats only a bot-related 4xx from Attendee as "already gone"; the address-heard pattern no longer backtracks exponentially; the SDK's own errors never carry model output into logs or cards; live questions take no place under the spoken cap; a remember line is dated by its meeting; the live answer's cached block is the meeting's lines; cross-site writes are refused in the proxy; session cookies are Secure; the OAuth state has its own derived key; a production deployment without `NEXT_PUBLIC_SITE_URL` fails loudly |
+| A Claude timeout uses an attempt when the call had at least 200 s; a shorter one is still released (security review 2026-10-17, audit F26) | The SDK reports a timeout as a connection error, so every timeout released the job without an attempt, and a job too long for any run was paid for every five minutes for ever |
+| The command parse, the analysis and the summaries have no hard limits in the schemas sent to Claude; code clamps every value to the stored limits before grounding (security and quality reviews 2026-10-17) | The API treats lengths, counts and ranges as hints and the SDK checks them after the call is paid, so a sixth recipient or a five-minute follow-up failed the whole parse three times and lost every spoken task of the meeting |
+| A romanized line replaces its turn only when it can be the same words: the original's Latin words kept in order, no new wake word, address or link, at most three times as long (security review 2026-10-17) | The rewritten text becomes the transcript commands and notes are read from, and a chunk mixes speakers, so one participant's instruction could rewrite the sender's turn into "AFK, email …". The cost: a command spoken wholly in Urdu script (the wake word transcribed in Devanagari) is not taken from the romanized text; commands are English, and it can be typed |
+| The in-call answer's prompt holds the meeting's lines only, no memory (security review 2026-10-17) | The answer goes to a chat everyone in the call reads, and memory holds the host's private notes and the titles and headlines of other meetings; grounding checks that a line is cited, not where the words came from |
+| The live sender is decided by the tie rule over the names heard so far, read only for a line addressed to AFK (audit F2, quality review 2026-10-17) | Keyed on names, not speaker ids: a sender who rejoins gets a new id but keeps the name. One small read per command line keeps the webhook fast; the rule matches the after-call parse, so a card and a chat line agree on who the sender was |
+| A bot no row knows is matched by the meeting id in its metadata; a waiting row takes its id, a failed row's bot is taken back (audit F3, quality review 2026-10-17) | Its sender was told the send failed and may have sent another bot, so reviving the row could put two bots in one call; taking it back leaves one, and its id on the row lets a delete purge it |
+| A parse that finishes queues one more when a waiting row changed after it started, by a trigger on the job row (audit F8, quality review 2026-10-17) | The route and `rewrite_command()` cannot queue a second parse while one runs (one active job per kind); the trigger runs inside `complete_job()`'s transaction, and keying on the row's change time against the job's start means a row the parse saw and left never loops |
+| A new analysis puts each visitor's tick back on the action with the same text (quality review 2026-10-17) | Item ids change on every analysis and ticks cascade from the item; the text is the one honest sign of the same task, and a reworded action may be a different one |
+| Guests together may use at most half of the day's bots; Google users can use the whole cap (migration 48, security review 2026-10-17, owner's choice over a CAPTCHA for now) | Guest identities are free, so four addresses could take all twenty bots and leave none for anyone; the share keeps room for signed-in users without a third-party script. Guests can still be booked out by someone determined |
+| Teams links need a meeting path (`/l/meetup-join/…` or `/meet/<id>`) like Zoom and Meet (security review 2026-10-17, audit D15) | A bare Teams address passed the check, took a slot of the deployment's daily bot cap and only failed at Attendee, so four addresses could book the bot out for everyone with no meeting at all |
+| The auth callback never signs out; a link conflict only redirects to `/sign-in?error=linked`, which says the guest workspace stays behind (security review 2026-10-17) | The callback is a GET anyone can link to, and the PKCE cookie it trusted lives 400 days, so one link signed a user out everywhere and abandoned a guest's workspace for good |
+| A meeting's address shares only notes said on the call; a typed `/note` stays with the owner (migration 45, security review 2026-10-17) | `get_shared_meeting()` returned every note item, and a typed note makes the same row as a spoken one, so a private line typed after the call reached every PIN holder as "Notes from the call", against what the PIN page promises |
+| The address book reads only the zone of the people file the host wrote (security review 2026-10-17) | A learned line holds what anyone on a call said plus the meeting's title, so an address said by a participant or put in an invite's title was offered as "from your People file", ranked above everything |
+| A lone speaker is taken as the sender only when AFK knows no name for the sender (security review 2026-10-17) | The owner is often absent; in a 1:1 they skipped, the other person spoke alone and was taken as the sender, so their "AFK, remember …" wrote into the owner's memory with no approval. A sender on an unknown device label types the commands or sets "Name in calls" |
+| Calendar auto-join and invitee learning use only events the user organised or accepted (security review 2026-10-17) | Anyone can put an invite on someone's calendar; joining every event with a link let a stranger bring the bot into their call under the user's name and fill the address book with names and addresses they chose. Send AFK on any listed event stays the user's choice |
+| A draft can be rewritten three times, counted in the database, and each rewrite takes a write-limit slot inside `rewrite_command()` (migration 43, security review 2026-10-17) | Every rewrite is a Claude parse of the whole transcript, and the function is callable from the browser, so a guest could loop it without end; three covers a host refining a draft, and a retyped command falls under the typed cap |
 | Not built: live highlighting during a replayed call (F10), recording upload (F12), allowed speakers beyond the sender (C9), the morning brief (M9), the outgoing webhook (X6), read tools during drafting (X3), a face for the bot (L4, L5), routines (L6), teams | The core journey and the follow-up work come first |
 
 ## Simulated behaviour
@@ -100,7 +159,7 @@ The flows the brief names, and where each lives:
 | What | How | Otherwise |
 |---|---|---|
 | Send page, "Show me what happens" | A labelled demo of the bot's steps; nothing is sent | The Send button sends a real Attendee bot |
-| Tasks tab on one seed meeting | Example cards, labelled as examples, with Approve visible but disabled | Commands on a user's own meetings are real |
+| Tasks tab on the seed meetings | Example cards, labelled as examples, with Approve visible but disabled | Commands on a user's own meetings are real |
 | Memory page for a visitor | A labelled demo profile | A Google user's nine files |
 | Seed meetings | Not simulated: real ICSI audio and human transcripts; speakers are anonymous in the corpus and labelled "Speaker A", "Speaker B" and so on | |
 | Seed AI output | Not simulated: real Claude output, generated once and committed under `data/ai/` | |
@@ -121,7 +180,27 @@ the sends.
 | A1 meeting address | Built | |
 | W1-W7 after the meeting | Built | |
 | P1-P5 processing | Built | |
-| Non-functional | Mostly met | Scale has no 3-hour, 5,000-turn test fixture; the AI quality bar and the cost are not measured on the current seed output |
+| Non-functional | Mostly met | Scale has no 3-hour, 5,000-turn test fixture; the AI quality bar (20 items of `bmr007` checked by hand) and the cost per meeting are not measured on the current seed output; page speed is, under Measured below |
+
+## Measured
+
+From `e2e/metrics.spec.ts` (opt-in, numbers kept out of git in `.metrics/`): a
+development build (`next dev`) on localhost, installed Chrome, a fresh context per load,
+medians of five runs. A production build is faster; these are the floor of what we know.
+
+| What | Desktop 1280 px | Phone 412 px |
+|---|---|---|
+| Hour-long meeting (`bmr007`, 1,067 turns) largest paint | 1.53 s | 1.46 s |
+| The same on slow 4G with a 4× slower CPU: largest paint, then interactive | | 5.6 s, 11.3 s |
+| A short meeting (`bro015`, 126 turns) largest paint | 0.64 s | 0.65 s |
+| Landing page largest paint | 0.25 s | 0.28 s |
+| Switch summary template / switch tab / seek by transcript line | 51 / 19 / 70 ms | 17 / 64 / 76 ms |
+| Transcript following the audio over 30 s | 1,782 of 1,783 frames in sync | 1,767 of 1,768 |
+| Search page, full load | 0.67 s | 0.66 s |
+
+The slow-4G phone figure is the weak spot: the hour-long meeting renders and hydrates all
+8,600 elements of its transcript and timeline before it answers (quality review,
+2026-10-17); windowing the transcript is the fix.
 
 ## Known gaps
 
@@ -131,36 +210,27 @@ Accepted limitations:
 |---|---|
 | `search_meetings()` is callable directly with the publishable key | The proxy's read limit does not apply to such calls |
 | Read limits are per address | Many people behind one office address share a count |
+| `http://localhost:3000/auth/callback` is in the live project's redirect list (owner's choice: local development uses the live project) | A sign-in started by someone else could return tokens to whatever listens on a victim's port 3000 |
+| No CAPTCHA on guest identities | A few addresses can still use up the guests' half of the day's bots; Google users keep the other half |
 | A changed transcript on re-ingest deletes the meeting's commands | Results of commands that ran are lost from the card; the history file keeps its line |
 | Small buttons are 32 px tall (`sm`, `icon-sm`) | Under the 44 px often used for touch |
 
-Open defects (ids from [audit.md](audit.md)):
+Open defects (ids from [audit.md](audit.md); a finding fixed since the audit carries a
+status line there, and Part 5 lists them; the ones a user is most likely to meet):
 
 | Gap | Effect |
 |---|---|
-| The live sender match is a token subset with no tie rule (audit F2) | A participant whose name contains the sender's name can command AFK in the call |
-| The bot id update after creating a bot is not checked (audit F3) | A bot can record unseen by AFK, and a retry sends a second bot |
-| `meeting_commands_turn_fk` has no delete action (audit S1, suspected) | Deleting a meeting with a spoken command probably fails |
-| "Share the notes" inserts a new card on every click (audit F4) | The notes can be emailed twice |
-| A parse that fails for good re-queues `analyze` and `summarize` (audit F5) | A second owner email, a second history line, lost ticks |
-| PIN failures are never reset by a lock's expiry (audit F17) | After one lock, each wrong try locks again for fifteen minutes |
-| `save_memory_file()` does not refuse the history files; a template save has no version check (audit D8, F13) | A Google user can change the history files through the Data API; a save can overwrite AFK's lines |
-| The webhook ignores `record_live_utterance`'s duplicate flag | A redelivered utterance can post the "Heard" chat line again |
-| A Slack card needs a default channel saved on the Connectors page | Without one it cannot be approved |
-| `rewrite_command` has no cap | A host can ask for rewrites, each a Claude parse, without limit |
-| Media-link renewal has no backoff when the expiry fails to parse | The page can request new links in a loop |
-| Re-running analysis deletes `item_states` | Ticks on that meeting's items are lost |
+| The live tie rule sees only the speakers heard so far (audit F2) | A second matching name who speaks to AFK before the sender does is obeyed until the sender speaks |
+| Re-running analysis keeps a tick only on an action worded the same way | A reworded action starts unticked |
 | Scheduled bots have no per-user cap | A user can schedule many bots ahead |
-| PIN lockout is per visitor, not per link | Many visitors together can try more than five PINs on one code |
 | A purged guest's scheduled bots are not removed at Attendee | They can still join a call after the guest is gone |
-| Meeting dates always print in America/Los_Angeles | Dates and times read wrong for users elsewhere |
 | Playback speed is not persisted | It resets on reload |
-| The 12-character link code carries 56 random bits | The specification says 60 |
-| Some `aria-labelledby` ids contain spaces on the dashboard and privacy pages | Those regions lose their accessible names |
+| Loading skeletons drop the app frame (audit F14) | Each navigation inside the app jumps |
+| The meeting page re-renders whole to see a job's progress (audit F20) | It backs off to every 30 s and stops after 20 minutes; a status route would poll less |
+| Times print in UTC and dates in America/Los_Angeles | A user elsewhere reads the wrong clock time |
 
 ## Next steps
 
-1. Fix the open defects above in the audit's order: S1, then F3 and F2, then the
-   double sends F5 and F4, then the duplicate "Heard" line, the Slack default channel
-   and the rewrite cap.
+1. Fix the open defects above, most likely to be met first: F14 (the loading skeletons,
+   which needs a browser check), then the scheduled-bot cap.
 2. Record the walkthrough (at most five minutes, camera on), saying what is simulated.

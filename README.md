@@ -16,6 +16,25 @@ was said. Then AFK does the follow-up work you asked for during the call.
   [ICSI Meeting Corpus](https://groups.inf.ed.ac.uk/ami/icsi/) (CC BY 4.0). One is an hour
   long with eight speakers. Credits and our changes are in [data/README.md](data/README.md).
 
+### A two-minute tour, signed out
+
+1. Open the hour-long, eight-person meeting:
+   https://afk-ai-tau.vercel.app/meetings/bmr007.
+2. Pick **Catch me up**, then click any point: the player jumps to the second it was said
+   and the transcript follows.
+3. Press `/` and find a word; press `H` to highlight the moment, then share the clip and
+   open the link in a private window.
+4. Search across all five meetings from the header.
+5. **Send AFK to your call** (top right) with a Zoom, Meet or Teams link: the real bot
+   joins, and the notes and any "AFK, …" commands land in your guest workspace.
+
+**Guest or Google.** Everything above works as a guest. Memory, the Gmail, Calendar and
+Slack connectors, calendar joining and approvals that send need Google sign-in, and the
+Google app is in Testing: only addresses on its test-user list can sign in (ask through
+"Get added to test users" on the landing page). **Limits you may meet:** five bots a day
+per guest and per address, guests together half of the twenty a day the deployment
+allows, three rewrites per draft.
+
 What you can do:
 
 - **Read the summary** in four templates (Catch me up, General, Project update, Brief) and
@@ -51,7 +70,7 @@ What you can do:
 | Transcripts, audio, speakers of the samples | Real ICSI meetings. Speakers are anonymous in the corpus and labelled "Speaker A", "Speaker B" and so on |
 | Summaries, action items, decisions, chapters | Real Claude output (the Claude API, Sonnet by default), checked against the transcript. The samples' output is committed in `data/ai/` |
 | Meeting bot | Real (Attendee) for anyone, guests included, recording video that plays on the meeting page. "Show me what happens" on the Send page is a labelled demo |
-| Commands and approvals | Real on your own meetings. One sample meeting's Tasks tab shows example cards, labelled as examples |
+| Commands and approvals | Real on your own meetings. Every sample meeting's Tasks tab shows example cards, labelled as examples |
 | Calendar connection | Real: Google Calendar on the Connectors page, the week's meetings on the dashboard, scheduled bots |
 | Gmail and Slack sends | Real, from your own accounts, after your approval |
 | Memory for a visitor | A labelled demo profile; Google users get their own files |
@@ -73,9 +92,8 @@ Vercel (Next.js) ── Supabase (Postgres + RLS, Auth, Storage)
 ```
 
 There is no worker: the webhook, the meeting page, the typed-command, approval and rewrite
-routes, the kick route and
-the daily keep-alive run the waiting jobs after their response, each under a lease,
-within the function's own time limit.
+routes, the kick route and the daily keep-alive run the waiting jobs after their
+response, each under a lease, within the function's own time limit.
 
 | Document | What it holds |
 |---|---|

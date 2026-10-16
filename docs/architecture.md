@@ -55,7 +55,7 @@ Versions are the ones in `package.json`.
 | Neon with Better Auth and R2; Convex with Clerk | Three vendors to wire and hand-rolled RLS, or no Postgres RLS at all and strong lock-in. |
 | Recall.ai; Meeting BaaS; self-hosting Attendee | Storage fees and an English-only live mode; undocumented chat, auto-leave and delete; or a server to run. |
 | Jest; Cypress | ESM transforms; accessibility and parallel runs push toward a paid cloud. |
-| Supabase Realtime for live page state | Pages that wait on work re-fetch every ten seconds while the tab is visible; nothing else needs a socket. |
+| Supabase Realtime for live page state | Pages that wait on work re-fetch while the tab is visible: the recording view every ten seconds, the meeting page from ten seconds backing off to thirty and stopping after twenty minutes; nothing else needs a socket. |
 
 ## Components and how they connect
 
@@ -85,8 +85,8 @@ own functions run them.
 
 ## Data model
 
-Thirty-nine migrations in `supabase/migrations/`, from `20261016000001_meetings_and_turns.sql`
-to `20261016000039_meeting_links.sql`, make 25 tables in `public`. Every table has RLS
+Fifty-five migrations in `supabase/migrations/`, from `20261016000001_meetings_and_turns.sql`
+to `20261016000055_tie_notice.sql`, make 25 tables in `public`. Every table has RLS
 on. "Owner" is the column that ties a row to a user; a row reached through a meeting
 belongs to the meeting's owner.
 
@@ -94,7 +94,7 @@ belongs to the meeting's owner.
 
 | Table | Owner | Purpose |
 |---|---|---|
-| `meetings` | `owner_id` (null for a public seed meeting) | One meeting: title, date, `duration_sec`, `audio_path` (seed) or `video_ref` (a bot meeting's Attendee bot id), `status` (`scheduled`, `requested`, `recording`, `transcribed`, `ready`, `failed`), `transcript_hash`, `ai_headline`, `analyzed_at`, `summarized_at`, the bot fields (`bot_id`, `meeting_url`, `sender_names` (at most 12), `scheduled_for`, `calendar_event_id`, `refusal_noticed_at`: when a non-sender was told once that only the sender gives commands), the sender found by the parse (`host_speaker_code`, `host_detected_by`: `name` when one speaker's label matched, `only` when the meeting has a single speaker) and the wrap-up fields (`reviewed_at`, `rating`, `review_note`, `nudged_at`) |
+| `meetings` | `owner_id` (null for a public seed meeting) | One meeting: title, date, `duration_sec`, `audio_path` (seed) or `video_ref` (a bot meeting's Attendee bot id), `status` (`scheduled`, `requested`, `recording`, `transcribed`, `ready`, `failed`), `transcript_hash`, `ai_headline`, `analyzed_at`, `summarized_at`, the bot fields (`bot_id`, `meeting_url`, `sender_names` (at most 12), `scheduled_for`, `calendar_event_id`, `refusal_noticed_at`: when a non-sender was told once that only the sender gives commands; `tie_noticed_at`: when the call was told once that two speakers match the sender), the sender found by the parse (`host_speaker_code`, `host_detected_by`: `name` when one speaker's label matched, `only` when the meeting has a single speaker) and the wrap-up fields (`reviewed_at`, `rating`, `review_note`, `nudged_at`) |
 | `meeting_speakers` | via meeting | The speakers of a meeting, key `(meeting_id, code)`; `is_host` from Attendee is informational |
 | `transcript_turns` | via meeting | Immutable turns with start and end seconds, a foreign key to the speaker, a `tsv` column with a GIN index for search |
 | `live_utterances` | via meeting; no user grants | What the bot hears during the call, keyed by Attendee's idempotency key; deleted at ingest or after a day |
@@ -222,6 +222,10 @@ a config and a time budget. `src/server/jobs.ts` builds those and starts it.
   Claude call gets the remaining budget less 5 s, so at most about 245 s; `claude.ts`
   falls back to 240 s only when no timeout is passed.
 - **Errors.** A rate limit or outage at Anthropic releases the job and ends the run. A
+  Claude timeout with less than 200 s is released due at once and ends the run as out
+  of budget, so the chain gives it a fresh function; with more, the job is too long for
+  one call and the timeout uses an attempt (`ClaudeTimeoutError`, `FULL_CALL_MS` in
+  `runner.ts`). A
   missing or refused API key releases it for ten minutes and ends the run. An
   unreachable service releases it for five minutes. Output that `complete_job()` refuses
   to store ends the job as `rejected`, and so does a transcript that `ingest_transcript()`
@@ -281,7 +285,9 @@ a config and a time budget. `src/server/jobs.ts` builds those and starts it.
 
 While the call is on, each `transcript.update` reaches the same webhook:
 1. The speaker is matched by name against `meetings.sender_names`. Only the sender's
-   words can be commands.
+   words can be commands. On a line addressed to AFK, `live_speaker_names()` gives the
+   names heard so far, and a second matching name makes a tie: nobody is the sender
+   (`isLiveSender()`, migration 52).
 2. `record_live_utterance()` stores the utterance once, keyed by the idempotency key.
    For a sender's `/ask` or `/recap` it also inserts a `meeting_commands` row with
    `source = 'live'` and an `answer_in_meeting` job in the same transaction.
@@ -323,6 +329,18 @@ Grounding happens in code before anything is stored (`src/features/summaries/gro
   template and section.
 - A learned line must quote at least three words of its turn.
 - A parsed command argument must come from the sentence or the surrounding minute.
+- No schema sent to Claude carries a hard limit (a test enforces it): a parsed command,
+  the analysis, the summaries, the learned lines, the romanized turns and a live answer
+  are clamped to the stored limits in code, and a field that came back empty marks only
+  its own command not understood. In detail, they are clamped to the stored limits
+  (`ARG_LIMITS` in `src/features/commands/ai-schema.ts`: five recipients, ten attendees,
+  15 to 240 minutes, the text lengths; `clampAnalysis()` and `clampSummaries()` in
+  `src/features/summaries/ai-output-schema.ts`: sixteen chapters, thirty actions and
+  decisions, six citations a point), never refused for them; the strict schemas still
+  check what is stored and the committed seed output. The API takes a schema's limits
+  only as hints and the SDK checks them after the call is paid for, so the parse schema
+  carries them in its descriptions instead, and one value past a limit no longer fails
+  every command of the meeting.
 
 What fails is dropped item by item and listed in the job report by position, never by
 content; whatever survives is published. There is no failure threshold that fails the
@@ -353,8 +371,11 @@ A shared clip of a private meeting is transcript-only.
   `/auth/callback`; sign-out is `/auth/sign-out`. `/welcome` is for Google users only;
   the proxy sends a signed-out visitor to `/sign-in`.
 - `is_guest()` and `is_google_user()` let RLS and the SQL functions refuse memory files,
-  contacts and connectors to guests. `getViewer()` in `src/server/auth/viewer.ts` tells
-  pages who is looking.
+  contacts and connectors to guests: a Google user is an identity with Google among its
+  sign-in providers (`app_metadata.providers`), and anyone else is a guest.
+  `isGoogleUser()` in `src/lib/google-user.ts` asks the same of a session for the routes,
+  the proxy and `getViewer()` in `src/server/auth/viewer.ts`, which tells pages who is
+  looking.
 
 ## Connectors and token sealing
 
@@ -384,7 +405,7 @@ A shared clip of a private meeting is transcript-only.
 | `src/server/` | Server-only modules: `db/` (the server and admin Supabase clients), `auth/`, `media/`, `connectors/`, and `jobs.ts`, `bots.ts`, `calendar-autojoin.ts`, `calendar-invitees.ts`, `http.ts`, `log.ts` |
 | `src/lib/` | Validated config (`env.ts`), the CSP builder, the read-limit keys, database types, small utilities |
 | `src/proxy.ts` | The proxy: read limits, CSP, session refresh |
-| `supabase/` | `config.toml`, `migrations/` (39 files) and `tests/` (PGlite) |
+| `supabase/` | `config.toml`, `migrations/` (55 files) and `tests/` (PGlite) |
 | `scripts/` | `import-seed.ts`, run by `pnpm import:seed` |
 | `tools/` | `icsi/`: `parse_mrt.py` turns the corpus transcripts into meeting files, `encode_audio.sh` encodes the audio |
 | `data/` | The seed: `meetings/` (transcripts), `ai/` (committed Claude output), `icsi-source/`, and `README.md` with the credit. `audio/` (`<id>.m4a`) is gitignored and not in the repository; it is made locally before an import (see Deployment) |
@@ -441,14 +462,9 @@ job's actual tokens and estimated cost are in its report.
 ## Known gaps in this area
 
 Stated in full in [system-design.md](system-design.md):
-- A webhook redelivery can post the "Heard" chat line again: the route ignores
-  `record_live_utterance()`'s `duplicate` flag.
-- Re-running the analysis deletes `item_states`, so ticks on the old items go.
-- `rewrite_command()` has no cap.
-- The page's media-link renewal can loop without backoff when the expiry fails to parse.
+- Re-running the analysis keeps a tick only on an action worded the same way
+  (migration 54); a reworded action starts unticked.
 - Scheduled bots have no per-user cap, and a purged guest's scheduled bots are not
   removed at Attendee.
-- A bot's id can fail to reach its meeting row, leaving a bot no webhook matches
-  (audit F3).
-- A parse that fails for good re-generates existing notes (audit F5).
+- During the call the sender's tie rule sees only the speakers heard so far (audit F2).
 - Publishing is gated by the claim token, not the lease (audit F24).

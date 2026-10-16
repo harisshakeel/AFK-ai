@@ -26,9 +26,9 @@ choice, the rejected alternatives and the cost model are in `docs/architecture.m
   boundary and never pass secrets.
 - Fetch data in Server Components, close to where it is used. Run independent fetches in
   parallel (`Promise.all`) to avoid waterfalls.
-- Mutations go in Server Actions, or in Route Handlers for webhooks and external callers.
-  Treat a Server Action as a public endpoint: authenticate, authorize, validate, and only
-  then act.
+- Mutations go in Route Handlers (`src/app/api/`); there are no Server Actions. Treat
+  each as a public endpoint: authenticate, authorize, validate, and only then act
+  (`src/server/route-guards.test.ts` checks every handler calls an access check).
 - After a mutation, call `revalidatePath` or `revalidateTag`. Know which routes are
   static and which are dynamic. Anything that reads cookies or auth is dynamic.
 - Use the route-level `loading.tsx`, `error.tsx` (a client component with `reset`) and
@@ -58,10 +58,10 @@ choice, the rejected alternatives and the cost model are in `docs/architecture.m
   fieldErrors? }`. Do not throw for expected failures.
 
 ## Tailwind and shadcn/ui
-- Use the shadcn components in `components/ui` before writing new ones. Compose them and
-  do not fork them. Add new ones with the shadcn CLI, but ask before running it.
-- Use design tokens (CSS variables such as `bg-background` and `text-muted-foreground`)
-  instead of raw colours, so dark mode works.
+- Use the primitives in `src/components/ui/` (Button and `buttonClass`, Badge, Tabs,
+  `inputClass`, the toast, …) before writing new ones; there is no shadcn CLI setup here.
+- Use the design tokens from `src/app/globals.css` (`bg-surface`, `text-fg-muted`,
+  `text-warning-strong`, …) instead of raw colours, so dark mode works.
 - Merge classes with `cn()`. Use variants (`cva`) for component variations, not
   conditional string building.
 - Design mobile-first (`sm:`, `md:` add to the base styles). Avoid arbitrary values
@@ -72,7 +72,8 @@ choice, the rejected alternatives and the cost model are in `docs/architecture.m
 
 ## Supabase
 - Use `@supabase/ssr`: `createServerClient` (with cookies) for the server and
-  `createBrowserClient` for the client, each created once in `lib/supabase/`.
+  `createBrowserClient` for the client, each built in one place:
+  `src/server/db/supabase-server.ts` and `supabase-admin.ts`, `src/lib/supabase-browser.ts`.
 - Authenticate on the server with `getUser()` or `getClaims()`. `getSession()` reads
   unverified cookie data and is not trusted on the server.
 - **RLS is enabled on every table**, with policies scoped to `auth.uid()` for each
@@ -83,50 +84,50 @@ choice, the rejected alternatives and the cost model are in `docs/architecture.m
   the dashboard. Add indexes for foreign keys and filtered columns. Use `timestamptz`.
 - Always check `{ data, error }`. Map errors to user-safe messages and log the original
   on the server.
-- **Guests are anonymous users.** A visitor's first action calls `signInAnonymously()`;
-  the workspace row has `owner_id = auth.uid()`, so one RLS scheme covers guests and
-  Google users. "Continue with Google" is `linkIdentity({ provider: "google" })` (manual
-  linking must be enabled). If the Google identity already has a user
-  (`identity_already_exists`), sign in with Google, keep the guest user id in a
-  short-lived httpOnly cookie, show the keep/merge choice, and re-parent rows with the
-  service role in one transaction. Enable Turnstile on anonymous sign-ups. Bump
-  `workspaces.last_active_at` from middleware; the daily `guests.purge` job calls
-  `purge_guests()`, which deletes `is_anonymous` users idle for 30 days (FK cascades do
-  the rest). Restrictive policies on `connections` and
-  sends require `not is_anonymous`.
-- Set `cookieOptions.httpOnly` on `createServerClient` and keep data access server-side.
-  If browser Realtime needs a session, pass a short-lived token from a Server Component or
-  poll; never make the session cookie script-readable.
-- **OAuth tokens** (Google, Slack) are encrypted in the app, not in Postgres: AES-256-GCM
-  with `crypto.createCipheriv`, a 12-byte IV and the auth tag, stored as
-  `{kid, iv, tag, ct}` in `connections`, key in `TOKEN_ENCRYPTION_KEY`, rotation by a new
-  `kid` and lazy re-encryption. Do not use Vault (its key is Supabase-held and the
-  decrypted view is all-or-nothing) or pgsodium (pending deprecation). `connections` has
-  RLS that denies all client access; only the service-role client reads it, inside a
-  send job.
+- **Guests are anonymous users.** A visitor's first write calls `signInAnonymously()`
+  (`src/lib/visitor-api.ts`); their rows carry `owner_id = auth.uid()`, so one RLS scheme
+  covers guests and Google users. A Google user is an identity with Google among its
+  `app_metadata.providers` (`isGoogleUser()` in `src/lib/google-user.ts`, `is_google_user()`
+  in SQL); anyone else is a guest, whatever else they signed in with. "Continue with
+  Google" is `linkIdentity({ provider: "google" })` (manual linking enabled). If that
+  Google identity already has a user (`identity_already_exists`), the callback only
+  redirects to `/sign-in?error=linked`, which says the guest workspace stays behind; it
+  never signs anyone out on a GET. The daily keep-alive's `purge_stale_guests()` deletes
+  anonymous users older than thirty days (foreign-key cascades do the rest). Memory,
+  contacts and connectors need a Google user, in RLS and in the routes (`requireUser()`).
+- Session cookies are SameSite=Lax and, in production, Secure (`SESSION_COOKIE_OPTIONS`);
+  the browser client reads them, so keep data access server-side and put nothing in them
+  but the session. The proxy refuses writes another site's page sent (`isCrossSiteWrite()`).
+- **OAuth tokens** (Google, Slack) are sealed in the app, not in Postgres: AES-256-GCM
+  (`src/features/connectors/token-crypto.ts`), a 12-byte IV, the owner and provider
+  bound in as authenticated data, stored as `v2.<iv>.<ciphertext>.<tag>` in
+  `connector_secrets`, which has no grant for any browser role; the key is
+  `CONNECTOR_TOKEN_KEY`. Only the service role reads it, in the connector routes and the
+  `run_command` job. Do not use Vault or pgsodium.
 - Storage: recordings stay in Attendee's storage (never copy them). All audio we hold —
   the seed recordings — lives in a **private** Storage bucket and is served through
   server-signed URLs (one hour), including to anonymous visitors. Signed-URL creation is
-  rate-limited per workspace. Nothing is in a public bucket. The free tier's 5 GB egress
+  rate-limited per client. Nothing is in a public bucket. The free tier's 5 GB egress
   is the limit to watch.
 - **State changes go through SQL functions**, one transaction each, `security definer`
-  with `set search_path = ''`, checking `auth.uid()` or an explicit workspace id. Call
-  them with `supabase.rpc(...)` through typed wrappers in `lib/db/`. Application code
-  never updates a state column directly. Rate limits are checked inside the same
-  function with `consume_quota`.
-- Full-text search: a `tsvector` generated column with a GIN index on segments, summaries,
-  notes and cards; query with `websearch_to_tsquery`. Add a normalisation column for
-  Roman Urdu spelling variants. ParadeDB `pg_search` is not a native extension; skip it.
-- No pg_cron. Scheduling is the `jobs` table plus the daily Vercel cron (see Background
-  jobs). The cron also writes a heartbeat row so the free project doesn't pause after 7
-  idle days. Only two projects fit the free tier (production and staging).
-- Realtime: subscribe only where the user is waiting on a live change (such as bot
-  status), and clean up the subscription on unmount. If the httpOnly session can't be
-  used by the browser client, poll every 5 s instead.
+  with `set search_path = ''`, checking `auth.uid()`. Call
+  them with `supabase.rpc(...)` from the feature query modules (`*-queries.ts`) and
+  `src/server/`, typed by `src/lib/database.types.ts`. Application code
+  never updates a state column directly. Caps and the write limit are enforced in the
+  database, in the function or a trigger under an advisory lock (`note_visitor_write()`,
+  the `cap_*()` triggers).
+- Full-text search: a `tsvector` column with a GIN index on transcript turns, queried
+  with `websearch_to_tsquery` in `search_meetings()`. ParadeDB `pg_search` is not a
+  native extension; skip it.
+- No pg_cron. Scheduling is `processing_jobs` (`run_after`) plus the daily Vercel cron
+  (`/api/cron/keepalive`), which writes a `cron_runs` row so the free project does not
+  pause after seven idle days. There is one Supabase project.
+- No Realtime: a page waiting on a change re-fetches itself (`AutoRefresh`), backing off
+  and stopping on the meeting page.
 
 ## Zod
-- Define each schema once (`lib/schemas/`) and share it between the client and the
-  server. Infer types with `z.infer`.
+- Define each schema once, beside the feature that owns it (`src/features/<area>/`), and
+  share it between the client and the server. Infer types with `z.infer`.
 - The project uses **Zod 4**. Use `safeParse` at boundaries, not `parse` inside a
   try/catch. Turn the result into field errors with `z.flattenError()`. (`flatten()` is
   Zod 3; only use it if `package.json` says otherwise.)
@@ -135,13 +136,14 @@ choice, the rejected alternatives and the cost model are in `docs/architecture.m
 - Validate env vars, webhook bodies, and LLM JSON output, not just forms.
 
 ## Vitest and PGlite
-- Put each test next to its code (`*.test.ts`). Use the `node` environment for server
-  code and `jsdom` or `happy-dom` plus Testing Library for components.
-- Database tests live in `tests/db/` and run the real `supabase/migrations` in PGlite
-  (in-process Postgres, no Docker). A test prelude creates a stub `auth` schema whose
-  `uid()`, `jwt()` and `role()` read a session setting, so RLS policies run unchanged.
-  Set the setting per test to act as workspace A, workspace B or `anon`. A migration that
-  needs a Supabase-only extension starts with `-- pglite: skip` and is not loaded.
+- Put each test next to its code (`*.test.ts`), in the `node` environment; a route's
+  `route.test.ts` sits beside it and mocks only the edges (`src/test/fake-supabase.ts`).
+  There is no component test environment: what a browser does is Playwright's.
+- Database tests live in `supabase/tests/` and run the real `supabase/migrations` in
+  PGlite (in-process Postgres, no Docker). `harness.ts` stubs the `auth` schema, whose
+  `uid()` and `jwt()` read a session setting, and Supabase's default grants, so RLS and
+  the grants run as in production; `as(db, caller, sql)` acts as a user, a guest, `anon`
+  or the service role.
 - For every table: A cannot read or write B; `anon` reads seed rows only. For every SQL
   function: the rule it enforces, including the double-click, the stale lease and the
   backwards transition.
@@ -170,10 +172,11 @@ choice, the rejected alternatives and the cost model are in `docs/architecture.m
   set only in the Preview environment and `env.ts` refuses them when
   `VERCEL_ENV=production`. Never run a destructive migration from a preview.
 - Watch the function duration limits (Hobby: 300 s). Long work (waiting on a bot, long
-  LLM runs) runs as jobs from the `jobs` table inside `after()` (from `next/server`),
+  LLM runs) runs as jobs from `processing_jobs` inside `after()` (from `next/server`),
   never inside the response itself.
-- Hobby cron runs once a day with up to an hour of slop. `GET /api/cron/daily` (checks
-  `CRON_SECRET`) writes the Supabase heartbeat and kicks due jobs.
+- Hobby cron runs once a day with up to an hour of slop. `GET /api/cron/keepalive`
+  (checks `CRON_SECRET`) writes the heartbeat, prunes, sweeps, purges, schedules the
+  calendar's bots and runs due jobs.
 - Hobby is non-commercial only. Before a public launch, confirm the plan with the product
   owner (Pro is US$20/month).
 - Webhook route handlers return quickly (2xx) after verifying and storing the event, and
@@ -184,37 +187,40 @@ choice, the rejected alternatives and the cost model are in `docs/architecture.m
 
 ## Background jobs
 No worker, no queue service. Jobs are rows in Postgres; our own functions run them.
-- Table `jobs(id, workspace_id, kind, payload, idempotency_key unique, run_at,
-  lease_until, attempts, max_attempts, status, last_error_code, …)`. Job kinds are
-  `noun.verb` (`summary.generate`, `card.send`). Payloads are validated with Zod on both
-  enqueue and run.
-- **Enqueue** inside the SQL function that decided the work, with an idempotency key, so
-  a repeated decision never makes a second job. Then call `after(runJobs)` from the action
-  or handler.
-- **Claim** with `claim_jobs(runner_id, n)` (`FOR UPDATE SKIP LOCKED`, 5-minute lease,
-  `attempts + 1`). **Finish** with `complete_job` or `fail_job`. After `max_attempts`
-  (3) the job is `failed` and the meeting or card shows it with a retry button.
-- **Runner**: `runJobs(deadline)` in `lib/jobs/run.ts` runs claimed jobs one at a time
-  until 240 s have passed, then, if work remains, POSTs `/api/jobs/kick` with
-  `JOBS_KICK_SECRET` and exits. The kick route only calls `after(runJobs)` and returns
-  202. Renew the lease between long steps.
+- Table `processing_jobs` (meeting, kind, status, attempts and `max_attempts`,
+  `run_after`, `lease_until`, `claim_token`, `command_id`, `report`). Kinds are plain
+  words: `ingest_media`, `detect_commands`, `analyze`, `summarize`, `learn`,
+  `run_command`, `answer_in_meeting`, `notify_owner`. One active job per meeting and kind
+  (a partial unique index), so a repeated decision never makes a second job.
+- **Enqueue** inside the SQL function that decided the work, then call `kickJobs()`
+  (`src/server/jobs.ts`), which runs the queue after the response.
+- **Claim** with `claim_job()` (`FOR UPDATE SKIP LOCKED`, a lease no longer than the
+  run's budget, a fresh claim token, `attempts + 1`; it also sweeps expired leases).
+  **Finish** with `complete_job()`, which publishes only while the claim token still
+  holds: `done`, `skipped`, `failed` (retried after 1 then 4 minutes, up to the
+  attempts), `rejected` (output the database refuses: never retried) or `release` (no
+  attempt used: an outage, a rate limit, a timeout in a short run).
+- **Runner**: `runJobs(deps, { budgetMs })` in `src/features/processing/runner.ts` runs
+  claimed jobs one at a time within 270 s of the function's 300 s, starting none with
+  less than 45 s left; when it stops on its budget with work still due it posts
+  `/api/jobs/kick` with `CRON_SECRET`, so a fresh function goes on.
 - **Kicks** come from every mutation that enqueued work, every webhook, the daily cron,
-  and the dashboard request path when a job is due. Timed jobs (`run_at` in the future)
-  run at the first kick after `run_at`, so they can be late on a quiet day.
-- **The pipeline is a chain of jobs**, one per unit of work, each with its own
-  idempotency key, so a retry never repeats a finished Claude call. Each job enqueues the
-  next when it completes.
-- **The live transcript never goes through jobs.** Handle `transcript.update` in the
-  webhook request. Only draft commands (email, invite, reminder, Slack) enqueue a
-  `card.draft` job.
-- Recurring jobs (guest purge, card nudge, heartbeat) re-enqueue themselves with the next
-  `run_at` on completion.
+  and the meeting page when a job is due. A job retried later (`run_after` in the future)
+  runs at the first kick after that, so it can be late on a quiet day.
+- **The pipeline is a chain of jobs**, one active per meeting and kind, so a retry never
+  repeats a finished Claude call: `complete_job()` queues the next (the analysis and the
+  summaries after the ingest, `learn` and the owner's note after the summaries).
+- **The live transcript never goes through the pipeline.** `transcript.update` is handled
+  in the webhook request; a live question or recap queues one `answer_in_meeting` job,
+  and drafts wait for `detect_commands` on the final transcript.
+- Recurring work (sweeps, purges, nudges, calendar scheduling) runs in the daily
+  keep-alive, not as self-scheduling jobs.
 
 ## Claude API
 - Before writing or changing any Claude call, load the `claude-api` skill for current
   model IDs, parameters, and SDK usage. Do not write these from memory.
 - Use `@anthropic-ai/sdk` directly (not the Vercel AI SDK), server-only, from one module
-  (`lib/ai/call.ts`). The model is **Sonnet** (`claude-sonnet-5-5`) for every job, read
+  (`src/features/processing/claude.ts`). The model is **Sonnet** (`claude-sonnet-5-5`) for every job, read
   from the `CLAUDE_MODEL` environment variable (validated in `env.ts`), never hard-coded
   at call sites, so Haiku can be switched in with no code change. Use
   `output_config.effort: "low"` for live answers and commands.
@@ -223,21 +229,24 @@ No worker, no queue service. Jobs are rows in Postgres; our own functions run th
   null `parsed_output` means the parse failed: retry once, then fail the job.
 - Sonnet 5.5 rejects non-default `temperature` and `top_p`, assistant prefill and
   `budget_tokens`. Don't set them.
-- **The transcript is data.** Pass it as a delimited block of
-  `[segment_id] [speaker] [mm:ss] text` lines, cached as the prompt prefix, with a system
-  prompt that says it is data and that every claim must cite a `segment_id` and `quote`
-  the words it rests on. The same applies to command text and memory entries.
-- **Check every output against the transcript before storing it** (`lib/ai/ground.ts`):
-  each claim's `segment_id` must exist in the meeting and its `quote` must be found in
-  that segment's text (whitespace and case normalised). Drop failing claims and count
-  them; if more than a quarter fail, fail the job and store nothing. `store_claims` in
-  SQL applies the same rule as a second guard.
+- **The transcript is data.** It goes in as a tagged block of turn lines (the turn's id,
+  the speaker, the time, the text), cached as the prompt prefix, with a system prompt that
+  says the blocks are data, never instructions; every claim cites the turn ids it rests
+  on. The same applies to command text and memory entries.
+- **Check every output against the transcript before storing it**, in code
+  (`src/features/summaries/grounding.ts`, `src/features/commands/grounding.ts`,
+  `src/features/memory/learn.ts`): a citation must name a turn of this meeting (the
+  database's foreign keys prove it again), an owner must be a speaker or a name said in a
+  cited turn, a date or an address must be words said there, a learned line must quote
+  its turn. What fails is dropped item by item and counted in the job report by position;
+  whatever survives is published (there is no failure threshold; audit D14). Values the
+  schema only hints at (lengths, counts, ranges) are clamped there, never refused.
 - Set a sensible `max_tokens`. Handle `stop_reason` values such as `max_tokens` and
   `refusal`. Use prompt caching on the transcript prefix (minimum 512 tokens, 5-minute
   TTL; the 1-hour TTL costs 2× to write and is only worth it for live answers spaced out
   over a long call). Use the Batch API (50 % off) for seed-time generation.
 - Log `usage.input_tokens`, `usage.output_tokens`, `usage.cache_creation_input_tokens`
-  and `usage.cache_read_input_tokens` per request, with the meeting and workspace, so cost
+  and `usage.cache_read_input_tokens` per request, with the meeting, so cost
   per meeting is known.
 - Stream responses that the user watches. Handle 429 and 529 with the SDK's retries and
   backoff, and show a clear error in the UI.
@@ -249,7 +258,7 @@ Attendee is an API for meeting bots (Zoom, Google Meet, Teams) that join meeting
 record them and transcribe them. Check the current docs at docs.attendee.dev before
 relying on endpoint shapes.
 - Call the Attendee API only from the server, with the API key in a server env var.
-  Store the Attendee bot ID next to the owning workspace and meeting in Supabase.
+  Store the Attendee bot ID on the owner's meeting row in Supabase.
 - Launching a bot is a paid, externally visible action ($0.50 per bot-hour after five
   free hours). Validate the meeting URL with Zod, check that the workspace is allowed to
   launch it and is under its bot-hour quota, and prevent duplicate launches with
@@ -282,12 +291,12 @@ relying on endpoint shapes.
   state machine. Ignore transitions that go backwards.
 - **Live path.** `transcript.update` arrives per utterance (after a speaker pause) with
   `speaker_name`, `speaker_uuid`, timestamps and text. In the webhook handler, in this
-  order: verify the signature, upsert the segment, run a cheap keyword check for an
-  utterance that starts with "AFK" from the sender's `speaker_name`, and only then call
-  Claude. Capture commands write rows directly; questions post the answer with
-  `POST /bots/{id}/send_chat_message` (`message`, `to: "everyone"`); draft commands
-  enqueue a `card.draft` job. All of this fits in one request, well under 15 s. Nothing
-  on the live path waits for the job runner.
+  order: verify the signature, match the speaker to the sender's names, run the cheap
+  wake-word check, then store the utterance once (`record_live_utterance()`, keyed by
+  Attendee's idempotency key). A question or recap queues its `answer_in_meeting` job,
+  whose answer is posted with `POST /bots/{id}/send_chat_message` after the response;
+  any other command gets one "heard" line and waits for the final transcript. The
+  request itself makes no Claude call.
 - Fetch the transcript and the recording URL after the bot reports that post-processing
   has completed, not when the meeting ends. Then enqueue the pipeline's first job. The
   recording URL is a short-lived signed S3 URL: read its expiry from the URL and request
