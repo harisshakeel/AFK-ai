@@ -1,6 +1,7 @@
 "use client";
 
 import { FileText, MessageSquareText } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
 import { useToast } from "@/components/ui/toast";
@@ -18,6 +19,7 @@ import {
   type NoteItem,
   type NotesTab,
 } from "@/features/summaries/notes-panel";
+import { parseNotesTab } from "@/features/summaries/notes-tab";
 import { DEFAULT_TEMPLATE_KEY, findTemplate } from "@/features/summaries/templates";
 import { PlayerBar } from "@/features/transcript/player-bar";
 import { currentTurnIndex, normaliseClip } from "@/lib/time-rules";
@@ -76,6 +78,15 @@ export function MeetingView(props: MeetingViewProps) {
   const { playhead, seek, play, pause } = player;
 
   const [tab, setTab] = useState<NotesTab>(props.initialTab);
+  // The tab follows ?tab= when something else navigates there, such as "Share the notes"
+  // opening Tasks on its new card. The view's own replaceState writes keep the two equal,
+  // so this changes nothing when the tab is picked here.
+  const urlTab = parseNotesTab(useSearchParams().get("tab") ?? undefined);
+  const [seenUrlTab, setSeenUrlTab] = useState(urlTab);
+  if (urlTab !== seenUrlTab) {
+    setSeenUrlTab(urlTab);
+    setTab(urlTab);
+  }
   const [template, setTemplate] = useState(
     findTemplate(props.initialTemplate)?.key ?? DEFAULT_TEMPLATE_KEY,
   );

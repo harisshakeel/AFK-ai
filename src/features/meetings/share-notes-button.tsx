@@ -1,6 +1,7 @@
 "use client";
 
 import { Share2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { visitorFetch } from "@/lib/visitor-api";
 
 /** One email card to everyone on the call, from the stored notes, approved on the Tasks tab. */
 export function ShareNotesButton({ meetingId }: { meetingId: string }) {
+  const router = useRouter();
   const toast = useToast();
   const [busy, setBusy] = useState(false);
   const share = async () => {
@@ -16,9 +18,8 @@ export function ShareNotesButton({ meetingId }: { meetingId: string }) {
     try {
       await visitorFetch(`/api/meetings/${meetingId}/share-notes`, { method: "POST" });
       toast("The notes are drafted as an email. Check the addresses and approve.");
-      // A full load: the view keeps its tab in state, so only a fresh page opens on Tasks
-      // with the new card in it.
-      window.location.assign(`/meetings/${meetingId}?tab=tasks`);
+      // The server renders the new card; the view follows ?tab= to the Tasks tab.
+      router.push(`/meetings/${meetingId}?tab=tasks`);
     } catch (error) {
       toast(error instanceof Error ? error.message : "That didn't work.", "error");
     } finally {
