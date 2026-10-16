@@ -1,0 +1,147 @@
+import "server-only";
+
+import { randomUUID } from "node:crypto";
+
+import {
+  AttendeeError,
+  createAttendeeClient,
+  type DeepgramLanguage,
+} from "@/features/capture/attendee";
+import type { MeetingPlatform } from "@/features/capture/meeting-url";
+import { productionOrigin, serverEnv } from "@/lib/env";
+import { createSupabaseAdminClient } from "@/server/db/supabase-admin";
+import { log } from "@/server/log";
+
+/**
+ * Sending the bot (requirement F9), now and later. One place for the bot route and the
+ * calendar auto-join: the meeting row first (the caps and the one-active rule are the
+ * database's), then the Attendee bot, now or scheduled for the event's time (join_at),
+ * then the bot id on the row. A failure after the row marks it failed, so nothing is
+ * left requested for ever.
+ */
+export type SendBotInput = {
+  ownerId: string;
+  link: { url: string; platform: MeetingPlatform };
+  title: string;
+  /** The names the sender is known by in the call (sender.ts). */
+  senderNames: string[];
+  /** A keyed hash of the sender's address for the per-place cap; null for a scheduled join. */
+  senderKey: string | null;
+  /** When the bot should join, ISO 8601; unset means now. */
+  joinAt?: string | null;
+  /** The calendar event the join came from: one bot per event per owner. */
+  calendarEventId?: string | null;
+  /** The transcriber's language for this call; unset, the deployment's default (ATTENDEE_DEEPGRAM_LANGUAGE). */
+  language?: DeepgramLanguage | null;
+  /** The people on the calendar invite, recorded as people AFK knows once the bot is sent. */
+  invitees?: ReadonlyArray<{ email: string; name: string | null }>;
+};
+
+export type SendBotOutcome =
+  | { ok: true; meetingId: string }
+  | {
+      ok: false;
+      code:
+        | "not_configured"
+        | "active"
+        | "cap_user"
+        | "cap_site"
+        | "already"
+        | "insert"
+        | "https"
+        | "provider";
+    };
+
+export async function sendBot(input: SendBotInput): Promise<SendBotOutcome> {
+  const env = serverEnv();
+  if (!env.ATTENDEE_API_KEY || !env.ATTENDEE_WEBHOOK_SECRET)
+    return { ok: false, code: "not_configured" };
+  const admin = createSupabaseAdminClient();
+  const meetingId = randomUUID();
+  const scheduled = Boolean(input.joinAt);
+  const { error: insertError } = await admin.from("meetings").insert({
+    id: meetingId,
+    owner_id: input.ownerId,
+    title: input.title,
+    recorded_at: input.joinAt ?? new Date().toISOString(),
+    status: scheduled ? "scheduled" : "requested",
+    scheduled_for: input.joinAt ?? null,
+    calendar_event_id: input.calendarEventId ?? null,
+    meeting_url: input.link.url,
+    sender_names: input.senderNames,
+    sender_key: input.senderKey,
+    source: {
+      kind: "bot",
+      platform: input.link.platform,
+      ...(scheduled ? { scheduled: true } : {}),
+    },
+  });
+  if (insertError) {
+    if (insertError.code === "23505") {
+      return { ok: false, code: input.calendarEventId ? "already" : "active" };
+    }
+    if (insertError.code === "P0003") return { ok: false, code: "cap_user" };
+    if (insertError.code === "P0004") return { ok: false, code: "cap_site" };
+    log.error("bot.meeting_insert_failed", new Error(insertError.code ?? "db_error"));
+    return { ok: false, code: "insert" };
+  }
+
+  // Attendee posts to the production site, never to a preview deployment or a dev
+  // server; it requires https.
+  const origin = productionOrigin();
+  if (!origin.startsWith("https://")) {
+    await admin
+      .from("meetings")
+      .update({
+        status: "failed",
+        status_detail: "The bot needs a public https site to report to.",
+      })
+      .eq("id", meetingId);
+    return { ok: false, code: "https" };
+  }
+  try {
+    const bot = await createAttendeeClient({
+      apiKey: env.ATTENDEE_API_KEY,
+      baseUrl: env.ATTENDEE_API_URL,
+    }).createBot({
+      meetingUrl: input.link.url,
+      botName: "AFK.ai Notetaker",
+      webhookUrl: `${origin}/api/webhooks/attendee`,
+      metadata: { meetingId },
+      deduplicationKey: meetingId,
+      transcription: env.ATTENDEE_TRANSCRIPTION,
+      language: input.language ?? env.ATTENDEE_DEEPGRAM_LANGUAGE,
+      joinAt: input.joinAt ?? undefined,
+    });
+    await admin
+      .from("meetings")
+      .update({ bot_id: bot.id })
+      .eq("id", meetingId)
+      .in("status", ["scheduled", "requested"]);
+    log.info("bot.sent", { meetingId, platform: input.link.platform, scheduled });
+    // The people on the invite become people AFK knows (source calendar, unused until
+    // a card to them is approved); a Google user only, which learn_contacts() enforces.
+    if (input.invitees && input.invitees.length > 0) {
+      const { error } = await admin.rpc("learn_contacts", {
+        p_owner_id: input.ownerId,
+        p_people: input.invitees.map((person) => ({ email: person.email, name: person.name })),
+        p_source: "calendar",
+        p_used: false,
+      });
+      if (error) {
+        log.warn("bot.invitees_not_learned", { meetingId, error: error.code ?? "db_error" });
+      } else {
+        log.info("bot.invitees_learned", { meetingId, count: input.invitees.length });
+      }
+    }
+    return { ok: true, meetingId };
+  } catch (error) {
+    const status = error instanceof AttendeeError ? error.status : 0;
+    log.error("bot.create_failed", error, { meetingId, status });
+    await admin
+      .from("meetings")
+      .update({ status: "failed", status_detail: "The bot service didn't accept the request." })
+      .eq("id", meetingId);
+    return { ok: false, code: "provider" };
+  }
+}
