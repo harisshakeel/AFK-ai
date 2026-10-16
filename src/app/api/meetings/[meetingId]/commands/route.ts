@@ -15,7 +15,7 @@ import { fetchAll } from "@/lib/fetch-all";
 import { normaliseClip } from "@/lib/time-rules";
 import type { Json } from "@/lib/database.types";
 import { createSupabaseAdminClient } from "@/server/db/supabase-admin";
-import { jsonError, readJson, requireVisitor } from "@/server/http";
+import { dbFailure, jsonError, readJson, requireVisitor } from "@/server/http";
 import { kickJobs } from "@/server/jobs";
 import { log } from "@/server/log";
 import { MEETING_ID } from "@/features/meetings/meeting-file-schema";
@@ -50,7 +50,7 @@ export async function POST(request: Request, context: Context) {
 
   const parsed = parseTyped(body.data.text);
   if ("error" in parsed) return jsonError(400, parsed.error);
-  if (parsed.kind === "remember" && visitor.isAnonymous) {
+  if (parsed.kind === "remember" && visitor.isGuest) {
     return jsonError(
       403,
       "AFK keeps a memory only for people signed in with Google. Continue with Google to use /remember.",
@@ -58,11 +58,12 @@ export async function POST(request: Request, context: Context) {
   }
 
   // Read as the visitor: only the owner's own meeting is found.
-  const { data: meeting } = await visitor.supabase
+  const { data: meeting, error: meetingError } = await visitor.supabase
     .from("meetings")
-    .select("id, owner_id, title, duration_sec, host_speaker_code")
+    .select("id, owner_id, title, recorded_at, duration_sec, host_speaker_code")
     .eq("id", meetingId)
     .maybeSingle();
+  if (meetingError) return dbFailure("meeting.read_failed", meetingError);
   if (!meeting || meeting.owner_id !== visitor.userId || meeting.duration_sec === null) {
     return jsonError(404, "Not found.");
   }
@@ -95,6 +96,8 @@ export async function POST(request: Request, context: Context) {
   }));
   const speakers = speakerRows ?? [];
   const turnId = turnAt(turns, atSec);
+  // The meeting was read as the visitor above and its owner checked: the admin client
+  // writes the command rows and jobs, which visitors have no grant to insert.
   const admin = createSupabaseAdminClient();
   const sentence = body.data.text.trim();
 
@@ -137,7 +140,8 @@ export async function POST(request: Request, context: Context) {
           }
         : { meeting_id: meeting.id, kind: "detect_commands" },
     );
-    // 23505 on the parse: a job is already queued or running, and it will pick this one up.
+    // 23505 on the parse: one is queued, and will read this row, or running, and its
+    // finish queues another for a row it did not see (migration 53, audit F8).
     if (jobError && (live || jobError.code !== "23505")) {
       return failure("command.typed_job_failed", jobError, meetingId);
     }
@@ -185,7 +189,7 @@ export async function POST(request: Request, context: Context) {
   } else if (parsed.kind === "remember") {
     // The same line a spoken "AFK, remember: …" produces: dated, ending with the meeting,
     // appended under "Learned by AFK" in the file the words point to.
-    const remember = parseRememberWords(parsed.rest, meeting.title, atSec);
+    const remember = parseRememberWords(parsed.rest, meeting.title, atSec, meeting.recorded_at);
     if (!remember) return jsonError(400, "Say what AFK should remember after /remember.");
     command.args = { text: remember.text, path: remember.path };
     command.memory = { path: remember.path, line: remember.line, template: remember.template };

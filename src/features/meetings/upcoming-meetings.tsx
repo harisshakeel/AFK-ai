@@ -63,7 +63,7 @@ export function UpcomingMeetings({
       setAuto(result.enabled);
       toast(
         result.enabled
-          ? "AFK joins every meeting with a link from now on, scheduled a day ahead."
+          ? "AFK joins the meetings you organise or accept from now on, scheduled a day ahead."
           : "AFK joins only the meetings you send it to.",
       );
     } catch (error) {
@@ -91,7 +91,7 @@ export function UpcomingMeetings({
             onChange={() => void toggle()}
             className="size-4 accent-accent"
           />
-          Join every meeting with a link
+          Join the meetings I accept
         </label>
       </div>
       {events.length === 0 ? (
@@ -106,6 +106,7 @@ export function UpcomingMeetings({
                 <p className="truncate font-medium">{event.title}</p>
                 <p className="font-mono text-[0.7rem] text-fg-muted">
                   {formatDateTimeUtc(event.startsAt)} · {event.platform}
+                  {!event.accepted && " · not accepted"}
                 </p>
               </div>
               {done.has(event.id) ? (

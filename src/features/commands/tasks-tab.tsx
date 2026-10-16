@@ -1,50 +1,27 @@
 "use client";
 
-import {
-  Check,
-  ChevronDown,
-  ClipboardCopy,
-  ExternalLink,
-  Info,
-  Mail,
-  RotateCcw,
-  Sparkles,
-  X,
-} from "lucide-react";
+import { Check, ExternalLink, Info, RotateCcw, Sparkles, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useId, useState, type FormEvent } from "react";
+import { useState } from "react";
 
-import { Button, buttonClass } from "@/components/ui/button";
-import { inputClass } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { TimestampButton } from "@/components/ui/timestamp-button";
 import { useToast } from "@/components/ui/toast";
 import type { AddressEntry } from "@/features/connectors/address-book";
-import {
-  expandEveryone,
-  suggestedAddresses,
-  suggestRecipients,
-  withSaidAddresses,
-} from "@/features/connectors/address-book";
-import {
-  APPROVED_SCHEMAS,
-  browserOffset,
-  inputValueToIso,
-  isApprovableKind,
-  isoToInputValue,
-  offsetOf,
-  splitAddresses,
-  type ApprovableKind,
-} from "@/features/connectors/approve-args";
-import { appForKind, appReady, type ConnectorView } from "@/features/connectors/registry";
-import type { SlackChannel } from "@/features/connectors/slack";
-import { channelForTopic, type SkillSettings } from "@/features/memory/files";
+import { isApprovableKind } from "@/features/connectors/approve-args";
+import { appForKind, canApproveWith, type ConnectorView } from "@/features/connectors/registry";
+import type { SkillSettings } from "@/features/memory/files";
 import { cn } from "@/lib/cn";
-import { usePlayheadTime, type Playhead } from "@/lib/playhead";
+import type { Playhead } from "@/lib/playhead";
 import { formatTime } from "@/lib/time-rules";
-import { ApiError, visitorFetch } from "@/lib/visitor-api";
+import { visitorFetch } from "@/lib/visitor-api";
 
 import {
+  asString,
+  asStrings,
+  canRewrite,
+  cardError,
   COMMAND_STATUS_LABEL,
   resultLink,
   resultSummary,
@@ -52,7 +29,10 @@ import {
   type HostNote,
 } from "./command-view";
 import { DEMO_COMMANDS } from "./demo-cards";
-import { COMMANDS, commandSpec, isActive } from "./registry";
+import { commandSpec } from "./registry";
+import { ApprovalForm } from "./approval-form";
+import { EmailActions, isModelDraft, RewriteControl } from "./card-actions";
+import { TypedCommandForm, WhatYouCanSay } from "./typed-command-form";
 
 /**
  * The Tasks tab (requirements C4-C8): every command AFK heard or was typed, as a card
@@ -155,7 +135,7 @@ export function CommandCard({ command, ...props }: Props & { command: CommandVie
   const warn = command.status === "unparsed" || command.status === "failed";
   const external = command.needsApproval && isApprovableKind(command.kind);
   const app = appForKind(command.kind);
-  const ready = app ? appReady(app, props.connectors) : true;
+  const ready = app ? canApproveWith(app, props.connectors) : true;
   const canRetry =
     command.status === "failed" &&
     external &&
@@ -182,7 +162,7 @@ export function CommandCard({ command, ...props }: Props & { command: CommandVie
         <span className="rounded-full bg-accent-soft px-2 py-0.5 font-medium text-accent-strong">
           {label}
         </span>
-        <span className={cn("text-fg-muted", warn && "text-warning")}>
+        <span className={cn("text-fg-muted", warn && "text-warning-strong")}>
           {COMMAND_STATUS_LABEL[command.status]}
         </span>
         {command.source === "typed" && <span className="text-fg-subtle">· typed</span>}
@@ -211,15 +191,20 @@ export function CommandCard({ command, ...props }: Props & { command: CommandVie
       ) : (
         <CommandDetail command={command} speakers={props.speakers} />
       )}
-      {command.status === "unparsed" && isModelDraft(command.kind) && props.isOwn && (
-        <RewriteControl
-          command={command}
-          label="Add the details and let AFK try again"
-          placeholder="e.g. to Sam Lee, about the launch plan, next Tuesday at three"
-        />
-      )}
+      {command.status === "unparsed" &&
+        isModelDraft(command.kind) &&
+        props.isOwn &&
+        canRewrite(command) && (
+          <RewriteControl
+            command={command}
+            label="Add the details and let AFK try again"
+            placeholder="e.g. to Sam Lee, about the launch plan, next Tuesday at three"
+          />
+        )}
 
-      {command.error && <p className="mt-2 text-sm text-warning">{command.error}</p>}
+      {cardError(command) && (
+        <p className="mt-2 text-sm text-warning-strong">{cardError(command)}</p>
+      )}
       {command.status === "failed" && external && !canRetry && (
         <p className="mt-1 text-xs text-fg-muted">
           This one isn&apos;t safe to run again on its own. Check the app, then type it again if it
@@ -277,10 +262,7 @@ export function CommandCard({ command, ...props }: Props & { command: CommandVie
   );
 }
 
-const asString = (value: unknown) => (typeof value === "string" ? value : null);
 const asNumber = (value: unknown) => (typeof value === "number" ? value : null);
-const asStrings = (value: unknown) =>
-  Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
 
 function CommandDetail({
   command,
@@ -389,680 +371,6 @@ function ApprovedSummary({ kind, args }: { kind: string; args: Record<string, un
         <p>
           #{asString(args.channelName)}: <span className="text-fg">{asString(args.message)}</span>
         </p>
-      )}
-    </div>
-  );
-}
-
-const fieldLabel = "text-xs font-medium text-fg-muted";
-
-/**
- * The details an adapter will run with, pre-filled from what AFK heard, the owner's
- * people file and learned contacts (each with its reason), and the owner's skills
- * (who to copy or invite, the default length, the channel), checked by the kind's
- * schema before they are sent. Nothing is filled silently: a guessed address shows
- * why, the other matches are one click away, an unknown name says so.
- */
-function ApprovalForm({
-  command,
-  kind,
-  isOwn,
-  ready,
-  appName,
-  connectors,
-  addressBook,
-  skills,
-  speakers,
-  hostLabel,
-  busy,
-}: {
-  command: CommandView;
-  kind: ApprovableKind;
-  isOwn: boolean;
-  ready: boolean;
-  appName: string;
-  connectors: ReadonlyArray<ConnectorView>;
-  addressBook: ReadonlyArray<AddressEntry>;
-  skills: SkillSettings;
-  speakers: ReadonlyArray<{ code: string; label: string }>;
-  hostLabel: string | null;
-  busy: boolean;
-}) {
-  const router = useRouter();
-  const toast = useToast();
-  const { args } = command;
-  const heardNames = expandEveryone(
-    command.sentence,
-    asStrings(kind === "followup" ? args.attendeeNames : args.toNames),
-    speakers.map((speaker) => speaker.label),
-    hostLabel,
-  );
-  // An address said in the call, grounded against the transcript, comes before any guess.
-  const said = kind === "email" ? asStrings(args.toAddresses) : [];
-  const suggestions = withSaidAddresses(suggestRecipients(heardNames, addressBook), said);
-  const slack = connectors.find((connector) => connector.provider === "slack");
-  const defaultChannelId = asString(slack?.config.channelId);
-  const defaultChannelName = asString(slack?.config.channelName);
-  const alwaysInvite = splitAddresses(skills.calendar["always invite"] ?? "");
-  const skillMinutes = minutesIn(skills.calendar["default length"]);
-
-  const [to, setTo] = useState(() =>
-    [...suggestedAddresses(suggestions), ...(kind === "followup" ? alwaysInvite : [])]
-      .filter((email, index, all) => all.indexOf(email) === index)
-      .join(", "),
-  );
-  const [cc, setCc] = useState(() => splitAddresses(skills.email["always copy"] ?? "").join(", "));
-  const [subject, setSubject] = useState(asString(args.subject) ?? "");
-  const [body, setBody] = useState(asString(args.body) ?? "");
-  const [title, setTitle] = useState(asString(args.title) ?? "");
-  const [when, setWhen] = useState(() => isoToInputValue(asString(args.startsAt)));
-  const [duration, setDuration] = useState(
-    String(asNumber(args.durationMin) ?? skillMinutes ?? 30),
-  );
-  const [text, setText] = useState(asString(args.text) ?? "");
-  const [message, setMessage] = useState(asString(args.message) ?? "");
-  const [channels, setChannels] = useState<SlackChannel[] | null>(null);
-  const [channel, setChannel] = useState<{ id: string; name: string } | null>(() =>
-    defaultChannelId && defaultChannelName
-      ? { id: defaultChannelId, name: defaultChannelName }
-      : null,
-  );
-  const [error, setError] = useState<string | null>(null);
-  const [sending, setSending] = useState(false);
-  const [needsConnect, setNeedsConnect] = useState(false);
-
-  // A Slack card lists the workspace's channels once, so the topic can pick one; the
-  // skill's "topic: #channel" lines decide, else the channel chosen on Connectors.
-  useEffect(() => {
-    if (kind !== "slack" || !isOwn || !slack || slack.status !== "connected") return;
-    let cancelled = false;
-    visitorFetch<{ channels: SlackChannel[] }>("/api/connectors/slack/channels", { method: "GET" })
-      .then((result) => {
-        if (cancelled) return;
-        setChannels(result.channels);
-        const wanted = channelForTopic(message, skills.slack);
-        const found = wanted
-          ? result.channels.find((candidate) => candidate.name.toLowerCase() === wanted)
-          : undefined;
-        if (found) setChannel({ id: found.id, name: found.name });
-      })
-      .catch(() => {
-        if (!cancelled) setChannels([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-    // The suggestion is made once, from the draft as it arrived.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [kind, isOwn, slack?.status]);
-
-  // Unique per instance: the same card can show on the page and in the wrap-up at once.
-  const uid = useId();
-  const idFor = (field: string) => `cmd${uid}${field}`;
-  const whenHint = asString(args.whenText);
-  const durations = [15, 30, 45, 60, 90, 120];
-  if (skillMinutes && !durations.includes(skillMinutes)) durations.push(skillMinutes);
-  durations.sort((a, b) => a - b);
-
-  const pickAddress = (name: string, email: string) => {
-    const current = splitAddresses(to);
-    const own = suggestions.find((suggestion) => suggestion.name === name);
-    const without = current.filter(
-      (address) =>
-        address !== own?.email && !own?.alternatives.some((alt) => alt.email === address),
-    );
-    setTo([...without, email].join(", "));
-  };
-
-  const build = (): unknown => {
-    const offset = offsetOf(asString(args.startsAt)) ?? browserOffset();
-    switch (kind) {
-      case "email":
-        return { to: splitAddresses(to), cc: splitAddresses(cc), subject, body };
-      case "followup":
-        return {
-          title,
-          startsAt: inputValueToIso(when, offset) ?? "",
-          durationMin: Number(duration),
-          attendees: splitAddresses(to),
-          description: null,
-        };
-      case "remind":
-        return { text, startsAt: inputValueToIso(when, offset) ?? "" };
-      case "slack":
-        return { channelId: channel?.id ?? "", channelName: channel?.name ?? "", message };
-    }
-  };
-
-  const submit = async (event: FormEvent) => {
-    event.preventDefault();
-    if (!isOwn || sending) return;
-    const parsed = APPROVED_SCHEMAS[kind].safeParse(build());
-    if (!parsed.success) {
-      const issue = parsed.error.issues[0];
-      const field = issue?.path[0];
-      setError(
-        field === "to" || field === "attendees"
-          ? "Add at least one valid email address."
-          : field === "cc"
-            ? "Check the addresses to copy."
-            : field === "startsAt"
-              ? "Pick a date and time."
-              : field === "channelId"
-                ? "Pick a channel."
-                : (issue?.message ?? "Check the details."),
-      );
-      return;
-    }
-    setError(null);
-    setSending(true);
-    try {
-      await visitorFetch(`/api/commands/${command.id}`, {
-        method: "POST",
-        body: { action: "approve", args: parsed.data },
-      });
-      toast("Approved. AFK runs it next.");
-      router.refresh();
-    } catch (caught) {
-      if (caught instanceof ApiError && caught.status === 409 && /connect/i.test(caught.message)) {
-        setNeedsConnect(true);
-      }
-      setError(caught instanceof Error ? caught.message : "That didn't save.");
-    } finally {
-      setSending(false);
-    }
-  };
-
-  return (
-    <form onSubmit={submit} className="mt-3 flex flex-col gap-3 rounded-md bg-surface-raised p-3">
-      {(kind === "email" || kind === "followup") && (
-        <div>
-          <label htmlFor={idFor("to")} className={fieldLabel}>
-            {kind === "email" ? "To" : "Invite"}
-          </label>
-          {suggestions.length > 0 && (
-            <ul className="mt-1 flex flex-col gap-1 text-xs" aria-label="Who AFK heard">
-              {suggestions.map((suggestion) => (
-                <li key={suggestion.name} className="flex flex-wrap items-center gap-x-1.5">
-                  <span className="font-medium text-fg">{suggestion.name}</span>
-                  {suggestion.email ? (
-                    <>
-                      <span className="text-fg-muted">→ {suggestion.email}</span>
-                      <span className="text-fg-subtle">({suggestion.reason})</span>
-                      {suggestion.alternatives.map((alternative) => (
-                        <button
-                          key={alternative.email}
-                          type="button"
-                          onClick={() => pickAddress(suggestion.name, alternative.email)}
-                          className="text-accent-strong underline decoration-accent/40 underline-offset-2"
-                          title={alternative.reason}
-                        >
-                          or {alternative.email}
-                        </button>
-                      ))}
-                    </>
-                  ) : (
-                    <span className="text-fg-subtle">no address yet, add it below</span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-          <input
-            id={idFor("to")}
-            value={to}
-            onChange={(event) => setTo(event.target.value)}
-            placeholder={
-              kind === "email"
-                ? "name@example.com, other@example.com"
-                : "Addresses, comma separated (optional)"
-            }
-            autoComplete="off"
-            className={inputClass("mt-1 h-9")}
-            disabled={!isOwn}
-          />
-          {kind === "email" && to.trim() === "" && suggestions.length === 0 && (
-            <p className="mt-1 text-xs text-fg-subtle">
-              Add the address. AFK remembers it for next time once you approve.
-            </p>
-          )}
-        </div>
-      )}
-      {kind === "email" && (
-        <>
-          <div>
-            <label htmlFor={idFor("cc")} className={fieldLabel}>
-              Copy
-              {skills.email["always copy"] && (
-                <span className="font-normal text-fg-subtle"> · from your email skill</span>
-              )}
-            </label>
-            <input
-              id={idFor("cc")}
-              value={cc}
-              onChange={(event) => setCc(event.target.value)}
-              placeholder="Addresses to copy, comma separated (optional)"
-              autoComplete="off"
-              className={inputClass("mt-1 h-9")}
-              disabled={!isOwn}
-            />
-          </div>
-          <div>
-            <label htmlFor={idFor("subject")} className={fieldLabel}>
-              Subject
-            </label>
-            <input
-              id={idFor("subject")}
-              value={subject}
-              onChange={(event) => setSubject(event.target.value)}
-              maxLength={120}
-              className={inputClass("mt-1 h-9")}
-              disabled={!isOwn}
-            />
-          </div>
-          <div>
-            <label htmlFor={idFor("body")} className={fieldLabel}>
-              Message
-            </label>
-            <textarea
-              id={idFor("body")}
-              value={body}
-              onChange={(event) => setBody(event.target.value)}
-              rows={6}
-              onKeyDown={submitOnCommandEnter}
-              maxLength={5000}
-              className={inputClass("mt-1 h-auto resize-y rounded-xl py-2 leading-relaxed")}
-              disabled={!isOwn}
-            />
-          </div>
-        </>
-      )}
-      {kind === "followup" && (
-        <div>
-          <label htmlFor={idFor("title")} className={fieldLabel}>
-            Title
-          </label>
-          <input
-            id={idFor("title")}
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            maxLength={120}
-            className={inputClass("mt-1 h-9")}
-            disabled={!isOwn}
-          />
-        </div>
-      )}
-      {kind === "remind" && (
-        <div>
-          <label htmlFor={idFor("text")} className={fieldLabel}>
-            Remind you to
-          </label>
-          <input
-            id={idFor("text")}
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-            maxLength={300}
-            className={inputClass("mt-1 h-9")}
-            disabled={!isOwn}
-          />
-        </div>
-      )}
-      {(kind === "followup" || kind === "remind") && (
-        <div className="flex flex-wrap gap-3">
-          <div className="min-w-0 flex-1">
-            <label htmlFor={idFor("when")} className={fieldLabel}>
-              When
-              {whenHint && (
-                <span className="font-normal text-fg-subtle"> · AFK heard: {whenHint}</span>
-              )}
-            </label>
-            <input
-              id={idFor("when")}
-              type="datetime-local"
-              value={when}
-              onChange={(event) => setWhen(event.target.value)}
-              className={inputClass("mt-1 h-9")}
-              disabled={!isOwn}
-            />
-          </div>
-          {kind === "followup" && (
-            <div>
-              <label htmlFor={idFor("duration")} className={fieldLabel}>
-                Length
-              </label>
-              <select
-                id={idFor("duration")}
-                value={duration}
-                onChange={(event) => setDuration(event.target.value)}
-                className={inputClass("mt-1 h-9 w-auto")}
-                disabled={!isOwn}
-              >
-                {durations.map((minutes) => (
-                  <option key={minutes} value={String(minutes)}>
-                    {minutes} min
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-        </div>
-      )}
-      {kind === "slack" && (
-        <>
-          <div>
-            <label htmlFor={idFor("channel")} className={fieldLabel}>
-              Channel
-            </label>
-            {channels && channels.length > 0 ? (
-              <select
-                id={idFor("channel")}
-                value={channel?.id ?? ""}
-                onChange={(event) => {
-                  const picked = channels.find((candidate) => candidate.id === event.target.value);
-                  setChannel(picked ? { id: picked.id, name: picked.name } : null);
-                }}
-                className={inputClass("mt-1 h-9 w-auto")}
-                disabled={!isOwn}
-              >
-                {!channel && <option value="">Pick a channel</option>}
-                {channels.map((candidate) => (
-                  <option key={candidate.id} value={candidate.id}>
-                    #{candidate.name}
-                  </option>
-                ))}
-              </select>
-            ) : channel ? (
-              <p className="mt-1 text-sm">
-                <span className="font-medium">#{channel.name}</span>
-                <span className="text-xs text-fg-subtle"> · chosen on the Connectors page</span>
-              </p>
-            ) : (
-              <p className="mt-1 text-sm text-fg-muted">
-                <Link href="/connectors" className="font-medium text-accent-strong underline">
-                  Choose a channel on the Connectors page
-                </Link>
-              </p>
-            )}
-          </div>
-          <div>
-            <label htmlFor={idFor("message")} className={fieldLabel}>
-              Message
-            </label>
-            <textarea
-              id={idFor("message")}
-              value={message}
-              onChange={(event) => setMessage(event.target.value)}
-              rows={3}
-              onKeyDown={submitOnCommandEnter}
-              maxLength={2000}
-              className={inputClass("mt-1 h-auto resize-y rounded-xl py-2 leading-relaxed")}
-              disabled={!isOwn}
-            />
-          </div>
-        </>
-      )}
-
-      {error && (
-        <p role="alert" className="text-sm text-danger-strong">
-          {error}
-          {needsConnect && (
-            <>
-              {" "}
-              <Link href="/connectors" className="font-medium underline">
-                Open Connectors
-              </Link>
-            </>
-          )}
-        </p>
-      )}
-
-      <div className="flex flex-wrap items-center gap-2">
-        {ready || !isOwn ? (
-          <Button
-            type="submit"
-            variant="primary"
-            size="sm"
-            loading={sending}
-            disabled={!isOwn || busy}
-          >
-            {!sending && <Check aria-hidden />}
-            Approve and {kind === "email" ? "send" : kind === "slack" ? "post" : "add to calendar"}
-          </Button>
-        ) : (
-          <Link href="/connectors" className={buttonClass("primary", "sm")}>
-            Connect {appName} to approve
-          </Link>
-        )}
-        {kind === "email" && <EmailActions command={command} subject={subject} body={body} />}
-      </div>
-      {isOwn && isModelDraft(kind) && (
-        <RewriteControl
-          command={command}
-          label="Rewrite"
-          placeholder="What should change? e.g. shorter, more formal, mention the Friday date"
-        />
-      )}
-      <p className="text-xs text-fg-subtle">
-        AFK runs exactly these details, once, writes a line in your history file, and remembers the
-        people you confirmed. Enter in a field, or ⌘/Ctrl+Enter in the message, approves.
-      </p>
-    </form>
-  );
-}
-
-/** In a message box, Enter makes a new line; with the command or control key it approves. */
-function submitOnCommandEnter(event: React.KeyboardEvent<HTMLTextAreaElement>) {
-  if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
-    event.preventDefault();
-    event.currentTarget.form?.requestSubmit();
-  }
-}
-
-/** The kinds the model drafts, so a draft can be sent back with a note. */
-function isModelDraft(kind: string): boolean {
-  return kind === "email" || kind === "followup" || kind === "remind";
-}
-
-/** "30 minutes" or "45" from a skill line, as minutes. */
-function minutesIn(value: string | undefined): number | null {
-  const match = /(\d{1,3})/.exec(value ?? "");
-  const minutes = match ? Number(match[1]) : NaN;
-  return Number.isInteger(minutes) && minutes >= 15 && minutes <= 240 ? minutes : null;
-}
-
-/** A draft sent back to AFK with a note; the card returns rewritten after the parse. */
-function RewriteControl({
-  command,
-  label,
-  placeholder,
-}: {
-  command: CommandView;
-  label: string;
-  placeholder: string;
-}) {
-  const router = useRouter();
-  const toast = useToast();
-  const [open, setOpen] = useState(false);
-  const [note, setNote] = useState("");
-  const [busy, setBusy] = useState(false);
-
-  const send = async () => {
-    if (!note.trim()) return;
-    setBusy(true);
-    try {
-      await visitorFetch(`/api/commands/${command.id}/rewrite`, {
-        method: "POST",
-        body: { note: note.trim() },
-      });
-      toast("AFK is writing it again. The card comes back in a moment.");
-      setOpen(false);
-      router.refresh();
-    } catch (error) {
-      toast(error instanceof Error ? error.message : "That didn't send.", "error");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  if (!open) {
-    return (
-      <div className="mt-1">
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="text-xs font-medium text-accent-strong underline decoration-accent/40 underline-offset-2"
-        >
-          {label}
-        </button>
-      </div>
-    );
-  }
-  return (
-    <div className="mt-2 flex flex-wrap items-center gap-2">
-      <input
-        value={note}
-        onChange={(event) => setNote(event.target.value)}
-        placeholder={placeholder}
-        maxLength={300}
-        aria-label="What should change"
-        className={inputClass("h-9 min-w-0 flex-1")}
-      />
-      <Button
-        type="button"
-        variant="secondary"
-        size="sm"
-        loading={busy}
-        onClick={() => void send()}
-      >
-        Send back
-      </Button>
-      <Button type="button" variant="ghost" size="sm" onClick={() => setOpen(false)}>
-        Cancel
-      </Button>
-    </div>
-  );
-}
-
-function EmailActions({
-  command,
-  subject,
-  body,
-}: {
-  command: CommandView;
-  subject?: string;
-  body?: string;
-}) {
-  const toast = useToast();
-  const source = command.approvedArgs ?? command.args;
-  const finalSubject = subject ?? asString(source.subject) ?? "";
-  const finalBody = body ?? asString(source.body) ?? "";
-  const mailto = `mailto:?subject=${encodeURIComponent(finalSubject)}&body=${encodeURIComponent(finalBody)}`;
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(`Subject: ${finalSubject}\n\n${finalBody}`);
-      toast("Draft copied");
-    } catch {
-      toast("Couldn't copy. Your browser blocked the clipboard.", "error");
-    }
-  };
-  return (
-    <>
-      <a href={mailto} className={buttonClass("secondary", "sm")}>
-        <Mail aria-hidden />
-        Open in Mail
-      </a>
-      <Button variant="secondary" size="sm" onClick={() => void copy()}>
-        <ClipboardCopy aria-hidden />
-        Copy draft
-      </Button>
-    </>
-  );
-}
-
-function TypedCommandForm({ meetingId, playhead }: Pick<Props, "meetingId" | "playhead">) {
-  const router = useRouter();
-  const toast = useToast();
-  const sec = usePlayheadTime(playhead);
-  const [text, setText] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const submit = async (event: FormEvent) => {
-    event.preventDefault();
-    if (!text.trim() || busy) return;
-    setBusy(true);
-    setError(null);
-    try {
-      const result = await visitorFetch<{ status: string }>(`/api/meetings/${meetingId}/commands`, {
-        method: "POST",
-        body: { text: text.trim(), atSec: sec },
-      });
-      setText("");
-      toast(
-        result.status === "detected"
-          ? "AFK is drafting it; the card appears once it has been parsed"
-          : result.status === "proposed"
-            ? "Ready for your approval above"
-            : "Added",
-      );
-      router.refresh();
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "That didn't save.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  return (
-    <form onSubmit={submit} className="flex flex-col gap-2" aria-label="Type a command">
-      <label htmlFor="typed-command" className="text-sm font-medium">
-        Didn&apos;t catch a command? Type it
-      </label>
-      <div className="flex gap-2">
-        <input
-          id="typed-command"
-          value={text}
-          onChange={(event) => setText(event.target.value)}
-          placeholder="/task for Sam: send the deck by Friday"
-          maxLength={1000}
-          autoComplete="off"
-          aria-describedby="typed-command-help"
-          aria-invalid={error !== null}
-          className={inputClass("min-w-0 flex-1")}
-        />
-        <Button type="submit" variant="primary" size="sm" loading={busy} disabled={!text.trim()}>
-          Add
-        </Button>
-      </div>
-      <p id="typed-command-help" className={cn("text-xs", error ? "text-danger" : "text-fg-muted")}>
-        {error ?? `Cited to the moment at ${formatTime(sec)}.`}
-      </p>
-    </form>
-  );
-}
-
-function WhatYouCanSay() {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="text-sm">
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        className="-ml-3 text-accent-strong hover:text-accent-strong"
-      >
-        What you can say
-        <ChevronDown className={cn("transition-transform", open && "rotate-180")} aria-hidden />
-      </Button>
-      {open && (
-        <ul className="mt-2 flex flex-col gap-1.5 text-fg-muted">
-          {COMMANDS.filter(isActive).map((command) => (
-            <li key={command.kind}>
-              <span className="text-fg">&ldquo;{command.example}&rdquo;</span> {command.help}
-            </li>
-          ))}
-        </ul>
       )}
     </div>
   );

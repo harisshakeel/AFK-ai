@@ -12,7 +12,7 @@ const linkClass =
 /** The landing page's header: the name, two real links and the way in, floating over the hero. */
 export async function LandingNav() {
   const [viewer, signInEnabled] = await Promise.all([getViewer(), isGoogleSignInEnabled()]);
-  const signedIn = Boolean(viewer.userId && !viewer.isAnonymous);
+  const signedIn = Boolean(viewer.userId && !viewer.isGuest);
   return (
     <LandingNavBar>
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">

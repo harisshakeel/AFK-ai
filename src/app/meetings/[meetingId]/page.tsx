@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { AutoRefresh } from "@/features/meetings/auto-refresh";
-import { hasPendingWork, needsKick } from "@/features/meetings/generation-state";
+import { hasPendingWork, needsKick, pendingWorkKey } from "@/features/meetings/generation-state";
 import { getMeeting } from "@/features/meetings/meeting-queries";
 import { MeetingHeader } from "@/features/meetings/meeting-header";
 import { MeetingProcessing } from "@/features/meetings/meeting-processing";
@@ -112,7 +112,14 @@ export default async function MeetingPage({ params, searchParams }: Props) {
       />
       {meeting.isOwn && <WrapUpPrompt />}
       {/* Notes being written or a card being drafted: shown here when they land. */}
-      {hasPendingWork(detail.generation, detail.commands) && <AutoRefresh everyMs={REFRESH_MS} />}
+      {hasPendingWork(detail.generation, detail.commands) && (
+        <AutoRefresh
+          key={pendingWorkKey(detail.generation, detail.commands)}
+          everyMs={REFRESH_MS}
+          stopAfterMs={20 * 60_000}
+          stopMessage="AFK is still working on this meeting. Reload the page to see where it is."
+        />
+      )}
     </div>
   );
 }

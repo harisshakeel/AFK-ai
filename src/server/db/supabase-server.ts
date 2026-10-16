@@ -5,6 +5,8 @@ import { cookies } from "next/headers";
 
 import type { Database } from "@/lib/database.types";
 import { publicEnv } from "@/lib/env";
+import { fetchWithDeadline } from "@/lib/fetch-deadline";
+import { SESSION_COOKIE_OPTIONS } from "@/lib/supabase-cookies";
 
 /**
  * A Supabase client for Server Components, Route Handlers and Server Actions that acts
@@ -18,6 +20,8 @@ export async function createSupabaseServerClient() {
     publicEnv.NEXT_PUBLIC_SUPABASE_URL,
     publicEnv.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
     {
+      cookieOptions: SESSION_COOKIE_OPTIONS,
+      global: { fetch: fetchWithDeadline(10_000) },
       cookies: {
         getAll: () => cookieStore.getAll(),
         setAll: (cookiesToSet) => {

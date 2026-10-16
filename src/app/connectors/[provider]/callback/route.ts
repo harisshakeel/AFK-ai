@@ -9,6 +9,7 @@ import {
   isProvider,
 } from "@/features/connectors/registry";
 import { exchangeSlackCode, SlackError } from "@/features/connectors/slack";
+import { isGoogleUser } from "@/lib/google-user";
 import { callbackUrl, CONNECT_COOKIE, connectorSetup } from "@/server/connectors/config";
 import { storeConnector } from "@/server/connectors/store";
 import { createSupabaseServerClient } from "@/server/db/supabase-server";
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest, context: Context) {
   if (
     !state ||
     !userId ||
-    data.claims.is_anonymous === true ||
+    !isGoogleUser(data.claims) ||
     state.userId !== userId ||
     state.provider !== provider ||
     url.searchParams.get("state") !== state.nonce

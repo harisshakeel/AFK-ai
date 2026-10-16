@@ -37,12 +37,13 @@ export async function POST(_request: Request, context: Context) {
     if (error.code === "42501") return jsonError(404, "That highlight doesn't exist.");
     if (error.code === "23505") {
       // Two overlapping "Share" clicks: the other one made the link; return it.
-      const { data: live } = await visitor.supabase
+      const { data: live, error: liveError } = await visitor.supabase
         .from("share_links")
         .select("token")
         .eq("highlight_id", highlightId)
         .is("revoked_at", null)
         .maybeSingle();
+      if (liveError) return dbFailure("share.read_failed", liveError);
       if (live) return Response.json({ token: live.token });
     }
     return dbFailure("share.create_failed", error);

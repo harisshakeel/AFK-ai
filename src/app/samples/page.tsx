@@ -34,8 +34,13 @@ export default async function SamplesPage({ searchParams }: Props) {
       />
       {meetings.length === 0 && !after ? (
         <div className="rounded-xl border border-dashed border-border-strong p-10 text-center">
-          <p className="font-medium">No sample meetings are loaded</p>
-          <p className="mt-1 text-sm text-fg-muted">The seed import hasn&apos;t run yet.</p>
+          <p className="font-medium">No sample meetings here yet</p>
+          <p className="mt-1 text-sm text-fg-muted">
+            They&apos;re being loaded. Meanwhile, AFK can sit in one of your own calls.
+          </p>
+          <Link href="/send" className={buttonClass("primary", "sm", "mt-4")}>
+            Send AFK to a meeting
+          </Link>
         </div>
       ) : meetings.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border-strong p-10 text-center">

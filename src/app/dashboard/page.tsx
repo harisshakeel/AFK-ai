@@ -13,7 +13,7 @@ import { listUpcomingEvents, type UpcomingEvent } from "@/features/connectors/ca
 import { appReady, connectorApp } from "@/features/connectors/registry";
 import { checklistItems, FirstRunChecklist } from "@/features/meetings/first-run-checklist";
 import { UpcomingMeetings } from "@/features/meetings/upcoming-meetings";
-import { profileSays } from "@/features/memory/files";
+import { EMPTY_SKILLS, profileSays } from "@/features/memory/files";
 import { listTasks } from "@/features/commands/tasks-queries";
 import { afkRecord } from "@/features/meetings/afk-record";
 import { AfkPlayerCard } from "@/features/meetings/afk-player-card";
@@ -21,7 +21,6 @@ import { dashboardRecordInput, emptyRecordInput } from "@/features/meetings/dash
 import { groupByTime } from "@/features/meetings/group-by-time";
 import { MeetingCard, OlderMeetingsLink } from "@/features/meetings/meeting-list";
 import { listMeetings } from "@/features/meetings/meeting-queries";
-import { EMPTY_SKILLS } from "@/features/memory/files";
 import { loadSkillSettings } from "@/features/memory/memory-queries";
 import { formatDuration } from "@/lib/time-rules";
 import { isGoogleSignInEnabled } from "@/server/auth/providers";
@@ -61,27 +60,34 @@ export default async function DashboardPage({ searchParams }: Props) {
   ] = await Promise.all([
     own ? listMeetings("own", { after }) : Promise.resolve({ meetings: [], nextCursor: null }),
     viewer.userId ? dashboardRecordInput(viewer.userId) : Promise.resolve(emptyRecordInput()),
-    viewer.isAnonymous ? isGoogleSignInEnabled() : Promise.resolve(false),
+    viewer.isGuest ? isGoogleSignInEnabled() : Promise.resolve(false),
     // The cards waiting for approval, with what their forms need to fill themselves in.
     own ? listTasks({ status: "proposed" }) : Promise.resolve([]),
     own ? listConnectors() : Promise.resolve([]),
     own ? loadAddressBook() : Promise.resolve([]),
-    own && !viewer.isAnonymous ? loadSkillSettings() : Promise.resolve(EMPTY_SKILLS),
+    own && !viewer.isGuest ? loadSkillSettings() : Promise.resolve(EMPTY_SKILLS),
   ]);
-  // The first-run checklist and the calendar: a few more reads for an owner, none for a visitor.
-  const setup = own ? await firstRun(viewer.isAnonymous, connectors) : null;
-  const calendar =
-    own && viewer.userId && !viewer.isAnonymous ? await upcoming(viewer.userId, connectors) : null;
+  // The first-run checklist and the calendar: a few more reads for an owner, none for a
+  // visitor; both need only the connectors, so they run side by side.
+  const [setup, calendar] = await Promise.all([
+    own ? firstRun(viewer.isGuest, connectors) : Promise.resolve(null),
+    own && viewer.userId && !viewer.isGuest
+      ? upcoming(viewer.userId, connectors)
+      : Promise.resolve(null),
+  ]);
   const groups = groupByTime(meetings, (meeting) => meeting.recordedAt);
   const firstPage = !after;
   const firstName = viewerFirstName(viewer);
   const record = afkRecord(input);
   const openActions = Math.max(0, input.actions - input.doneActions);
+  const spells = input.awaitingApproval === 1 ? "spell" : "spells";
   const numbers = [
     `${input.meetings} ${input.meetings === 1 ? "quest" : "quests"}`,
     `${record.recordedSec > 0 ? formatDuration(record.recordedSec) : "0 min"} played`,
     `${openActions} open ${openActions === 1 ? "side quest" : "side quests"}`,
-    ...(input.awaitingApproval > 0 ? [`${input.awaitingApproval} spells awaiting your cast`] : []),
+    ...(input.awaitingApproval > 0
+      ? [`${input.awaitingApproval} ${spells} awaiting your cast`]
+      : []),
   ];
 
   return (
@@ -95,7 +101,7 @@ export default async function DashboardPage({ searchParams }: Props) {
         </Link>
       }
     >
-      {viewer.isAnonymous && (
+      {viewer.isGuest && (
         <Reveal className="mb-6">
           <GuestNotice signInEnabled={signInEnabled} />
         </Reveal>
@@ -180,9 +186,9 @@ export default async function DashboardPage({ searchParams }: Props) {
             <div className="flex flex-col gap-8">
               {groups.map((group, groupIndex) => (
                 <Reveal key={group.label} delay={0.1 + groupIndex * 0.08} className="contents">
-                  <section aria-labelledby={`period-${group.label}`}>
+                  <section aria-labelledby={`period-${groupIndex}`}>
                     <h2
-                      id={`period-${group.label}`}
+                      id={`period-${groupIndex}`}
                       className="mb-3 font-mono text-[0.7rem] font-medium tracking-[0.14em] text-fg-subtle uppercase"
                     >
                       {group.label}

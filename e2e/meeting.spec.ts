@@ -369,16 +369,22 @@ test.describe("meeting page", () => {
   });
 
   test("a slow meeting shows the page's skeleton while it loads", async ({ page }) => {
-    await page.goto("/samples");
-    const link = page.locator('a[href^="/meetings/bro015"]').first();
-    await expect(link).toBeVisible();
-    // Hold the meeting's data for a moment, as a slow network would.
+    // Hold the meeting's data for a moment, as a slow network would. Only the click's own
+    // request is held: a production build prefetches the loading skeleton as soon as the
+    // link is on screen (a dev server does not), and holding that prefetch too would leave
+    // no skeleton to show.
     await page.route(/\/meetings\/bro015(\?|$)/, async (route) => {
-      if (route.request().headers()["rsc"] === "1") {
+      const headers = route.request().headers();
+      if (headers["rsc"] === "1" && !headers["next-router-prefetch"]) {
         await new Promise((resolve) => setTimeout(resolve, 2_000));
       }
       await route.continue();
     });
+    await page.goto("/samples");
+    const link = page.locator('a[href^="/meetings/bro015"]').first();
+    await expect(link).toBeVisible();
+    // Let any prefetch land first, as it would for someone reading the list.
+    await page.waitForLoadState("networkidle");
     await link.click();
     await expect(page.getByLabel("Loading meeting")).toBeVisible();
     await expect(page.locator('[data-hydrated="true"]')).toBeAttached({ timeout: 45_000 });

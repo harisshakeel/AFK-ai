@@ -7,7 +7,7 @@ import { linkUrl } from "@/features/meeting-link/link-code";
 import { productionOrigin } from "@/lib/env";
 import { googleIdentity, loadSkillSettings } from "@/features/memory/memory-queries";
 import { createSupabaseAdminClient } from "@/server/db/supabase-admin";
-import { jsonError, requireVisitor } from "@/server/http";
+import { dbFailure, jsonError, requireVisitor } from "@/server/http";
 import { log } from "@/server/log";
 
 /**
@@ -22,11 +22,12 @@ export async function POST(_request: Request, context: Context) {
   if (!MEETING_ID.test(meetingId)) return jsonError(404, "Not found.");
   const visitor = await requireVisitor();
   if (!visitor.ok) return visitor.response;
-  const { data: meeting } = await visitor.supabase
+  const { data: meeting, error: meetingError } = await visitor.supabase
     .from("meetings")
     .select("id, owner_id, title, ai_headline, status, host_speaker_code")
     .eq("id", meetingId)
     .maybeSingle();
+  if (meetingError) return dbFailure("meeting.read_failed", meetingError);
   if (!meeting || meeting.owner_id !== visitor.userId) return jsonError(404, "Not found.");
   if (meeting.status !== "ready") return jsonError(409, "The notes aren't written yet.");
 
@@ -45,8 +46,8 @@ export async function POST(_request: Request, context: Context) {
       .select("code, label")
       .eq("meeting_id", meetingId)
       .order("idx"),
-    visitor.isAnonymous ? Promise.resolve(null) : loadSkillSettings(),
-    visitor.isAnonymous
+    visitor.isGuest ? Promise.resolve(null) : loadSkillSettings(),
+    visitor.isGuest
       ? Promise.resolve({ data: null })
       : visitor.supabase
           .from("memory_files")
@@ -59,10 +60,15 @@ export async function POST(_request: Request, context: Context) {
       .eq("meeting_id", meetingId)
       .maybeSingle(),
   ]);
+  // An unread part would send notes with a hole in them, or none: fail instead.
+  // A guest's profile is not read, so it carries no error.
+  const readError =
+    items.error ?? speakers.error ?? link.error ?? ("error" in profile ? profile.error : null);
+  if (readError) return dbFailure("meeting.share_notes_read_failed", readError);
   // The sign-off's "{my name}": the profile's Name line, else the name Google gave us.
   const myName =
     profileNames(profile.data?.content)[0] ??
-    (visitor.isAnonymous ? null : (await googleIdentity()).name);
+    (visitor.isGuest ? null : (await googleIdentity()).name);
   const labelOf = new Map((speakers.data ?? []).map((speaker) => [speaker.code, speaker.label]));
   const rows = items.data ?? [];
   const email = notesEmail({
@@ -111,6 +117,17 @@ export async function POST(_request: Request, context: Context) {
     })
     .select("id")
     .single();
+  if (error?.code === "23505") {
+    // A card for the notes already waits (a second click, another tab): that one.
+    const { data: waiting } = await admin
+      .from("meeting_commands")
+      .select("id")
+      .eq("meeting_id", meetingId)
+      .eq("status", "proposed")
+      .eq("args->>sharedNotes", "true")
+      .maybeSingle();
+    if (waiting) return Response.json({ commandId: waiting.id }, { status: 200 });
+  }
   if (error) {
     if (isTypedCommandCap(error)) return jsonError(429, TYPED_CAP_MESSAGE);
     log.error("meeting.share_notes_failed", new Error(error.code ?? "db_error"), { meetingId });

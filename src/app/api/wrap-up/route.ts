@@ -4,7 +4,7 @@ import { EMPTY_SKILLS } from "@/features/memory/files";
 import { loadSkillSettings } from "@/features/memory/memory-queries";
 import { listConnectors, loadAddressBook } from "@/server/connectors/store";
 import { createSupabaseServerClient } from "@/server/db/supabase-server";
-import { requireVisitor } from "@/server/http";
+import { dbFailure, requireVisitor } from "@/server/http";
 
 /**
  * The wrap-up (docs/data-flows.md §28): the caller's newest meeting whose notes are
@@ -33,7 +33,9 @@ export async function GET() {
   const none = Response.json({ meeting: null }, { headers: { "cache-control": "no-store" } });
 
   let mode: "wrap-up" | "nudge" = "wrap-up";
-  const { data: fresh } = await supabase
+  // A read that fails answers as a failure, never as "nothing waiting": the dialog shows
+  // nothing either way, but the log then says why.
+  const { data: fresh, error: freshError } = await supabase
     .from("meetings")
     .select("id, title, ai_headline, recorded_at, duration_sec")
     .eq("owner_id", visitor.userId)
@@ -43,26 +45,29 @@ export async function GET() {
     .order("recorded_at", { ascending: false, nullsFirst: false })
     .limit(1)
     .maybeSingle();
+  if (freshError) return dbFailure("wrap_up.read_failed", freshError);
   let meeting: MeetingRow | null = fresh;
   if (!meeting) {
     // The nudge: the oldest card that has waited a day, on a meeting not nudged for a day.
     const cutoff = new Date(Date.now() - STALE_MS).toISOString();
     // The oldest stale cards, then their meetings (RLS already keeps both to the caller's).
-    const { data: stale } = await supabase
+    const { data: stale, error: staleError } = await supabase
       .from("meeting_commands")
       .select("meeting_id, created_at")
       .eq("status", "proposed")
       .lt("created_at", cutoff)
       .order("created_at", { ascending: true })
       .limit(20);
+    if (staleError) return dbFailure("wrap_up.read_failed", staleError);
     const meetingIds = [...new Set((stale ?? []).map((row) => row.meeting_id))];
     if (meetingIds.length > 0) {
-      const { data: candidates } = await supabase
+      const { data: candidates, error: candidatesError } = await supabase
         .from("meetings")
         .select("id, title, ai_headline, recorded_at, duration_sec, nudged_at")
         .in("id", meetingIds)
         .eq("owner_id", visitor.userId)
         .or(`nudged_at.is.null,nudged_at.lt.${cutoff}`);
+      if (candidatesError) return dbFailure("wrap_up.read_failed", candidatesError);
       const first = meetingIds.find((id) => candidates?.some((row) => row.id === id));
       const row = candidates?.find((candidate) => candidate.id === first);
       if (row) {
@@ -93,8 +98,9 @@ export async function GET() {
       .order("created_at"),
     listConnectors(),
     loadAddressBook(),
-    visitor.isAnonymous ? Promise.resolve(EMPTY_SKILLS) : loadSkillSettings(),
+    visitor.isGuest ? Promise.resolve(EMPTY_SKILLS) : loadSkillSettings(),
   ]);
+  if (commands.error) return dbFailure("wrap_up.read_failed", commands.error);
   const waiting: TaskRow[] = (commands.data ?? []).map((row) => ({
     ...toCommandView(row),
     meetingId: chosen.id,

@@ -10,6 +10,7 @@ import { Tabs, tabPanelProps } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
 import { cn } from "@/lib/cn";
 import { formatDateTimeUtc } from "@/lib/format-date";
+import { recordOf } from "@/lib/record";
 import { ApiError, visitorFetch } from "@/lib/visitor-api";
 
 import {
@@ -35,7 +36,7 @@ import type { MemoryFileRow } from "./memory-queries";
  */
 type FileState = { content: string; updatedAt: string | null; updatedBy: "you" | "afk" };
 
-/** The six files, plus tools.md rendered from the connectors (requirement M8), read-only. */
+/** The nine files, plus tools.md rendered from the connectors (requirement M8), read-only. */
 type TabKey = MemoryPath | "tools.md";
 
 export function MemoryPage({
@@ -56,23 +57,20 @@ export function MemoryPage({
   const router = useRouter();
   const toast = useToast();
   const [tab, setTab] = useState<TabKey>(initialTab);
-  const [state, setState] = useState<Record<MemoryPath, FileState>>(() => {
-    const initial = {} as Record<MemoryPath, FileState>;
-    for (const path of MEMORY_PATHS) {
+  const [state, setState] = useState<Record<MemoryPath, FileState>>(() =>
+    recordOf(MEMORY_PATHS, (path): FileState => {
       const row = files.find((file) => file.path === path);
-      initial[path] = row
+      return row
         ? { content: row.content, updatedAt: row.updatedAt, updatedBy: row.updatedBy }
         : { content: contextTemplate(path), updatedAt: null, updatedBy: "you" };
-    }
-    return initial;
-  });
-  const [saved, setSaved] = useState<Record<MemoryPath, string>>(() => {
-    const initial = {} as Record<MemoryPath, string>;
-    for (const path of MEMORY_PATHS) {
-      initial[path] = files.find((file) => file.path === path)?.content ?? contextTemplate(path);
-    }
-    return initial;
-  });
+    }),
+  );
+  const [saved, setSaved] = useState<Record<MemoryPath, string>>(() =>
+    recordOf(
+      MEMORY_PATHS,
+      (path) => files.find((file) => file.path === path)?.content ?? contextTemplate(path),
+    ),
+  );
   const [busy, setBusy] = useState(false);
   const [mode, setMode] = useState<"edit" | "preview">("edit");
   // The profile and the skills open as fields; the Markdown is a click away.

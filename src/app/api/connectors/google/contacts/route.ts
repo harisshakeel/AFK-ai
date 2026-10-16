@@ -2,7 +2,7 @@ import { contactsAccess } from "@/features/connectors/registry";
 import { listOtherContacts, listSavedContacts, PeopleError } from "@/features/connectors/people";
 import { createSupabaseAdminClient } from "@/server/db/supabase-admin";
 import { googleAccessForUser, listConnectors } from "@/server/connectors/store";
-import { jsonError, requireUser } from "@/server/http";
+import { dbFailure, jsonError, requireUser } from "@/server/http";
 import { log } from "@/server/log";
 
 /**
@@ -26,27 +26,31 @@ export async function POST() {
   });
   if (!google) return jsonError(409, "Google is not connected. Connect it on this page first.");
 
+  // learn_contacts() is the service role's: it writes the session user's own contacts
+  // (p_owner_id is the visitor's id from requireUser, never a value from the request).
   const admin = createSupabaseAdminClient();
   const counts = { saved: 0, others: 0 };
   try {
     if (access.saved) {
       const people = await listSavedContacts(google.accessToken);
-      const { data } = await admin.rpc("learn_contacts", {
+      const { data, error } = await admin.rpc("learn_contacts", {
         p_owner_id: visitor.userId,
         p_people: people,
         p_source: "google_contacts",
         p_used: false,
       });
+      if (error) return dbFailure("contacts.learn_failed", error);
       counts.saved = data ?? 0;
     }
     if (access.others) {
       const people = await listOtherContacts(google.accessToken);
-      const { data } = await admin.rpc("learn_contacts", {
+      const { data, error } = await admin.rpc("learn_contacts", {
         p_owner_id: visitor.userId,
         p_people: people,
         p_source: "google_other",
         p_used: false,
       });
+      if (error) return dbFailure("contacts.learn_failed", error);
       counts.others = data ?? 0;
     }
   } catch (error) {

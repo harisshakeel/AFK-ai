@@ -21,6 +21,7 @@ import {
   type ConnectorView,
 } from "./registry";
 import type { SlackChannel } from "./slack";
+import { loadSlackChannels } from "./slack-channels";
 
 /**
  * The three app cards (requirements X1, X2): state, what AFK may do, connect or
@@ -185,12 +186,12 @@ function AppCard({
         </dl>
       )}
       {connected && !granted && app.provider === "google" && (
-        <p className="mt-3 text-xs text-warning">
+        <p className="mt-3 text-xs text-warning-strong">
           Google is connected but {app.name} wasn&apos;t allowed. Reconnect and tick it.
         </p>
       )}
       {connector?.status === "expired" && (
-        <p className="mt-3 text-xs text-warning">
+        <p className="mt-3 text-xs text-warning-strong">
           Google no longer accepts AFK&apos;s access. Reconnect.
         </p>
       )}
@@ -302,9 +303,9 @@ function ChannelPicker({ connector }: { connector: ConnectorView }) {
 
   useEffect(() => {
     let cancelled = false;
-    visitorFetch<{ channels: SlackChannel[] }>("/api/connectors/slack/channels", { method: "GET" })
-      .then((result) => {
-        if (!cancelled) setChannels(result.channels);
+    loadSlackChannels()
+      .then((list) => {
+        if (!cancelled) setChannels(list);
       })
       .catch(() => {
         if (!cancelled) setFailed(true);

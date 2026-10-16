@@ -57,7 +57,7 @@ export function SendBotLink() {
  */
 async function AccountArea() {
   const [viewer, signInEnabled] = await Promise.all([getViewer(), isGoogleSignInEnabled()]);
-  if (!viewer.userId || viewer.isAnonymous) {
+  if (!viewer.userId || viewer.isGuest) {
     if (!signInEnabled) return null;
     return (
       <Link href="/sign-in" className={buttonClass("secondary", "sm", "shrink-0")}>

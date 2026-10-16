@@ -54,22 +54,27 @@ export async function POST(request: Request) {
     body.data.skipped || !answered
       ? profileTemplate(identity)
       : profileFromAnswers(identity, answers);
-  // The profile, the three context files and the three skills exist from the start
-  // (requirement M2); the history files are AFK's and appear with its first line.
-  const { error } = await supabase.from("memory_files").insert([
-    { owner_id: userId, path: "profile.md", content },
-    ...MEMORY_PATHS.filter((path) => path.startsWith("context/") || path.startsWith("skills/")).map(
-      (path) => ({
-        owner_id: userId,
-        path,
-        content: contextTemplate(path),
-      }),
-    ),
-  ]);
+  // The profile first, on its own: it is what marks the welcome as done, so no other
+  // file may stop it being written (audit F7: a learn job can have made people.md first).
+  const { error } = await supabase
+    .from("memory_files")
+    .insert({ owner_id: userId, path: "profile.md", content });
   if (error) {
     // Two tabs finishing at once: the first wrote it; that is fine.
     if (error.code === "23505") return Response.json({ ok: true });
     return dbFailure("memory.profile_failed", error);
+  }
+  // The three context files and the three skills exist from the start (requirement M2),
+  // each kept as it is if AFK already wrote it; the history files appear with AFK's
+  // first line. A failure here leaves the profile, and the Memory page shows templates.
+  const { error: filesError } = await supabase.from("memory_files").upsert(
+    MEMORY_PATHS.filter((path) => path.startsWith("context/") || path.startsWith("skills/")).map(
+      (path) => ({ owner_id: userId, path, content: contextTemplate(path) }),
+    ),
+    { onConflict: "owner_id,path", ignoreDuplicates: true },
+  );
+  if (filesError) {
+    log.warn("memory.templates_failed", { userId, code: filesError.code ?? "db_error" });
   }
   log.info("memory.profile_created", { userId, answered });
   return Response.json({ ok: true });

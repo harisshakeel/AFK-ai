@@ -8,6 +8,7 @@ import {
 } from "@/features/connectors/oauth-state";
 import { isProvider } from "@/features/connectors/registry";
 import { slackAuthUrl } from "@/features/connectors/slack";
+import { isGoogleUser } from "@/lib/google-user";
 import { callbackUrl, CONNECT_COOKIE, connectorSetup } from "@/server/connectors/config";
 import { createSupabaseServerClient } from "@/server/db/supabase-server";
 import { log } from "@/server/log";
@@ -28,7 +29,7 @@ export async function GET(request: NextRequest, context: Context) {
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase.auth.getClaims();
   const userId = data?.claims?.sub;
-  if (!userId || data.claims.is_anonymous === true) {
+  if (!userId || !isGoogleUser(data.claims)) {
     return NextResponse.redirect(new URL("/sign-in?next=%2Fconnectors", request.url));
   }
 

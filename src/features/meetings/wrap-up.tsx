@@ -93,7 +93,8 @@ function WrapUpDialog({
 
   const nudge = data.mode === "nudge";
 
-  const later = () => {
+  /** Away for this visit: Later, and the links to the meeting, whose page would ask again. */
+  const awayForVisit = () => {
     try {
       sessionStorage.setItem(snoozeKey(data.mode, meeting.id), "1");
     } catch {
@@ -101,6 +102,10 @@ function WrapUpDialog({
     }
     ref.current?.close();
     onClose();
+  };
+
+  const later = () => {
+    awayForVisit();
     // A nudge sleeps for a day, not just for this visit.
     if (nudge)
       void visitorFetch(`/api/meetings/${meeting.id}/snooze`, { method: "POST" }).catch(() => {});
@@ -188,6 +193,7 @@ function WrapUpDialog({
             Nothing is waiting for your approval from this one.{" "}
             <Link
               href={`/meetings/${meeting.id}`}
+              onClick={awayForVisit}
               className="font-medium text-accent-strong underline"
             >
               Open the notes
@@ -238,7 +244,11 @@ function WrapUpDialog({
         )}
 
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <Link href={`/meetings/${meeting.id}`} className={buttonClass("secondary", "sm")}>
+          <Link
+            href={`/meetings/${meeting.id}`}
+            onClick={awayForVisit}
+            className={buttonClass("secondary", "sm")}
+          >
             Open the meeting
           </Link>
           <div className="flex gap-2">

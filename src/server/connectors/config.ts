@@ -29,11 +29,6 @@ export function connectorSetup(): {
   };
 }
 
-export function providerSetup(provider: Provider): ProviderSetup | null {
-  const setup = connectorSetup();
-  return setup.tokenKey ? setup[provider] : null;
-}
-
 /** The redirect URI registered with the provider: always the site's own origin. */
 export function callbackUrl(provider: Provider): string {
   return new URL(`/connectors/${provider}/callback`, publicEnv.NEXT_PUBLIC_SITE_URL).toString();

@@ -3,14 +3,21 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { buildContentSecurityPolicy, newNonce } from "@/lib/csp";
 import { publicEnv, serverEnv } from "@/lib/env";
+import { fetchWithDeadline } from "@/lib/fetch-deadline";
+import { isGoogleUser } from "@/lib/google-user";
 import { clientAddress, clientKey, READ_LIMITS, readBucketFor } from "@/lib/read-limit";
+import { logLine } from "@/lib/log-line";
+import { isCrossSiteWrite } from "@/lib/same-origin";
+import { SESSION_COOKIE_OPTIONS } from "@/lib/supabase-cookies";
 import type { Database } from "@/lib/database.types";
 import { createAdminClient } from "@/lib/supabase-admin-client";
 
 /**
- * Runs before every page and route (Next 16 proxy, Node runtime). Four jobs, the fourth
+ * Runs before every page and route (Next 16 proxy, Node runtime). Five jobs, the fourth
  * being the welcome flow's sign-in redirect:
  *
+ *   0. Refuse a write another site's page sent (isCrossSiteWrite): a 403 before anything
+ *      runs.
  *   1. Throttle the public read paths (search, share links, media links) per client,
  *      counted in the database so every instance sees the same count. Fails closed.
  *   2. Set the Content-Security-Policy with a fresh nonce. The nonce goes on the request
@@ -26,6 +33,13 @@ export async function proxy(request: NextRequest) {
     supabaseOrigin: new URL(publicEnv.NEXT_PUBLIC_SUPABASE_URL).origin,
     isDev: process.env.NODE_ENV === "development",
   });
+
+  if (isCrossSiteWrite(request.method, request.headers, request.nextUrl.origin)) {
+    return NextResponse.json(
+      { error: "That request came from another site." },
+      { status: 403, headers: { "Content-Security-Policy": csp, "Cache-Control": "no-store" } },
+    );
+  }
 
   const refused = await throttleReads(request, csp);
   if (refused) return refused;
@@ -43,6 +57,9 @@ export async function proxy(request: NextRequest) {
       publicEnv.NEXT_PUBLIC_SUPABASE_URL,
       publicEnv.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
       {
+        cookieOptions: SESSION_COOKIE_OPTIONS,
+        // Every request with a session waits on this: a slow database must not hold it.
+        global: { fetch: fetchWithDeadline(8_000) },
         cookies: {
           getAll: () => request.cookies.getAll(),
           setAll: (cookiesToSet) => {
@@ -57,7 +74,7 @@ export async function proxy(request: NextRequest) {
     );
     // Validates the token and refreshes it when it is close to expiry.
     const { data } = await supabase.auth.getClaims();
-    signedIn = Boolean(data?.claims?.sub) && data?.claims?.is_anonymous !== true;
+    signedIn = Boolean(data?.claims?.sub) && isGoogleUser(data?.claims);
   }
 
   // The welcome flow is for Google users (guest mode: the dashboard, the
@@ -90,21 +107,17 @@ async function throttleReads(request: NextRequest, csp: string): Promise<NextRes
   const bucket = readBucketFor(request.nextUrl.pathname);
   if (!bucket) return null;
   const secret = serverEnv().SUPABASE_SECRET_KEY;
-  const admin = createAdminClient(publicEnv.NEXT_PUBLIC_SUPABASE_URL, secret);
+  // A count that cannot be read in time fails closed below, like a database error.
+  const admin = createAdminClient(publicEnv.NEXT_PUBLIC_SUPABASE_URL, secret, {
+    fetch: fetchWithDeadline(5_000),
+  });
   const { data: allowed, error } = await admin.rpc("note_read_hit", {
     p_bucket: bucket,
     p_key: clientKey(clientAddress(request.headers), secret),
     p_limit: READ_LIMITS[bucket],
   });
   if (error) {
-    console.error(
-      JSON.stringify({
-        level: "error",
-        event: "read_limit.check_failed",
-        bucket,
-        code: error.code,
-      }),
-    );
+    logLine("error", "read_limit.check_failed", { bucket, code: error.code });
     return refuse(request, csp, 503, "AFK can't take that request right now. Try again shortly.");
   }
   if (allowed !== true) {

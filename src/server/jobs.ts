@@ -48,7 +48,8 @@ let adminClient: Db | undefined;
 let claudeRunner: ClaudeRunner | undefined;
 
 function admin(): Db {
-  adminClient ??= createSupabaseAdminClient();
+  // A job's calls can be long (a whole transcript in one statement): two minutes each.
+  adminClient ??= createSupabaseAdminClient({ deadlineMs: 120_000 });
   return adminClient;
 }
 

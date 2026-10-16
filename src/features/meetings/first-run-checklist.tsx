@@ -71,10 +71,12 @@ export function FirstRunChecklist({ items }: { items: ReadonlyArray<ChecklistIte
         {items.map((item) => (
           <li key={item.key} className="flex items-center gap-2.5 text-sm">
             {item.done ? (
-              <Check className="size-4 text-success-strong" aria-label="Done" />
+              <Check className="size-4 text-success-strong" aria-hidden />
             ) : (
-              <Circle className="size-4 text-fg-subtle" aria-label="To do" />
+              <Circle className="size-4 text-fg-subtle" aria-hidden />
             )}
+            {/* Read out before the label: the icon and the strike-through are for the eye. */}
+            <span className="sr-only">{item.done ? "Done:" : "To do:"}</span>
             {item.done ? (
               <span className="text-fg-muted line-through decoration-fg-subtle">{item.label}</span>
             ) : (

@@ -8,6 +8,7 @@ import { buttonClass } from "@/components/ui/button";
 import { cardClass } from "@/components/ui/card";
 import { PageTitle } from "@/components/ui/page-title";
 import {
+  cardError,
   COMMAND_STATUS_LABEL,
   COMMAND_STATUS_TONE,
   resultSummary,
@@ -37,7 +38,7 @@ export default async function TasksPage() {
     own ? listTasks() : Promise.resolve([]),
     own ? listConnectors() : Promise.resolve([]),
     own ? loadAddressBook() : Promise.resolve([]),
-    own && !viewer.isAnonymous ? loadSkillSettings() : Promise.resolve(EMPTY_SKILLS),
+    own && !viewer.isGuest ? loadSkillSettings() : Promise.resolve(EMPTY_SKILLS),
   ]);
   const open = tasks.filter((task) => task.status === "proposed");
   const rest = tasks.filter((task) => task.status !== "proposed");
@@ -129,7 +130,7 @@ function TaskCard({ task }: { task: TaskRow }) {
           {task.status === "done" && resultSummary(task.result) && (
             <p className="mt-1 text-xs text-fg-muted">{resultSummary(task.result)}</p>
           )}
-          {task.error && <p className="mt-1 text-xs text-danger">{task.error}</p>}
+          {cardError(task) && <p className="mt-1 text-xs text-danger">{cardError(task)}</p>}
         </div>
         <Link
           href={href}

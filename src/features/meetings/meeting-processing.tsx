@@ -103,7 +103,8 @@ export function MeetingProcessing({ meeting }: { meeting: MeetingDetail["meeting
       )}
       {!failed && (
         <>
-          <AutoRefresh everyMs={REFRESH_MS} />
+          {/* Steady, as the copy says: a call can run three hours, and its end must show. */}
+          <AutoRefresh everyMs={REFRESH_MS} maxMs={REFRESH_MS} />
           <p className="mt-8 text-sm text-fg-muted">
             This page checks on progress every ten seconds. A bot that never reports back is closed
             after six hours.

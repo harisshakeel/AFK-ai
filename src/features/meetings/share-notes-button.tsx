@@ -29,8 +29,8 @@ export function ShareNotesButton({ meetingId }: { meetingId: string }) {
   return (
     <Button variant="secondary" size="sm" loading={busy} onClick={() => void share()}>
       {!busy && <Share2 aria-hidden />}
-      <span className="hidden sm:inline">Share the notes</span>
-      <span className="sm:hidden">Share</span>
+      <span className="hidden sm:inline">Email the notes</span>
+      <span className="sm:hidden">Email notes</span>
     </Button>
   );
 }

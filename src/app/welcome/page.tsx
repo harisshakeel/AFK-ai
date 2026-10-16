@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { googleIdentity, hasProfile } from "@/features/memory/memory-queries";
 import { WelcomeFlow } from "@/features/memory/welcome-flow";
+import { safeNextPath } from "@/lib/safe-path";
 import { getViewer } from "@/server/auth/viewer";
 
 export const metadata: Metadata = { title: "Welcome", robots: { index: false, follow: false } };
@@ -16,9 +17,9 @@ type Props = { searchParams: Promise<Record<string, string | string[] | undefine
 export default async function WelcomePage({ searchParams }: Props) {
   const params = await searchParams;
   const nextParam = Array.isArray(params.next) ? params.next[0] : params.next;
-  const next = nextParam && /^\/(?!\/)[\w\-/?=&%.]*$/.test(nextParam) ? nextParam : "/dashboard";
+  const next = safeNextPath(nextParam, "/dashboard");
   const viewer = await getViewer();
-  const signedIn = Boolean(viewer.userId && !viewer.isAnonymous);
+  const signedIn = Boolean(viewer.userId && !viewer.isGuest);
   if (!signedIn) {
     if (params.preview === "1") return <WelcomeFlow name={null} next={next} preview />;
     redirect("/sign-in?next=%2Fwelcome");

@@ -6,7 +6,7 @@ import { clientAddress, clientKey } from "@/lib/read-limit";
 import { serverEnv } from "@/lib/env";
 import { sendBot } from "@/server/bots";
 import { inviteesForMeeting } from "@/server/calendar-invitees";
-import { jsonError, readJson, requireVisitor } from "@/server/http";
+import { dbFailure, jsonError, readJson, requireVisitor } from "@/server/http";
 
 /**
  * Send the real bot (requirement F9), now or at a calendar event's time. Anyone may: a
@@ -42,6 +42,11 @@ const REFUSALS = {
   already: [409, "AFK is already scheduled for that meeting."],
   cap_user: [429, "You've sent AFK to five meetings in the last day. Try again tomorrow."],
   cap_site: [503, "AFK's bot is fully booked for today. Try again tomorrow."],
+  // Guests share half of the day's bots (migration 48); a Google user has the rest.
+  cap_guests: [
+    503,
+    "Guests have used today's share of AFK's bot. Continue with Google, or try again tomorrow.",
+  ],
   insert: [500, "AFK couldn't be sent. Try again."],
   https: [503, "The bot can only be sent from the deployed site (https)."],
   provider: [502, "The bot service didn't accept the request. Check the link and try again."],
@@ -66,14 +71,15 @@ export async function POST(request: Request) {
   // The names AFK will know the sender by in the call (sender.ts): the name given on
   // the form, the account's name, and the profile's "Name" and "Name in calls" lines,
   // read as the sender (RLS). A guest has no account name, so the form's is required.
-  if (visitor.isAnonymous && !body.data.senderName) {
+  if (visitor.isGuest && !body.data.senderName) {
     return jsonError(400, "Tell AFK the name you show in the call, so it knows whose words count.");
   }
-  const { data: profile } = await visitor.supabase
+  const { data: profile, error: profileError } = await visitor.supabase
     .from("memory_files")
     .select("content")
     .eq("path", "profile.md")
     .maybeSingle();
+  if (profileError) return dbFailure("bot.profile_read_failed", profileError);
   const names = senderNames([
     body.data.senderName,
     visitor.name,
@@ -95,7 +101,7 @@ export async function POST(request: Request) {
     calendarEventId: body.data.calendarEventId ?? null,
     language: body.data.language ?? null,
     // The people on the invite, when the meeting is on the sender's Google Calendar.
-    invitees: visitor.isAnonymous
+    invitees: visitor.isGuest
       ? []
       : await inviteesForMeeting(visitor.userId, {
           link: link.url,

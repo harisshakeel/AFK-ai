@@ -20,7 +20,7 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
  */
 export default async function HomePage() {
   const viewer = await getViewer();
-  const signedIn = Boolean(viewer.userId && !viewer.isAnonymous);
+  const signedIn = Boolean(viewer.userId && !viewer.isGuest);
   return (
     <div className="theme-light min-h-dvh bg-canvas text-fg">
       <LandingNav />

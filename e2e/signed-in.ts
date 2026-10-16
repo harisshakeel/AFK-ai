@@ -8,9 +8,10 @@ import { transcriptHash } from "../src/features/meetings/transcript-hash";
 /**
  * A signed-in browser for the journeys behind sign-in (dashboard, welcome, memory,
  * tasks). It creates a throwaway email-and-password user through Supabase's admin API
- * with the secret key from .env.local, signs it in with the password grant, writes the
- * session cookie the way @supabase/ssr does, and deletes the user afterwards. Without
- * .env.local (CI, a clean checkout) the caller skips.
+ * with the secret key from .env.local, marks Google among its providers (the app treats
+ * only an identity with Google as a Google user, isGoogleUser()), signs it in with the
+ * password grant, writes the session cookie the way @supabase/ssr does, and deletes the
+ * user afterwards. Without .env.local (CI, a clean checkout) the caller skips.
  */
 type Env = { url: string; publishableKey: string; secretKey: string };
 
@@ -64,6 +65,20 @@ function base64url(text: string) {
   return Buffer.from(text, "utf8").toString("base64url");
 }
 
+/** Whether an access token's app_metadata names Google among the providers. */
+function tokenHasGoogle(token: unknown): boolean {
+  if (typeof token !== "string") return false;
+  try {
+    const claims = JSON.parse(Buffer.from(token.split(".")[1] ?? "", "base64url").toString()) as {
+      app_metadata?: { providers?: unknown };
+    };
+    const providers = claims.app_metadata?.providers;
+    return Array.isArray(providers) && providers.includes("google");
+  } catch {
+    return false;
+  }
+}
+
 /** Users an interrupted run left behind (an hour old or more): removed once per run. */
 let swept: Promise<void> | undefined;
 function sweepStaleTestUsers(env: Env): Promise<void> {
@@ -106,6 +121,16 @@ export async function signInAsNewUser(context: BrowserContext, baseURL: string):
     const deleted = await admin(env, `auth/v1/admin/users/${id}`, { method: "DELETE" });
     if (!deleted.ok) console.warn(`test user ${email} was not deleted (${deleted.status})`);
   };
+  // app_metadata is the server's, written only with the secret key: the same field
+  // Supabase fills in when someone continues with Google.
+  const marked = await admin(env, `auth/v1/admin/users/${id}`, {
+    method: "PUT",
+    json: { app_metadata: { providers: ["email", "google"] } },
+  });
+  if (!marked.ok) {
+    await dispose();
+    throw new Error(`could not mark the test user as a Google user (${marked.status})`);
+  }
 
   const signedIn = await fetch(`${env.url}/auth/v1/token?grant_type=password`, {
     method: "POST",
@@ -117,6 +142,10 @@ export async function signInAsNewUser(context: BrowserContext, baseURL: string):
     throw new Error(`password sign-in failed (${signedIn.status})`);
   }
   const session = (await signedIn.json()) as Record<string, unknown>;
+  if (!tokenHasGoogle(session.access_token)) {
+    await dispose();
+    throw new Error("the test user's token does not name Google among its providers");
+  }
   // The same shape auth-js stores: the token response, base64url-encoded, chunked at 3180.
   const value = `base64-${base64url(JSON.stringify(session))}`;
   const name = cookieName(env.url);

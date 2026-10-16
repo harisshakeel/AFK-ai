@@ -32,11 +32,12 @@ export async function POST(request: Request, context: Context) {
   if (error) return dbFailure("link.change_failed", error);
   if (!done) return jsonError(404, "Not found.");
 
-  const { data: link } = await visitor.supabase
+  const { data: link, error: linkError } = await visitor.supabase
     .from("meeting_links")
     .select("code, pin, enabled")
     .eq("meeting_id", meetingId)
     .maybeSingle();
+  if (linkError) return dbFailure("link.read_failed", linkError);
   log.info("link.changed", { meetingId, action });
   return Response.json({ link });
 }

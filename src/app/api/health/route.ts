@@ -16,6 +16,7 @@ const STALE_QUEUE_SEC = 30 * 60;
 
 export async function GET() {
   const env = serverEnv();
+  // Counts only (queue_status, the last keep-alive): nothing of any user's leaves here.
   const admin = createSupabaseAdminClient();
   const [queue, lastKeepAlive] = await Promise.all([queueStatus(admin), lastCronRun(admin)]);
   const ok = queue !== null && queue.oldestRunnableSec < STALE_QUEUE_SEC;

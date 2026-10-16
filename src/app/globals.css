@@ -45,6 +45,8 @@
   /* Text on the tinted badge backgrounds (success/12, danger/10): the plain tones fall short of 4.5:1 there. */
   --color-success-strong: oklch(40% 0.13 150);
   --color-danger-strong: oklch(45% 0.19 25);
+  /* Warning as text: the plain amber is for icons and tints, about 2.7:1 on white. */
+  --color-warning-strong: oklch(48% 0.12 65);
 
   /* The current transcript line and selection share this so "now" is one colour everywhere. */
   --color-now: oklch(93.5% 0.07 85);
@@ -245,6 +247,7 @@
   --color-on-accent: oklch(15% 0.02 286);
   --color-success-strong: oklch(80% 0.15 150);
   --color-danger-strong: oklch(78% 0.16 25);
+  --color-warning-strong: oklch(82% 0.14 75);
   --color-now: oklch(40% 0.08 85);
   --color-now-strong: oklch(78% 0.14 80);
   --color-match: oklch(48% 0.1 95);
@@ -311,6 +314,8 @@
   --color-on-accent: oklch(99% 0 0);
   --color-success-strong: oklch(40% 0.13 150);
   --color-danger-strong: oklch(45% 0.19 25);
+  /* Warning as text: the plain amber is for icons and tints, about 2.7:1 on white. */
+  --color-warning-strong: oklch(48% 0.12 65);
   --shadow-xs: 0 1px 2px oklch(20% 0.02 60 / 0.06);
   --shadow-raised: 0 1px 2px oklch(20% 0.02 60 / 0.06), 0 8px 24px -8px oklch(20% 0.02 60 / 0.14);
   --shadow-float: 0 2px 4px oklch(20% 0.02 60 / 0.06), 0 20px 48px -16px oklch(20% 0.02 60 / 0.24);

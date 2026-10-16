@@ -20,7 +20,15 @@ export async function DELETE(_request: Request, context: Context) {
   const visitor = await requireUser("Sign in to manage connectors.");
   if (!visitor.ok) return visitor.response;
 
-  const secret = await readSecret(visitor.userId, provider);
+  // A token that cannot be opened (a rotated key, a damaged value, a database hiccup)
+  // only skips the revoke at the provider: disconnecting must always work.
+  const secret = await readSecret(visitor.userId, provider).catch((error: unknown) => {
+    log.warn("connector.secret_unreadable", {
+      provider,
+      error: error instanceof Error ? error.name : "unknown",
+    });
+    return null;
+  });
   if (secret) {
     const revoked =
       provider === "google" ? await revokeGoogleToken(secret) : await revokeSlackToken(secret);

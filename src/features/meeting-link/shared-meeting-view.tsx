@@ -1,7 +1,7 @@
 "use client";
 
 import { FileText, MessageSquareText } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
 import { cn } from "@/lib/cn";
 import { findMatches } from "@/features/transcript/find-matches";
@@ -9,7 +9,7 @@ import { PlayerBar } from "@/features/transcript/player-bar";
 import { TranscriptPanel } from "@/features/transcript/transcript-panel";
 import { useMediaPlayer } from "@/features/transcript/use-media-player";
 import { VideoPane } from "@/features/transcript/video-pane";
-import type { MediaUrl } from "@/server/media/media-url";
+import { useRenewingMedia } from "@/features/meetings/use-renewing-media";
 
 import type { SharedMeetingData } from "./shared-data";
 import { SharedSummary } from "./shared-summary";
@@ -19,12 +19,11 @@ import { SharedSummary } from "./shared-summary";
  * laid out as the meeting page is, with nothing to change: no highlights, no ticks, no
  * tasks. The recording's link is renewed through the link's own media route.
  */
-const RENEW_AHEAD_MS = 2 * 60_000;
 
 export function SharedMeetingView({ code, data }: { code: string; data: SharedMeetingData }) {
   const { turns, speakers, items } = data;
   const durationSec = data.meeting.durationSec;
-  const [media, setMedia] = useState<MediaUrl | null>(data.media);
+  const { media, renew } = useRenewingMedia(data.media, `/api/m/${code}/media`);
   const player = useMediaPlayer({ hasSource: media !== null, durationSec, initialTimeSec: 0 });
   const { playhead, seek, play } = player;
 
@@ -52,25 +51,6 @@ export function SharedMeetingView({ code, data }: { code: string; data: SharedMe
           ),
     [speakerFilter, speakers],
   );
-
-  // The recording's link lasts thirty minutes: a fresh one is fetched before it ends,
-  // and on demand when playback fails.
-  const renew = useCallback(async () => {
-    try {
-      const response = await fetch(`/api/m/${code}/media`, { cache: "no-store" });
-      if (!response.ok) return;
-      const next = (await response.json()) as MediaUrl;
-      setMedia(next);
-    } catch {
-      // Left as it is; the player's own retry asks again.
-    }
-  }, [code]);
-  useEffect(() => {
-    if (!media) return;
-    const wait = new Date(media.expiresAt).getTime() - Date.now() - RENEW_AHEAD_MS;
-    const timer = setTimeout(() => void renew(), Math.max(wait, 5_000));
-    return () => clearTimeout(timer);
-  }, [media, renew]);
 
   const playFrom = useCallback(
     (sec: number) => {

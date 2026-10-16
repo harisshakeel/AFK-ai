@@ -28,7 +28,8 @@ export async function GET(request: Request) {
   const refused = requireCronSecret(request);
   if (refused) return refused;
   // The keep-alive is our own server task, not a visitor's request.
-  const admin = createSupabaseAdminClient();
+  // The sweeps and purges touch every stale row in one statement: two minutes each.
+  const admin = createSupabaseAdminClient({ deadlineMs: 120_000 });
   const { count, error } = await admin
     .from("meetings")
     .select("id", { count: "exact", head: true });

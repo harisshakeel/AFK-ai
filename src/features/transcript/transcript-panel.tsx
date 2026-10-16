@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { inputClass } from "@/components/ui/input";
 import { SpeakerMark } from "@/components/ui/speaker-mark";
 import { cn } from "@/lib/cn";
+import { escapeRegExp } from "@/lib/regexp";
 
 import { usePlayheadDerived, type Playhead } from "@/lib/playhead";
 import { speakerStyle, type Speaker, indexSpeakers } from "@/lib/speakers";
@@ -351,10 +352,6 @@ export function TranscriptPanel(props: Props) {
       )}
     </section>
   );
-}
-
-function escapeRegExp(text: string) {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 const TurnRow = memo(function TurnRow({

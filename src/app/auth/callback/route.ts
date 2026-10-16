@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { isGoogleUser } from "@/lib/google-user";
+import { safeNextPath } from "@/lib/safe-path";
 import { createSupabaseServerClient } from "@/server/db/supabase-server";
 import { log } from "@/server/log";
 import { hasProfile } from "@/features/memory/memory-queries";
@@ -11,8 +13,7 @@ import { hasProfile } from "@/features/memory/memory-queries";
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
-  const nextParam = url.searchParams.get("next") ?? "/";
-  const next = /^\/(?!\/)[\w\-/?=&%.]*$/.test(nextParam) ? nextParam : "/";
+  const next = safeNextPath(url.searchParams.get("next"), "/");
 
   if (code) {
     const supabase = await createSupabaseServerClient();
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest) {
     if (!error) {
       // First sign-in: no profile yet, so the welcome flow comes first (requirement M10).
       const { data } = await supabase.auth.getClaims();
-      if (data?.claims?.sub && data.claims.is_anonymous !== true) {
+      if (data?.claims?.sub && isGoogleUser(data.claims)) {
         if (!(await hasProfile())) {
           return NextResponse.redirect(
             new URL(`/welcome?next=${encodeURIComponent(next)}`, url.origin),
@@ -33,17 +34,11 @@ export async function GET(request: NextRequest) {
   }
 
   // Linking Google to an anonymous visitor fails when that Google account already has an
-  // AFK identity (the owner signing in from a second browser). Drop the anonymous
-  // session and let them sign straight in to the existing one.
-  // Only after a real OAuth round trip: the PKCE verifier cookie proves this browser
-  // started the sign-in, so a link from another site cannot sign a visitor out.
-  const errorCode = url.searchParams.get("error_code");
-  const startedHere = request.cookies
-    .getAll()
-    .some((cookie) => cookie.name.startsWith("sb-") && cookie.name.endsWith("-code-verifier"));
-  if (errorCode === "identity_already_exists" && startedHere) {
-    const supabase = await createSupabaseServerClient();
-    await supabase.auth.signOut();
+  // AFK identity (the owner signing in from a second browser). The sign-in page says so
+  // and signs straight in to the existing one when the visitor clicks. Nothing is done
+  // here: this is a GET anyone can link to, and signing out from it would let another
+  // site end a visitor's session (for a guest, the whole workspace) with one link.
+  if (url.searchParams.get("error_code") === "identity_already_exists") {
     log.info("auth.link_conflict");
     return NextResponse.redirect(new URL("/sign-in?error=linked", url.origin));
   }

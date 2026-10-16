@@ -1,6 +1,7 @@
 import { after } from "next/server";
 
 import {
+  botMetadataSchema,
   createAttendeeClient,
   interpretStateChange,
   liveUtteranceSchema,
@@ -14,8 +15,9 @@ import {
   heardAcknowledgement,
   LIVE_FALLBACK_MESSAGE,
 } from "@/features/commands/live";
-import { matchesSender } from "@/features/commands/sender";
+import { isLiveSender, matchesSender } from "@/features/commands/sender";
 import { serverEnv } from "@/lib/env";
+import { adoptOrphanBot } from "@/server/bots";
 import { createSupabaseAdminClient } from "@/server/db/supabase-admin";
 import { jsonError } from "@/server/http";
 import { kickJobs } from "@/server/jobs";
@@ -47,6 +49,9 @@ const LIVE_FALLBACK_AFTER_MS = 20_000;
 /** Said once per meeting, the first time someone other than the sender addresses AFK. */
 const NOT_SENDER_MESSAGE =
   "Only the person who sent AFK to this call can give it commands. Everything is still being written up.";
+/** Said instead when two people here go by the sender's name (audit F2). */
+const TIE_MESSAGE =
+  "Two people in this call go by the name of the person who sent AFK, so it is taking no commands live. Everything is still being written up.";
 
 export async function POST(request: Request) {
   const env = serverEnv();
@@ -74,6 +79,8 @@ export async function POST(request: Request) {
   const { bot_id: botId } = envelope.data;
   // Every write below is the webhook's own server decision, keyed by the bot id.
   const admin = createSupabaseAdminClient();
+  // The meeting the bot was made for: how a bot whose id never reached its row is found.
+  const madeFor = botMetadataSchema.safeParse(envelope.data.bot_metadata).data?.meetingId;
 
   if (envelope.data.trigger === "transcript.update") {
     const utterance = liveUtteranceSchema.safeParse(envelope.data.data);
@@ -81,37 +88,75 @@ export async function POST(request: Request) {
     if (!utterance.success || !text) return Response.json({ ignored: true });
     // Only the person who sent AFK is listened to (sender.ts): a speaker whose name is
     // one the sender is known by. The platform's host flag marks the organiser instead.
-    const { data: meeting } = await admin
-      .from("meetings")
-      .select("id, sender_names, refusal_noticed_at")
-      .eq("bot_id", botId)
-      .in("status", ["requested", "recording"])
-      .maybeSingle();
-    const isHost = matchesSender(utterance.data.speaker_name ?? "", meeting?.sender_names ?? []);
+    const readMeeting = () =>
+      admin
+        .from("meetings")
+        .select("id, sender_names, refusal_noticed_at, tie_noticed_at")
+        .eq("bot_id", botId)
+        .in("status", ["requested", "recording"])
+        .maybeSingle();
+    let { data: meeting, error: meetingError } = await readMeeting();
+    if (!meetingError && !meeting && madeFor) {
+      if ((await adoptOrphanBot(botId, madeFor)) === "attached") {
+        ({ data: meeting, error: meetingError } = await readMeeting());
+      }
+    }
+    // Unread, the sender would be taken for a stranger and a question lost; a 500 lets
+    // Attendee deliver it again, and the utterance's key keeps the retry from counting twice.
+    if (meetingError) {
+      log.error("webhook.meeting_read_failed", new Error(meetingError.code ?? "db_error"), {
+        botId,
+      });
+      return jsonError(500, "Try again.");
+    }
+    const label = utterance.data.speaker_name ?? "";
+    const names = meeting?.sender_names ?? [];
+    const named = matchesSender(label, names);
+    // Another speaker heard under a second matching name is a tie, and a tie is nobody
+    // (audit F2). Asked only when the line speaks to AFK, the one time it matters.
+    let tied = false;
+    if (named && meeting && hasWakeWord(text)) {
+      const { data: heardNames, error: heardError } = await admin.rpc("live_speaker_names", {
+        p_meeting_id: meeting.id,
+      });
+      if (heardError) {
+        log.error("webhook.speakers_read_failed", new Error(heardError.code ?? "db_error"), {
+          botId,
+        });
+        return jsonError(500, "Try again.");
+      }
+      tied = !isLiveSender(label, heardNames ?? [], names);
+      if (tied) log.info("webhook.live_tie", { botId });
+    }
+    const isHost = named && !tied;
     const command = isHost ? detectLiveCommand(text) : null;
     const heard = isHost && !command ? heardAcknowledgement(text) : null;
-    const senderKnown = (meeting?.sender_names ?? []).length > 0;
-    if (
-      meeting &&
-      senderKnown &&
-      !isHost &&
-      meeting.refusal_noticed_at === null &&
-      hasWakeWord(text)
-    ) {
-      const { data: noticed } = await admin
-        .from("meetings")
-        .update({ refusal_noticed_at: new Date().toISOString() })
-        .eq("id", meeting.id)
-        .is("refusal_noticed_at", null)
-        .select("id")
-        .maybeSingle();
+    // Each notice is said once per meeting, under its own flag: a stranger told earlier
+    // must not silence the tie's explanation.
+    const tieNotice = tied && meeting?.tie_noticed_at === null;
+    const strangerNotice = !named && meeting?.refusal_noticed_at === null;
+    if (meeting && names.length > 0 && (tieNotice || strangerNotice) && hasWakeWord(text)) {
+      const at = new Date().toISOString();
+      const flagged = tieNotice
+        ? admin
+            .from("meetings")
+            .update({ tie_noticed_at: at })
+            .eq("id", meeting.id)
+            .is("tie_noticed_at", null)
+        : admin
+            .from("meetings")
+            .update({ refusal_noticed_at: at })
+            .eq("id", meeting.id)
+            .is("refusal_noticed_at", null);
+      const { data: noticed } = await flagged.select("id").maybeSingle();
+      const refusal = tieNotice ? TIE_MESSAGE : NOT_SENDER_MESSAGE;
       if (noticed && env.ATTENDEE_API_KEY) {
         const apiKey = env.ATTENDEE_API_KEY;
         after(async () => {
           try {
             await createAttendeeClient({ apiKey, baseUrl: env.ATTENDEE_API_URL }).sendChatMessage(
               botId,
-              NOT_SENDER_MESSAGE,
+              refusal,
             );
             log.info("webhook.live_refused", { botId });
           } catch (noticeError) {
@@ -148,7 +193,8 @@ export async function POST(request: Request) {
       kind: command?.kind ?? heard?.kind ?? "none",
       queued: row.command_id !== null,
     });
-    if (heard && row.meeting_id && env.ATTENDEE_API_KEY) {
+    // A redelivered line was acknowledged the first time.
+    if (heard && row.meeting_id && !row.duplicate && env.ATTENDEE_API_KEY) {
       const apiKey = env.ATTENDEE_API_KEY;
       after(async () => {
         try {
@@ -199,6 +245,9 @@ export async function POST(request: Request) {
     return Response.json({ ok: true });
   }
 
+  // A bot no row knows yet takes its id, or is taken back, before its event is read:
+  // its first events (joining) would otherwise be ignored while it records.
+  if (madeFor) await adoptOrphanBot(botId, madeFor);
   const event = interpretStateChange(envelope.data);
   if (event.outcome === "ignore") return Response.json({ ignored: true });
 

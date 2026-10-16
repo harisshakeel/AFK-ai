@@ -1,6 +1,7 @@
 import { ArrowLeft, Info } from "lucide-react";
 import Link from "next/link";
 
+import { buttonClass } from "@/components/ui/button";
 import { SpeakerMark } from "@/components/ui/speaker-mark";
 import { DeleteMeetingButton } from "@/features/meetings/delete-meeting-button";
 import { LinkPanel } from "@/features/meeting-link/link-panel";
@@ -40,7 +41,7 @@ export function MeetingHeader({
   const session = typeof source?.session === "string" ? source.session : null;
   return (
     <header className="border-b border-border bg-surface px-4 pt-3 pb-3 sm:px-6">
-      <div className="flex items-start gap-3">
+      <div className="flex flex-wrap items-start gap-3">
         <Link
           href={isOwn ? "/dashboard" : "/samples"}
           className="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg"
@@ -72,9 +73,24 @@ export function MeetingHeader({
             </p>
           )}
         </div>
-        {isOwn && link && <LinkPanel meetingId={meetingId} link={link} />}
-        {isOwn && <ShareNotesButton meetingId={meetingId} />}
-        {isOwn && <DeleteMeetingButton meetingId={meetingId} title={title} />}
+        {isOwn && (
+          // A row of its own under the title on a phone, where three buttons beside it
+          // would leave the title no room; beside it from the small breakpoint up.
+          <div className="flex w-full items-center gap-2 pl-11 sm:w-auto sm:pl-0">
+            {link && <LinkPanel meetingId={meetingId} link={link} />}
+            <ShareNotesButton meetingId={meetingId} />
+            <DeleteMeetingButton meetingId={meetingId} title={title} />
+          </div>
+        )}
+        {!isOwn && (
+          // A sample is where the landing sends people; this is the journey's next step.
+          // Its own row under the title on a phone, as the owner's actions are.
+          <div className="w-full pl-11 sm:w-auto sm:pl-0">
+            <Link href="/send" className={buttonClass("primary", "sm")}>
+              Send AFK to your call
+            </Link>
+          </div>
+        )}
         <ul className="hidden shrink-0 -space-x-1.5 md:flex" aria-label="Speakers">
           {speakers.map((speaker, index) => (
             <li key={speaker.code} style={speakerStyle(index)} title={speaker.label}>

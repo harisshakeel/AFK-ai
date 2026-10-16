@@ -28,7 +28,7 @@ export default async function SendPage() {
   const env = serverEnv();
   const botConfigured = Boolean(env.ATTENDEE_API_KEY && env.ATTENDEE_WEBHOOK_SECRET);
   const mode = botConfigured ? "live" : "unconfigured";
-  const guest = viewer.isAnonymous;
+  const guest = viewer.isGuest;
 
   return (
     <Chrome>

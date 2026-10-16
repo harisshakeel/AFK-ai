@@ -1,7 +1,7 @@
-import { AttendeeError, createAttendeeClient } from "@/features/capture/attendee";
+import { botAlreadyGone, createAttendeeClient } from "@/features/capture/attendee";
 import { serverEnv } from "@/lib/env";
 import { createSupabaseAdminClient } from "@/server/db/supabase-admin";
-import { jsonError, requireVisitor } from "@/server/http";
+import { dbFailure, jsonError, requireVisitor } from "@/server/http";
 import { log } from "@/server/log";
 import { MEETING_ID } from "@/features/meetings/meeting-file-schema";
 
@@ -22,11 +22,12 @@ export async function DELETE(_request: Request, context: Context) {
   if (!visitor.ok) return visitor.response;
 
   // Read as the visitor: only the owner's own meetings are found; seed meetings never are.
-  const { data: meeting } = await visitor.supabase
+  const { data: meeting, error: meetingError } = await visitor.supabase
     .from("meetings")
     .select("id, owner_id, status, bot_id")
     .eq("id", meetingId)
     .maybeSingle();
+  if (meetingError) return dbFailure("meeting.read_failed", meetingError);
   if (!meeting || meeting.owner_id !== visitor.userId) return jsonError(404, "Not found.");
 
   const env = serverEnv();
@@ -40,7 +41,7 @@ export async function DELETE(_request: Request, context: Context) {
     try {
       await attendee.deleteBot(botId);
     } catch (error) {
-      const gone = error instanceof AttendeeError && error.status >= 400 && error.status < 500;
+      const gone = botAlreadyGone(error);
       log.warn("meeting.delete_scheduled_failed", {
         meetingId,
         error: error instanceof Error ? error.name : "unknown",
@@ -56,7 +57,7 @@ export async function DELETE(_request: Request, context: Context) {
       await attendee.leaveBot(botId);
     } catch (error) {
       // A bot that already left answers 4xx; anything else means it may still be there.
-      const gone = error instanceof AttendeeError && error.status >= 400 && error.status < 500;
+      const gone = botAlreadyGone(error);
       log.warn("meeting.delete_leave_failed", {
         meetingId,
         error: error instanceof Error ? error.name : "unknown",

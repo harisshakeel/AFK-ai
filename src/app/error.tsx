@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonClass } from "@/components/ui/button";
 
 // Root error boundary. Next.js renders this when a route throws; `retry` fetches the
 // segment again (`reset` only re-renders the stale result, so it isn't used).
@@ -27,9 +28,15 @@ export default function RootError({
       <p className="mt-3 max-w-prose text-fg-muted">
         Try again; if it keeps failing, the meeting data may be temporarily unavailable.
       </p>
-      <Button variant="primary" onClick={() => retry()} className="mt-8">
-        Try again
-      </Button>
+      {/* A way on when retrying keeps failing. */}
+      <div className="mt-8 flex flex-wrap justify-center gap-2">
+        <Button variant="primary" onClick={() => retry()}>
+          Try again
+        </Button>
+        <Link href="/samples" className={buttonClass("secondary")}>
+          Open the sample meetings
+        </Link>
+      </div>
     </main>
   );
 }

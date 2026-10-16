@@ -22,11 +22,12 @@ export async function PATCH(request: Request, context: Context) {
   const body = await readJson(request, patchSchema);
   if (!body.ok) return body.response;
 
-  const { data: current } = await visitor.supabase
+  const { data: current, error: currentError } = await visitor.supabase
     .from("highlights")
     .select("start_sec, end_sec, meetings(duration_sec)")
     .eq("id", highlightId)
     .maybeSingle();
+  if (currentError) return dbFailure("highlight.read_failed", currentError);
   if (!current?.meetings?.duration_sec) return jsonError(404, "That highlight doesn't exist.");
 
   const clip = normaliseClip(

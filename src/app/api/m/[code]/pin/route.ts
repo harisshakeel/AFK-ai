@@ -37,6 +37,8 @@ export async function POST(request: Request, context: Context) {
 
   const env = serverEnv();
   const key = clientKey(clientAddress(request.headers), env.SUPABASE_SECRET_KEY);
+  // open_meeting_link() is the service role's: a PIN holder has no session, and the
+  // function itself checks the code, the PIN and the tries before it names a meeting.
   const admin = createSupabaseAdminClient();
   const { data, error } = await admin.rpc("open_meeting_link", {
     p_code: code,

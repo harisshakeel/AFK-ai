@@ -10,15 +10,17 @@ import { cn } from "@/lib/cn";
  * The signed-in app's navigation: a vertical list in the lavender sidebar on wide screens (the
  * current section a white pill) and a
  * scrolling strip under the top bar on narrow ones. The current section is marked for
- * the eye and for assistive tech (aria-current).
+ * the eye and for assistive tech (aria-current). Each game word carries the plain name
+ * the pages and their copy use ("the Memory page") beside it, in both layouts: a tooltip
+ * would never show on a phone.
  */
 export const APP_NAV = [
-  { href: "/dashboard", label: "Quests", icon: Video },
-  { href: "/tasks", label: "Spells", icon: ListChecks },
-  { href: "/memory", label: "Lore", icon: BookOpen },
-  { href: "/connectors", label: "Loadout", icon: Plug },
-  { href: "/samples", label: "Tutorial", icon: Library },
-  { href: "/send", label: "Summon AFK", icon: Send },
+  { href: "/dashboard", label: "Quests", plain: "Meetings", icon: Video },
+  { href: "/tasks", label: "Spells", plain: "Tasks", icon: ListChecks },
+  { href: "/memory", label: "Lore", plain: "Memory", icon: BookOpen },
+  { href: "/connectors", label: "Loadout", plain: "Connectors", icon: Plug },
+  { href: "/samples", label: "Tutorial", plain: "Samples", icon: Library },
+  { href: "/send", label: "Summon AFK", plain: "Send AFK", icon: Send },
 ] as const;
 
 export function AppNav({
@@ -39,7 +41,7 @@ export function AppNav({
           : "flex gap-1 overflow-x-auto border-b border-border px-3 py-2",
       )}
     >
-      {APP_NAV.map(({ href, label, icon: Icon }) => {
+      {APP_NAV.map(({ href, label, plain, icon: Icon }) => {
         const current = pathname === href || pathname.startsWith(`${href}/`);
         const waiting = badges[href];
         const badge = waiting?.count ?? 0;
@@ -49,7 +51,7 @@ export function AppNav({
             key={href}
             href={href}
             aria-current={current ? "page" : undefined}
-            title={label}
+            title={`${label}: ${plain}`}
             className={cn(
               "inline-flex shrink-0 items-center gap-2.5 rounded-full text-sm font-medium transition-colors",
               layout === "sidebar" ? "sidebar-link h-9 px-3.5" : "h-8 px-3.5",
@@ -63,7 +65,9 @@ export function AppNav({
             )}
           >
             <Icon className="size-4" aria-hidden />
-            <span className={layout === "sidebar" ? "sidebar-label" : undefined}>{label}</span>
+            <span className={layout === "sidebar" ? "sidebar-label" : undefined}>
+              {label} <span className="ml-1 text-xs font-normal text-fg-muted">{plain}</span>
+            </span>
             {badge > 0 && (
               <span
                 className="ml-auto rounded-full bg-warning/20 px-1.5 py-0.5 font-mono text-[0.65rem] leading-none text-fg"

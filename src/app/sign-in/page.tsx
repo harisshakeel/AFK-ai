@@ -22,7 +22,7 @@ type Props = { searchParams: Promise<Record<string, string | string[] | undefine
  */
 export default async function SignInPage({ searchParams }: Props) {
   const [viewer, signInEnabled] = await Promise.all([getViewer(), isGoogleSignInEnabled()]);
-  if (viewer.userId && !viewer.isAnonymous) redirect("/dashboard");
+  if (viewer.userId && !viewer.isGuest) redirect("/dashboard");
   const { error } = await searchParams;
 
   return (
@@ -43,7 +43,8 @@ export default async function SignInPage({ searchParams }: Props) {
         </p>
         {error === "linked" ? (
           <p role="status" className="mt-5 rounded-lg bg-accent-soft px-3 py-2 text-sm">
-            That Google account already has an AFK sign-in. Continue to use it.
+            That Google account already has an AFK workspace. Continue to open it; what you made
+            here as a guest stays behind and won&apos;t come with you.
           </p>
         ) : (
           error && (
@@ -57,9 +58,11 @@ export default async function SignInPage({ searchParams }: Props) {
             <div className="mt-6">
               <GoogleSignInButton linkAnonymous={error !== "linked"} />
             </div>
-            <p className="mt-4 text-xs leading-relaxed text-fg-subtle">
-              Everything you made as a guest comes with you.
-            </p>
+            {error !== "linked" && (
+              <p className="mt-4 text-xs leading-relaxed text-fg-subtle">
+                Everything you made as a guest comes with you.
+              </p>
+            )}
           </>
         ) : (
           <p

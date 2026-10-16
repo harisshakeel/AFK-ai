@@ -5,6 +5,7 @@ import { timingSafeEqual } from "node:crypto";
 import type { z } from "zod";
 
 import { serverEnv } from "@/lib/env";
+import { isGoogleUser, nameFromMetadata } from "@/lib/google-user";
 import { createSupabaseServerClient } from "@/server/db/supabase-server";
 import { log } from "@/server/log";
 
@@ -68,17 +69,14 @@ export async function requireVisitor({ countWrite = true }: { countWrite?: boole
       };
     }
   }
-  const meta = (data.claims.user_metadata ?? {}) as Record<string, unknown>;
-  const name = [meta.full_name, meta.name].find(
-    (value): value is string => typeof value === "string" && value.trim().length > 0,
-  );
   return {
     ok: true as const,
     supabase,
     userId,
     /** The Google name, as getViewer() reads it; routes that act in a call need it. */
-    name: name?.trim() ?? null,
-    isAnonymous: data.claims.is_anonymous === true,
+    name: nameFromMetadata(data.claims.user_metadata),
+    /** A guest: no Google identity (isGoogleUser). */
+    isGuest: !isGoogleUser(data.claims),
   };
 }
 
@@ -89,7 +87,7 @@ export async function requireVisitor({ countWrite = true }: { countWrite?: boole
 export async function requireUser(message: string, options: { countWrite?: boolean } = {}) {
   const visitor = await requireVisitor(options);
   if (!visitor.ok) return visitor;
-  if (visitor.isAnonymous) return { ok: false as const, response: jsonError(403, message) };
+  if (visitor.isGuest) return { ok: false as const, response: jsonError(403, message) };
   return visitor;
 }
 
@@ -123,5 +121,3 @@ export function dbFailure(event: string, error: { code?: string; message: string
     return jsonError(400, "Those values aren't allowed.");
   return jsonError(500, "Something went wrong saving that. Try again.");
 }
-
-export const uuidSchemaMessage = "Not found.";

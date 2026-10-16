@@ -73,9 +73,10 @@ export default function PrivacyPage() {
         </h1>
         <p className="mt-4 text-sm text-fg-subtle">Last updated 16 October 2026.</p>
         <div className="mt-10 flex flex-col gap-10">
-          {SECTIONS.map((section) => (
-            <section key={section.title} aria-labelledby={section.title}>
-              <h2 id={section.title} className="text-[1.15rem] font-semibold tracking-tight">
+          {SECTIONS.map((section, index) => (
+            // An id is one token: a title with spaces would name no element.
+            <section key={section.title} aria-labelledby={`privacy-${index}`}>
+              <h2 id={`privacy-${index}`} className="text-[1.15rem] font-semibold tracking-tight">
                 {section.title}
               </h2>
               {section.body.map((paragraph) => (

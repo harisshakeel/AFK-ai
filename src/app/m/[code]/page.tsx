@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { buttonClass } from "@/components/ui/button";
 import { Wordmark } from "@/components/ui/logo";
 import { isLinkCode } from "@/features/meeting-link/link-code";
 import { grantCookieName, verifyGrant } from "@/features/meeting-link/link-grant";
@@ -56,6 +57,9 @@ export default async function MeetingLinkPage({ params }: Props) {
             The person who shared it has turned the link off, or the meeting is gone. Ask them for a
             new link.
           </p>
+          <Link href="/samples" className={buttonClass("secondary", "sm", "mt-6")}>
+            See what AFK does with a sample meeting
+          </Link>
         </div>
       </Frame>
     );

@@ -4,7 +4,7 @@ import { WaveLoader } from "@/components/ui/wave-loader";
 import { Check, CircleAlert, Info } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore, type FormEvent } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 
 import { Button, buttonClass } from "@/components/ui/button";
 import { inputClass } from "@/components/ui/input";
@@ -62,12 +62,15 @@ export function SendBotForm({
   const [chosen, setChosen] = useState<CallLanguage | null>(null);
   const language: CallLanguage = chosen ?? saved ?? "multi";
   const [touched, setTouched] = useState(false);
+  // Send pressed: an empty link is then an error too, not only a malformed one.
+  const [attempted, setAttempted] = useState(false);
+  const linkRef = useRef<HTMLInputElement | null>(null);
   const [state, setState] = useState<"idle" | "sending" | "error" | "demo">("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [demoStep, setDemoStep] = useState(0);
 
   const parsed = parseMeetingUrl(link);
-  const showError = touched && link.trim() !== "" && !parsed.ok;
+  const showError = !parsed.ok && (attempted || (touched && link.trim() !== ""));
   // A guest has no account name for AFK to listen for; the one typed here is it.
   const nameMissing = guest && senderName.trim().length < 2;
 
@@ -87,9 +90,8 @@ export function SendBotForm({
     return () => clearTimeout(timer);
   }, [state, demoStep]);
 
+  // The demo sends nothing, so it needs no link.
   const demo = () => {
-    setTouched(true);
-    if (!parsed.ok) return;
     setDemoStep(0);
     setMessage(null);
     setState("demo");
@@ -98,7 +100,12 @@ export function SendBotForm({
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setTouched(true);
-    if (!parsed.ok || nameMissing || mode === "unconfigured") return;
+    setAttempted(true);
+    if (!parsed.ok) {
+      linkRef.current?.focus();
+      return;
+    }
+    if (nameMissing || mode === "unconfigured") return;
     setState("sending");
     setMessage(null);
     try {
@@ -154,6 +161,7 @@ export function SendBotForm({
             Meeting link
           </label>
           <input
+            ref={linkRef}
             id="meeting-link"
             type="url"
             inputMode="url"

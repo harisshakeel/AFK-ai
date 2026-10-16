@@ -22,6 +22,12 @@ export default defineConfig([
     rules: {
       // Unexplained `any` and unsafe assertions defeat strict mode. Explain any exception inline.
       "@typescript-eslint/no-explicit-any": "error",
+      // An object literal asserted to a type skips the excess-property and missing-field
+      // checks a declared type gives; declare it (`const x: T = {...}`) instead.
+      "@typescript-eslint/consistent-type-assertions": [
+        "error",
+        { assertionStyle: "as", objectLiteralTypeAssertions: "never" },
+      ],
       "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
       "@typescript-eslint/no-unused-vars": [
         "error",

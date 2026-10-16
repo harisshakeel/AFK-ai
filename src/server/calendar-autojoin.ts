@@ -14,9 +14,10 @@ import { sendBot } from "./bots";
 /**
  * Calendar auto-join, run by the daily keep-alive: for every Google user
  * whose profile says "AFK joins my calendar meetings: yes" and whose Google connection
- * allows the calendar, the meetings of the next thirty-six hours with a video link get
- * a scheduled bot, one per event (the database refuses a second). The caps still
- * apply, so a day with six meetings schedules five. Counts only in the log.
+ * allows the calendar, the meetings of the next thirty-six hours with a video link that
+ * the owner organised or accepted get a scheduled bot, one per event (the database
+ * refuses a second). The caps still apply, so a day with six meetings schedules five.
+ * Counts only in the log.
  */
 const LOOK_AHEAD_MS = 36 * 60 * 60 * 1000;
 const MAX_PER_RUN = 20;
@@ -59,6 +60,9 @@ export async function autoJoinFromCalendars(
       const names = profileNames(row.content);
       for (const event of events) {
         if (scheduled >= MAX_PER_RUN) break;
+        // Only meetings the owner organised or accepted: anyone can send an invite, and
+        // AFK would otherwise join a stranger's call under the owner's name.
+        if (!event.accepted) continue;
         const outcome = await sendBot({
           ownerId: row.owner_id,
           link: { url: event.link, platform: event.platform },

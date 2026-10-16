@@ -27,7 +27,7 @@ import { findMatches } from "@/features/transcript/find-matches";
 import { TranscriptPanel, type TranscriptTurn } from "@/features/transcript/transcript-panel";
 import { useMediaPlayer } from "@/features/transcript/use-media-player";
 import { VideoPane } from "@/features/transcript/video-pane";
-import type { MediaUrl } from "@/server/media/media-url";
+import { useRenewingMedia, type MediaLink } from "./use-renewing-media";
 
 /**
  * The meeting page's interactive part: notes on one side, the synced transcript on the
@@ -47,7 +47,7 @@ export type MeetingViewProps = {
   items: NoteItem[];
   generation: GenerationState[];
   /** The recording's link and when it expires; the view renews it in time. */
-  media: MediaUrl | null;
+  media: MediaLink | null;
   initialTimeSec: number;
   initialTab: NotesTab;
   initialTemplate: string | null;
@@ -69,7 +69,10 @@ export type MeetingViewProps = {
 export function MeetingView(props: MeetingViewProps) {
   const { meetingId, title, durationSec, speakers, turns, items, generation } = props;
   const toast = useToast();
-  const [media, setMedia] = useState(props.media);
+  const { media, renew: renewMedia } = useRenewingMedia(
+    props.media,
+    `/api/meetings/${meetingId}/media`,
+  );
   const player = useMediaPlayer({
     hasSource: media !== null,
     durationSec,
@@ -207,8 +210,12 @@ export function MeetingView(props: MeetingViewProps) {
       return next;
     });
 
+  // One highlight at a time: a second press while the first is saving would post twice.
+  const creatingHighlight = useRef(false);
   const createHighlight = useCallback(
     async (range: { startSec: number; endSec: number }) => {
+      if (creatingHighlight.current) return;
+      creatingHighlight.current = true;
       const clip = normaliseClip(range, durationSec);
       try {
         const { highlight } = await visitorFetch<{ highlight: HighlightView }>("/api/highlights", {
@@ -221,6 +228,8 @@ export function MeetingView(props: MeetingViewProps) {
         toast(`Highlighted ${Math.round(clip.endSec - clip.startSec)} s`);
       } catch (error) {
         toast(error instanceof Error ? error.message : "Couldn't save the highlight.", "error");
+      } finally {
+        creatingHighlight.current = false;
       }
     },
     [durationSec, meetingId, toast],
@@ -349,12 +358,16 @@ export function MeetingView(props: MeetingViewProps) {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
-      // Off while typing. The timeline slider keeps the arrow keys for itself (it stops
-      // their propagation), so the player shortcuts still work after a click on it.
+      // Off while typing, while a dialog is open (the page behind it is inert), and on key
+      // auto-repeat (a held H would post a highlight per repeat). The timeline slider keeps
+      // the arrow keys for itself (it stops their propagation), so the player shortcuts
+      // still work after a click on it.
       if (
         event.metaKey ||
         event.ctrlKey ||
         event.altKey ||
+        event.repeat ||
+        document.querySelector("dialog[open]") ||
         target?.closest("input, textarea, select, [contenteditable='true']")
       ) {
         return;
@@ -380,33 +393,11 @@ export function MeetingView(props: MeetingViewProps) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [player, seek, playhead, highlightNow]);
 
-  /** A fresh link for the recording, swapped under the player, which keeps its place. */
-  const renewMedia = useCallback(async (): Promise<boolean> => {
-    try {
-      const response = await fetch(`/api/meetings/${meetingId}/media`);
-      const body = (await response.json()) as Partial<MediaUrl>;
-      if (!response.ok || !body.kind || !body.url || !body.expiresAt) throw new Error();
-      setMedia({ kind: body.kind, url: body.url, expiresAt: body.expiresAt });
-      return true;
-    } catch {
-      return false;
-    }
-  }, [meetingId]);
-
   const retryMedia = async () => {
     if (!(await renewMedia())) {
       toast("The recording is still unavailable. Try again later.", "error");
     }
   };
-
-  // A video's link lasts thirty minutes (an audio link an hour or six): a fresh one is
-  // fetched shortly before the current one expires, so a long watch never stalls.
-  useEffect(() => {
-    if (!media) return;
-    const due = Date.parse(media.expiresAt) - RENEW_BEFORE_MS - Date.now();
-    const timer = setTimeout(() => void renewMedia(), Math.max(due, 1_000));
-    return () => clearTimeout(timer);
-  }, [media, renewMedia]);
 
   const dimmed = useMemo(
     () =>
@@ -573,9 +564,6 @@ export function MeetingView(props: MeetingViewProps) {
 }
 
 const noopSubscribe = () => () => {};
-
-/** A recording's link is renewed this long before it expires. */
-const RENEW_BEFORE_MS = 2 * 60_000;
 
 /**
  * Indexes of the turns that contain `query` (case-insensitive, at least two characters),

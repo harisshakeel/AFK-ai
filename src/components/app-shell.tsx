@@ -49,7 +49,7 @@ export async function AppShell({
   fill?: boolean;
   children: ReactNode;
 }) {
-  const guest = viewer.isAnonymous;
+  const guest = viewer.isGuest;
   const [signInEnabled, awaiting] = await Promise.all([
     guest ? isGoogleSignInEnabled() : Promise.resolve(false),
     viewer.userId ? countAwaitingApproval() : Promise.resolve({ count: 0, oldestAt: null }),

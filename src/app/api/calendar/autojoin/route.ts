@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { profileSays, profileTemplate } from "@/features/memory/files";
 import { googleIdentity } from "@/features/memory/memory-queries";
-import { jsonError, readJson, requireUser } from "@/server/http";
+import { dbFailure, jsonError, readJson, requireUser } from "@/server/http";
 import { log } from "@/server/log";
 
 /**
@@ -18,11 +18,12 @@ export async function POST(request: Request) {
   if (!visitor.ok) return visitor.response;
   const body = await readJson(request, bodySchema);
   if (!body.ok) return body.response;
-  const { data: row } = await visitor.supabase
+  const { data: row, error: rowError } = await visitor.supabase
     .from("memory_files")
     .select("content, updated_at")
     .eq("path", "profile.md")
     .maybeSingle();
+  if (rowError) return dbFailure("autojoin.read_failed", rowError);
   const current = row?.content ?? profileTemplate(await googleIdentity());
   const value = body.data.enabled ? "yes" : "no";
   const line = new RegExp(`^(\\s*-\\s*${LINE}\\s*:).*$`, "im");

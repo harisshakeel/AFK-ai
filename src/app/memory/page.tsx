@@ -32,7 +32,7 @@ export default async function MemoryRoute({ searchParams }: Props) {
   const initialTab = isMemoryPath(tabParam) ? tabParam : "profile.md";
   const focusField = typeof query.field === "string" ? query.field.slice(0, 40) : null;
   const viewer = await getViewer();
-  const signedIn = Boolean(viewer.userId && !viewer.isAnonymous);
+  const signedIn = Boolean(viewer.userId && !viewer.isGuest);
   const [files, connectors, contacts] = signedIn
     ? await Promise.all([listMemoryFiles(), listConnectors(), listContacts()])
     : [demoFiles(), [], []];

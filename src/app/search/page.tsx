@@ -33,7 +33,7 @@ export default async function SearchPage({ searchParams }: Props) {
   const [params, viewer] = await Promise.all([searchParams, getViewer()]);
   const q = readQuery(params);
   // Signed in, you search your own meetings, as the list shows only those.
-  const ownOnly = Boolean(viewer.userId && !viewer.isAnonymous);
+  const ownOnly = Boolean(viewer.userId && !viewer.isGuest);
   const groups = q ? await searchMeetings(q, { ownOnly }) : [];
   const total = groups.reduce((sum, group) => sum + group.hits.length, 0);
   // The RPC stops at SEARCH_LIMIT hits, so that number is a floor, not a count.

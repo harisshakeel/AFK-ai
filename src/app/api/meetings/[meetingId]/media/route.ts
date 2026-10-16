@@ -1,5 +1,5 @@
 import { createSupabaseServerClient } from "@/server/db/supabase-server";
-import { jsonError } from "@/server/http";
+import { dbFailure, jsonError } from "@/server/http";
 import { mediaUrlFor } from "@/server/media/media-url";
 import { MEETING_ID } from "@/features/meetings/meeting-file-schema";
 
@@ -14,11 +14,12 @@ export async function GET(_request: Request, context: Context) {
   const { meetingId } = await context.params;
   if (!MEETING_ID.test(meetingId)) return jsonError(404, "Not found.");
   const supabase = await createSupabaseServerClient();
-  const { data: meeting } = await supabase
+  const { data: meeting, error: meetingError } = await supabase
     .from("meetings")
     .select("owner_id, audio_path, video_ref")
     .eq("id", meetingId)
     .maybeSingle();
+  if (meetingError) return dbFailure("media.read_failed", meetingError);
   if (!meeting || (!meeting.audio_path && !meeting.video_ref)) return jsonError(404, "Not found.");
   const media = await mediaUrlFor(meeting);
   if (!media) return jsonError(503, "The recording is unavailable right now.");

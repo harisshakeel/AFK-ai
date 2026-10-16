@@ -23,14 +23,14 @@ type Props = { searchParams: Promise<Record<string, string | string[] | undefine
 const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
 
 /**
- * Connectors (requirements-v2 X1, X2, M8): the three apps AFK can act through, what
+ * Connectors (requirements X1, X2, M8): the three apps AFK can act through, what
  * each may do, who it is connected as, and the way to connect or disconnect. A
  * connector belongs to a Google account: a guest sees the page locked, with the one
  * way to unlock it (guest mode). The database refuses them the rows too.
  */
 export default async function ConnectorsPage({ searchParams }: Props) {
   const viewer = await getViewer();
-  if (!viewer.userId || viewer.isAnonymous) {
+  if (!viewer.userId || viewer.isGuest) {
     const signInEnabled = await isGoogleSignInEnabled();
     return (
       <Chrome actions={<SendBotLink />}>

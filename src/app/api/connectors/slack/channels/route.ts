@@ -7,7 +7,16 @@ import { log } from "@/server/log";
 export async function GET() {
   const visitor = await requireUser("Sign in to manage connectors.", { countWrite: false });
   if (!visitor.ok) return visitor.response;
-  const token = await readSecret(visitor.userId, "slack");
+  const token = await readSecret(visitor.userId, "slack").catch((error: unknown) => {
+    log.warn("connector.secret_unreadable", {
+      provider: "slack",
+      error: error instanceof Error ? error.name : "unknown",
+    });
+    return undefined;
+  });
+  if (token === undefined) {
+    return jsonError(502, "AFK can't read the Slack connection. Reconnect Slack on this page.");
+  }
   if (!token) return jsonError(404, "Connect Slack first.");
   try {
     const channels = await listSlackChannels(token);

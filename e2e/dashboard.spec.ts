@@ -359,8 +359,8 @@ test.describe("signed in", () => {
     await find.fill("");
     if (phone) await page.getByRole("button", { name: "Notes" }).click();
 
-    // Share the notes: one email card to the people on the call, from the stored notes.
-    await page.getByRole("button", { name: /Share/ }).click();
+    // Email the notes: one email card to the people on the call, from the stored notes.
+    await page.getByRole("button", { name: /Email (the )?notes/ }).click();
     await expect(page).toHaveURL(/tab=tasks/, { timeout: 20_000 });
     await expect(page.getByLabel("Subject").first()).toHaveValue(
       "Notes from Launch planning (test)",

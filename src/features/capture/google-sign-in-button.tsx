@@ -22,21 +22,27 @@ export function GoogleSignInButton({
 
   const signIn = async () => {
     setState("busy");
-    const supabase = createSupabaseBrowserClient();
-    const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
-    const { data } = await supabase.auth.getSession();
-    if (linkAnonymous && data.session?.user.is_anonymous) {
-      const { error } = await supabase.auth.linkIdentity({
+    // Anything that throws (storage blocked, the network) must not leave the button on
+    // "Opening Google…" for ever.
+    try {
+      const supabase = createSupabaseBrowserClient();
+      const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+      const { data } = await supabase.auth.getSession();
+      if (linkAnonymous && data.session?.user.is_anonymous) {
+        const { error } = await supabase.auth.linkIdentity({
+          provider: "google",
+          options: { redirectTo },
+        });
+        if (!error) return;
+      }
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: { redirectTo },
       });
-      if (!error) return;
+      if (error) setState("error");
+    } catch {
+      setState("error");
     }
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo },
-    });
-    if (error) setState("error");
   };
 
   return (

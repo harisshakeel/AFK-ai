@@ -18,11 +18,12 @@ export async function POST(request: Request) {
   const body = await readJson(request, bodySchema);
   if (!body.ok) return body.response;
 
-  const { data: meeting } = await visitor.supabase
+  const { data: meeting, error: meetingError } = await visitor.supabase
     .from("meetings")
     .select("id, duration_sec")
     .eq("id", body.data.meetingId)
     .maybeSingle();
+  if (meetingError) return dbFailure("highlight.read_failed", meetingError);
   if (!meeting?.duration_sec) return jsonError(404, "That meeting isn't available.");
 
   const clip = normaliseClip(body.data, Number(meeting.duration_sec));
