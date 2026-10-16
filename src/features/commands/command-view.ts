@@ -31,10 +31,23 @@ export type CommandView = {
   result: Record<string, unknown> | null;
   /** Set once an adapter was called; a failed command past this point may be unsafe to retry. */
   executedAt: string | null;
+  /** How many times the owner sent this draft back with a note; at most MAX_REWRITES. */
+  rewrites: number;
 };
 
+/** rewrite_command() refuses a draft sent back this many times (migration 43). */
+export const MAX_REWRITES = 3;
+
+/**
+ * Whether the owner may still send a draft back with a note: fewer than MAX_REWRITES so
+ * far, and not a "Share the notes" card, whose body is the notes themselves, not a draft.
+ */
+export function canRewrite(command: Pick<CommandView, "rewrites" | "args">): boolean {
+  return command.rewrites < MAX_REWRITES && command.args.sharedNotes !== true;
+}
+
 export const COMMAND_SELECT =
-  "id, kind, status, source, sentence, args, turn_id, error, needs_approval, created_at, approved_args, result, executed_at";
+  "id, kind, status, source, sentence, args, turn_id, error, needs_approval, created_at, approved_args, result, executed_at, rewrites";
 
 /** A database row (as COMMAND_SELECT reads it) as the Tasks tab shows it. */
 export function toCommandView(row: {
@@ -51,6 +64,7 @@ export function toCommandView(row: {
   approved_args: unknown;
   result: unknown;
   executed_at: string | null;
+  rewrites: number;
 }): CommandView {
   const object = (value: unknown) =>
     value && typeof value === "object" && !Array.isArray(value)
@@ -70,7 +84,29 @@ export function toCommandView(row: {
     approvedArgs: object(row.approved_args),
     result: object(row.result),
     executedAt: row.executed_at,
+    rewrites: row.rewrites,
   };
+}
+
+/** A job's error as the runner logged it: a code, a function name, a service's status. */
+const TECHNICAL =
+  /failed:|\(\w*\d{3,5}\)|answered \d{3}|\bclaim\b|\blease\b|database|schema|\w+_\w+/i;
+
+/**
+ * What a card says went wrong. An error written for the owner (a sentence: "Reconnect
+ * Google on the Connectors page.") is shown as it is; one the runner logged ("start_command
+ * failed: …", "Gmail answered 400") is replaced by a plain line for the card's state. The
+ * full text stays on the job and in the logs.
+ */
+export function cardError(command: Pick<CommandView, "status" | "error">): string | null {
+  const error = command.error?.trim();
+  if (!error) return null;
+  if (/^[A-Z][\s\S]*[.!?]$/.test(error) && !TECHNICAL.test(error)) return error;
+  if (command.status === "approved") {
+    return "The last try didn't go through. AFK tries again shortly.";
+  }
+  if (command.status === "failed") return "AFK couldn't finish this one.";
+  return "AFK couldn't work this one out. Type it again with the details.";
 }
 
 /** What each status means to the owner, on the Tasks tab and the Tasks page. */
@@ -87,8 +123,8 @@ export const COMMAND_STATUS_LABEL: Record<CommandStatus, string> = {
   skipped: "Past the limit, not applied",
 };
 
-const asString = (value: unknown) => (typeof value === "string" ? value : null);
-const asStrings = (value: unknown) =>
+export const asString = (value: unknown) => (typeof value === "string" ? value : null);
+export const asStrings = (value: unknown) =>
   Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
 
 /** One line saying what an adapter did, from the stored result. */

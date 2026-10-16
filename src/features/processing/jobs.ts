@@ -5,7 +5,12 @@ import { convertAttendeeTranscript } from "../capture/attendee-transcript.ts";
 import { transcriptHash } from "../meetings/transcript-hash.ts";
 import type { Database, Json } from "../../lib/database.types.ts";
 import { fetchAll as fetchAllRows } from "../../lib/fetch-all.ts";
-import { analysisSchema, summariesSchema } from "../summaries/ai-output-schema.ts";
+import {
+  analysisModelSchema,
+  clampAnalysis,
+  clampSummaries,
+  summariesModelSchema,
+} from "../summaries/ai-output-schema.ts";
 import { groundAnalysis, groundSummaries } from "../summaries/grounding.ts";
 import {
   analysisInstruction,
@@ -238,16 +243,19 @@ export async function runGeneration(
           ...call,
           name: "analysis",
           instruction: analysisInstruction(),
-          schema: analysisSchema,
+          schema: analysisModelSchema,
         })
       : await claude.runStructured({
           ...call,
           name: "summaries",
           instruction: summariesInstruction(),
-          schema: summariesSchema,
+          schema: summariesModelSchema,
         });
+  // Inside the stored limits first: the model takes them only as hints.
   const grounded =
-    "chapters" in output ? groundAnalysis(output, transcript) : groundSummaries(output, transcript);
+    "chapters" in output
+      ? groundAnalysis(clampAnalysis(output), transcript)
+      : groundSummaries(clampSummaries(output), transcript);
 
   const report: Record<string, Json> = {
     ...runReport(run),

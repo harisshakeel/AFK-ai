@@ -1,7 +1,7 @@
 import type { CommandKind } from "../commands/registry.ts";
 
 /**
- * The three apps AFK can act through (requirements-v2 X1, X4, X5, X7): Gmail and Google
+ * The three apps AFK can act through (requirements X1, X4, X5, X7): Gmail and Google
  * Calendar under one Google consent, and Slack. One table that the Connectors page, the
  * approve route, the Tasks tab and the job runner all read. Shared by the job runner and the web
  * app: no React, no server-only imports.
@@ -117,6 +117,20 @@ export function appReady(app: ConnectorApp, connectors: ReadonlyArray<ConnectorV
   if (!connector || connector.status !== "connected") return false;
   if (app.provider === "slack") return typeof connector.config.channelId === "string";
   return connector.scopes.includes(app.scope);
+}
+
+/**
+ * Whether an approval can run through this app: connected, and with the app's scope for
+ * Google. A Slack card carries the channel picked on it, so unlike appReady() no default
+ * channel is needed to approve one.
+ */
+export function canApproveWith(
+  app: ConnectorApp,
+  connectors: ReadonlyArray<ConnectorView>,
+): boolean {
+  const connector = connectors.find((candidate) => candidate.provider === app.provider);
+  if (!connector || connector.status !== "connected") return false;
+  return app.provider === "slack" || connector.scopes.includes(app.scope);
 }
 
 /** Google refresh tokens last seven days while the OAuth app is in Testing. */

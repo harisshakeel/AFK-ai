@@ -4,7 +4,7 @@ import { EMAIL_ADDRESS } from "./gmail.ts";
 import { SLACK_CHANNEL_ID } from "./slack.ts";
 
 /**
- * What the owner confirms on the card (requirements-v2 C4, C7, decision 9): the exact
+ * What the owner confirms on the card (requirements C4, C7, decision 9): the exact
  * arguments an adapter runs with. The parse proposes names and time words; the owner
  * fills in addresses, confirms the date and the message, and approves once. Shared by
  * the approve route, the Tasks tab and the job runner.
@@ -50,6 +50,25 @@ export const APPROVED_SCHEMAS = {
 } as const;
 
 export type ApprovableKind = keyof typeof APPROVED_SCHEMAS;
+
+/** What a card says when the confirmed details do not pass the kind's schema. */
+export function approvalIssueMessage(
+  issue: { path: ReadonlyArray<PropertyKey>; message: string } | undefined,
+): string {
+  switch (issue?.path[0]) {
+    case "to":
+    case "attendees":
+      return "Add at least one valid email address.";
+    case "cc":
+      return "Check the addresses to copy.";
+    case "startsAt":
+      return "Pick a date and time.";
+    case "channelId":
+      return "Pick a channel.";
+    default:
+      return issue?.message ?? "Check the details.";
+  }
+}
 
 /** Takes the row's plain string, so no call site needs a cast. */
 export function isApprovableKind(kind: string): kind is ApprovableKind {

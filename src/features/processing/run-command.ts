@@ -20,7 +20,7 @@ import { type Job, type JobResult, TransientError } from "./jobs.ts";
 import { googleAccessToken, loadConnector } from "./token-source.ts";
 
 /**
- * run_command (requirements-v2 C7, X4, X5, X7): one approved command, one adapter call,
+ * run_command (requirements C7, X4, X5, X7): one approved command, one adapter call,
  * with the arguments the owner confirmed and nothing else. No Claude. The order matters:
  * everything that can fail harmlessly (reads, the parse, the token refresh) happens
  * before start_command() marks the command executed; after that mark, a failure is
@@ -133,8 +133,11 @@ type Approved =
 
 function parseApproved(kind: ApprovableKind, raw: unknown): Approved | null {
   const parsed = APPROVED_SCHEMAS[kind].safeParse(raw);
-  // The table and the union share their keys, so the pair is the member for this kind.
-  return parsed.success ? ({ kind, args: parsed.data } as Approved) : null;
+  if (!parsed.success) return null;
+  // The table and the union share their keys, so the pair is the member for this kind;
+  // TypeScript cannot correlate the two, hence the one assertion.
+  const pair = { kind, args: parsed.data };
+  return pair as Approved;
 }
 
 function runAdapter(

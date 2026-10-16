@@ -1,3 +1,5 @@
+import { normaliseWords as normalise } from "../../lib/words.ts";
+import { splitZones } from "../memory/files.ts";
 import { EMAIL_ADDRESS } from "./gmail.ts";
 
 /**
@@ -6,7 +8,9 @@ import { EMAIL_ADDRESS } from "./gmail.ts";
  * sources merge into one book:
  *
  *   - the host's people file, a line like "- Sam Lee: designer on Atlas, sam@example.com"
- *     or "- Sam <sam@example.com>", read on every page as the host wrote it;
+ *     or "- Sam <sam@example.com>", read on every page as the host wrote it: the host's
+ *     own zone only, never "Learned by AFK", whose lines carry what anyone on a call
+ *     said and the meeting's title (which a stranger's invite chooses);
  *   - the contacts the host taught AFK: every recipient confirmed on a card (with the
  *     name AFK heard for it), and, when imported, Google's own contacts and the people
  *     the host writes to, and (2026-10-16) the people on the calendar invite of every
@@ -41,7 +45,7 @@ const EMAIL_IN_TEXT = /[^\s<>@,;:"()[\]\\]+@[^\s<>@,;:"()[\]\\]+\.[^\s<>@,;:"()[
 
 export function parseAddressBook(markdown: string): AddressEntry[] {
   const entries: AddressEntry[] = [];
-  for (const rawLine of markdown.split("\n")) {
+  for (const rawLine of splitZones(markdown).user.split("\n")) {
     const line = rawLine.replace(/^\s*[-*]\s*/, "").trim();
     if (!line || line.startsWith("#")) continue;
     const emails = (line.match(EMAIL_IN_TEXT) ?? []).filter((email) => EMAIL_ADDRESS.test(email));
@@ -61,12 +65,6 @@ export function parseAddressBook(markdown: string): AddressEntry[] {
   }
   return entries;
 }
-
-const normalise = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, " ")
-    .trim();
 
 /** The file first (the host wrote it), then the most used, then the most recent. */
 const SOURCE_RANK: Record<AddressSource, number> = {

@@ -1,7 +1,7 @@
 import type { Json } from "../../lib/database.types.ts";
 import { AdapterError } from "../connectors/adapters/adapter.ts";
 import { runAnswerInMeeting } from "./answer-in-meeting.ts";
-import { ConfigurationError, ProviderUnavailableError } from "./claude.ts";
+import { ClaudeTimeoutError, ConfigurationError, ProviderUnavailableError } from "./claude.ts";
 import type { ProcessingDeps } from "./config.ts";
 import { runDetectCommands } from "./detect-commands.ts";
 import {
@@ -49,6 +49,11 @@ export type JobKind = (typeof JOB_KINDS)[number];
 const HEADROOM_MS = 20_000;
 /** No job is started with less than this left: a Claude call needs room to finish. */
 const MIN_RUN_MS = 45_000;
+/**
+ * A Claude call given at least this long that still times out is too long for any run:
+ * it uses an attempt. One given less was cut short by the run and is released.
+ */
+const FULL_CALL_MS = 200_000;
 /** The lease outlives the budget by this much, so a cut-off job is freed promptly. */
 const LEASE_MARGIN_SEC = 60;
 
@@ -167,6 +172,22 @@ export async function runJobs(deps: ProcessingDeps, options: RunOptions): Promis
         summary.released += 1;
         summary.stop = "misconfigured";
         log("jobs.misconfigured", { jobId: job.id, reason: message });
+        break;
+      }
+      if (error instanceof ClaudeTimeoutError) {
+        if (timeoutMs >= FULL_CALL_MS) {
+          await complete(deps, job, "failed", { error: message });
+          summary.failed += 1;
+          log("job.failed", { ...fields, reason: "timeout" });
+          continue;
+        }
+        // Cut short by this run, not slow on its own: due again at once, and the run
+        // stops as out of budget, so the chain hands it to a fresh function with the
+        // whole budget (where a second timeout uses an attempt).
+        await complete(deps, job, "release", { error: message, retryAt: new Date() });
+        summary.released += 1;
+        summary.stop = "budget";
+        log("job.released", { ...fields, reason: "timeout in a short run" });
         break;
       }
       if (error instanceof ProviderUnavailableError) {

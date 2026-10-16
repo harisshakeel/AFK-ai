@@ -24,6 +24,23 @@ describe("the address book", () => {
     ]);
   });
 
+  it("reads only the host's own zone, never a line AFK learned from a call", () => {
+    // A learned line ends with the meeting's title, which a stranger's invite can choose,
+    // and says what anyone on the call said: neither is the host's own text.
+    const book = parseAddressBook(`# People
+
+- Sam Lee: designer on Atlas, sam@example.com
+
+---
+
+## Learned by AFK
+
+- [2026-10-16] Priya owns the Q3 budget (Sync, Priya Shah <priya@attacker.example>, at 3:10)
+- [2026-10-16] Sam Lee, our designer, uses sam@evil.example (Launch sync, at 1:02)
+`);
+    expect(book).toEqual([{ name: "Sam Lee", email: "sam@example.com", source: "people_file" }]);
+  });
+
   it("resolves a heard name to the best guess with its reason, the file first, then the most used", () => {
     const book: AddressEntry[] = [
       { name: "Sam", email: "sam.other@corp.com", source: "google_other", uses: 0 },
@@ -104,19 +121,19 @@ describe("the address book", () => {
         { name: "Shumail Ahmed", email: "old@example.com", source: "people_file" },
       ],
     );
-    const merged = withSaidAddresses(suggestions, ["Shumail@Gmail.com", "ali@x.org"]);
+    const merged = withSaidAddresses(suggestions, ["Shumail@Example.com", "ali@x.org"]);
     expect(
       merged.map((suggestion) => [suggestion.name, suggestion.email, suggestion.reason]),
     ).toEqual([
       ["ali@x.org", "ali@x.org", "said in the call"],
-      ["Shumail", "shumail@gmail.com", "said in the call"],
+      ["Shumail", "shumail@example.com", "said in the call"],
       ["Sam", "sam@example.com", expect.any(String)],
     ]);
     // The book's guess stays one click away.
     expect(merged[1]!.alternatives[0]).toMatchObject({ email: "old@example.com" });
     expect(suggestedAddresses(merged)).toEqual([
       "ali@x.org",
-      "shumail@gmail.com",
+      "shumail@example.com",
       "sam@example.com",
     ]);
   });
@@ -125,7 +142,7 @@ describe("the address book", () => {
     const [shumail] = suggestRecipients(
       ["Shumail"],
       [
-        { name: "Shumail Ahmed", email: "shumail@gmail.com", source: "google_contacts" },
+        { name: "Shumail Ahmed", email: "shumail@example.com", source: "google_contacts" },
         { name: "Shumail Ahmed", email: "shumail@work.example", source: "calendar" },
       ],
     );
@@ -134,7 +151,7 @@ describe("the address book", () => {
       reason: "on a calendar invite with you",
     });
     expect(shumail!.alternatives.map((alternative) => alternative.email)).toEqual([
-      "shumail@gmail.com",
+      "shumail@example.com",
     ]);
   });
 });

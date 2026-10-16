@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { cleanPin, isLinkCode, linkMessage, linkUrl } from "./link-code";
+import { cleanPin, isLinkCode, linkCodesIn, linkMessage, linkUrl } from "./link-code";
 
 describe("a meeting's address", () => {
   it("knows a code and a PIN when it sees one", () => {
@@ -21,5 +21,17 @@ describe("a meeting's address", () => {
     expect(linkMessage("https://afk.example/m/abcdefghjkmn", "0420")).toBe(
       "https://afk.example/m/abcdefghjkmn (PIN 0420)",
     );
+  });
+
+  it("finds every meeting address in a message, by its code, once each", () => {
+    const body =
+      "Notes: https://afk-ai-tau.vercel.app/m/abcdefghjkmn (PIN 0420). Again: /m/abcdefghjkmn";
+    expect(linkCodesIn(body)).toEqual(["abcdefghjkmn"]);
+    expect(linkCodesIn("see /m/abcdefghjkmn and /m/zzzzzzzzzzzz.")).toEqual([
+      "abcdefghjkmn",
+      "zzzzzzzzzzzz",
+    ]);
+    expect(linkCodesIn("/m/abcdefghjkmnx is too long, /m/short too short")).toEqual([]);
+    expect(linkCodesIn("no address here")).toEqual([]);
   });
 });

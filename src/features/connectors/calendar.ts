@@ -3,7 +3,7 @@ import { z } from "zod";
 import { parseMeetingUrl, type MeetingPlatform } from "../capture/meeting-url.ts";
 
 /**
- * Google Calendar events (requirements-v2 X5, C7): events.insert on the primary calendar
+ * Google Calendar events (requirements X5, C7): events.insert on the primary calendar
  * with a client-generated id derived from the command, so a retry can never make a
  * second event (a 409 means "already there" and is read back as done).
  */
@@ -165,6 +165,11 @@ export type UpcomingEvent = {
   platform: MeetingPlatform;
   /** Everyone on the invite but the host and the rooms: an address, and a name when given. */
   attendees: Array<{ email: string; name: string | null }>;
+  /**
+   * The calendar's owner organised the event or said yes to it. Anyone can put an invite
+   * on someone's calendar, so only these are joined on their own or read for invitees.
+   */
+  accepted: boolean;
 };
 
 const upcomingResponse = z.object({
@@ -178,6 +183,7 @@ const upcomingResponse = z.object({
           .object({ dateTime: z.string().optional(), date: z.string().optional() })
           .optional(),
         end: z.object({ dateTime: z.string().optional(), date: z.string().optional() }).optional(),
+        organizer: z.object({ self: z.boolean().optional() }).optional(),
         hangoutLink: z.string().optional(),
         location: z.string().optional(),
         description: z.string().optional(),
@@ -197,6 +203,7 @@ const upcomingResponse = z.object({
               displayName: z.string().optional(),
               self: z.boolean().optional(),
               resource: z.boolean().optional(),
+              responseStatus: z.string().optional(),
             }),
           )
           .optional(),
@@ -222,15 +229,29 @@ export function inviteesOf(
   return people.slice(0, 50);
 }
 
-/** The invitees of the event a bot is sent to: the event named, else the one with the link. */
+/** Whether the calendar's owner organised an event or accepted it (UpcomingEvent.accepted). */
+export function isAccepted(event: {
+  organizer?: { self?: boolean };
+  attendees?: ReadonlyArray<{ self?: boolean; responseStatus?: string }>;
+}): boolean {
+  if (event.organizer?.self === true) return true;
+  return event.attendees?.find((attendee) => attendee.self)?.responseStatus === "accepted";
+}
+
+/**
+ * The invitees of the event a bot is sent to: the event named, else the one with the
+ * link. Only an event the owner organised or accepted: a stranger's invite would put
+ * the names and addresses they chose in the owner's address book.
+ */
 export function inviteesFor(
   events: ReadonlyArray<UpcomingEvent>,
   target: { calendarEventId: string | null; link: string },
 ): Array<{ email: string; name: string | null }> {
+  const accepted = events.filter((event) => event.accepted);
   const byId = target.calendarEventId
-    ? events.find((event) => event.id === target.calendarEventId)
+    ? accepted.find((event) => event.id === target.calendarEventId)
     : undefined;
-  const event = byId ?? events.find((candidate) => candidate.link === target.link);
+  const event = byId ?? accepted.find((candidate) => candidate.link === target.link);
   return event?.attendees ?? [];
 }
 
@@ -301,6 +322,7 @@ export async function listUpcomingEvents(
       link: link.url,
       platform: link.platform,
       attendees: inviteesOf(item.attendees),
+      accepted: isAccepted(item),
     });
   }
   return events;

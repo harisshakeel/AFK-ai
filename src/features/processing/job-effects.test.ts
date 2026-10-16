@@ -160,6 +160,35 @@ describe("answer_in_meeting", () => {
     expect(result?.payload).toMatchObject({ posted: false, text: expect.stringContaining("20th") });
   });
 
+  it("asks Claude with the meeting's lines only, never the host's memory", async () => {
+    stubNetwork();
+    const withMemory = {
+      ...tables(),
+      memory_files: [
+        {
+          owner_id: OWNER,
+          path: "context/people.md",
+          content: "# People\n\n- Sam: on a PIP, do not renew\n",
+        },
+      ],
+    };
+    const { db } = memoryDb(withMemory, "go");
+    const prompts: string[] = [];
+    const capturing = {
+      ...deps(db),
+      claude: {
+        runStructured: async (input: { data: string; extra?: string; instruction: string }) => {
+          prompts.push(`${input.data}${input.extra ?? ""}${input.instruction}`);
+          return { data: { answer: "The launch is on the 20th.", cited: [0] }, run };
+        },
+      } as unknown as ProcessingDeps["claude"],
+    };
+    await runAnswerInMeeting(capturing, job("answer_in_meeting", COMMAND_ID));
+    expect(prompts).toHaveLength(1);
+    expect(prompts[0]).toContain("We launch on the 20th.");
+    expect(prompts[0]).not.toContain("PIP");
+  });
+
   it("does nothing once the claim has gone to another run", async () => {
     const urls = stubNetwork();
     const { db } = memoryDb(tables(), "lost");

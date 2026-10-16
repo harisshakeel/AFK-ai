@@ -1,5 +1,5 @@
 /**
- * The meeting commands AFK understands (requirements-v2 C1-C5; design-v2 section 4.1).
+ * The meeting commands AFK understands (requirements C1-C5; design-v2 section 4.1).
  * One table that everything reads: the detector (spoken trigger words), the typed-command
  * parser (slash names), the Tasks tab (labels), the Send page (help) and the database's
  * kind list (a test keeps them in step). Adding a command is one entry here plus, for an
@@ -19,9 +19,6 @@ export type CommandKind =
   | "slack"
   | "ask"
   | "recap";
-
-/** The kinds that leave the room: proposed, approved once, then run by an adapter. */
-export const EXTERNAL_KINDS: ReadonlyArray<CommandKind> = ["email", "followup", "remind", "slack"];
 
 export type CommandSpec = {
   kind: CommandKind;

@@ -1,6 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { highlightRange, parseTaskWords, parseTyped, turnAt } from "./parse";
+import { highlightRange, parseRememberWords, parseTaskWords, parseTyped, turnAt } from "./parse";
 
 const speakers = [
   { code: "h", label: "Haris Shakeel" },
@@ -156,5 +156,24 @@ describe("Phase B typed commands", () => {
       kind: "slack",
       rest: "the demo moved to Thursday",
     });
+  });
+});
+
+describe("parseRememberWords", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("dates the line by the meeting it was said in, like the learn job's lines", () => {
+    const remember = parseRememberWords(
+      "Sam is the designer",
+      "Launch sync",
+      62,
+      "2026-09-01T10:00:00Z",
+    );
+    expect(remember?.line).toMatch(/^- \[2026-09-01\] /);
+    vi.useFakeTimers({ now: new Date("2026-10-17T23:59:59Z") });
+    const undated = parseRememberWords("Sam is the designer", "Launch sync", 62, null);
+    expect(undated?.line).toMatch(/^- \[2026-10-17\] /);
   });
 });

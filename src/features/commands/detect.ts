@@ -1,3 +1,4 @@
+import { escapeRegExp } from "../../lib/regexp.ts";
 import { COMMANDS, type CommandKind, type CommandSpec, isActive } from "./registry.ts";
 
 /**
@@ -22,12 +23,10 @@ const WAKE = /^\s*(?:(?:hey|hi|ok|okay)[\s,]+)?a\s*[-.]?\s*f\s*[-.]?\s*k(?:\s+bo
 const LEAD_IN =
   /^(?:please\s+|can\s+you\s+|could\s+you\s+)?(?:(?:draft|write|send|make|add|create|take|record|log)\s+(?:a|an|the|me)?\s*)?/i;
 
-const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
 function matchCommandWord(text: string, spec: CommandSpec): string | null {
   for (const word of spec.words) {
     const pattern = new RegExp(
-      `^${LEAD_IN.source}${escape(word).replace(/\s+/g, "\\s+")}\\b[\\s,:;.!?-]*`,
+      `^${LEAD_IN.source}${escapeRegExp(word).replace(/\s+/g, "\\s+")}\\b[\\s,:;.!?-]*`,
       "i",
     );
     const match = pattern.exec(text);

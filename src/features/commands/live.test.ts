@@ -43,8 +43,9 @@ describe("live commands (requirement L2)", () => {
       { seq: 4, atSec: 70, speaker: "Ana", text: "Agreed, blue it is." },
     ];
     const input = formatAnswerInput("what did we decide?", lines);
-    expect(input).toContain("<host_said>\nwhat did we decide?\n</host_said>");
-    expect(input).toContain("[3] 1:05 Sam: We go with ‹blue›.");
+    expect(input.extra).toContain("<host_said>\nwhat did we decide?\n</host_said>");
+    expect(input.data).toContain("[3] 1:05 Sam: We go with ‹blue›.");
+    expect(input.data).not.toContain("what did we decide?");
     const parsed = answerSchema.parse({ answer: "Blue.  Ana agreed.", cited: [4, 3, 99, 3] });
     expect(groundAnswer(parsed, lines)).toEqual({
       text: "Blue.  Ana agreed. (at 1:05)",
@@ -56,6 +57,10 @@ describe("live commands (requirement L2)", () => {
       cited: [],
       dropped: 0,
     });
-    expect(answerSchema.safeParse({ answer: "x".repeat(601), cited: [] }).success).toBe(false);
+    // An empty answer rests on nothing, whatever it cites.
+    expect(groundAnswer({ answer: " ", cited: [3] }, lines).cited).toEqual([]);
+    // Too long is cut to size, not refused: the call is already paid for.
+    const long = answerSchema.parse({ answer: "x".repeat(601), cited: [] });
+    expect(groundAnswer(long, lines).text).toHaveLength(600);
   });
 });

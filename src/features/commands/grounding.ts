@@ -1,4 +1,14 @@
-import type { CommandParse, EmailArgs, FollowupArgs, RemindArgs, TaskArgs } from "./ai-schema.ts";
+import { escapeRegExp } from "../../lib/regexp.ts";
+import { normaliseWords as normalise, saidIn } from "../../lib/words.ts";
+
+import {
+  ARG_LIMITS,
+  type CommandParse,
+  type EmailArgs,
+  type FollowupArgs,
+  type RemindArgs,
+  type TaskArgs,
+} from "./ai-schema.ts";
 import type { CommandForPrompt } from "./prompts.ts";
 
 /**
@@ -10,6 +20,8 @@ import type { CommandForPrompt } from "./prompts.ts";
  *     sentence or those turns; a time whose words were not said is cleared with its date
  *   - email recipients and follow-up attendees must be names said in the sentence
  *   - a command the model did not understand is left unparsed, never guessed
+ *   - every value is clamped to the stored limits (ARG_LIMITS): the model takes them only
+ *     as hints, and one value past a limit must not cost the meeting's other commands
  * Report lines name positions, never content, so they are safe to store and log.
  */
 export type TranscriptForCommandGrounding = {
@@ -29,6 +41,9 @@ export type GroundedCommand =
 
 export type CommandGroundingReport = { unparsed: string[]; cleared: string[] };
 
+/** A model string cut to a stored limit. */
+const clip = (value: string, max: number) => value.trim().slice(0, max).trim();
+
 const CONTEXT_TURNS = 5;
 const CONTEXT_SEC = 60;
 
@@ -38,19 +53,7 @@ export function isModelKind(kind: string): kind is ModelKind {
   return (MODEL_KINDS as ReadonlyArray<string>).includes(kind);
 }
 
-const normalise = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, " ")
-    .trim();
-
-function saidIn(phrase: string, texts: ReadonlyArray<string>): boolean {
-  const needle = normalise(phrase);
-  return needle.length > 0 && texts.some((text) => ` ${normalise(text)} `.includes(` ${needle} `));
-}
-
 const ADDRESS = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /**
  * Whether an address was said: written as one ("sam@x.com", as a transcriber with smart
@@ -62,9 +65,15 @@ export function addressSaid(email: string, texts: ReadonlyArray<string>): boolea
   const localPart = local
     .split(/[._-]+/)
     .filter(Boolean)
-    .map(escape)
-    .join("\\s*(?:[._-]|dot|underscore|dash|hyphen)?\\s*");
-  const domainPart = domain.split(".").filter(Boolean).map(escape).join("\\s*(?:\\.|dot)\\s*");
+    .map(escapeRegExp)
+    // One way to read the spaces between parts: "\s*(?:sep)?\s*" splits a run of spaces
+    // two ways at every part, which backtracks exponentially when the match fails.
+    .join("\\s*(?:(?:[._-]|dot|underscore|dash|hyphen)\\s*)?");
+  const domainPart = domain
+    .split(".")
+    .filter(Boolean)
+    .map(escapeRegExp)
+    .join("\\s*(?:\\.|dot)\\s*");
   if (!localPart || !domainPart) return false;
   const pattern = new RegExp(
     `(?:^|[^a-z0-9])${localPart}\\s*(?:@|at|at the rate)\\s*${domainPart}(?![a-z0-9])`,
@@ -105,7 +114,7 @@ function contextTexts(
 function validIso(value: string | null): string | null {
   if (!value) return null;
   const time = Date.parse(value);
-  return Number.isFinite(time) ? value : null;
+  return Number.isFinite(time) && value.length <= ARG_LIMITS.startsAt ? value : null;
 }
 
 /** The time words and the date they mean survive only together, and only when said. */
@@ -121,7 +130,7 @@ function groundWhen(
     report.cleared.push(`${where}: time not said`);
     return { whenText: null, startsAt: null };
   }
-  return { whenText: whenText.trim(), startsAt: validIso(startsAt) };
+  return { whenText: clip(whenText, ARG_LIMITS.shortText), startsAt: validIso(startsAt) };
 }
 
 export function groundCommandParse(
@@ -152,7 +161,7 @@ export function groundCommandParse(
     const texts = contextTexts(command, transcript);
 
     if (kind === "task") {
-      if (!parsed.task) {
+      if (!parsed.task || !clip(parsed.task.text, ARG_LIMITS.text)) {
         results.push(unparsed());
         return;
       }
@@ -166,44 +175,54 @@ export function groundCommandParse(
       }
       let ownerName: string | null = null;
       if (!ownerSpeaker && parsed.task.ownerName) {
-        if (saidIn(parsed.task.ownerName, texts)) ownerName = parsed.task.ownerName.trim();
-        else report.cleared.push(`${where}: owner name not said`);
+        if (saidIn(parsed.task.ownerName, texts)) {
+          ownerName = clip(parsed.task.ownerName, ARG_LIMITS.shortText);
+        } else {
+          report.cleared.push(`${where}: owner name not said`);
+        }
       }
       let dueText: string | null = null;
       if (parsed.task.dueText) {
-        if (saidIn(parsed.task.dueText, texts)) dueText = parsed.task.dueText.trim();
-        else report.cleared.push(`${where}: due date not said`);
+        if (saidIn(parsed.task.dueText, texts)) {
+          dueText = clip(parsed.task.dueText, ARG_LIMITS.shortText);
+        } else {
+          report.cleared.push(`${where}: due date not said`);
+        }
       }
       results.push({
         id: command.id,
         kind: "task",
         status: "applied",
-        args: { text: parsed.task.text.trim(), ownerSpeaker, ownerName, dueText },
+        args: { text: clip(parsed.task.text, ARG_LIMITS.text), ownerSpeaker, ownerName, dueText },
       });
       return;
     }
 
     if (kind === "email") {
-      if (!parsed.email) {
+      if (!parsed.email || !parsed.email.subject.trim() || !parsed.email.body.trim()) {
         results.push(unparsed());
         return;
       }
-      const toNames = parsed.email.toNames
-        .map((name) => name.trim())
+      const saidNames = parsed.email.toNames
+        .map((name) => clip(name, ARG_LIMITS.shortText))
         .filter((name) => name.length > 0 && saidIn(name, [command.sentence]));
-      if (toNames.length < parsed.email.toNames.length) {
+      if (saidNames.length < parsed.email.toNames.length) {
         report.cleared.push(`${where}: a recipient was not said`);
       }
+      const toNames = saidNames.slice(0, ARG_LIMITS.recipients);
+      if (toNames.length < saidNames.length) report.cleared.push(`${where}: too many recipients`);
       // An address is kept only when it was said: in the sentence, or anywhere in the call.
       const everywhere = [command.sentence, ...transcript.turns.map((turn) => turn.text)];
       const toAddresses = (parsed.email.toAddresses ?? [])
         .map((address) => address.trim().toLowerCase())
         .filter(
           (address, index, all) =>
+            address.length <= ARG_LIMITS.address &&
             ADDRESS.test(address) &&
             all.indexOf(address) === index &&
             addressSaid(address, everywhere),
-        );
+        )
+        .slice(0, ARG_LIMITS.recipients);
       if (toAddresses.length < (parsed.email.toAddresses ?? []).length) {
         report.cleared.push(`${where}: an address was not said`);
       }
@@ -214,15 +233,15 @@ export function groundCommandParse(
         args: {
           toNames,
           toAddresses,
-          subject: parsed.email.subject.trim(),
-          body: parsed.email.body.trim(),
+          subject: clip(parsed.email.subject, ARG_LIMITS.title),
+          body: clip(parsed.email.body, ARG_LIMITS.body),
         },
       });
       return;
     }
 
     if (kind === "followup") {
-      if (!parsed.followup) {
+      if (!parsed.followup || !parsed.followup.title.trim()) {
         results.push(unparsed());
         return;
       }
@@ -233,27 +252,37 @@ export function groundCommandParse(
         where,
         report,
       );
-      const attendeeNames = parsed.followup.attendeeNames
-        .map((name) => name.trim())
+      const saidAttendees = parsed.followup.attendeeNames
+        .map((name) => clip(name, ARG_LIMITS.shortText))
         .filter((name) => name.length > 0 && saidIn(name, [command.sentence]));
-      if (attendeeNames.length < parsed.followup.attendeeNames.length) {
+      if (saidAttendees.length < parsed.followup.attendeeNames.length) {
         report.cleared.push(`${where}: an attendee was not said`);
       }
+      const attendeeNames = saidAttendees.slice(0, ARG_LIMITS.attendees);
+      if (attendeeNames.length < saidAttendees.length) {
+        report.cleared.push(`${where}: too many attendees`);
+      }
+      const minutes = Number.isFinite(parsed.followup.durationMin)
+        ? Math.round(parsed.followup.durationMin)
+        : 30;
       results.push({
         id: command.id,
         kind: "followup",
         status: "proposed",
         args: {
-          title: parsed.followup.title.trim(),
+          title: clip(parsed.followup.title, ARG_LIMITS.title),
           ...when,
-          durationMin: parsed.followup.durationMin,
+          durationMin: Math.min(
+            ARG_LIMITS.maxDurationMin,
+            Math.max(ARG_LIMITS.minDurationMin, minutes),
+          ),
           attendeeNames,
         },
       });
       return;
     }
 
-    if (!parsed.remind) {
+    if (!parsed.remind || !parsed.remind.text.trim()) {
       results.push(unparsed());
       return;
     }
@@ -262,7 +291,7 @@ export function groundCommandParse(
       id: command.id,
       kind: "remind",
       status: "proposed",
-      args: { text: parsed.remind.text.trim(), ...when },
+      args: { text: clip(parsed.remind.text, ARG_LIMITS.text), ...when },
     });
   });
 

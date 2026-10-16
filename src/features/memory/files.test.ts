@@ -29,6 +29,9 @@ describe("memory files", () => {
     expect(profileSays(profile, "Email me after each meeting")).toBe(false);
     expect(profileSays(profile, "AFK joins my calendar meetings")).toBe(true);
     expect(profileSays(profile, "Notes")).toBeNull();
+    // Either bullet, as the Memory page's fields read and write them.
+    const starred = "* AFK joins my calendar meetings: yes";
+    expect(profileSays(starred, "AFK joins my calendar meetings")).toBe(true);
     expect(profileSays(profile, "Missing")).toBeNull();
     expect(profileSays(null, "Anything")).toBeNull();
     // The template says yes to the note and no to the calendar.

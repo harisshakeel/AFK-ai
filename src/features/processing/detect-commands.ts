@@ -32,7 +32,7 @@ import {
 } from "./jobs.ts";
 
 /**
- * detect_commands (requirements-v2 C1-C3, C8): find the sender's "AFK, …" sentences in a
+ * detect_commands (requirements C1-C3, C8): find the sender's "AFK, …" sentences in a
  * finished transcript, apply the ones that need no model word for word (decision, note,
  * highlight), and call Claude once for the rest (tasks, email drafts), grounding what it
  * returns. The result is one payload for apply_commands(), which also queues the
@@ -113,7 +113,11 @@ export async function runDetectCommands(
   const hostCode = host?.speakerCode ?? null;
   const hostLabel = transcript.speakers.find((speaker) => speaker.code === hostCode)?.label ?? null;
 
-  const found = detectCommands(transcript.turns, hostCodes);
+  // Questions and recaps are answered live (L2) and the final transcript does not re-ask
+  // them, so they take no place under the cap of spoken commands either.
+  const found = detectCommands(transcript.turns, hostCodes).filter(
+    ({ detection }) => detection?.kind !== "ask" && detection?.kind !== "recap",
+  );
   const spoken = found.slice(0, SPOKEN_CAP);
   const commands: PayloadCommand[] = [];
   const forModel: CommandForPrompt[] = [];
@@ -150,8 +154,6 @@ export async function runDetectCommands(
       continue;
     }
     const { kind, rest } = detection;
-    // Questions and recaps are answered live (L2); the final transcript does not re-ask them.
-    if (kind === "ask" || kind === "recap") continue;
     if (kind === "decision" || kind === "note") {
       const text = parseNoteWords(rest);
       if (!text) {
@@ -209,6 +211,7 @@ export async function runDetectCommands(
             rest,
             meeting.title,
             transcript.turns.find((turn) => turn.id === turnId)?.startSec,
+            meeting.recorded_at,
           );
       if (!remember) {
         commands.push({

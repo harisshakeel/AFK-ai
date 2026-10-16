@@ -26,6 +26,19 @@ export class ProviderUnavailableError extends Error {
   }
 }
 
+/**
+ * The call ran out of the time it was given. What that means is the runner's to decide:
+ * with nearly a whole run's time it is the job's own length, and retrying it without
+ * using an attempt would pay for the same timeout every few minutes for ever; with less,
+ * the run was short, and the job is released for a fresh one.
+ */
+export class ClaudeTimeoutError extends ProviderUnavailableError {
+  constructor(message: string, retryAt: Date) {
+    super(message, retryAt);
+    this.name = "ClaudeTimeoutError";
+  }
+}
+
 /** The deployment is misconfigured (no key, a bad key, an unknown model); no job can pass. */
 export class ConfigurationError extends Error {
   constructor(message: string) {
@@ -159,7 +172,7 @@ export function createClaudeRunner(options: {
           input.timeoutMs ? { timeout: input.timeoutMs } : undefined,
         );
       } catch (error) {
-        throw classify(error);
+        throw classifyClaudeError(error);
       }
       const usage = {
         inputTokens: message.usage.input_tokens,
@@ -189,7 +202,7 @@ export function createClaudeRunner(options: {
 }
 
 /** The SDK's typed errors, sorted into what the job runner can act on. */
-function classify(error: unknown): Error {
+export function classifyClaudeError(error: unknown): Error {
   const inMinutes = (minutes: number) => new Date(Date.now() + minutes * 60_000);
   if (error instanceof Anthropic.RateLimitError) {
     return new ProviderUnavailableError("Claude's rate limit was reached", inMinutes(2));
@@ -206,12 +219,21 @@ function classify(error: unknown): Error {
   if (error instanceof Anthropic.InternalServerError) {
     return new ProviderUnavailableError("Claude is overloaded or unavailable", inMinutes(5));
   }
+  // A timeout is a connection error to the SDK; it is told apart before them.
+  if (error instanceof Anthropic.APIConnectionTimeoutError) {
+    return new ClaudeTimeoutError("Claude did not answer in the time it was given", inMinutes(5));
+  }
   if (error instanceof Anthropic.APIConnectionError) {
     return new ProviderUnavailableError("Claude could not be reached", inMinutes(5));
   }
   if (error instanceof Anthropic.APIError) {
     // A 400 (too long an input, a schema the API rejects) is the run's own failure.
     return new ClaudeRunError(`Claude refused the request (${error.status ?? "no status"})`);
+  }
+  if (error instanceof Anthropic.AnthropicError) {
+    // The SDK's own failures, its parse of the output among them, quote the model's output
+    // in their message; a job's error is logged and shown on cards, so it names the step.
+    return new ClaudeRunError("the model's output could not be read");
   }
   return error instanceof Error ? error : new Error(String(error));
 }

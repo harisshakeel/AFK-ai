@@ -3,7 +3,7 @@ import { z } from "zod";
 import { GOOGLE_SCOPES } from "./registry.ts";
 
 /**
- * Google OAuth 2.0 and the two APIs, over `fetch` only (requirements-v2 X1, X2, X4, X5).
+ * Google OAuth 2.0 and the two APIs, over `fetch` only (requirements X1, X2, X4, X5).
  * The authorisation URL asks for offline access with a forced consent, which is what
  * makes Google issue a refresh token; the exchange and the refresh are server-side
  * form posts. Every response is validated before it is used.

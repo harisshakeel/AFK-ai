@@ -1,3 +1,4 @@
+import { normaliseWords as normalise, saidIn } from "../../lib/words.ts";
 import type { Analysis, Summaries } from "./ai-output-schema.ts";
 import { SUMMARY_TEMPLATES } from "./templates.ts";
 
@@ -29,17 +30,6 @@ export type AnalysisPayload = Omit<Analysis, "actions"> & {
 };
 
 export type GroundingReport = { dropped: string[]; cleared: string[] };
-
-const normalise = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, " ")
-    .trim();
-
-function saidIn(phrase: string, texts: string[]): boolean {
-  const needle = normalise(phrase);
-  return needle.length > 0 && texts.some((text) => ` ${normalise(text)} `.includes(` ${needle} `));
-}
 
 function indexTurns(transcript: TranscriptForGrounding) {
   const order = new Map<string, number>();

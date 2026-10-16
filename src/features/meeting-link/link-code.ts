@@ -18,6 +18,12 @@ export function linkUrl(origin: string, code: string): string {
   return `${origin.replace(/\/+$/, "")}/m/${code}`;
 }
 
+/** Every meeting address in a text, by its code, each once. */
+export function linkCodesIn(text: string): string[] {
+  const matches = text.matchAll(/\/m\/([a-z0-9]{12})(?![a-z0-9])/g);
+  return [...new Set([...matches].flatMap((match) => (match[1] ? [match[1]] : [])))];
+}
+
 /** The PIN as typed, digits only, or null when it is not four digits. */
 export function cleanPin(value: string): string | null {
   const digits = value.replace(/\D+/g, "");

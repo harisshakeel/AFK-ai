@@ -1,3 +1,5 @@
+import { createHmac } from "node:crypto";
+
 import { describe, expect, it } from "vitest";
 
 import { newConnectState, openConnectState, pkceChallenge, sealConnectState } from "./oauth-state";
@@ -25,6 +27,15 @@ describe("connect state", () => {
     expect(openConnectState(sealed, newTokenKey(), now)).toBeNull();
     expect(openConnectState(undefined, key, now)).toBeNull();
     expect(openConnectState("garbage", key, now)).toBeNull();
+  });
+
+  it("is not signed with the token-sealing key itself", () => {
+    const sealed = sealConnectState(newConnectState("user-1", "google", now), key);
+    const [payload] = sealed.split(".");
+    const raw = createHmac("sha256", Buffer.from(key, "base64"))
+      .update(payload!)
+      .digest("base64url");
+    expect(openConnectState(`${payload}.${raw}`, key, now)).toBeNull();
   });
 
   it("derives the PKCE challenge as base64url SHA-256", () => {

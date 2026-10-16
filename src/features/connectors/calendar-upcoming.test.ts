@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { listUpcomingEvents, meetingLinkOf, inviteesFor, inviteesOf } from "./calendar";
+import { isAccepted, listUpcomingEvents, meetingLinkOf, inviteesFor, inviteesOf } from "./calendar";
 
 describe("upcoming calendar meetings", () => {
   it("finds the video link in the event's fields, in order, and ignores anything else", () => {
@@ -36,7 +36,7 @@ describe("upcoming calendar meetings", () => {
             end: { dateTime: "2026-10-21T10:30:00+05:00" },
             hangoutLink: "https://meet.google.com/abc-defg-hij",
             attendees: [
-              { email: "me@example.com", self: true },
+              { email: "me@example.com", self: true, responseStatus: "accepted" },
               { email: "Sam@Example.com", displayName: "Sam Lee" },
               { email: "room@resource.calendar.google.com", resource: true },
               { email: "sam@example.com", displayName: "Sam again" },
@@ -77,6 +77,7 @@ describe("upcoming calendar meetings", () => {
         link: "https://meet.google.com/abc-defg-hij",
         platform: "meet",
         attendees: [{ email: "sam@example.com", name: "Sam Lee" }],
+        accepted: true,
       },
     ]);
     expect(calls[0]).toContain("singleEvents=true");
@@ -93,6 +94,7 @@ describe("upcoming calendar meetings", () => {
         link: "https://meet.google.com/abc-defg-hij",
         platform: "meet" as const,
         attendees: [{ email: "sam@example.com", name: "Sam Lee" }],
+        accepted: true,
       },
       {
         id: "e2",
@@ -102,6 +104,17 @@ describe("upcoming calendar meetings", () => {
         link: "https://meet.google.com/xyz-abcd-efg",
         platform: "meet" as const,
         attendees: [{ email: "shumail@example.com", name: null }],
+        accepted: true,
+      },
+      {
+        id: "e3",
+        title: "Stranger's invite",
+        startsAt: "2026-10-21T14:00:00+05:00",
+        endsAt: null,
+        link: "https://meet.google.com/abc-defg-hij",
+        platform: "meet" as const,
+        attendees: [{ email: "priya@attacker.example", name: "Priya" }],
+        accepted: false,
       },
     ];
     expect(
@@ -114,5 +127,29 @@ describe("upcoming calendar meetings", () => {
       inviteesFor(events, { calendarEventId: "nope", link: "https://meet.google.com/none" }),
     ).toEqual([]);
     expect(inviteesOf(undefined)).toEqual([]);
+    // An invite the owner never accepted gives no invitees, by its id or by its link.
+    expect(
+      inviteesFor(events, { calendarEventId: "e3", link: "https://meet.google.com/none" }),
+    ).toEqual([]);
+    expect(
+      inviteesFor(events.slice(2), {
+        calendarEventId: null,
+        link: "https://meet.google.com/abc-defg-hij",
+      }),
+    ).toEqual([]);
+  });
+
+  it("an event is the owner's when they organised it or said yes, not when it was only sent to them", () => {
+    expect(isAccepted({ organizer: { self: true } })).toBe(true);
+    expect(isAccepted({ attendees: [{ self: true, responseStatus: "accepted" }] })).toBe(true);
+    for (const responseStatus of ["needsAction", "tentative", "declined"]) {
+      expect(isAccepted({ attendees: [{ self: true, responseStatus }] }), responseStatus).toBe(
+        false,
+      );
+    }
+    expect(
+      isAccepted({ organizer: { self: false }, attendees: [{ responseStatus: "accepted" }] }),
+    ).toBe(false);
+    expect(isAccepted({})).toBe(false);
   });
 });

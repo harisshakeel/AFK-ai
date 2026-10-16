@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
+import { ClaudeTimeoutError } from "./claude";
 import type { Db, ProcessingDeps } from "./config";
 import * as jobs from "./jobs";
 import { runJobs, shouldChain } from "./runner";
@@ -124,6 +125,28 @@ describe("runJobs", () => {
         .map((call) => call.args?.p_outcome);
       expect(outcomes, code).toEqual(["done", "rejected"]);
     }
+  });
+
+  it("spends an attempt on a Claude timeout given a whole run, and releases one cut short", async () => {
+    const timeout = () => new ClaudeTimeoutError("Claude did not answer", new Date());
+    // A whole run's time: the job is too long for one call, so the attempt counts.
+    const full = stubDeps([job("ingest_media"), null]);
+    vi.spyOn(jobs, "runIngestMedia").mockRejectedValueOnce(timeout());
+    const long = await runJobs(full.deps, { budgetMs: 270_000 });
+    expect(long).toEqual({ ran: 1, done: 0, failed: 1, released: 0, stop: "idle" });
+    expect(full.calls.find((call) => call.fn === "complete_job")?.args?.p_outcome).toBe("failed");
+    // A short run: the timeout is the run's, not the job's. It is due again at once and
+    // the run stops as out of budget, so the chain hands it to a fresh function.
+    const short = stubDeps([job("ingest_media"), null]);
+    vi.spyOn(jobs, "runIngestMedia").mockRejectedValueOnce(timeout());
+    const before = Date.now();
+    const cut = await runJobs(short.deps, { budgetMs: 120_000 });
+    expect(cut).toMatchObject({ ran: 1, failed: 0, released: 1, stop: "budget" });
+    expect(shouldChain(cut, 1)).toBe(true);
+    const release = short.calls.find((call) => call.fn === "complete_job")?.args;
+    expect(release?.p_outcome).toBe("release");
+    expect(Date.parse(String(release?.p_retry_at))).toBeLessThanOrEqual(Date.now());
+    expect(Date.parse(String(release?.p_retry_at))).toBeGreaterThanOrEqual(before);
   });
 
   it("rejects a job that throws a refusal, so a refused transcript is not fetched and paid for again", async () => {

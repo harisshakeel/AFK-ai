@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { commandParseSchema } from "./ai-schema";
 import { addressSaid, groundCommandParse } from "./grounding";
 import type { CommandForPrompt } from "./prompts";
 
@@ -156,27 +157,117 @@ describe("groundCommandParse", () => {
     expect(grounded[0]).toMatchObject({ status: "proposed", args: { toNames: ["Sam"] } });
     expect(report.cleared).toEqual(["command 1: a recipient was not said"]);
   });
+
+  it("clamps what is past a limit instead of losing the meeting's commands", () => {
+    // Six names said, a five-minute follow-up: the model takes limits only as hints, so the
+    // parse must accept them and grounding must bring them inside the stored limits.
+    const sentence = "AFK, email Sam, Priya, Ali, Omar, Zara and Bilal about it.";
+    const five = "AFK, schedule a 5 minute follow-up with Sam tomorrow.";
+    const said = {
+      speakers: transcript.speakers,
+      turns: [
+        { id: "e1", text: sentence },
+        { id: "f1", text: five },
+      ],
+    };
+    const raw = {
+      commands: [
+        {
+          id: "e1",
+          understood: true,
+          task: null,
+          email: {
+            toNames: ["Sam", "Priya", "Ali", "Omar", "Zara", "Bilal"],
+            toAddresses: [],
+            subject: "S".repeat(200),
+            body: "B".repeat(3000),
+          },
+          followup: null,
+          remind: null,
+        },
+        {
+          id: "f1",
+          understood: true,
+          task: null,
+          email: null,
+          followup: {
+            title: "Follow-up",
+            whenText: null,
+            startsAt: null,
+            durationMin: 5,
+            attendeeNames: ["Sam"],
+          },
+          remind: null,
+        },
+      ],
+    };
+    const parse = commandParseSchema.parse(raw);
+    const { commands: grounded, report } = groundCommandParse(
+      parse,
+      [
+        { id: "e1", kind: "email", turnId: "e1", sentence, rest: "" },
+        { id: "f1", kind: "followup", turnId: "f1", sentence: five, rest: "" },
+      ],
+      said,
+    );
+    expect(grounded[0]).toMatchObject({
+      status: "proposed",
+      args: { toNames: ["Sam", "Priya", "Ali", "Omar", "Zara"] },
+    });
+    const email = grounded[0]!.args as { subject: string; body: string };
+    expect(email.subject).toHaveLength(120);
+    expect(email.body).toHaveLength(2000);
+    expect(grounded[1]).toMatchObject({ status: "proposed", args: { durationMin: 15 } });
+    expect(report.cleared).toEqual(["command 1: too many recipients"]);
+  });
+
+  it("marks a command not understood when a field it needs came back empty", () => {
+    const { commands: grounded } = groundCommandParse(
+      {
+        commands: [
+          {
+            id: "t2",
+            understood: true,
+            task: null,
+            email: { toNames: ["Sam"], toAddresses: [], subject: "  ", body: "Hi" },
+            followup: null,
+            remind: null,
+          },
+        ],
+      },
+      [commands[1]!],
+      transcript,
+    );
+    expect(grounded).toEqual([{ id: "t2", kind: "email", status: "unparsed", args: {} }]);
+  });
 });
 
 describe("addresses said in the call", () => {
   it("hears an address written out or spelled out, and nothing else", () => {
     const texts = [
-      "you can reach me at shumail at gmail dot com, or sam.lee@example.co.uk",
+      "you can reach me at shumail at example dot com, or sam.lee@example.co.uk",
       "my id is haris underscore s at work dot org",
     ];
-    expect(addressSaid("shumail@gmail.com", texts)).toBe(true);
+    expect(addressSaid("shumail@example.com", texts)).toBe(true);
     expect(addressSaid("Sam.Lee@example.co.uk", texts)).toBe(true);
     expect(addressSaid("haris_s@work.org", texts)).toBe(true);
-    expect(addressSaid("shumail@gmail.co", texts)).toBe(false);
+    expect(addressSaid("shumail@example.co", texts)).toBe(false);
     expect(addressSaid("ali@gmail.com", texts)).toBe(false);
     expect(addressSaid("not-an-address", texts)).toBe(false);
+    // Thirty parts said as words and no "@": a quick no, not an exponential search.
+    const parts = Array.from({ length: 30 }, () => "go");
+    expect(addressSaid(`${parts.join(".")}@x.com`, [parts.join(" ")])).toBe(false);
   });
 
   it("keeps an email's address only when it was said, in the sentence or anywhere in the call", () => {
     const transcript = {
       speakers: [{ code: "a", label: "Haris" }],
       turns: [
-        { id: "t1", speaker: "a", text: "Shumail, your email is shumail at gmail dot com, right?" },
+        {
+          id: "t1",
+          speaker: "a",
+          text: "Shumail, your email is shumail at example dot com, right?",
+        },
         { id: "t2", speaker: "a", text: "AFK, draft an email to Shumail about the interview." },
       ],
     };
@@ -196,7 +287,7 @@ describe("addresses said in the call", () => {
             task: null,
             email: {
               toNames: ["Shumail"],
-              toAddresses: ["Shumail@Gmail.com", "shumail@yahoo.com"],
+              toAddresses: ["Shumail@Example.com", "shumail@example.org"],
               subject: "Your interview",
               body: "Hi Shumail, ...",
             },
@@ -210,7 +301,7 @@ describe("addresses said in the call", () => {
     );
     expect(commands[0]).toMatchObject({
       status: "proposed",
-      args: { toNames: ["Shumail"], toAddresses: ["shumail@gmail.com"] },
+      args: { toNames: ["Shumail"], toAddresses: ["shumail@example.com"] },
     });
     expect(report.cleared).toEqual([expect.stringContaining("an address was not said")]);
   });

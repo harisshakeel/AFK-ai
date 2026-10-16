@@ -1,5 +1,3 @@
-import type { CommandKind } from "../commands/registry.ts";
-
 /**
  * The line history/actions.md gets for every executed command (requirement M4): when,
  * what, to whom, from which meeting. The host's own record; never logged.
@@ -40,8 +38,4 @@ export function actionLine(
     case "slack":
       return `${when} Posted to #${result.channelName} in ${result.teamName}: "${short(result.message)}"${from}`;
   }
-}
-
-export function kindOfResult(kind: CommandKind): kind is ActionResult["kind"] {
-  return kind === "email" || kind === "followup" || kind === "remind" || kind === "slack";
 }

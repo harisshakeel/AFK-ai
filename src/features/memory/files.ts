@@ -1,9 +1,11 @@
 import { bendAngles } from "../../lib/prompt-text.ts";
+import { escapeRegExp } from "../../lib/regexp.ts";
 import { formatTime } from "../../lib/time-rules.ts";
 /**
- * Memory files (requirements-v2 M1-M7, M10): the nine paths (six since Phase A2, the three
- * skills since then), their templates, and the pure functions that read and write them. Shared by the job runner (prompt block, learned lines),
- * the routes (profile seeding, onboarding answers) and the Memory page. No I/O here.
+ * Memory files (requirements M1-M7, M10): the nine paths, their templates, and the pure
+ * functions that read and write them. Shared by the job runner (prompt block, learned
+ * lines), the routes (profile seeding, onboarding answers) and the Memory page. No I/O
+ * here.
  *
  * Each context file has two zones: the user's, above a "---" rule, and "## Learned by
  * AFK" below it, where AFK appends one dated line per fact. The database function
@@ -501,10 +503,7 @@ export function promptBlock(files: ReadonlyArray<MemoryFileForPrompt>): string {
  */
 export function profileSays(profile: string | null | undefined, key: string): boolean | null {
   if (!profile) return null;
-  const line = new RegExp(
-    `^\\s*-\\s*${key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*:\\s*(\\S+)`,
-    "im",
-  ).exec(profile);
+  const line = new RegExp(`^\\s*[-*]\\s*${escapeRegExp(key)}\\s*:\\s*(\\S+)`, "im").exec(profile);
   const value = line?.[1]?.toLowerCase();
   if (value === "yes" || value === "y" || value === "true") return true;
   if (value === "no" || value === "n" || value === "false") return false;

@@ -73,3 +73,20 @@ export function hasPendingWork(
     commands.some((command) => MOVING.has(command.status))
   );
 }
+
+/**
+ * The pending work, as a key: the notes being written and the cards that move by
+ * themselves. It changes when new work starts, so the page's refresher, which gives up
+ * after a while, starts again for a command typed later.
+ */
+export function pendingWorkKey(
+  generation: ReadonlyArray<GenerationState>,
+  commands: ReadonlyArray<{ id: string; status: CommandStatus }>,
+): string {
+  return [
+    ...generation
+      .filter((state) => state.status === "queued" || state.status === "running")
+      .map((state) => `${state.kind}:${state.status}`),
+    ...commands.filter((command) => MOVING.has(command.status)).map((command) => command.id),
+  ].join(",");
+}

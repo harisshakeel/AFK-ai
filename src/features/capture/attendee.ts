@@ -33,6 +33,20 @@ export class AttendeeError extends Error {
   }
 }
 
+/**
+ * Whether Attendee's refusal means the bot is gone already (left, ended, deleted): a
+ * 4xx about the bot. A refused key (401, 403), a timeout (408) or a rate limit (429)
+ * says nothing about the bot, which may still be recording.
+ */
+export function botAlreadyGone(error: unknown): boolean {
+  return (
+    error instanceof AttendeeError &&
+    error.status >= 400 &&
+    error.status < 500 &&
+    ![401, 403, 407, 408, 429].includes(error.status)
+  );
+}
+
 const botSchema = z.object({
   id: z.string().regex(/^[A-Za-z0-9_-]{4,80}$/),
   state: z.string(),
@@ -141,12 +155,14 @@ export function createAttendeeClient({
     return schema.parse(text ? JSON.parse(text) : {});
   }
 
-  /** A POST whose answer is only its status (chat, speech). */
+  /** A POST whose answer is only its status (chat, speech, deleting the data). */
   async function send(path: string, body: unknown): Promise<void> {
     const response = await fetchImpl(`${baseUrl}/api/v1${path}`, {
       method: "POST",
       headers: { Authorization: `Token ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify(body),
+      // As every other call: a hung Attendee must not hold a function to its limit.
+      signal: AbortSignal.timeout(20_000),
     });
     if (!response.ok) {
       throw new AttendeeError(`Attendee POST ${path.split("/").at(-1)} failed`, response.status);
@@ -305,6 +321,8 @@ export function verifyWebhookSignature(
 export const webhookEnvelopeSchema = z.object({
   idempotency_key: z.string().max(100).optional(),
   bot_id: z.string().regex(/^[A-Za-z0-9_-]{4,80}$/),
+  /** What createBot was given as metadata; read with botMetadataSchema. */
+  bot_metadata: z.unknown().optional(),
   trigger: z.string().max(60),
   data: z
     .object({
@@ -316,6 +334,9 @@ export const webhookEnvelopeSchema = z.object({
     .loose(),
 });
 export type WebhookEnvelope = z.infer<typeof webhookEnvelopeSchema>;
+
+/** The meeting a bot was made for, as sendBot() set it; signed with the rest of the event. */
+export const botMetadataSchema = z.object({ meetingId: z.uuid() });
 
 /**
  * What a bot.state_change event means for the meeting: finished (recording and transcript

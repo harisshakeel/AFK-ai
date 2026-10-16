@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { generationStates, hasPendingWork, needsKick } from "./generation-state";
+import { generationStates, hasPendingWork, needsKick, pendingWorkKey } from "./generation-state";
 
 const NOW = Date.parse("2026-10-22T12:00:00Z");
 const ago = (minutes: number) => new Date(NOW - minutes * 60_000).toISOString();
@@ -111,5 +111,21 @@ describe("hasPendingWork", () => {
       hasPendingWork(settled, [{ status: "proposed" }, { status: "done" }, { status: "failed" }]),
     ).toBe(false);
     expect(hasPendingWork(generationStates([], NOW), [])).toBe(false);
+  });
+});
+
+describe("pendingWorkKey", () => {
+  it("changes when new work starts, so a refresher that gave up starts again", () => {
+    const writing = generationStates(
+      [{ kind: "summarize", status: "running", updated_at: ago(1) }],
+      NOW,
+    );
+    const before = pendingWorkKey(writing, [{ id: "c1", status: "done" }]);
+    const after = pendingWorkKey(writing, [
+      { id: "c1", status: "done" },
+      { id: "c2", status: "detected" },
+    ]);
+    expect(after).not.toBe(before);
+    expect(pendingWorkKey(writing, [{ id: "c1", status: "done" }])).toBe(before);
   });
 });

@@ -3,30 +3,17 @@ import "server-only";
 import { z } from "zod";
 
 import { createSupabaseAdminClient } from "@/server/db/supabase-admin";
-import { createSupabaseServerClient } from "@/server/db/supabase-server";
 import { log } from "@/server/log";
 import { mediaUrlFor, type MediaUrl } from "@/server/media/media-url";
 
-import { isLinkCode, type OwnerLink } from "./link-code";
+import { isLinkCode } from "./link-code";
 import type { SharedMeetingData } from "./shared-data";
 
 /**
- * The two reads behind a meeting's address: the owner's own link (code, PIN, on or
- * off), under Row Level Security, and what a link holder sees once the server has
- * checked their grant, through get_shared_meeting(), which returns the meeting, its
- * transcript and its summary and nothing of the owner's.
+ * What a link holder sees once the server has checked their grant, through
+ * get_shared_meeting(), which returns the meeting, its transcript and its summary and
+ * nothing of the owner's. (The owner's own link is read with the meeting page.)
  */
-export async function getOwnerLink(meetingId: string): Promise<OwnerLink | null> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("meeting_links")
-    .select("code, pin, enabled")
-    .eq("meeting_id", meetingId)
-    .maybeSingle();
-  if (error) throw new Error(`could not load the meeting's link: ${error.message}`);
-  return data ? { code: data.code, pin: data.pin, enabled: data.enabled } : null;
-}
-
 const sharedMeetingSchema = z.object({
   meeting: z.object({
     id: z.string(),

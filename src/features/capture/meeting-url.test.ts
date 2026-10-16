@@ -10,6 +10,7 @@ describe("parseMeetingUrl", () => {
     ["https://zoom.us/j/81234567890", "zoom"],
     ["https://teams.microsoft.com/l/meetup-join/19%3ameeting_abc/0", "teams"],
     ["https://teams.live.com/meet/9876543210", "teams"],
+    ["https://teams.microsoft.com/meet/2345678901234?p=AbCdEf", "teams"],
   ])("accepts %s", (input, platform) => {
     const result = parseMeetingUrl(input);
     expect(result).toMatchObject({ ok: true, platform });
@@ -23,6 +24,10 @@ describe("parseMeetingUrl", () => {
     "https://user:pass@zoom.us/j/123",
     "https://zoom.us:8443/j/123",
     "https://meet.google.com/",
+    "https://teams.microsoft.com/",
+    "https://teams.microsoft.com/l/meetup-join/",
+    "https://teams.live.com/",
+    "https://zoom.us/",
     "https://example.com/meeting",
     "javascript:alert(1)",
     "",

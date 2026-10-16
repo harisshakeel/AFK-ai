@@ -1,6 +1,6 @@
 /**
- * Which links AFK may send its bot to (requirement F9): https only, and the host must be
- * exactly a Zoom, Google Meet or Microsoft Teams host. Matching is on the parsed
+ * Which links AFK may send its bot to (requirement F9): https only, the host must be a
+ * Zoom, Google Meet or Microsoft Teams host, and the path must name one meeting. Matching is on the parsed
  * hostname with a dot boundary, so "zoom.us.evil.example" and "evilzoom.us" are refused.
  */
 export type MeetingPlatform = "zoom" | "meet" | "teams";
@@ -12,7 +12,13 @@ const PLATFORMS: Array<{ platform: MeetingPlatform; hosts: string[]; path?: RegE
   // Meet codes look like abc-defg-hij
   { platform: "meet", hosts: ["meet.google.com"], path: /^\/[a-z]{3}-[a-z]{4}-[a-z]{3}\/?$/i },
   { platform: "zoom", hosts: ["zoom.us", "zoom.com"], path: /^\/(j|my|wc\/join|s)\/[\w.-]+\/?$/i },
-  { platform: "teams", hosts: ["teams.microsoft.com", "teams.live.com"] },
+  // A meeting invite (/l/meetup-join/…) or a short meeting link (/meet/<id>), never the
+  // bare host: every link that passes takes a slot of the day's bot cap.
+  {
+    platform: "teams",
+    hosts: ["teams.microsoft.com", "teams.live.com"],
+    path: /^\/(l\/meetup-join\/.+|meet\/[\w-]+\/?)$/i,
+  },
 ];
 
 function hostMatches(host: string, allowed: string): boolean {

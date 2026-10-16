@@ -30,5 +30,5 @@ export async function loadMemory(db: Db, ownerId: string): Promise<HostMemory> {
 /** The profile's "AFK speaks in calls: yes" line (requirement L3). */
 export function speaksInCalls(memory: HostMemory): boolean {
   const profile = memory.files.find((file) => file.path === "profile.md");
-  return /^\s*-\s*AFK speaks in calls:\s*yes\b/im.test(profile?.content ?? "");
+  return /^\s*[-*]\s*AFK speaks in calls:\s*yes\b/im.test(profile?.content ?? "");
 }

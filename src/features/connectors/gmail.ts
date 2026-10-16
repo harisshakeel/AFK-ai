@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * Gmail send (requirements-v2 X4): an RFC 5322 message, base64url, posted to
+ * Gmail send (requirements X4): an RFC 5322 message, base64url, posted to
  * users.messages.send with the host's one-hour access token. Gmail fills in From. The
  * message is built here so the exact bytes are unit-tested; the HTTP call is thin.
  */

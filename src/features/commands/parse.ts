@@ -115,12 +115,15 @@ export function parseSlackWords(rest: string): string | null {
 /**
  * A remember, spoken or typed: the words, the memory file they belong in, the dated
  * line that goes under "Learned by AFK" (ending with the meeting and the moment) and
- * the file's template for when it does not exist yet.
+ * the file's template for when it does not exist yet. The line is dated by the meeting
+ * it was said in, as the learn job dates its lines, so memory's oldest-first trimming
+ * orders it with the rest; today only for a meeting with no date.
  */
 export function parseRememberWords(
   rest: string,
   meetingTitle: string,
   atSec: number | undefined,
+  recordedAt: string | null = null,
 ): {
   text: string;
   path: ReturnType<typeof chooseMemoryFile>;
@@ -133,9 +136,14 @@ export function parseRememberWords(
   return {
     text,
     path,
-    line: learnedLine(new Date().toISOString().slice(0, 10), text, meetingTitle, atSec),
+    line: learnedLine(dayOf(recordedAt), text, meetingTitle, atSec),
     template: contextTemplate(path),
   };
+}
+
+function dayOf(recordedAt: string | null): string {
+  const time = recordedAt ? Date.parse(recordedAt) : NaN;
+  return (Number.isFinite(time) ? new Date(time) : new Date()).toISOString().slice(0, 10);
 }
 
 const sameName = (a: string, b: string) =>

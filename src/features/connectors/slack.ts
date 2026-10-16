@@ -3,7 +3,7 @@ import { z } from "zod";
 import { SLACK_SCOPES } from "./registry.ts";
 
 /**
- * Slack OAuth v2 and the Web API, over `fetch` only (requirements-v2 X7). The app
+ * Slack OAuth v2 and the Web API, over `fetch` only (requirements X7). The app
  * installs into a workspace and gets a bot token; `chat:write.public` lets it post to
  * any public channel without joining, and `channels:read` lists them for the picker.
  */

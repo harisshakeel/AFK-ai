@@ -1,6 +1,8 @@
 import "server-only";
 
+import { nameFromMetadata } from "@/lib/google-user";
 import { createSupabaseServerClient } from "@/server/db/supabase-server";
+import { log } from "@/server/log";
 
 import {
   contextTemplate,
@@ -9,6 +11,7 @@ import {
   parseSkill,
   SKILL_PATHS,
   type GoogleIdentity,
+  type SkillPath,
   type MemoryPath,
   type SkillSettings,
 } from "./files";
@@ -45,17 +48,21 @@ export async function listMemoryFiles(): Promise<MemoryFileRow[]> {
 /** The three skills as settings, the template's defaults under the host's own lines. */
 export async function loadSkillSettings(): Promise<SkillSettings> {
   const supabase = await createSupabaseServerClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("memory_files")
     .select("path, content")
     .in("path", [...SKILL_PATHS]);
-  const settings = {} as SkillSettings;
-  for (const path of SKILL_PATHS) {
-    const key = path.slice("skills/".length, -".md".length) as keyof SkillSettings;
+  // Unreadable: the templates' defaults stand, and the log says the host's lines were not read.
+  if (error) log.warn("memory.skills_read_failed", { code: error.code ?? "db_error" });
+  const skill = (path: SkillPath) => {
     const own = data?.find((row) => row.path === path)?.content;
-    settings[key] = { ...parseSkill(contextTemplate(path)), ...(own ? parseSkill(own) : {}) };
-  }
-  return settings;
+    return { ...parseSkill(contextTemplate(path)), ...(own ? parseSkill(own) : {}) };
+  };
+  return {
+    email: skill("skills/email.md"),
+    slack: skill("skills/slack.md"),
+    calendar: skill("skills/calendar.md"),
+  };
 }
 
 /** Whether the welcome flow has run: profile.md exists once it has (or once it was skipped). */
@@ -74,12 +81,5 @@ export async function hasProfile(): Promise<boolean> {
 export async function googleIdentity(): Promise<GoogleIdentity> {
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase.auth.getUser();
-  const meta = (data.user?.user_metadata ?? {}) as Record<string, unknown>;
-  const name =
-    typeof meta.full_name === "string" && meta.full_name.trim()
-      ? meta.full_name.trim()
-      : typeof meta.name === "string" && meta.name.trim()
-        ? meta.name.trim()
-        : null;
-  return { name, email: data.user?.email ?? null };
+  return { name: nameFromMetadata(data.user?.user_metadata), email: data.user?.email ?? null };
 }

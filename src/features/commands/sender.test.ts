@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { findSender, matchesSender, normalizeName, profileNames, senderNames } from "./sender";
+import {
+  findSender,
+  isLiveSender,
+  matchesSender,
+  normalizeName,
+  profileNames,
+  senderNames,
+} from "./sender";
 
 describe("names", () => {
   it("cleans a name the way Meet and Google write it", () => {
@@ -60,15 +67,17 @@ describe("finding the sender among the speakers", () => {
     ).toEqual({ code: "b", by: "name" });
   });
 
-  it("takes the only speaker when no name matches", () => {
-    expect(findSender([{ code: "a", label: "Work Laptop" }], names)).toEqual({
-      code: "a",
-      by: "only",
-    });
+  it("takes the only speaker only when no name is known for the sender", () => {
     expect(findSender([{ code: "a", label: "Work Laptop" }], [])).toEqual({
       code: "a",
       by: "only",
     });
+  });
+
+  it("takes nobody when names are known and the only speaker is not one of them", () => {
+    // A 1:1 the owner skipped: the other person speaks alone, and is not the sender.
+    expect(findSender([{ code: "a", label: "Priya Shah" }], names)).toBeNull();
+    expect(findSender([{ code: "a", label: "Work Laptop" }], names)).toBeNull();
   });
 
   it("takes nobody on a tie, or when several spoke and none matched", () => {
@@ -91,5 +100,22 @@ describe("finding the sender among the speakers", () => {
       ),
     ).toBeNull();
     expect(findSender([], names)).toBeNull();
+  });
+});
+
+describe("the sender during the call (audit F2)", () => {
+  const names = senderNames(["Haris Shakeel"]);
+
+  it("is the speaker who matches while nobody else heard does", () => {
+    expect(isLiveSender("Haris Shakeel", [], names)).toBe(true);
+    expect(isLiveSender("Haris Shakeel", ["Tess Lee", "Sam"], names)).toBe(true);
+    // Rejoining, Meet adds "(2)": the same name, so no tie.
+    expect(isLiveSender("Haris Shakeel (2)", ["Haris Shakeel", "Tess Lee"], names)).toBe(true);
+  });
+
+  it("is nobody once a second matching name has been heard, whoever spoke first", () => {
+    expect(isLiveSender("Haris", ["Haris Shakeel"], names)).toBe(false);
+    expect(isLiveSender("Haris Shakeel", ["Tess Lee", "Haris"], names)).toBe(false);
+    expect(isLiveSender("Tess Lee", [], names)).toBe(false);
   });
 });

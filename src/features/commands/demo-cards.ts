@@ -3,7 +3,7 @@ import type { CommandView } from "./command-view";
 /**
  * What a visitor sees on the Tasks tab of a sample meeting (requirement C6): example
  * cards built from the command list's own example sentences, labelled as examples.
- * Static, never rows; nothing runs. Not from a real call: none has been recorded yet.
+ * Static, never rows; nothing runs.
  */
 export const DEMO_COMMANDS: ReadonlyArray<CommandView> = [
   {
@@ -18,6 +18,7 @@ export const DEMO_COMMANDS: ReadonlyArray<CommandView> = [
     approvedArgs: null,
     result: null,
     executedAt: null,
+    rewrites: 0,
     needsApproval: false,
     createdAt: "2026-10-16T08:00:00Z",
   },
@@ -33,6 +34,7 @@ export const DEMO_COMMANDS: ReadonlyArray<CommandView> = [
     approvedArgs: null,
     result: null,
     executedAt: null,
+    rewrites: 0,
     needsApproval: false,
     createdAt: "2026-10-16T08:01:00Z",
   },
@@ -48,6 +50,7 @@ export const DEMO_COMMANDS: ReadonlyArray<CommandView> = [
     approvedArgs: null,
     result: null,
     executedAt: null,
+    rewrites: 0,
     needsApproval: false,
     createdAt: "2026-10-16T08:02:00Z",
   },
@@ -67,6 +70,7 @@ export const DEMO_COMMANDS: ReadonlyArray<CommandView> = [
     approvedArgs: null,
     result: null,
     executedAt: null,
+    rewrites: 0,
     needsApproval: true,
     createdAt: "2026-10-16T08:03:00Z",
   },

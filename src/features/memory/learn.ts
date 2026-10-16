@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { normaliseWords as normalise, saidIn } from "../../lib/words.ts";
+
 /**
  * Learned lines (requirement M3): after a meeting is summarised, one Claude run proposes
  * at most ten facts worth keeping in the context files, each citing the turn that states
@@ -15,20 +17,28 @@ export type LearnFile = (typeof LEARN_FILES)[number];
 
 export const LEARN_MAX_LINES = 10;
 
+/** A learned line is clipped to this; the instruction asks for at most 25 words. */
+const LEARN_TEXT_MAX = 300;
+
+/**
+ * No hard limits: the API takes them only as hints and the SDK checks them after the
+ * call is paid for, so one long line would throw away every line of the meeting.
+ * groundLearned() keeps the count, the files, the lengths and the quotes instead.
+ */
 export const learnSchema = z.object({
   lines: z
     .array(
       z.object({
-        file: z.enum(LEARN_FILES),
+        file: z.string().describe(`One of ${LEARN_FILES.join(", ")}.`),
         /** One sentence, present tense, no date: the date and the meeting are added. */
-        text: z.string().min(3).max(300),
+        text: z.string(),
         /** The id of the turn that states the fact. */
-        turnId: z.string().min(1).max(100),
+        turnId: z.string(),
         /** An exact phrase of at least three words from that turn. */
-        quote: z.string().min(3).max(300),
+        quote: z.string(),
       }),
     )
-    .max(LEARN_MAX_LINES),
+    .describe(`At most ${LEARN_MAX_LINES} lines.`),
 });
 export type LearnOutput = z.infer<typeof learnSchema>;
 
@@ -53,12 +63,6 @@ export type GroundedLearnedLine = {
 };
 
 /** Letters and digits only, lower case, single spaces: how quotes are compared. */
-const normalise = (text: string) =>
-  text
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, " ")
-    .trim();
-
 /**
  * Keeps a proposed line only when its cited turn exists in this transcript and its quote
  * (at least three words) appears in that turn; drops repeats. Everything dropped is
@@ -75,10 +79,13 @@ export function groundLearned(
   lines.forEach((line, index) => {
     const turn = byId.get(line.turnId);
     const quote = normalise(line.quote);
-    const text = line.text.replace(/\s+/g, " ").trim();
-    if (!turn) {
+    const text = line.text.replace(/\s+/g, " ").trim().slice(0, LEARN_TEXT_MAX).trim();
+    const file = LEARN_FILES.find((candidate) => candidate === line.file);
+    if (!file) {
+      dropped.push(`line ${index + 1}: names no context file`);
+    } else if (!turn) {
       dropped.push(`line ${index + 1}: cites no real turn`);
-    } else if (quote.split(" ").length < 3 || !normalise(turn.text).includes(quote)) {
+    } else if (quote.split(" ").length < 3 || !saidIn(line.quote, [turn.text])) {
       dropped.push(`line ${index + 1}: its quote is not in the cited turn`);
     } else if (!text) {
       dropped.push(`line ${index + 1}: empty`);
@@ -88,7 +95,7 @@ export function groundLearned(
       dropped.push(`line ${index + 1}: past the limit of ${LEARN_MAX_LINES}`);
     } else {
       seen.add(normalise(text));
-      kept.push({ file: line.file, text, turnId: turn.id, startSec: turn.startSec });
+      kept.push({ file, text, turnId: turn.id, startSec: turn.startSec });
     }
   });
   return { kept, dropped };

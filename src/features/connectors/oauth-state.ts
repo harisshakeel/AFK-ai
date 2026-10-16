@@ -39,8 +39,16 @@ export function pkceChallenge(verifier: string): string {
   return base64url(createHash("sha256").update(verifier).digest());
 }
 
+/**
+ * Signed under a key derived from CONNECTOR_TOKEN_KEY for this one purpose, never the
+ * token-sealing key itself: one secret, one use, so a weakness in either cannot reach
+ * the other.
+ */
 function sign(payload: string, keyBase64: string): string {
-  return base64url(createHmac("sha256", Buffer.from(keyBase64, "base64")).update(payload).digest());
+  const key = createHmac("sha256", Buffer.from(keyBase64, "base64"))
+    .update("afk oauth-state v1")
+    .digest();
+  return base64url(createHmac("sha256", key).update(payload).digest());
 }
 
 /** The cookie value: "<payload>.<signature>", payload base64url JSON. */

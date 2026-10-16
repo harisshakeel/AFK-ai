@@ -76,17 +76,26 @@ describe("learned lines (requirement M3)", () => {
     ]);
   });
 
-  it("caps at ten lines, in the schema and in the check", () => {
+  it("caps at ten lines in the check, never by refusing the model's answer", () => {
     const many = Array.from({ length: 12 }, (_, index) => ({
       file: "context/people.md" as const,
       text: `Fact ${index}`,
       turnId: "m-0000",
       quote: "Ana leads QA",
     }));
-    expect(learnSchema.safeParse({ lines: many }).success).toBe(false);
+    // Twelve lines, one of them long and one in no context file: the answer still parses.
+    const odd = [
+      ...many,
+      { file: "context/people.md", text: "A".repeat(400), turnId: "m-0000", quote: "Ana leads QA" },
+      { file: "notes.md", text: "Somewhere else", turnId: "m-0000", quote: "Ana leads QA" },
+    ];
+    expect(learnSchema.safeParse({ lines: odd }).success).toBe(true);
     const { kept, dropped } = groundLearned(many, turns);
     expect(kept).toHaveLength(10);
     expect(dropped).toEqual(["line 11: past the limit of 10", "line 12: past the limit of 10"]);
+    const misfiled = groundLearned(odd.slice(12), turns);
+    expect(misfiled.kept.map((line) => line.text.length)).toEqual([300]);
+    expect(misfiled.dropped).toEqual(["line 2: names no context file"]);
   });
 
   it("writes each kept line dated, ending with the meeting and the moment", () => {

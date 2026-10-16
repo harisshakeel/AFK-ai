@@ -6,10 +6,12 @@
  * The sender is found among the speakers by the names they are known by: the name on
  * their AFK account, the "Name" and "Name in calls" lines of their profile. A speaker
  * matches when one name is contained in the other, token by token, so "Haris" matches
- * "Haris Shakeel" and "Haris Shakeel" matches "Muhammad Haris Shakeel". When no name
- * matches and only one person spoke in the sender's own meeting, that person is the
- * sender. Two matching speakers is a tie, and a tie is nobody: AFK would rather take no
- * orders than a stranger's.
+ * "Haris Shakeel" and "Haris Shakeel" matches "Muhammad Haris Shakeel". Only when AFK
+ * knows no name for the sender at all, and only one person spoke, is that person taken
+ * as the sender. When names are known and nobody matches, nobody is: a lone speaker in a
+ * meeting the owner skipped is someone else, and their "AFK, remember …" would land in
+ * the owner's memory. Two matching speakers is a tie, and a tie is nobody: AFK would
+ * rather take no orders than a stranger's.
  */
 export type SenderMatch = { code: string; by: "name" | "only" };
 
@@ -50,8 +52,9 @@ export function matchesSender(label: string, names: ReadonlyArray<string>): bool
 }
 
 /**
- * The sender among the speakers: the one whose label matches a name, else the only
- * speaker there is, else nobody. A tie between two matching speakers is nobody.
+ * The sender among the speakers: the one whose label matches a name, else, when no name
+ * is known, the only speaker there is, else nobody. A tie between two matching speakers
+ * is nobody.
  */
 export function findSender(
   speakers: ReadonlyArray<{ code: string; label: string }>,
@@ -59,8 +62,24 @@ export function findSender(
 ): SenderMatch | null {
   const matched = speakers.filter((speaker) => matchesSender(speaker.label, names));
   if (matched.length === 1) return { code: matched[0]!.code, by: "name" };
-  if (matched.length === 0 && speakers.length === 1) return { code: speakers[0]!.code, by: "only" };
+  if (names.length === 0 && speakers.length === 1) return { code: speakers[0]!.code, by: "only" };
   return null;
+}
+
+/**
+ * The sender during the call, by the same tie rule over the speakers heard so far: the
+ * speaker matches a name, and nobody heard under another name matches too. A sender
+ * who rejoins keeps their name (Meet's "(2)" is dropped), so a new speaker id alone is
+ * no tie; two people under one identical name cannot be told apart live.
+ */
+export function isLiveSender(
+  label: string,
+  heard: ReadonlyArray<string>,
+  names: ReadonlyArray<string>,
+): boolean {
+  if (!matchesSender(label, names)) return false;
+  const me = normalizeName(label);
+  return !heard.some((other) => normalizeName(other) !== me && matchesSender(other, names));
 }
 
 /** The "Name" and "Name in calls" lines of profile.md, as written. */

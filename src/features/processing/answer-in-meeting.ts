@@ -24,8 +24,10 @@ import { loadMemory, speaksInCalls } from "./memory.ts";
  * cites the moment, and goes to the meeting chat; it is spoken too when the host's
  * profile says "AFK speaks in calls: yes" (L3) and Attendee has speech credentials.
  * Whatever happens with the chat, the answer lands on the command's card. An answer
- * with no surviving citation is replaced by the fixed line, so a planted sentence
- * cannot steer what the bot says in the host's name.
+ * with no surviving citation is replaced by the fixed line. The prompt holds the
+ * meeting's lines and nothing of the host's memory: the chat is read by everyone in the
+ * call, and memory holds the host's private notes and their other meetings' titles and
+ * headlines. Memory is read only for the "speaks in calls" line.
  */
 const NOT_DISCUSSED = "That wasn't discussed yet.";
 
@@ -61,10 +63,11 @@ export async function runAnswerInMeeting(
     typeof args.question === "string" && args.question.trim()
       ? args.question.trim()
       : command.sentence;
+  const input = formatAnswerInput(question, lines);
   const { data, run } = await claude.runStructured({
     name: "answer",
-    data: formatAnswerInput(question, lines),
-    extra: memory.block,
+    data: input.data,
+    extra: input.extra,
     instruction: answerInstruction(command.kind),
     schema: answerSchema,
     maxTokens: 2_000,
