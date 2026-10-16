@@ -1,4 +1,4 @@
-# AFK.ai — requirements
+# AFK.ai requirements
 
 AFK.ai is an AI meeting helper built for the person who wasn't fully there: they were
 double-booked, half-listening, or absent, and need to catch up in minutes without asking
@@ -7,962 +7,501 @@ the call, drafts the emails, invites, reminders and Slack posts that follow, and
 them only after the user approves. Every output leads back to the moment in the recording
 where it was said, so the user can check anything they don't trust.
 
-Status: draft v6, 2026-10-16. Based on a hands-on run of Fathom,
-[docs/research.md](research.md), the product decisions in the [Decisions](#decisions)
-section, and the AFK.ai additions (FR-12 to FR-25, NFR-06 to NFR-09), marked
-**[AFK.ai addition]**. v4 to v6 amend criteria to match the stack and plan in
-[docs/architecture.md](architecture.md) and [docs/plan.md](plan.md) (Next.js 16, Supabase
-with anonymous users and private Storage, Vercel with a daily cron, Attendee with
-captions by default and Deepgram by switch, Claude Sonnet from `CLAUDE_MODEL` with a JSON
-schema and no tools, jobs in a Postgres table). How the system behaves is in
-[docs/system-design.md](system-design.md); the look is in [docs/design.md](design.md).
-No code exists yet.
-
-## Priorities
-
-- **P0** — the product doesn't work without it. In the first release.
-- **P1** — expected by users; ships in the first release if time allows, otherwise next.
-- **P2** — valuable, not required for launch.
-
-## Definitions
-
-- **Workspace** — the private container for one user's meetings, memory, cards and
-  settings. A guest gets one on their first action (FR-12); "Continue with Google"
-  attaches it to a Google account (FR-11).
-- **Owner** — the user whose workspace a meeting belongs to; the one who sent the bot.
-- **Sender** — the owner, as a participant on the call. Only the sender can give spoken
-  commands (FR-14) or ask questions during the call (FR-16).
-- **Seed meeting** — one of the five ICSI Meeting Corpus meetings loaded into every
-  environment (FR-10). Seed meetings are public: anyone can open them, with or without a
-  workspace.
-- **Moment** — a timestamp in a recording, in milliseconds from the start.
-- **Segment** — one transcript line: speaker, start and end moment, text.
-- **Ready** — the meeting has a recording, a transcript and at least one summary.
-- **Card** — a pending outbound action (email, calendar invite, reminder, Slack post)
-  waiting for the owner's approval (FR-15).
-- **Memory** — what AFK.ai has learned about the owner: profile, people, projects,
-  words, and writing preferences (FR-17).
-
-## Scope of this release
-
-- Transcription and notes are in English. Urdu or Hindi speech is transcribed in Roman
-  Urdu (FR-22); notes stay in English.
-- During the call, AFK.ai listens for the sender's commands (FR-14) and answers the
-  sender's questions in the meeting chat (FR-16). Every other feature happens after the
-  call.
-
----
-
-## Functional requirements
-
-### FR-01 — Connect a calendar and send the bot to a call — P0
-
-The owner connects their Google Calendar once. AFK.ai sends a bot to Zoom, Google Meet and
-Microsoft Teams calls on that calendar. The bot joins, records and transcribes, whether or
-not the owner is on the call. The owner can also paste a meeting link for a call that
-isn't on the calendar.
-
-Acceptance criteria:
-1. The owner can connect a Google Calendar with OAuth and disconnect it from settings.
-   Nothing is stored before the owner consents. Google Calendar is the only calendar
-   supported.
-2. Upcoming meetings with a Zoom, Meet or Teams link appear in an "Upcoming" list within
-   5 minutes of being added to the calendar, each with a toggle: *Send bot* on or off.
-   The default is configurable: all meetings, none, or only meetings with an external
-   attendee. FR-19 extends this list into the dashboard's week view.
-3. The owner can paste a Zoom, Meet or Teams URL and send a bot now. The URL is validated
-   on the server; anything else is rejected with a clear message.
-4. The send form (and the Upcoming toggle, the first time it is used) shows this text:
-   *"AFK announces itself when it joins and everyone on the call can see it. Only send it
-   to calls where everyone has agreed to be recorded. Your meetings are private to you."*
-5. The bot joins within 60 seconds of the scheduled start, or within 60 seconds of
-   "send now". It joins as **"AFK.ai Notetaker"** with no camera image.
-6. **The bot records whether or not the owner is on the call.** This is the point of the
-   product and the main thing Fathom cannot do
-   ([research §2](research.md#2-how-the-bot-joins-calls)).
-7. The bot records video: MP4, speaker view, 720p. The recording stays in Attendee's
-   storage (see FR-03 for playback).
-8. The meeting goes through a stored state machine — `scheduled → joining → recording →
-   processing → ready | failed` — and the UI shows the current state live. The owner
-   never has to refresh to find out what happened.
-9. The bot leaves on its own after 5 minutes in a waiting room, 10 minutes of silence, or
-   3 hours of recording. Each case is a distinct, plainly worded state with the next
-   action: *not admitted from the waiting room* (retry), *left after 10 minutes of
-   silence*, *stopped at the 3-hour limit* (the recording up to that point is kept and
-   processed), *removed by the host*, *meeting never started*, *recording failed*
-   (contact support). No raw provider errors reach the user.
-10. Sending a bot is idempotent: one meeting cannot get two bots. Launches are
-    rate-limited per workspace (see NFR-08 for the quotas).
-11. Transcription produces segments with speaker, start and end moments, and text. A
-    live transcript is received during the call so that FR-14 and FR-16 can act on it.
-12. Speaker names are taken from the meeting platform's participant names. A participant
-    who drops and rejoins is merged into one speaker automatically. Two different people
-    with the same name are numbered: "Sam", "Sam (2)". There is no manual confirm, rename
-    or merge step.
-13. The meeting is *ready* within 10 minutes of the call ending for a 60-minute call.
-14. The Summon form asks the call's language: **"English and Urdu"** (the default) or
-    **"English"**. The choice is remembered in the browser. When Deepgram is on
-    (`TRANSCRIPTION_PROVIDER=deepgram`) it selects Deepgram's multilingual mode for
-    "English and Urdu"; with platform captions (the default) it is informational.
-
-### FR-02 — Meetings list — P0
-
-Acceptance criteria:
-1. The list shows every meeting in the workspace, newest first, with: title, date and
-   start time (in the owner's time zone), length, the speakers (names, overflowing to
-   "+N"), and a one-line summary.
-2. The seed meetings appear in a separate "Example meetings" section for every visitor,
-   including visitors without a workspace, and are clearly marked as public examples.
-3. Meetings not yet ready show their state (scheduled, recording, processing, failed)
-   instead of a summary.
-4. The one-line summary is generated once the transcript is ready and is at most 160
-   characters.
-5. Empty state for a new workspace: "No meetings yet" with a button to connect a calendar
-   or paste a link, with the seed meetings still shown below.
-6. The list is paginated or infinitely scrolled; 500 meetings load without a noticeable
-   slowdown.
-7. Loading, empty, error and success states all exist (see NFR-02 for accessibility).
-
-### FR-03 — Meeting page with synced playback and transcript — P0
-
-Acceptance criteria:
-1. The recording plays in the page: video (MP4, speaker view, 720p) for recorded
-   meetings, audio only for seed meetings.
-2. Recorded meetings play through Attendee's short-lived signed links. (Attendee
-   documents them only as "short-lived"; the 30-minute figure from the product decisions
-   is unverified, so the page reads the expiry from the signed URL rather than assuming
-   it.) The page requests a link when it loads and renews it before it expires, without
-   interrupting playback or losing the current position. Links are never exposed to
-   anyone but the owner (or a PIN viewer, FR-21).
-3. The transcript is shown as segments with speaker name, timestamp and text. The current
-   segment is highlighted and the transcript scrolls to keep it in view while playing;
-   scrolling manually pauses the auto-scroll until the user clicks "Jump to now".
-4. Clicking any segment seeks the player to that segment's start moment and starts or
-   continues playback.
-5. Playback speed can be set to 1×, 1.25×, 1.5×, 1.75× and 2×, and the choice persists
-   for the owner.
-6. Keyboard: space plays/pauses, left/right skips 5 seconds, and the transcript is
-   navigable by keyboard with visible focus.
-7. The page loads and can start playing within 2 seconds on a 60-minute, 8-speaker
-   meeting (see NFR-01).
-8. The URL can carry a moment (`?t=1234567`) so links open the page at that moment with
-   the matching segment in view.
-9. Speaker colours or labels are consistent for the whole meeting.
-10. Seed meeting pages show the ICSI Meeting Corpus credit and a link to the list of
-    changes made (FR-10).
-11. Spoken commands (FR-14) and live questions (FR-16) stay in the transcript, marked as
-    commands, with a link to what they produced.
-
-### FR-04 — AI summary with templates, linked to moments — P0
-
-Acceptance criteria:
-1. When the transcript is ready, a summary is generated with the **Catch me up** template
-   without any action from the owner.
-2. The owner can switch between exactly four templates: **Catch me up** (for the person
-   who missed it: what was decided, what's expected of me, what changed), **General**,
-   **Project update** and **Brief**. There are no custom templates. Switching shows a
-   cached result if it exists, otherwise generates one with a visible progress state.
-3. Every point in a summary is linked to the moment it was said. Clicking a point seeks
-   the player (FR-03) to that moment. A point that cannot be tied to a moment is shown
-   without a link, never with a wrong one.
-4. Summaries are grounded in the transcript. A spot check of 20 summary points on the
-   seeded 60-minute, 8-speaker meeting finds no claim that the linked segment does not
-   support.
-5. The summary can be copied as Markdown and as plain text with one click.
-6. The owner can regenerate a summary. Generation failures (LLM error, rate limit) show
-   an error with a retry and keep the previous summary.
-7. Transcripts are passed to the model as untrusted content; instructions inside a
-   transcript ("ignore previous instructions…") do not change the output.
-8. Summaries for seed meetings are generated once at seed time and shared by all
-   visitors; visitors cannot regenerate them.
-9. Command utterances (FR-14) are not summarised as discussion; only their effects
-   (tasks, decisions, notes) appear in the summary.
-10. Memory (FR-17) is used to spell names, projects and terms correctly in summaries.
-
-### FR-05 — Action items and decisions — P0
-
-Acceptance criteria:
-1. Action items are extracted automatically with: the task, the owner **only if named in
-   the call**, the due date **only if said in the call**, and a link to the moment.
-   Nothing is inferred: if no owner or date was spoken, the field is empty.
-2. Decisions are extracted the same way: the decision as stated, who stated it if clear,
-   and a link to the moment.
-3. Each action item has a checkbox. Ticking it persists immediately and shows as done
-   everywhere the item appears.
-4. "Copy" copies all action items (or the selected ones) as a Markdown checklist with
-   owner and due date where present.
-5. The owner can edit the text, owner and date, add an item manually, or delete one.
-   Edited items are marked as edited; the original stays visible on hover.
-6. On the seeded 60-minute, 8-speaker meeting, every extracted action item points to a
-   segment where the task is actually discussed.
-7. On seed meetings, ticks and edits are stored per workspace, so one visitor's ticks
-   don't change what another visitor sees.
-8. Tasks and decisions created by spoken or typed commands (FR-14) appear in the same
-   lists, marked "by command", with the command's moment as their link.
-
-### FR-06 — Highlights — P1
-
-Acceptance criteria:
-1. On the meeting page, the owner can mark a highlight by selecting one or more
-   transcript segments (or a time range on the player) and giving it an optional label.
-2. Highlights appear as markers on the player's timeline and in a "Highlights" list on
-   the meeting page. Clicking either seeks to the highlight's start.
-3. Highlights can be edited (range, label) and deleted.
-4. On seed meetings, highlights are per workspace, like FR-05 criterion 7.
-5. "AFK, highlight that" (FR-14) creates a highlight covering the previous speaker's
-   turn, up to 60 seconds, ending at the command.
-
-### FR-07 — Share a clip with no account needed — P1
-
-Acceptance criteria:
-1. From a highlight or any selected range, the owner can create a clip and get a share
-   link.
-2. Opening the link shows **only that clip** on a public page that needs no sign-in. The
-   viewer sees the clip, its transcript excerpt, the meeting title and date, and only the
-   speakers heard in the clip. The owner's name is not shown. The rest of the meeting is
-   not reachable from that page, by URL or by scrubbing.
-3. A clip of a **private meeting shares the transcript excerpt only** — no audio or
-   video. The page says so.
-4. A clip of a **seed meeting** plays audio limited to the clip's range. The player may
-   load the full public audio file and restrict playback to the range; this is accepted
-   because the recordings are public.
-5. There is no download button.
-6. Links are unguessable (at least 128 bits of randomness) and do not expire. The owner
-   can see the clips they've shared and revoke any link at any time; revoking takes
-   effect immediately.
-7. A revoked link shows "This clip is no longer available", not an error.
-8. The clip page meets NFR-02 (accessibility) and works on a phone.
-
-### FR-08 — Search across meetings, opening at the moment — P1
-
-Acceptance criteria:
-1. A search box finds matches across the workspace's meeting titles, transcripts,
-   summaries, action items, notes and decisions, plus the seed meetings.
-2. Results show the meeting, the speaker, the matched text with context, and the moment.
-   Clicking a result opens the meeting page at that moment (FR-03 criterion 8) with the
-   segment highlighted.
-3. Results return within 1 second for 500 meetings with full-text (keyword) search.
-4. Results can be filtered by date range and by speaker.
-5. P2: natural-language questions ("what did we decide about pricing?") answered from
-   the transcripts, with every answer citing the moments it came from, and the question
-   history kept (Fathom loses it, [research §7](research.md#7-search-and-ask-fathom)).
-   FR-16 covers the same question asked during the call.
-
-### FR-09 — Summary email after each meeting — P1
-
-Acceptance criteria:
-1. Emails are sent **from the owner's own Gmail to the owner**, using the Gmail
-   connection in FR-18. No email is sent until Gmail is connected, and settings explain
-   this.
-2. When a meeting becomes *ready*, the owner receives one email within 5 minutes with:
-   title, date, length, speakers, the Catch me up summary, action items (with owners and
-   dates where said), decisions, the number of cards waiting for approval (FR-15), and a
-   link to the meeting page.
-3. Each summary point and action item in the email links to the meeting page at its
-   moment.
-4. A profile setting turns the email off.
-5. If the meeting failed, no summary email is sent; the owner gets one email saying what
-   failed and what to do.
-6. Exactly one email per meeting, even if the "ready" event is received twice.
-7. If the Gmail token is revoked or expired, the email is skipped, the owner sees a
-   notice in the app to reconnect, and the email is sent once they do.
-8. The email renders correctly in Gmail, Apple Mail and Outlook, in light and dark mode.
-
-### FR-10 — Seeded with real meetings — P0
-
-Acceptance criteria:
-1. The seed data is five real research meetings from the **ICSI Meeting Corpus**,
-   licensed **CC BY 4.0**, including one meeting of at least 60 minutes with eight
-   distinct speakers. **No meeting, transcript, speaker or recording is invented.**
-2. Seed meetings are audio only and are public to everyone, with or without a workspace.
-   The ICSI audio is re-encoded to AAC (`.m4a`, about 16 MB per hour) with macOS's
-   built-in `afconvert` by a small script under `tools/`, so no third-party tools are
-   needed and each file stays under Supabase's 50 MB limit. The audio lives in private
-   Supabase Storage and is served through server-signed URLs, so no bucket is public;
-   signed-URL creation is rate-limited per workspace (NFR-08).
-3. Speakers are labelled "Speaker A", "Speaker B", … in order of first appearance, since
-   real names were never recorded. Nothing else is redacted.
-4. The app credits the ICSI Meeting Corpus (attribution as required by CC BY 4.0) on
-   every seed meeting page and on an "About the example meetings" page, which also lists
-   every change we made to the originals (format conversion, trimming, speaker labelling,
-   generated summaries, chapters and action items).
-5. Seed data is loaded with a script into a fresh database so that a new environment is
-   ready to demo without recording anything first. The script is idempotent.
-6. The seed's README records the source, corpus meeting ID, date and licence of each
-   recording.
-7. The seeded meetings exercise every feature: summaries in all four templates, chapters
-   and the who-spoke-when strip (FR-13), action items with and without owners and dates,
-   decisions, at least three highlights, one shared clip and search results across
-   several meetings. Seed meetings contain no commands, cards or memory.
-8. The 60-minute, 8-speaker meeting is the benchmark for every performance criterion in
-   this document.
-
-### FR-11 — Accounts — P0
-
-Acceptance criteria:
-1. The only sign-in is **"Continue with Google"**. There is no password, email link or
-   other provider.
-2. Continuing with Google attaches the current guest workspace (FR-12) to that Google
-   account. Nothing in the workspace is lost. Signing in on another device opens the same
-   workspace.
-3. If the Google account already has a workspace and the device has a guest workspace
-   with content, the user is asked which to keep, or to merge the guest's meetings into
-   the account's workspace. Nothing is deleted without that choice.
-4. Each workspace is private. No user can see, search or share another workspace's
-   meetings, recordings, transcripts, summaries, cards, memory or clips.
-5. Seed meetings are visible to everyone; everything else requires a workspace.
-6. Settings let the owner manage connections (FR-18), choose the Send bot default, set
-   the summary-email preference, read and edit memory (FR-17), export their data and
-   delete their account (NFR-03).
-
-### FR-12 — No account needed: guest workspace — P0 — [AFK.ai addition]
-
-A visitor can use AFK.ai without signing in. Their first action creates a private guest
-workspace on that device.
-
-Acceptance criteria:
-1. The first action that produces something of the visitor's — sending the bot, pasting a
-   link, ticking an action item on a seed meeting, typing a command, or editing memory —
-   creates a guest workspace with no form or prompt. Browsing seed meetings does not.
-2. A guest is a Supabase anonymous user. The guest workspace is bound to the device by
-   that user's session cookie, which is unguessable, httpOnly and secure (NFR-07). It is
-   not reachable from another device or browser until the guest continues with Google,
-   which links the Google identity to the same user.
-3. The guest sees a persistent, dismissable notice: "This workspace lives on this device.
-   Continue with Google to keep it everywhere." It returns if the guest sends a bot or
-   approves a card.
-4. Everything in FR-01 to FR-10 and FR-13 to FR-24 works for a guest, except where a
-   requirement says it needs a Google account (connections in FR-18 and therefore any
-   card that sends; the summary email in FR-09).
-5. A guest who never continues with Google is **deleted 30 days after their last
-   activity**, with everything in NFR-03 criterion 5 applied to each of their meetings,
-   including the Attendee deletion. "Activity" is any request made with the guest cookie.
-6. Seven days before deletion, the guest sees a notice on the dashboard with the deletion
-   date and a Continue with Google button. Since a guest has no email, no email is sent.
-7. A deleted guest cookie opens a fresh, empty workspace on the next visit, with the same
-   notice as in criterion 3.
-8. Guest quotas are lower than account quotas (NFR-08), because sending a bot costs
-   money and a guest is anonymous.
-
-### FR-13 — Easier navigation of a long meeting — P1 — [AFK.ai addition]
-
-Acceptance criteria:
-1. **Chapters.** When the transcript is ready, the meeting is split into chapters, each
-   with a short title, a start moment and an end moment. Chapters cover the whole
-   recording without gaps or overlaps. A 60-minute meeting gets between 4 and 12
-   chapters. Chapter titles are grounded: each is checkable against its range, and a
-   spot check of every chapter on the seeded 8-speaker meeting finds no title the range
-   doesn't support. Chapters are shown as a list and as sections on the timeline;
-   clicking one seeks to its start. The owner can rename, merge or split chapters.
-2. **Who-spoke-when strip.** Under the timeline, one row per speaker shows when they
-   spoke. Hovering a block shows the speaker and time; clicking seeks there. On the
-   seeded 8-speaker meeting the strip renders in under 200 ms and is readable at 375 px
-   (rows collapse to a single colour-coded strip with a legend).
-3. **Speaker filter.** The owner can pick one or more speakers; the transcript shows only
-   their segments (with a count), the timeline dims everyone else, and playback with
-   "skip others" on jumps over filtered-out segments. Clearing the filter restores the
-   full transcript at the same position.
-4. **Find in the meeting.** A find box searches the current transcript as the user types,
-   shows "3 of 17", marks every match on the timeline, and steps between matches with
-   Enter and Shift+Enter (and buttons). Selecting a match seeks the player to it. Matches
-   are case-insensitive, and the search runs client-side in under 50 ms per keystroke on
-   the seeded 8-speaker meeting.
-5. All four work on seed meetings and in the PIN-shared view (FR-21), and are keyboard
-   accessible (NFR-02).
-
-### FR-14 — Spoken and typed commands from the sender — P0 — [AFK.ai addition]
-
-During the call, the sender can talk to AFK.ai. After the call, the same commands can be
-typed. Nobody else on the call can give commands.
-
-Acceptance criteria:
-1. A command is an utterance starting with "AFK" (also recognised: "A-F-K", "Hey AFK",
-   "AFK,"), spoken by the sender. The following commands are supported:
-   - **"AFK, task for Sam, …"** — creates an action item with the named owner and any
-     date said (FR-05).
-   - **"AFK, decision: …"** — creates a decision (FR-05).
-   - **"AFK, note: …"** — creates a note attached to the meeting at that moment.
-   - **"AFK, highlight that"** — creates a highlight (FR-06 criterion 5).
-   - **"AFK, remember …"** — adds an entry to memory (FR-17), marked as told by the
-     owner.
-   - **"AFK, draft an email to … about …"** — creates an email card (FR-15).
-   - **"AFK, schedule a follow-up …"** — creates a calendar-invite card (FR-15).
-   - **"AFK, remind me …"** — creates a reminder card (FR-15).
-   - **"AFK, tell the team on Slack …"** — creates a Slack-post card (FR-15).
-2. **Only the sender can command.** The sender is identified on the call by matching the
-   meeting platform's participant name to the owner's profile name (or to the name the
-   owner chose when sending the bot). Commands spoken by any other participant are
-   ignored; nothing is created and nothing is acknowledged. If no participant matches the
-   sender, spoken commands are off for that meeting, the live meeting page says so, and
-   typed commands still work. The sender is never identified by voice.
-3. **Capture commands apply at once.** Tasks, decisions, notes and highlights appear on
-   the live meeting page within 10 seconds of being spoken, and in the transcript marked
-   as commands (FR-03 criterion 11).
-4. **Draft commands create cards, not sends.** Each draft command produces a card within
-   60 seconds, filled from what was said, the transcript so far and memory (FR-17).
-   Nothing is sent until the owner approves (FR-15).
-5. **Acknowledgement.** The sender sees each command acknowledged on the live meeting
-   page ("Task for Sam added"). Nothing is posted in the meeting chat for commands (chat
-   is used only for answers, FR-16).
-6. A command that AFK.ai cannot understand is recorded as a note with the text "Couldn't
-   run this command" so nothing said is lost, and the owner can turn it into the right
-   thing afterwards.
-7. **Typed commands.** The meeting page has a command box that accepts the same commands
-   without the "AFK" prefix, during or after the call, and gives the same results.
-   Typed commands are shown in the meeting's activity, not in the transcript.
-8. Commands are English only in this release. Command text is treated as untrusted
-   input (NFR-04); a command cannot read or change anything outside the owner's own
-   workspace.
-9. Every command is logged in the meeting's activity with who gave it, how (spoken or
-   typed), when, and what it produced, so the owner can undo it.
-10. Commands are detected with a cheap keyword match on the live transcript before any
-    model is called (NFR-09).
-
-### FR-15 — Nothing leaves without approval: cards — P0 — [AFK.ai addition]
-
-Acceptance criteria:
-1. Every outbound action — email, calendar invite, reminder, Slack post, and "Share the
-   notes" (FR-20) — is a **card** with a state: `waiting → approved → sent | failed`, or
-   `dismissed`. Nothing is sent from a card that is not approved.
-2. A card shows: the type, what will happen in one sentence ("Email to Sam Lee and Priya
-   N."), the full content, every recipient or channel with the **reason it was chosen**
-   (FR-18 criterion 5), when it will happen (for invites and reminders), which account
-   will send it, and a link to the moment that created it.
-3. **Approve once, run at most once.** Approval is a single click. The action runs within
-   60 seconds and is idempotent: a retry, a double click or a repeated job never sends
-   twice. A failed send shows why and offers a retry, still with at most one successful
-   delivery.
-4. **Send back with a note.** The owner can return a draft with a note ("shorter, and
-   mention the deadline"). A rewritten version replaces the draft within 30 seconds and
-   the previous versions stay viewable. Up to 5 rewrites per card (NFR-08).
-5. The owner can edit any field directly (text, recipients, time, channel) before
-   approving. A card with an empty required field (no recipient, no channel, no time for
-   an invite) cannot be approved until the owner fills it.
-6. Cards appear in three places: on the meeting page they came from, on the dashboard
-   ("3 waiting for approval"), and on a **Tasks** page listing every card in the
-   workspace with filters by state and type. Changes in one place show in all three.
-7. Cards whose connection is missing (no Gmail, no Slack) show "Connect Gmail to send
-   this" with a button, and stay waiting.
-8. Sent cards keep a record of what was sent, to whom, when, and the provider's message
-   ID. Dismissed cards are kept for 30 days in a "Dismissed" filter, then deleted.
-9. **Reminder cards** send an email from the owner's Gmail to the owner at the time
-   said, or at 9:00 the next morning in the owner's time zone if no time was said. The
-   time is shown on the card and can be changed.
-10. **Calendar-invite cards** create a Google Calendar event on the owner's calendar with
-    the attendees named (addresses from memory, with reasons), the time if said, otherwise
-    a proposed slot the owner must confirm. Attendees are emailed by Google Calendar only
-    when the card is approved.
-11. **Slack-post cards** post as the owner to the channel named, or to the channel memory
-    knows as "the team"; if none is known, the card asks for a channel and remembers the
-    choice for next time (FR-17).
-12. Seed meetings never produce cards.
-
-### FR-16 — Answers during the call — P1 — [AFK.ai addition]
-
-Acceptance criteria:
-1. The sender can ask, out loud, "AFK, what did we decide about pricing?", "AFK, recap",
-   "AFK, what's left?", or any question starting with "AFK" that is not a command
-   (FR-14). Only the sender is answered (same identification as FR-14 criterion 2).
-2. The answer is posted by the bot **in the meeting chat** within 15 seconds, visible to
-   everyone on the call, and also shown on the live meeting page. The sender knows this
-   from the consent text (FR-01 criterion 4) and a note on the live meeting page.
-3. Answers use only **this meeting's transcript so far** — not memory, not other
-   meetings — and are at most 600 characters.
-4. Every answer cites the moment: a timestamp like "[00:23:14]" after each claim, which
-   on the meeting page is a link to that moment.
-5. If the topic wasn't discussed, the answer is "That hasn't come up in this meeting so
-   far." with nothing added. A spot check of 20 questions on a recorded call finds no
-   answer that the cited segments don't support.
-6. "AFK, recap" returns the chapters so far (FR-13) in one line each, with timestamps.
-7. Questions are logged in the meeting's activity with their answers, and are kept after
-   the call (unlike Fathom, [research §7](research.md#7-search-and-ask-fathom)).
-8. Up to 20 questions per meeting (NFR-08); past that, the chat reply says the limit was
-   reached.
-
-### FR-17 — A memory the user can read, edit, download and erase — P0 — [AFK.ai addition]
-
-Acceptance criteria:
-1. Memory has five sections: **Profile** (name, role, company, time zone, signature),
-   **People** (name, email, Slack handle, role, relationship, how they're referred to),
-   **Projects** (name, aliases, what it is, who's on it), **Words** (terms, product
-   names, spellings, acronyms), and **How I like things written** (tone and conventions
-   for emails, invites and Slack posts, each with an example).
-2. **Every entry has a source.** A source is one of: told by the owner (typed or "AFK,
-   remember …"), a quote from a meeting with a link to its moment ("learned from *Pricing
-   sync*, 16 Oct, 00:14:02: 'Sam owns the pricing page'"), or a connected account (a
-   calendar invite or Slack directory, named). An entry with no source cannot exist.
-   **AFK.ai never invents an entry.**
-3. After each meeting, AFK.ai proposes new entries from what was said. Proposals appear
-   on the wrap-up (FR-20) and in memory marked **New**, each with its quote. The owner
-   can accept, edit or discard. New proposals are not used in drafts until accepted,
-   except Words, which are used at once to spell things right and can be undone.
-4. The owner can read every entry, edit it inline, delete it, delete a whole section, or
-   **erase all memory** with one confirmed action. Deleted entries are gone from every
-   prompt and cache (NFR-06).
-5. **Download** exports all memory as JSON and as Markdown, including sources.
-6. Memory is used in: summaries (spelling), drafts (recipients, tone, signature,
-   conventions), Slack channel choice, and command interpretation ("Sam" → Sam Lee). The
-   wrap-up and each card say which entries were used.
-7. Memory is per workspace and is never shared, included in clips, PIN shares, "Share the
-   notes" emails, or used for another workspace (NFR-06).
-8. Memory holds at most 2,000 entries (NFR-08); the page says so when near the limit.
-
-### FR-18 — Gmail, Google Calendar and Slack connections — P0 (Slack P1) — [AFK.ai addition]
-
-Acceptance criteria:
-1. Settings show three connections — **Gmail** (send), **Google Calendar** (read events,
-   create events), **Slack** (post as the user) — each with Connect, Disconnect, the
-   account connected, and the exact permissions requested in plain words.
-2. Connections need a Google account (FR-11); a guest is asked to Continue with Google
-   first. Gmail and Calendar use that same Google account with incremental scopes;
-   Slack connects with Slack OAuth as the user (not a bot token).
-3. **Approved drafts send from the user's own accounts**: emails from their Gmail,
-   invites from their Google Calendar, Slack posts as them. AFK.ai never sends from its
-   own address or as a Slack bot.
-4. Disconnecting revokes the token with the provider, deletes it (NFR-07), and leaves
-   waiting cards in place with "Connect … to send this".
-5. **Addresses are never filled in silently.** Recipient emails, Slack handles and
-   channels come only from memory (FR-17), and each is shown on the card with its reason
-   ("sam@acme.com — from the invite to *Pricing sync*, 16 Oct"). If memory has nothing,
-   the field is empty and the card asks the owner. If memory has two candidates, both are
-   shown and the owner picks.
-6. A connection that stops working (token revoked, scope removed) shows a reconnect
-   notice in settings and on affected cards, and no card fails silently.
-7. Connection state is shown on the first-run checklist (FR-23).
-8. The Google OAuth client is kept in **Testing mode**, not published. Testing allows up
-   to 100 test users, and Google tokens expire after seven days, so each Google
-   connection shows **"reconnect by <date>"** (seven days after connecting) and turns to
-   "reconnect now" when due; affected cards say "Reconnect Gmail to send this". The
-   landing page collects Gmail addresses to add as test users (FR-25).
-
-### FR-19 — Join from the calendar — P1 — [AFK.ai addition]
-
-Acceptance criteria:
-1. With Google Calendar connected, the dashboard shows **this week's meetings** that have
-   a Zoom, Meet or Teams link, grouped by day, with title, time, attendees count and
-   whether AFK.ai will join. Meetings without a link are not shown.
-2. Each meeting has **Send AFK** to schedule the bot ahead of time, and the dashboard has
-   a switch **Join every meeting** (the FR-01 default set to all). Turning it off leaves
-   meetings already scheduled as they are and says so.
-3. A meeting switched on shows "AFK will join at 10:00"; the bot joins per FR-01
-   criterion 5. The consent text (FR-01 criterion 4) is shown on first use.
-4. Calendar changes are reflected within 5 minutes: a moved meeting moves the bot, a
-   cancelled meeting cancels the bot, a new link is picked up.
-5. Without a calendar connected, the week view shows one card: "Connect Google Calendar
-   to see your week" plus the paste-a-link form.
-6. Meetings in the past week with a recording link to their meeting page; those with no
-   recording are shown dimmed with "Not recorded".
-
-### FR-20 — A wrap-up after each meeting — P1 — [AFK.ai addition]
-
-Acceptance criteria:
-1. When a meeting becomes *ready*, a **wrap-up** appears at the top of its meeting page
-   and on the dashboard until dismissed. It shows: the Catch me up summary, the cards
-   waiting for approval with Approve and Send back on each, proposed memory entries
-   (FR-17 criterion 3), and **"How was the meeting?"**.
-2. "How was the meeting?" is a 1–5 rating with an optional note. Rating is optional and
-   takes one click. Ratings are stored per meeting and shown on the meetings list; they
-   are used for nothing else in this release.
-3. **Reminder for waiting cards.** If a card has waited more than 24 hours, the owner
-   gets one reminder: a dashboard notice, and an email from their Gmail if connected.
-   One reminder per card, never more.
-4. **"Share the notes"** is one card that emails the Catch me up summary, decisions and
-   action items (with owners and dates where said) to everyone on the call, from the
-   owner's Gmail, after one approval. Recipients are the call's attendees from the
-   calendar invite or participant list, each with its reason shown; attendees without a
-   known address are listed as "no address" and the owner can add one. The email contains
-   the notes only — no link into the owner's workspace and nothing from memory.
-5. The wrap-up for a failed meeting shows what failed and the retry.
-6. Dismissing a wrap-up hides it; the meeting page keeps everything in it.
-
-### FR-21 — Share a whole meeting behind a PIN — P1 — [AFK.ai addition]
-
-Acceptance criteria:
-1. The owner can create a **private link** to a meeting protected by a **four-digit PIN**
-   that the owner sets or has generated. The owner shares the link and PIN separately.
-2. A viewer with the link and PIN sees: the recording (played through server-fetched
-   Attendee links, FR-03 criterion 2), the transcript with FR-13 navigation, and the
-   Catch me up summary. **Nothing else of the owner's**: no action items, notes, cards,
-   memory, highlights, other meetings, or the owner's name. No download button.
-3. A viewer needs no account. Entering the PIN once keeps access on that device for 30
-   days (httpOnly cookie, NFR-07).
-4. Five wrong PINs lock that link for 15 minutes; after 20 wrong PINs in a day the link
-   is disabled and the owner is told. Attempts are rate-limited per IP as well.
-5. The owner can change the PIN, see when the link was last opened, and **revoke** the
-   link at any time; revocation takes effect immediately, including for devices that
-   entered the PIN. A revoked link shows "This meeting is no longer shared".
-6. One link per meeting at a time; creating a new one revokes the old one.
-7. PIN shares work for seed meetings too (no PIN needed, since they're public), and the
-   PIN page meets NFR-02 and works on a phone.
-
-### FR-22 — Urdu and Hindi transcribed in Roman Urdu — P1 — [AFK.ai addition]
-
-Acceptance criteria:
-1. Speech in Urdu or Hindi is transcribed in **Roman Urdu** (Urdu/Hindi words in Latin
-   script, e.g. "kal meeting hai"), with the speaker and moments like any segment.
-2. English words inside an Urdu or Hindi sentence stay in English spelling; a sentence
-   that is entirely English is transcribed as English.
-3. Summaries, chapters, action items, decisions, notes, answers and drafts are **in
-   English**, translating what was said. Quotes shown as sources (FR-17) keep the Roman
-   Urdu text.
-4. Search (FR-08) and find in the meeting (FR-13) match Roman Urdu text, and match common
-   spelling variants ("nahi"/"nahin", "hai"/"hain") case-insensitively.
-5. Accuracy: on a real mixed Urdu and English call run by the owner once the bot works,
-   at least 90 % of Urdu words are rendered recognisably in Roman Urdu, and no Urdu
-   passage is rendered in Devanagari or Nastaliq script.
-6. Commands (FR-14) and questions (FR-16) remain English only in this release.
-7. Bots use Deepgram's multilingual mode when the Summon form's language is "English and
-   Urdu" and Deepgram is on (FR-01.14). Any segment that still arrives in Devanagari or
-   Arabic script goes through the Claude transliteration step before anything else uses
-   it.
-
-### FR-23 — First-run checklist — P1 — [AFK.ai addition]
-
-Acceptance criteria:
-1. A new workspace's dashboard shows a checklist: *Send AFK to a meeting (or open an
-   example)*, *Continue with Google*, *Connect Google Calendar*, *Connect Gmail*,
-   *Connect Slack*, *Tell AFK about yourself* (fills the memory Profile), *Approve your
-   first card*.
-2. Each step links to where it's done and disappears on its own as soon as it is done,
-   including when done from elsewhere in the app. Steps show "3 of 7 done".
-3. When every step is done, the checklist is gone and never returns. The owner can also
-   dismiss it early; it doesn't come back.
-4. The checklist is per workspace and survives Continue with Google (with the "Continue
-   with Google" step then ticked).
-
-### FR-24 — A light game layer — P2 — [AFK.ai addition]
-
-Acceptance criteria:
-1. **Levels.** The workspace has a level computed from real activity: meetings that
-   reached *ready*, approved cards, commands used, memory entries accepted. The level
-   and what unlocks the next one are shown on the **Player card**, which is reached from
-   one line under the Quest log's list — not from the sidebar.
-2. **Weekly streak.** A streak counts consecutive weeks (Monday to Sunday, owner's time
-   zone) with at least one meeting that reached *ready*. The current and best streak are
-   shown.
-3. **Badges.** At least eight, for example: *First meeting*, *First command*, *First
-   approval*, *Eight voices* (a meeting with 8+ speakers), *Marathon* (a meeting over 60
-   minutes), *Ten meetings*, *Clean desk* (no cards waiting for 7 days), *Four-week
-   streak*. Each shows the meeting or action that earned it, with a link.
-4. **Counted from real meetings only.** Seed meetings, failed meetings, deleted meetings
-   and test data never count. Deleting a meeting recomputes everything.
-5. Nothing is competitive or social: no leaderboard, no sharing, nothing visible to
-   anyone else. There are no notifications beyond a line in the wrap-up (FR-20).
-6. The panel can be hidden in settings with one switch.
-
-### FR-25 — Landing page and test-user request — P0 — [AFK.ai addition]
-
-Acceptance criteria:
-1. The landing page opens with a full-screen hero: a twelve-second video whose playhead
-   is the visitor's scroll (scrolling forward plays it, scrolling back rewinds it), the
-   chair mark, one line, and two buttons (Try the Tutorial, Summon AFK). Visitors who
-   prefer reduced motion get the poster and a play button.
-2. The poster image is the page's largest contentful element and paints first; the
-   video loads afterwards, muted and inline. The page meets NFR-01.1 with the video.
-3. Below the hero, a "How it works" timeline of four steps, each pinned as the video
-   reaches it, then the five Tutorial meetings, then a footer with Privacy and the ICSI
-   credit.
-4. A form takes one Gmail address with a consent line so the owner can add the visitor
-   as a Google test user (FR-18.8). It stores the address once (unique), nothing else,
-   and confirms in plain words. Addresses are visible only to the owner and are deleted
-   on request.
-5. Placeholder video and mark until the owner supplies the final assets.
-
----
-
-## Non-functional requirements
-
-### NFR-01 — Speed — P0
-
-1. Meetings list: first contentful paint under 1.5 s on a mid-range laptop over a
-   typical home connection; Largest Contentful Paint under 2.5 s.
-2. Meeting page for the 60-minute, 8-speaker meeting: usable (player and transcript
-   visible) under 2 s; playback starts under 1 s after pressing play; seeking from a
-   transcript click responds within 200 ms.
-3. Attendee playback links are renewed before their expiry (read from the signed URL, see
-   FR-03 criterion 2) with no pause,
-   buffering restart or position loss visible to the user.
-4. Transcript rendering handles 2,000+ segments without jank (virtualised if needed);
-   scrolling stays at 60 fps. Chapters, the who-spoke-when strip and find (FR-13) meet
-   the timings in that requirement.
-5. A meeting is *ready* within 10 minutes of a 60-minute call ending (FR-01). Summary
-   generation with a different template completes in under 30 seconds and streams as it
-   generates.
-6. Search returns in under 1 s (FR-08).
-7. Live: capture commands apply within 10 s and answers post within 15 s (FR-14, FR-16),
-   measured from the end of the utterance.
-8. Nothing long-running happens inside one web request; bots, transcription, commands,
-   summaries and card sends are driven by webhooks and background jobs with stored state.
-
-### NFR-02 — Accessibility — P0
-
-1. WCAG 2.2 AA across the app, the seed meeting pages, the clip page and the PIN page.
-2. Every feature is usable with the keyboard alone, with a visible focus ring, including
-   the player, transcript navigation, chapters, the speaker strip, find, cards and
-   checkboxes.
-3. The player has accessible controls and exposes the transcript as captions or an
-   equivalent text track.
-4. Colour is never the only way information is conveyed (speaker identity, meeting state,
-   card state, done/undone). Contrast meets AA in light and dark mode.
-5. Async changes (bot state, command acknowledged, summary generated, card sent, item
-   ticked) are announced to screen readers via live regions.
-6. Works at 375 px wide and at 200 % zoom with no horizontal scrolling.
-7. Automated checks (axe) run in CI with zero serious or critical violations, and one
-   manual screen-reader pass (VoiceOver) per release on the meeting page and the Tasks
-   page.
-
-### NFR-03 — Privacy — P0
-
-1. Recordings and transcripts are private to the workspace. Nothing is shared unless the
-   owner explicitly creates a clip link (FR-07), a PIN link (FR-21) or approves a "Share
-   the notes" card (FR-20). A clip of a private meeting shares the transcript excerpt
-   only.
-2. The bot joins as "AFK.ai Notetaker" so everyone on the call can see it, and the send
-   form carries the consent text in FR-01 criterion 4. Where the platform allows, the bot
-   posts a short recording notice in the meeting chat when it joins. Answers (FR-16) are
-   posted in the chat and are therefore visible to everyone on the call.
-3. Meeting content and memory are never used to train models — not by AFK.ai, not by
-   Attendee and not by the AI provider. This is stated in the privacy policy and enforced
-   by provider settings.
-4. Transcript contents, command text, card content and memory never appear in logs,
-   error reports or analytics.
-5. Meetings are kept until the owner deletes them (or the guest expires, FR-12). Deleting
-   a meeting removes the transcript, summaries, chapters, action items, notes, highlights,
-   clips, PIN links, cards that haven't been sent, activity log and search index entries,
-   **tells Attendee to delete the recording and transcript**, and makes every share link
-   stop working immediately. The Attendee deletion is confirmed and retried until it
-   succeeds. Memory entries learned from the meeting are kept but lose their link, and
-   the owner is told how many.
-6. The owner can export all their data (transcripts, summaries, action items, notes,
-   cards, memory) and delete their account, which deletes every meeting as in criterion
-   5, erases memory, and revokes the Google and Slack tokens.
-7. OAuth scopes are the minimum needed: profile for sign-in, calendar read and event
-   create for FR-01/FR-19/FR-15, Gmail send-only for FR-09/FR-15/FR-20, Slack
-   chat:write as the user for FR-15. Tokens are handled per NFR-07.
-8. Seed meetings are public by design and carry the CC BY 4.0 credit (FR-10).
-9. People in memory are third parties. AFK.ai stores about them only what was said in the
-   owner's meetings, what the owner typed, or what a connected account shows (an invite
-   attendee list, a Slack directory), and shows the source (NFR-06).
-
-### NFR-04 — Security — P0
-
-1. Authentication (a Google session or a guest cookie) is checked on the server for
-   every page, server action and route handler. Authorization is checked against the
-   workspace, never trusted from the client. Seed meetings are the only resources
-   readable without a workspace, and they are read-only for visitors.
-2. Row-level security is enabled on every table with policies scoped to the workspace,
-   and a test proves workspace A cannot read or write workspace B's rows, including
-   cards, memory and activity.
-3. Recordings are served only through Attendee's short-lived links, requested by the
-   server for the owner or a PIN viewer with a valid PIN cookie. Seed audio is in a
-   private Supabase Storage bucket served through server-signed URLs; no bucket is
-   public. Clip pages expose only the clip's own range and
-   transcript excerpt.
-4. Every webhook (Attendee, Google, Slack) is verified by signature before it is parsed,
-   and duplicate deliveries are safe.
-5. Secrets (Attendee, Anthropic, Google OAuth client secret, Slack client secret,
-   database service role, webhook secrets, token-encryption key) exist only on the
-   server; none is exposed to the client bundle.
-6. All input is validated on the server with a schema, including LLM output (summaries,
-   chapters, commands, drafts, memory proposals) before it is stored, shown or acted on.
-7. Transcripts, command text and memory entries are untrusted input to prompts (FR-04
-   criterion 7). A command or transcript line cannot cause a send, a deletion, or access
-   to anything outside the owner's workspace; the only path to a send is an approved
-   card.
-8. Endpoints that cost money (bot launch, summary generation, commands, answers, card
-   sends) have per-workspace rate limits and quotas (NFR-08).
-9. Dependencies are scanned for known vulnerabilities in CI; no untrusted code or hooks
-   run during install or build.
-
-### NFR-05 — Cost — P1
-
-1. Every service runs on a free tier. Fixed cost is **US$0 per month**. The variable
-   costs are Claude (summaries, chapters, action items, decisions, one-line summaries,
-   commands, answers, drafts, memory proposals), Attendee after its five free bot hours
-   (**US$0.50 per bot hour**), and transcription after Deepgram's free credit (NFR-09.6).
-   *Decision pending:* US$0 fixed holds only on Vercel's Hobby plan, which is restricted
-   to non-commercial use. If AFK.ai is commercial, hosting is Vercel Pro at US$20 per
-   month. This must be decided before a public launch.
-2. Ceiling: **US$1.00 per 60-minute meeting**, all variable costs included, with the
-   additions (NFR-09). Reference point: the first real call (2 min 44 s) cost about
-   US$0.066 in Claude usage before the additions.
-3. The Anthropic API key has a spending limit set in the Anthropic console, and the app
-   records Claude token usage and cost per request, per meeting and per workspace,
-   visible in an internal admin view alongside Attendee bot hours.
-4. Summaries use the cheapest model that meets FR-04's grounding criterion; the model is
-   configurable without a deploy. Long, stable prompt prefixes use prompt caching.
-5. Summaries for each template are generated on demand and cached; the same template is
-   never generated twice for an unchanged transcript. Seed summaries and chapters are
-   generated once at seed time (FR-04 criterion 8).
-6. Recordings stay in Attendee's storage and cost AFK.ai nothing to store. Seed audio is
-   the only media AFK.ai stores.
-7. Per-workspace quotas protect the budget (NFR-08), each adjustable without a deploy,
-   with a clear message when reached.
-
-### NFR-06 — Privacy of memory — P0 — [AFK.ai addition]
-
-1. Memory belongs to one workspace. It is never read for another workspace, never
-   included in anything shared (clips, PIN views, "Share the notes", answers in chat), and
-   never used to improve any model.
-2. Memory is put into a prompt only for the owner's own meetings and cards, and only the
-   sections the task needs (spelling needs Words; an email needs People, Profile and
-   writing preferences). Each use is recorded so the wrap-up and cards can say which
-   entries were used (FR-17 criterion 6).
-3. Every entry carries its source, and an entry with no source is rejected on write.
-   Proposed entries are shown to the owner before they influence drafts (FR-17 criterion
-   3).
-4. Deleting an entry or erasing memory takes effect on the next prompt immediately, and
-   any cached prompt prefix containing it is invalidated within 24 hours.
-5. Memory is exportable in full (FR-17 criterion 5) and is deleted with the workspace
-   (account deletion, NFR-03; guest expiry, FR-12).
-6. Memory about other people is limited to what NFR-03 criterion 9 allows. If a person
-   asks the owner to be forgotten, deleting their People entry removes them from every
-   draft default from then on.
-7. Memory is stored encrypted at rest and never logged (NFR-03 criterion 4).
-
-### NFR-07 — Token safety — P0 — [AFK.ai addition]
-
-1. Google and Slack OAuth tokens are stored encrypted at rest with a key held outside
-   the database (an environment secret), decrypted only on the server at the moment of
-   use, and never written to logs, error reports, the client bundle or responses.
-2. Refresh tokens are used only by server jobs. A token that fails to refresh is marked
-   broken and the owner is asked to reconnect (FR-18 criterion 6); AFK.ai never retries
-   indefinitely.
-3. Disconnecting a connection or deleting the account revokes the token with the
-   provider and deletes it locally in the same operation.
-4. A token is used only to execute a card the owner approved (FR-15), to read the
-   calendar (FR-01, FR-19) or to send the owner's own summary email (FR-09). A test
-   proves that no code path sends through a token without an approved card or one of
-   those two reads.
-5. Scopes are the minimum in NFR-03 criterion 7; adding a scope requires a new consent.
-6. The guest session cookie (FR-12, a Supabase anonymous-user session set httpOnly
-   through `@supabase/ssr`) and the PIN cookie (FR-21) are at least 128 bits of
-   randomness, httpOnly, Secure, SameSite=Lax, and are rotated on Continue with Google.
-   Guest sessions are invalidated on deletion; PIN cookies are invalidated on revocation.
-   If browser Realtime needs the session, the page gets a short-lived token from a Server
-   Component or polls; the session cookie is never made readable by scripts.
-7. Share links (FR-07, FR-21) and card approval requests are unguessable and
-   single-purpose; approving a card requires the workspace's own session, never a link
-   alone.
-8. Webhook secrets and signing keys are rotated without downtime, with two keys valid
-   during a rotation.
-
-### NFR-08 — Limits — P0 — [AFK.ai addition]
-
-All limits are per workspace, adjustable without a deploy, enforced on the server, and
-shown to the user with a plain message when reached. Defaults:
-
-| Limit | Guest | Google account |
-|---|---|---|
-| Bot hours per month | 2 in total, ever | 20 |
-| Bots running at once | 1 | 3 |
-| Spoken or typed commands per meeting | 50 | 50 |
-| Live questions per meeting (FR-16) | 20 | 20 |
-| Rewrites per card (FR-15) | 5 | 5 |
-| Cards waiting at once | 25 | 100 |
-| Card sends per day | 0 (needs Google) | 50 emails, 20 invites, 50 Slack posts |
-| Memory entries | 500 | 2,000 |
-| Summary generations per meeting per day | 8 | 8 |
-| PIN attempts | 5 per 15 min per link; 20 per day disables (FR-21) | same |
-| API requests per minute (any endpoint) | 60 | 120 |
-
-1. A guest who reaches the bot-hour limit is asked to Continue with Google; a Google
-   account that reaches a limit sees the limit and the reset date.
-2. Paid actions (bot launch, generation, sends) check the limit atomically so concurrent
-   requests cannot exceed it.
-3. Limits are logged when hit, without content, so abuse can be spotted.
-
-### NFR-09 — Cost of the additions — P1 — [AFK.ai addition]
-
-1. The **US$1.00 per 60-minute meeting** ceiling (NFR-05) includes transcription,
-   commands, answers, chapters, drafts and memory proposals. Budget guide per 60-minute
-   meeting: Attendee bot US$0.50; transcription US$0 during Deepgram's free credit, then
-   about US$0.35; Claude under US$0.40 in total for summaries, chapters, action items,
-   memory proposals and up to 10 commands and 5 answers; everything else under US$0.10.
-   *Decided (decision 17):* keep Sonnet for every call, with captions as the default
-   transcription because they are free. The Claude estimate is US$0.45–0.57 and the
-   all-in figure after free credits is US$0.95–1.07 with captions or US$1.30–1.42 with
-   Deepgram ([docs/architecture.md](architecture.md)). The first real two-minute call
-   cost about seven cents. The ceiling stays and is revisited with real cost data once
-   the bot works.
-2. Command detection is a keyword match on the live transcript (FR-14 criterion 10); a
-   model is called only for utterances that start with "AFK".
-3. Every call uses Claude Sonnet with a JSON schema and no tools (decision 16). The model
-   ID comes from the `CLAUDE_MODEL` environment variable, so switching to Haiku later
-   needs no code change (decision 17).
-4. Live answers (FR-16) send only the transcript so far, and the stable part of the
-   prompt (instructions and the transcript already sent) uses prompt caching.
-5. Memory in prompts is limited to the sections needed (NFR-06 criterion 2) and to 4,000
-   tokens; the largest entries are summarised rather than dropped.
-6. Transcription is **not** included in Attendee's bot hour. **Platform captions are the
-   default** because they are free. Deepgram is switched on by the
-   `TRANSCRIPTION_PROVIDER` environment variable and is used for calls in English and
-   Urdu on our own key: US$0 while Deepgram's US$200 credit lasts (about 570 hours), then
-   about US$0.35 per hour. The cost is recorded per meeting. Roman Urdu (FR-22) adds a
-   Claude transliteration pass for any non-Latin segment, at most about US$0.26 per
-   fully-Urdu hour with Sonnet.
-7. Cost per workspace per month is tracked, and a workspace whose cost exceeds US$20 in
-   a month is flagged in the admin view. Guest cost is bounded by the 2-bot-hour limit
-   (NFR-08).
-
----
-
-## Decisions
-
-Recorded 2026-10-16 from the product owner's answers to the v1 open questions. Rows
-marked *amended* were changed by the AFK.ai additions in v3.
-
-| # | Decision |
+This document states the requirements of AFK.ai as built, as of 2026-10-16. It is based on
+a hands-on run of Fathom and on [docs/research.md](research.md). The Fathom-derived core
+(the bot, the meetings list, synced playback, summary templates, action items, highlights,
+clip sharing, search, the email after a meeting) is the baseline. Requirements that go
+beyond Fathom are marked **[AFK.ai addition]**. How the system is built is in
+[docs/architecture.md](architecture.md) and [docs/system-design.md](system-design.md);
+each flow end to end is in [docs/data-flows.md](data-flows.md); the look is in
+[docs/design.md](design.md); decisions, simulated behaviour and status are in
+[docs/plan.md](plan.md). The brief is in [docs/assignment.md](assignment.md), verbatim.
+Defects found by a read-only audit of the code are cited by their id there, for example
+"(audit F1)", and listed in [docs/audit.md](audit.md).
+
+Live: https://afk-ai-tau.vercel.app. Repository: https://github.com/harisshakeel/AFK-ai.
+
+## 1. Purpose and who it is for
+
+Picture an hour-long call with eight people. The user gets the gist first ("Catch me up"),
+then any moment, word for word, with one click from a summary point to the second it was
+said. Then AFK does the follow-up work: the sender says "AFK, draft an email to Sam"
+during the call and approves the draft once afterwards.
+
+What a user can do:
+
+- Read the summary in four templates and switch instantly. Every point plays the moment
+  it came from.
+- Watch or listen with the transcript following along. Jump by chapter, filter by
+  speaker, find words in the meeting, see who spoke when on the scrubber.
+- Tick action items, privately, and copy them all.
+- Highlight a moment (press `H`) and share it as a link that plays only that clip.
+- Search every meeting and open a result at the moment it was said.
+- Send AFK to a Zoom, Meet or Teams call. No account is needed: a guest's first send
+  creates a private workspace in their browser; the real bot joins, records video, and
+  the recording, transcript, notes and tasks land there.
+- Let AFK join from the calendar: the week's meetings with a link sit on the dashboard;
+  send AFK ahead of time, or switch on joining every one.
+- Say "AFK, task for Sam: send the deck by Friday", "AFK, decision: …", "AFK, highlight
+  that", "AFK, remember: …", "AFK, draft an email to Sam", "AFK, schedule a follow-up
+  next Tuesday at three with Sam", "AFK, remind me …", "AFK, tell the team on Slack …",
+  "AFK, what did we decide about pricing?" (answered in the meeting chat while the call
+  is on). Internal effects land at once; anything that leaves the meeting waits on a
+  card for one approval.
+- Give every meeting an address, `/m/<code>` behind a four-digit PIN, to pass the
+  recording, transcript and summary to someone who was not there.
+- Own a memory: nine markdown files AFK reads before working and appends to afterwards,
+  shown on a Memory page the user can edit, download and erase.
+- Connect Gmail, Google Calendar and Slack so approved drafts go out from the user's own
+  accounts.
+
+Who uses it:
+
+| Caller | Reads | Writes | AI runs |
+|---|---|---|---|
+| Visitor with no workspace yet | The sample meetings, shared clips, `/m/<code>` pages with the PIN, the empty dashboard, labelled demos of every signed-in surface | Nothing; the first write creates their identity | None |
+| Guest **[AFK.ai addition]**: an anonymous Supabase identity made in the browser on the first write (a tick, a highlight, a bot, an access request) | The above plus their own meetings, commands and highlights; the Memory page as a demo; the Connectors page locked | Own highlights, clips, ticks, one access request; send the bot (5 a day, one active at a time); typed commands except `/remember`; dismiss commands; delete own meetings. Never a connector, never a memory file | Their own meetings: notes, items, parsed commands, live answers; no learned lines |
+| Google user: a guest who continued with Google (same identity) or a direct sign-in | Everything a guest reads, plus their memory files, their connectors (never the token), the people AFK knows | Everything a guest writes, plus `/remember`, approve external commands, connect and disconnect Gmail, Calendar and Slack, edit, export or erase memory, delete contacts | Their own meetings, learned lines too |
+| Job runner (service role, inside a function after its response) | Everything, including sealed connector tokens (opened in its process only) | Job state, transcripts, AI output, commands, highlights it makes for the owner, command results, history lines; sends mail, creates events, posts to Slack only through approved `run_command` jobs | Yes, on the owner's Anthropic key |
+| Attendee webhook | Nothing | Advances one bot meeting's state; never creates or revives a meeting; then kicks the runner | None itself |
+
+A guest who never continues with Google is purged after thirty days with everything they
+own. A guest workspace is one browser; the dashboard says so. Memory files and connectors
+belong to Google accounts only, and the database refuses them to guests. Nothing lists
+users; no row of one user's is readable by another. Jobs are created only by the seed
+import, the Attendee webhook, a typed command, an approval, a rewrite (`rewrite_command()`
+queues `detect_commands`), `complete_job()` after a summary (`learn`), the notes trigger (`notify_owner`) and the daily
+keep-alive's scheduling (the bots it schedules queue their jobs through the webhook), so
+the bot caps and the command caps bound how many Claude calls anyone can cause.
+`rewrite_command()` itself has no cap (section 10).
+
+## 2. Priorities
+
+| Priority | Meaning |
 |---|---|
-| 1 | Seed data: five real ICSI Meeting Corpus meetings, CC BY 4.0, one of 60 min with eight speakers. Speakers labelled "Speaker A", "Speaker B", … in order of first appearance. Credit the corpus in the app and list our changes. Nothing else to redact. |
-| 2 | *Amended by FR-11/FR-12:* many users, each with a private workspace. No account is needed; a guest gets a workspace on their first action, and "Continue with Google" (the only sign-in) keeps it on every device. Guests are deleted after 30 days. Seed meetings are public to everyone. |
-| 3 | Google Calendar only. |
-| 4 | Bot provider: Attendee. Five free bot hours, then $0.50/hour. The bot leaves on its own after 5 min in a waiting room, 10 min of silence, or 3 hours. |
-| 5 | The bot records whether or not the sender is on the call. It joins as "AFK.ai Notetaker" with no camera image. The send form shows the consent text in FR-01 criterion 4. |
-| 6 | Four templates: Catch me up, General, Project update, Brief. No custom templates. |
-| 7 | The bot records video (MP4, speaker view, 720p) kept in Attendee's storage and played through short-lived links the page renews. *Amended by decision 16:* the links were assumed to last 30 minutes; Attendee documents them only as "short-lived", so the page reads the expiry from the URL. Seed meetings are audio only. |
-| 8 | Speaker names come from the platform's participant names. Drop-and-rejoin is merged automatically; duplicate names are numbered ("Sam (2)"). No manual confirm or merge. |
-| 9 | Summary email to the owner only, from their own Gmail once connected. A profile setting turns it off. |
-| 10 | Clips: no expiry, revocable at any time, no download. Viewer sees the clip, transcript excerpt, meeting title and date, and only the speakers heard. Owner's name hidden. Private-meeting clips share transcript only; seed clips play the public audio limited to the range. |
-| 11 | Retention: until the owner deletes the meeting. Deletion also tells Attendee to delete the recording and transcript. |
-| 12 | $0/month fixed. Claude costs cents per meeting (2:44 call ≈ $0.066). Spending limit on the API key. $1.00 per hour-long meeting is the ceiling, now including the additions (NFR-09). |
-| 13 | *Amended by FR-22:* English, plus Urdu or Hindi speech transcribed in Roman Urdu. Notes stay in English. |
-| 14 | *Amended by FR-14/FR-16:* during the call, AFK.ai takes the sender's commands and answers the sender's questions in the chat. Everything else is after the call. |
-| 15 | AFK.ai additions (v3): guest workspaces, long-meeting navigation, spoken and typed commands, approval cards, live answers, memory, Gmail/Calendar/Slack connections, join from the calendar, wrap-up, PIN share, Roman Urdu, first-run checklist, game layer. |
-| 16 | Stack (v5, see [docs/architecture.md](architecture.md)): Next.js 16 App Router, React 19, strict TypeScript, Tailwind 4, shadcn/ui. Supabase: Postgres with RLS on every table, anonymous sign-in for guests, Google sign-in, private Storage for audio. Vercel with a daily cron that keeps Supabase from pausing. Attendee, recording video, transcribing with Deepgram or the platform's captions as fallback. Claude Sonnet, every call with no tools and a JSON schema, the transcript treated as data, every output checked against the transcript before it is stored. No worker and no queue: jobs in a Postgres table with leases, run by the app's own functions after a response, with a kick route that chains a new function. Zod at every boundary. Vitest, PGlite running the real migrations, Playwright with an accessibility scan. State changes in SQL functions; signed, idempotent webhooks; secrets only in env; logs with ids and counts; rate limits in the database; sends at most once. Rejected: a separate worker or container (a service to run and pay for), a queue service (Postgres leases are enough), any paid tier (nothing beyond Claude). Amends decision 7 (link lifetime is "short-lived", not confirmed 30 min) and decision 12 (transcription is a separate cost; Sonnet-only cost is open question 1 in the architecture). |
-| 17 | Build plan answers (v6, see [docs/plan.md](plan.md)): Sonnet for every call from `CLAUDE_MODEL`; captions the default transcription, Deepgram by `TRANSCRIPTION_PROVIDER` for English and Urdu; Attendee and Deepgram usage costs accepted; Vercel Hobby non-commercial for the build and demo, decided again before any public launch; one Supabase project and one Vercel project; placeholder chair SVG, final icons, favicon and social image from one SVG; the landing hero is a twelve-second video scrubbed by scroll with a play button under reduced motion; Roman Urdu committed with a language choice on the Summon form; the Player card reached from one line under the Quest log, not the sidebar; Google OAuth kept in Testing mode with "reconnect by" dates and a test-user form on the landing page; ICSI audio re-encoded to AAC with `afconvert` under `tools/`; `.agent-logs/` committed with every commit. |
+| P0 | The core. The product does not work without it. |
+| P1 | Built once the core worked. |
+| P2 | Needs a product decision before it is built. |
+| Deferred | Wanted, not built; the gap is covered another way. |
+| Dropped | Considered and rejected. |
+| Out | Deliberately not built. |
 
-## Open questions
+## 3. Definitions
 
-- **Q15 — Identifying the sender on the call.** FR-14 matches the platform participant
-  name to the owner's profile name. What should happen when the owner joins under a
-  different name, by phone, or from a shared room device? Proposed: the send form lets the
-  owner type the name they'll appear as, and a mismatch turns spoken commands off with a
-  notice.
-- **Q16 — Where answers go.** FR-16 posts answers in the meeting chat, visible to
-  everyone, as asked. Should there be an option to answer only on the sender's live
-  meeting page instead, for calls with clients?
-- **Q17 — "Remind me" delivery.** Proposed: an email from the owner's Gmail to
-  themselves at the time said, or 9:00 next morning. Alternatives are a calendar event or
-  a dashboard-only reminder.
-- **Q18 — "The team" on Slack.** Proposed: a channel learned once and remembered, with
-  the card asking the first time. Confirm, and whether DMs to a person ("tell Sam on
-  Slack") are in scope.
-- **Q19 — Guest bot allowance.** Proposed 2 bot hours in total before Continue with
-  Google, one bot at a time (NFR-08). Is that enough to try the product, and is the cost
-  exposure (about $1 per guest after the free Attendee hours) acceptable?
-- **Q20 — Roman Urdu transcription.** Attendee's transcription provider may output Urdu
-  in Nastaliq or Hindi in Devanagari rather than Roman script, which would need a
-  transliteration pass by Claude. Accept that approach, and its cost, if the provider
-  can't do it directly? Also confirm Hindi should be romanised with Urdu conventions
-  rather than "Hinglish" conventions.
-- **Q21 — PIN share plays private recordings.** FR-21 lets a PIN viewer play the
-  recording of a private meeting, while FR-07 keeps private clips transcript-only.
-  Confirm this difference is intended.
-- **Q22 — "Share the notes" content.** Proposed: Catch me up summary, decisions and
-  action items, with no link. Should recipients get a PIN link (FR-21) as an option?
-- **Q23 — "How was the meeting?"** The rating is stored and shown but used for nothing
-  else. Is it product feedback for us, or should it feed the game layer or memory?
-- **Q24 — Memory from connected accounts.** NFR-03 criterion 9 allows learning people's
-  addresses from calendar invites and the Slack directory, with the source shown. Confirm
-  both are acceptable sources.
+| Term | Meaning |
+|---|---|
+| Workspace | Everything one identity owns: meetings, highlights, ticks, commands and, for a Google user, memory and connectors. A guest gets one on the first write; "Continue with Google" links the same identity to a Google account. |
+| Owner | The identity a meeting belongs to: the one who sent the bot. |
+| Sender (host) | The owner as a participant in the call: the speaker matched by name to who sent the bot (C1). Only the sender gives commands. |
+| Seed meeting | One of the five ICSI Meeting Corpus meetings (section 11). Public: anyone can open them, with or without a workspace. |
+| Turn | One transcript line (`transcript_turns`): speaker, `start_sec`, `end_sec`, text. |
+| Moment | A time in the recording, in seconds from the start (`?t=` in a link). |
+| Ready | Meeting status `ready`: the recording and transcript are stored. Notes may still be being written; the page says so. |
+| Item | A summary point, action item, decision or note (`meeting_items`), citing turns (`item_citations`). |
+| Highlight, clip | A stored range of a meeting (`highlights`); shared through a `/share/<token>` link (`share_links`). |
+| Command | A sentence of the sender's starting with the wake word, or a typed slash command (`meeting_commands`). |
+| Card | A command shown on the Tasks tab, the dashboard or `/tasks`; a card for an external effect waits in status `proposed` for approval. |
+| Memory | The nine markdown files AFK keeps for a Google user (`memory_files`). |
+| Meeting address | `/m/<code>` behind a four-digit PIN (`meeting_links`). |
+| Job | One unit of background work (`processing_jobs`), leased and run inside the app's functions. |
+
+## 4. Scope
+
+- The Fathom-derived core is a bot that joins calls, a meetings list, a meeting page with
+  synced playback and transcript, summaries in templates, action items, highlights, clip
+  sharing, search across meetings and an email after each meeting. Everything else here
+  is an AFK.ai addition.
+- Notes are written in English. Urdu or Hindi speech is transcribed and romanized into
+  Roman Urdu (W7); the notes stay in English. The wake word and the command grammar are
+  English.
+- During the call, AFK listens for the sender's commands (C1) and answers the sender's
+  questions in the meeting chat (L2). Every other feature happens after the call.
+- AI runs through the Claude API (`ANTHROPIC_API_KEY`; model `claude-sonnet-5-5` by
+  default, `CLAUDE_MODEL` to change it) inside the web app's own functions. There is no
+  worker process, queue service or container: Postgres leases the jobs.
+- The meeting bot is Attendee (attendee.dev). The bot records video (MP4), which stays at
+  Attendee and plays on the meeting page through short-lived links. The seed meetings are
+  audio.
+- Sign-in is Google only. Guests need no account.
+
+## 5. Functional requirements
+
+Each requirement names its user outcome and its acceptance criteria. The criteria describe
+the product as built.
+
+### 5.1 The core: meetings, playback, notes, clips, search, the bot
+
+| ID | Requirement | User outcome | Priority | Acceptance criteria |
+|---|---|---|---|---|
+| F0 | Import pipeline, run by the operator | Real meetings with checked AI output | P0 | One run (`pnpm import:seed`) turns a recording (`data/audio/<id>.m4a`, which is gitignored and not in the repository: the operator encodes it from the corpus with `tools/icsi/encode_audio.sh`, and the import stops with a clear error before writing anything if a file is missing) and its transcript (`data/meetings/<id>.json`: title, date, speakers, turns with start and end seconds) into a meeting. Audio is under 50 MB, uploaded to a private bucket under a content-addressed path. The importer rejects a transcript with negative or inverted times, times past the meeting's length, unknown speakers, duplicate ids or duplicate labels, and stops that meeting with a readable report. Overlapping speech is kept, ordered by start then end. Turns are stored by `ingest_transcript()` in one transaction; an unchanged transcript (by hash) is skipped; re-running creates no duplicates and never replaces items, so visitors' ticks survive. Committed AI output (`data/ai/<id>/analyze.json`, `summarize.json`) is loaded only when it was made from this exact transcript; otherwise the notes are generated the first time the meeting is opened. |
+| F1 | Meetings list | Pick the right meeting quickly | P0 | Newest first, with title, date, length, speakers and a one-line headline; one click opens a meeting. Loading, empty and error states, with retry. The dashboard shows only the caller's own meetings, grouped by period (Today, Yesterday, This week, …), twenty a page with a keyset cursor in `?after=` and a plain "Older meetings" link; its empty state leads to Send AFK and to the samples. `/samples` lists the public seed meetings for anyone, paged the same way. |
+| F2 | Playback with synced transcript | Move through a recording by its words | P0 | Clicking a line plays from there. The current line is the latest-starting turn with start ≤ t < end, else the last turn that started; it is highlighted and kept in view. Scrolling away stops auto-scroll and shows "Back to now". Speeds 1× to 2×. A `?t=` link reopens at that moment, after a refresh too. A bot meeting plays its video above the notes (above the tabs on a phone) with the same sync; the samples are audio, docked below. Player shortcuts are off while typing. |
+| F3 | Navigating a long meeting **[AFK.ai addition]** | Find one moment in an hour with 8 people | P0 | Chapters with times. A who-spoke-when strip on the scrubber. Speaker chips that filter the transcript. Find within the meeting with a match count, next and previous, and matches marked on the timeline. Speakers are told apart by colour plus a letter mark (twelve colours). In the long seed meeting a decision is reachable in three actions or fewer from opening the page. |
+| F4 | Summary and templates | The gist, in the shape needed | P0 | Four templates, "Catch me up", "General", "Project update" and "Brief", switch with no loading. Every point has a timestamp that seeks the player. The chosen template survives a refresh (`?template=`). Notes the host stated with commands are pinned and marked "said on the call". The action items are offered at the end of the summary as potential tasks. If AI output is missing or still being written, the page says so and the player and transcript still work. |
+| F5 | Action items and decisions | Know what was agreed and who owns it | P0 | Each item shows the task, the owner or "No owner mentioned", a due date only if one was said, and a timestamp link. Ticking an item done is private to the caller's identity (`item_states`) and survives a refresh. "Copy all" copies the list. Decisions have the same timestamp links. |
+| F6 | Highlights and clips | Keep a moment | P0 | Made from a transcript selection, from the playhead, with the Highlight button or the `H` key. Start and end can be adjusted, a note added, the highlight deleted. It appears in a panel and on the timeline and survives a refresh. The database clamps a clip inside the recording and caps an identity at 300 highlights. |
+| F7 | Share a clip | Send one moment to someone who wasn't there | P0 | One action makes and copies a link, `/share/<token>`, the token minted by the database (64 hex characters), one live link per highlight, revocable. Opened signed out, it shows only that clip: its range, its transcript excerpt (every turn that overlaps, in full), the meeting title and date, the speakers heard in it. A public meeting's clip plays the audio limited to the range; a private meeting's clip is transcript-only, because any media link would expose the whole recording. A revoked or wrong link shows a clear page. The share page never shows tasks, commands, memory or anything of the owner's. |
+| F8 | Search across meetings | Find where something was said | P0 | Full-text search over transcripts, titles and notes (at most 200 characters, 120 hits), under the caller's own readability: a visitor searches the samples, an identity only its own meetings. Results grouped by meeting with snippet, speaker and time. A result opens the meeting at its moment with the term marked and Find started there. The query lives in the URL. A no-results state suggests a next step. |
+| F9 | Send AFK to a meeting | AFK gets into meetings | P1 | The Send page takes an https link on a Zoom, Meet or Teams host (any subdomain of the listed hosts is accepted, and Teams links have no path rule, so a bare Teams address passes the check and fails at Attendee; audit D15), an optional title, the sender's name in the call (required for a guest), and the call's language ("English and Urdu", the default, remembered in the browser, or "English"). Anyone's request sends a real Attendee bot named "AFK.ai Notetaker" that joins audio-only, records video (speaker view, 720p) and transcribes from the platform's captions or Deepgram (`ATTENDEE_TRANSCRIPTION`). A guest's first send creates their workspace **[AFK.ai addition]**. The meeting shows Requested, Recording, Processing, then Ready or Failed, refreshing itself every ten seconds while the tab is visible, and arrives in the list with its summary, action items and decisions once the jobs have run. Caps, enforced in one database trigger under a lock: one active bot per identity, 5 requests a day per identity, 5 a day per place (a keyed hash of the sender's address), and a deployment-wide daily cap (`app_settings.bot_daily_cap`, 20); deleting a meeting gives nothing back. "Show me what happens" plays the steps as a labelled demo without sending; a "What you can say" panel lists the commands. If the bot is not configured, the page says so and keeps the demo. The recording stays at Attendee and plays on the meeting page through the thirty-minute links Attendee mints, renewed by the page two minutes before expiry without losing the player's place. A bot that never reports back is closed as failed six hours after its time by the daily keep-alive, which frees the sender's active slot. The sweep times a `requested` or `recording` row from its `created_at`, so a scheduled bot that joined is closed mid-call once it was created more than six hours earlier, and its recording is then never ingested (audit F1). |
+| F9a | Join from the calendar | AFK is in the user's meetings without a Send page | P1 | A Google user with Calendar connected sees the next seven days' events that carry a Zoom, Meet or Teams link on the dashboard, each with Send AFK. Sending schedules the bot for the event's time (`joinAt` in the request, `scheduled_for` on the meeting; status Scheduled; one scheduled bot per calendar event per owner, `calendar_event_id`). A scheduled bot does not count as the one active bot, joins by itself, and is swept six hours after its time if it never joins (and, once recording, by the F1 defect above); Delete removes the bot at Attendee. A switch "Join every meeting with a link" writes the profile line "AFK joins my calendar meetings: yes", and the daily keep-alive schedules a bot for each such user's events in the next thirty-six hours, at most twenty a run, under the same caps. |
+| F9b | Delete a meeting | Nothing outlives the owner's choice | P0 | Delete on an owned meeting tells the bot to leave if it is still in the call, deletes the row (cascading turns, jobs, items, commands, highlights, links, the meeting address), then the audio object, and tells Attendee to forget the bot's recording and transcript (best effort, logged when refused). A job finishing late finds nothing to publish. A meeting with a spoken command probably cannot be deleted: `meeting_commands_turn_fk` has no delete action, so the cascade from the meeting to its turns is likely refused (audit S1, not yet confirmed by a test). |
+| F10 | Live highlight during a replayed call | Highlight a moment mid-call | Out | Not built. Highlights are made on the meeting page during playback. |
+| F11 | Ask AFK on the meeting page | An answer with timestamps | P2 | Not built as a page feature; the spoken and typed `/ask` command covers it (5.2). |
+| F12 | Recording upload | Bring a recording | Out | Not built. |
+
+### 5.2 Commands: the sender speaks, AFK acts **[AFK.ai addition]**
+
+The sender gives commands by starting a sentence with the wake word. Nobody else's words
+are commands. Internal effects are immediate; external effects wait for one approval. The
+command table is one registry that the detector, the typed parser, the Tasks tab, the Send
+page and the database's kind list all read. It holds the eleven kinds a user can give; the
+database and the detector also know a twelfth, internal kind, `unknown`, for a sender's
+wake-word sentence AFK did not understand, which shows as a "not understood" card (C8):
+
+| Kind | Typed | Spoken trigger words after the wake word | Effect | Needs approval | Needs the model |
+|---|---|---|---|---|---|
+| task | `/task` | action item, action, task, to do, todo | An action item with the owner and due date said, marked "said on the call" | No | Yes |
+| decision | `/decision` | decision, we decided, decided | The decision word for word, cited to the moment | No | No |
+| note | `/note` | note | A note pinned at the top of the summary | No | No |
+| highlight | `/highlight` | highlight, clip, mark that, mark this | A clip from the start of the previous speaker's turn to the command, at most 60 s | No | No |
+| remember | `/remember` | remember | A dated line appended to people, projects or glossary (chosen by the words), cited to the turn; refused for a guest | No | No |
+| email | `/email` | email, e-mail, mail | An email draft, sent by Gmail on approval (`mailto:` and Copy without Gmail) | Yes | Yes |
+| followup | `/followup` | schedule a follow-up, follow up, schedule | A calendar event at the time said with the people named, invitations on approval | Yes | Yes |
+| remind | `/remind` | remind me, reminder, remind | A reminder event on the host's own calendar, on approval | Yes | Yes |
+| slack | `/slack` | tell the team on slack, post to slack, post on slack, … | The host's own words after the command word posted to the chosen channel, on approval; no model rewrites it | Yes | No |
+| ask | `/ask` | what, who, when, where, why, how, did we, do we, does, is there, are we, has anyone, ask | Answered in the meeting chat from what was said so far while the call is on; typed after the call, the answer lands on the card | No | Yes |
+| recap | `/recap` | recap, summarise, summarize, catch me up, what did I miss (checked before ask) | A few lines on the meeting so far, in the chat while the call is on | No | Yes |
+
+| ID | Requirement | User outcome | Priority | Acceptance criteria |
+|---|---|---|---|---|
+| C1 | Wake-word detection | Say "AFK, …" and be understood | P0 | A deterministic pattern, no AI: an optional "hey", "hi", "ok" or "okay", then "AFK", "A F K", "A-F-K" or "A.F.K", optionally "bot", case-insensitively, at the start of an utterance, followed by a comma, colon, other punctuation or nothing. It ignores every utterance that is not the sender's: the sender is the speaker matched by name to who sent the bot (the Google name, the profile's "Name" and "Name in calls", or the name typed on the Send page), else the only speaker; the platform's host flag confers nothing. After the call two matching speakers count as nobody; during the call the match is a token subset with no tie rule, so a participant whose display name contains the sender's name (for example "Haris Khan" for "Haris") is treated as the sender (audit F2). When the sender cannot be told apart, the Tasks tab says so with a link to set "Name in calls". The detector yields the command kind and the rest of the sentence; a sender's turn with the wake word but no known command becomes a "not understood" card (kind `unknown`). Unit tests cover every variant and the guest case, and a test over every seed transcript finds no false wake word with everyone treated as the host. |
+| C2 | Grounded parsing | AFK fills in exactly what was said | P0 | One Claude run per meeting parses the arguments of every detected model-needing command against a JSON schema. Owners must be a speaker or named in the sentence; dates, times and recipients must be words from the sentence or the surrounding minute of transcript; an address said in the call is kept only when the transcript holds it, written or spelled out. Ungrounded arguments are dropped and reported in the job report. The run has no tools and only the transcript, the host's memory, the host's skills, the meeting's link and PIN (when on) and the command list as input. At most 20 spoken commands a meeting are parsed; the next twenty are recorded as skipped with the reason. |
+| C3 | Internal commands | Explicit items beat inferred ones | P0 | `/task`, `/decision`, `/note` create items marked "said on the call" with the sentence's timestamp; `/highlight` clips as above; `/remember` appends its line. Items appear in the existing notes tabs, cited to the sentence. Applying is one transaction (`apply_commands()`): all of a meeting's internal commands land, or none and the job retries. The analysis prompt is given the explicit items and told not to restate or contradict them. |
+| C4 | External commands, the Tasks tab, the cards | Approve with one click, see what happened | P0 draft, P1 send | The meeting page's Tasks tab lists every command as a card: the quoted sentence with a timestamp button, the parsed arguments as a form the host confirms (To, Copy, subject, body for an email; date, time, length, invitees for a follow-up; time and text for a reminder; channel and message for Slack), a preview, Approve and Dismiss, then the result (recipient, subject, event time, link, the time it ran) or the failure in plain words. Email cards pre-fill Copy from the email skill; follow-ups take their default length and "always invite" from the calendar skill; a Slack card picks its channel from the Slack skill's topic lines, else the channel chosen on the Connectors page. A draft can be sent back with a note ("Rewrite"), one new parse per note, spoken or typed; `rewrite_command()` queues the `detect_commands` job and the route kicks the runner. Dismiss removes what the command created and leaves no trace in the notes; a command that ran cannot be dismissed. Approve and Dismiss are owner-only, rate limited, within 300 ms. The tab never appears on a share link or a meeting address. The processing page says "AFK heard N commands". The same cards show first on the dashboard ("Awaiting your approval") and on `/tasks`, approvable there; the sidebar's Spells entry counts them and says since when the oldest has waited. Enter in a single-line field approves; ⌘/Ctrl+Enter in a message box does. |
+| C5 | Typed commands | Didn't catch it? Type it | P0 | The Tasks tab has an input that accepts the same slash syntax. A typed command applies with the same rules, cited to the playhead's turn, marked "typed"; model-needing kinds queue a parse and the page refreshes until the card arrives. At most 20 typed commands a meeting, counted by a trigger under a lock. Owner-only, validated with the same schemas. |
+| C6 | Visitor demo | A visitor sees what commands do | P0 | On one seed meeting the Tasks tab shows example cards labelled as examples with the approval moment visible but disabled. The Send page's "What you can say" panel lists the commands with an example each. Nothing runs for a visitor. |
+| C7 | Execution, at most once | Approved means done, never done twice | P1 | `approve_command()` stores the approved arguments and inserts at most one queued or running `run_command` job per command (partial unique index). `start_command()` marks `executed_at` under the command's row lock before the adapter is called and refuses a second attempt for email and Slack ("ambiguous: check your Sent folder, then retry or dismiss"). Calendar inserts carry an id derived from the command, so a retry reads the existing event back (three attempts). `finish_command()` records the result, writes a line in `history/actions.md`, and learns the confirmed recipients as contacts. A failed command may be approved again only when `executed_at` is null or the kind is a calendar one. |
+| C8 | Help and errors | Know why a command didn't work | P0 | A heard but unparsed command shows as a card with "AFK didn't understand this" and the sentence, so it can be typed. A failed run shows the reason and a Retry (a new approval) where it is safe. |
+| C9 | Allowed speakers | Let a colleague give commands | Out | Not built. |
+
+### 5.3 Memory: what AFK knows about the user **[AFK.ai addition]**
+
+Nine markdown files per Google user, 32 KB each, each with the user's zone above a `---`
+rule and a "## Learned by AFK" zone below it. AFK never changes anything above the rule;
+the database refuses such a write.
+
+| Path | Tab |
+|---|---|
+| `profile.md` | Profile |
+| `context/people.md` | People |
+| `context/projects.md` | Projects |
+| `context/glossary.md` | Glossary |
+| `history/meetings.md` | Meetings |
+| `history/actions.md` | Actions |
+| `skills/email.md` | Email skill |
+| `skills/slack.md` | Slack skill |
+| `skills/calendar.md` | Calendar skill |
+
+| ID | Requirement | User outcome | Priority | Acceptance criteria |
+|---|---|---|---|---|
+| M1 | Profile | AFK knows who the user is | P0 | Created when the welcome is finished or skipped, from the Google profile (name and email), in a fixed template with headed sections ("Who I am", "How I like things", "Who may give AFK commands") and the lines Name, Name in calls, Email, Role and company, Timezone, Language (English), Notes, Email sign-off, "AFK speaks in calls: no", "Email me after each meeting: yes", "AFK joins my calendar meetings: no". Guests have no memory. The profile is loaded into every run for the user's meetings. |
+| M2 | Context files and skills | AFK knows the user's people, projects, words and voice | P0 | The three context files and the three skills are created with the profile from templates. Each skill is a settings section of "- Key: value" lines (a value in parentheses is a placeholder and counts for nothing: tone, length, greeting, sign-off, always copy, always invite, default length, working hours, time zone, channel per topic) followed by the guidance AFK follows (how an email opens and closes, what stays out, how "Friday morning" or "end of day" is read, how a Slack post finds its channel). The parser reads the user's zone of each skill as data under `<host_skills>`. A later template change reaches accounts whose copies were never edited. |
+| M3 | Learned lines | AFK gets better after each meeting | P1 | After a Google user's meeting is summarised, one Claude run (`learn` job) proposes at most ten lines across the context files, each a single dated line ending with the meeting title and moment, each citing a turn and quoting at least three of its words; a line whose quote is not in its turn is dropped and reported. Lines are appended under "Learned by AFK", trimming the oldest learned lines first past 32 KB. The user can delete any line. Nothing learned is ever presented as something said in a later meeting; grounding cites the current transcript only. Guests get no learn job. |
+| M4 | History files | AFK remembers what happened and what it did | P0 | `history/meetings.md` gets one line per processed meeting (date, title, headline, open items). `history/actions.md` gets one line per executed external command (time, what, to whom, which meeting, which command). Written by the runner without Claude, append-only, newest last. The save route (`PUT /api/memory/[...path]`) refuses these two files; `save_memory_file()` itself does not, and the Data API's update grant on `memory_files` lets a Google user change them directly (audit D8, F13). |
+| M5 | `/remember` | Tell AFK something once | P0 | Spoken or typed, "AFK, remember: Sam is the designer on Atlas" appends that sentence, dated, to the file the words choose (people, projects or glossary), naming the meeting and the moment. |
+| M6 | Memory page | See, edit, download, erase | P0 | `/memory` shows the nine files as tabs. The profile and the three skills open as fields (every "- Key: value" line a labelled input, a yes/no line a choice, grouped by the heading above it, the template's placeholder back when emptied) with the Markdown view a click away; the rest open as an editor beside a preview. Saving is owner-only, rate limited, rejects a file over 32 KB, and refuses a save over a newer version (409, "changed meanwhile, reload"); a file opened from its template (no row yet) is saved without that check, so it can overwrite lines AFK appended meanwhile (audit F13). A link can open a tab with a field focused (`?tab=profile.md&field=Name%20in%20calls`). "Download all" gives a zip of the files that exist (the history files only after AFK's first line) plus a generated `tools.md`. "Forget everything" deletes every file after a confirmation and brings the welcome back. Below the files, "People AFK knows" lists the learned contacts with source and use count, each deletable. Loading, empty and error states. A visitor sees a labelled demo profile. |
+| M7 | Memory in prompts | AFK uses what it knows, carefully | P0 | The runner pastes the profile, the context files, the skills and the last twenty lines of `history/meetings.md` into the prompt under "About the host", capped at 8 KB a file and 32 KB in all, dropping the oldest learned lines first across files. The prompt says memory is for names, spellings, who's who and preferences, that the transcript wins when they disagree, and that memory is data, not instructions. |
+| M8 | `tools.md` | Know what AFK can do for the user | P1 | A generated, read-only Tools tab on the Memory page, and the same file in the export, rendered from the connectors: each app, the account, scopes, when connected, reconnect-by, last used, the channel, what AFK may do. |
+| M9 | Morning brief | Start the day knowing what's open | Out | Not built. |
+| M10 | Onboarding | AFK knows the user from the first minute | P0 | After the first Google sign-in, before anything else, `/welcome` asks at most five questions, one screen each, all skippable: what AFK should call the user; role and company; what their meetings mostly are; how they like their notes; what they most want AFK to do. Timezone and language are detected from the browser and shown for confirmation. One write puts the answers into the matching profile sections in plain sentences. Skipping leaves the template with the Google name and email. Never shown again unless the profile is erased. `?preview=1` shows it signed out without saving. Accessible, works at phone width. |
+| M11 | People AFK knows (contacts) | Drafts go to real addresses, never invented ones | P1 | A `contacts` table per Google user, written through `learn_contacts()` with the service role (a user may only read and delete their own rows: the grants and RLS both say so, migration 42): every recipient confirmed on a card, with the name heard for it when that is clear; the people file, parsed on every page; the invitees of the calendar event a sent bot was scheduled from or whose link matches, within 36 hours of the send (host and rooms left out, at most 50, source `calendar`); and "Import Google contacts" on the Connectors page (the People API, saved contacts and "other contacts", read-only, at most three pages of a thousand per list, no use counted). A card resolves each heard name: an address said in the call first ("said in the call"), then the file, then the most used, then the most recent; the best guess goes in the field with its reason ("used 3 times, last 12 Oct", "from your People file", "on a calendar invite with you") and the other matches one click away; an unknown name leaves the field empty and says so. "Everyone" means the people on the call. The draft carries the host's name in the sign-off and the first recipient's first name in the greeting, filled in code, never a placeholder when the name is known. |
+
+### 5.4 Connectors: Gmail, Google Calendar, Slack **[AFK.ai addition]**
+
+| ID | Requirement | User outcome | Priority | Acceptance criteria |
+|---|---|---|---|---|
+| X1 | Connect Google | One consent for Calendar, Gmail and Contacts | P1 | "Connect Google" on the Connectors page starts OAuth with the `gmail.send`, `calendar.events`, `contacts.readonly` and other-contacts scopes, offline access, forced consent and PKCE; the state is a signed, short-lived cookie bound to the user and the provider. The callback exchanges the code server-side, seals the refresh token with AES-256-GCM under `CONNECTOR_TOKEN_KEY` bound to the row, and stores it in a table no user role can read (`connector_secrets`). The token never reaches the browser, the session cookie or a log. A second connect replaces the first. One connector per provider per user; guests are refused in RLS, the start route and the approve route. |
+| X2 | Disconnect and expiry | Control over access | P1 | Disconnect revokes at the provider and deletes the row and its secret. While the Google app is in Testing the page shows "reconnect by <date>" seven days after connecting; an `invalid_grant` on refresh marks the connector expired and fails the command with "Reconnect Google". |
+| X3 | Read tools during drafting | Real addresses | Deferred | No tools in Claude runs. Addresses come from M11; free slots are not read. |
+| X4 | Gmail send | Mail leaves from the user's own address | P1 | On approval the adapter sends the approved draft (to, cc, subject, body) as an RFC 5322 message from the host's Gmail; the result records the message id and recipients. At most once per approval. At most 5 To and 5 Cc recipients. |
+| X5 | Calendar create | Follow-ups and reminders land on the user's calendar | P1 | `/followup` creates the event at the time said with the people named as invitees (`sendUpdates=all`, at most 10); `/remind` creates a reminder for the host only. Client-generated event ids make retries safe. |
+| X6 | Outgoing webhook | Wire AFK to anything | Out | Not built. |
+| X7 | Slack | `/slack` posts to a chosen channel | P1 | A Slack app with the bot scopes `chat:write`, `chat:write.public`, `channels:read`; the Connectors page lists the workspace's public channels, paged, and saves the choice. The post is the host's words, at most 2,000 characters, once. GitHub is not built. |
+| X8 | Connectors page | Know what AFK may act through | P1 | `/connectors` shows three cards, Gmail, Google Calendar (one Google connection) and Slack: who each is connected as, what it may do, reconnect-by, connect, reconnect, disconnect, the channel picker, "Import Google contacts". Locked for a guest with the Continue with Google button. "Not set up on this deployment" when the OAuth client is missing from the environment. |
+
+### 5.5 Live presence in the call **[AFK.ai addition]**
+
+| ID | Requirement | User outcome | Priority | Acceptance criteria |
+|---|---|---|---|---|
+| L1 | Live transcript | AFK hears the call as it happens | P1 | The bot is created with the real-time transcript trigger. Each utterance reaches the webhook, which verifies the signature and stores it once in `live_utterances` (keyed by Attendee's idempotency key, at most 2 KB, no user grants), answering within 1 s. Replays are ignored. Live utterances are deleted when the final transcript is ingested, else after 24 hours. Nothing in them is shown to visitors. Someone other than the sender who says the wake word is told once, in the chat, that only the sender can give commands; any other command the sender speaks gets one chat line saying it was heard and where its result will be. |
+| L2 | In-call answers | Ask AFK a question in the meeting | P1 | A sender's `/ask` or `/recap` in the live transcript creates a live command and an `answer_in_meeting` job in the same transaction; the webhook kicks the runner. The answer is written from the utterances so far and memory with one Claude call, keeps only citations that exist (an answer with none becomes the fixed "That wasn't discussed yet."), is posted to the meeting chat once (an attempt after one that reached the chat posts nothing), and lands on the command's card. Twenty seconds after the question, if the answer has not started (no run holds its job on a live lease and nothing was posted), the chat gets "I'll answer this after the call" and the later answer lands on the card only; a slow answer posts itself with no fallback, so the chat gets one line per question. Targets: first chat text within 6 s median, 10 s at the 95th percentile. |
+| L3 | Voice | AFK speaks when asked | P1 | With text-to-speech credentials in the Attendee project, replies are also spoken when the profile says "AFK speaks in calls: yes". Without credentials, chat only. The bot speaks only in reply to a sender's command. `/timer` is not built. |
+| L4, L5 | A face, a talking face | | Dropped | Audio only. The bot joins with no camera image and its name contains "AFK". |
+| L6 | Routines | AFK does it every week | Out | Not built. |
+
+### 5.6 A meeting's address **[AFK.ai addition]**
+
+| ID | Requirement | User outcome | Priority | Acceptance criteria |
+|---|---|---|---|---|
+| A1 | `/m/<code>` behind a PIN | Pass a meeting on to someone who was not there | P1 | Every meeting has an address from the moment it exists: a twelve-character code from a 32-letter alphabet and a four-digit PIN, both minted by a database trigger with the meeting row (`new_link_code()`, `new_link_pin()`), readable by the owner alone and never written from the browser. The code carries 56 random bits (one of the fifteen hex digits it is cut from is the UUID's fixed version digit). The owner's Share panel on the meeting page shows code and PIN with Copy, a switch to turn the link off and on, and "New link and PIN". A visitor at `/m/<code>` sees a PIN form whatever the code; a right PIN on an enabled link of a ready meeting sets a signed grant cookie named for the code (seven days, HttpOnly, an HMAC of code and expiry under a key derived from the server secret); five wrong PINs lock that code for that visitor for fifteen minutes, and after a lock each further wrong try locks it again for fifteen minutes until a right PIN resets the count (audit F17); an unknown or switched-off code answers like a wrong PIN ("wrong" or "locked", nothing more). With a grant the page shows the recording (played as on the meeting page, renewed through its own media route, no download), the transcript with playback and find, and the summary with its templates and the notes said on the call; nothing of the owner's (no action items, tasks, commands, highlights, memory, no link into the app), and the page says so. Switching the link off suspends every grant; switching it back on re-admits grants minted earlier; "New link and PIN" ends them and also switches the link on. The page, the PIN route and the media route sit in the public read limits. Tries are forgotten after a day. "Share the notes" and email drafts that share the recording carry the address and the PIN while the link is on. Deleting the meeting deletes the address. |
+
+### 5.7 After the meeting
+
+| ID | Requirement | User outcome | Priority | Acceptance criteria |
+|---|---|---|---|---|
+| W1 | The wrap-up **[AFK.ai addition]** | No written-up meeting goes unseen | P1 | Once a meeting's notes are written, the next page the owner opens (the app shell and the owner's meeting page ask `GET /api/wrap-up` once) shows a dialog: the title and headline, the counts of action items and decisions, the cards waiting for approval (approvable, dismissable, rewritable in place) and "How was the meeting?" (Good or Not great, a word on why, optional). Later closes it for that visit (session storage) and it returns on the next; Done records `reviewed_at`, the rating and the note and ends it. Nothing is auto-approved; cards left behind stay on the dashboard. |
+| W2 | The note to the owner | Nothing is written up unseen even with the app closed | P1 | When a Google user's meeting's notes are written, a `notify_owner` job sends one short email from the owner's own Gmail to the same address: what was written up, the counts, how many cards wait, the link. No Claude. Ends silently when the profile says "Email me after each meeting: no" or Gmail is not connected. Sent at most once per job, under `start_job_effect()`. The trigger fires on any change of `summarized_at`, so a re-summarised meeting sends a second note (audit S3, and F5 below). |
+| W3 | The nudge **[AFK.ai addition]** | No card waits unnoticed for more than a day | P1 | With no fresh wrap-up to show, the wrap-up route returns the oldest proposed card older than a day on a meeting not nudged for a day, in "nudge" mode ("Still waiting for you", no rating); Later and Done both snooze it a day. The Spells badge and the Tasks page heading say since when the oldest card has waited. |
+| W4 | Share the notes **[AFK.ai addition]** | The notes in everyone's inbox after one approval | P1 | "Share the notes" on an owned ready meeting builds a plain email from the stored notes (headline, decisions, action items with owners and dates, the default template's points), signed off as the email skill says, addressed by name to the speakers but the host, inserts one proposed email card without Claude, and opens the Tasks tab where the host approves once. |
+| W5 | The first-run checklist **[AFK.ai addition]** | A new account finds its setup steps in one place | P1 | The dashboard checks what exists: Google connected with Gmail and Calendar, a Slack channel chosen, a "Name in calls" line, one meeting with a bot. Each open item links to where it is done; the section disappears when all are done. A guest sees two items: one test call, and continuing with Google. |
+| W6 | The record (game layer) **[AFK.ai addition]** | Coming back feels like progress | P1 | Under the dashboard list, one line of the record (level, progress to the next, streak) leads to the Player card at `/dashboard/record`: the level card, twelve weeks of calls as bars, the action ring, commands, the streak, the longest calls and the badge album, all counted from the user's own rows, nothing estimated. XP: 50 per meeting, 1 per recorded minute, 10 per decision, 5 per action item, 15 per command, 25 per executed command, 5 per highlight. Levels: Lurker 0, Attendee 100, Delegator 300, Decision-maker 700, Chief AFK Officer 1,500, AFK Legend 3,000. The streak counts consecutive ISO weeks with a call, the current week not breaking it. The Quest log line under the dashboard title shows the counted numbers (quests, time played, open side quests, spells awaiting your cast). |
+| W7 | Urdu in a call **[AFK.ai addition]** | A bilingual call is transcribed, not lost | P1 | The bot is sent in Deepgram's multilingual mode by default (`ATTENDEE_DEEPGRAM_LANGUAGE`, `multi` or `en`), which transcribes Urdu or Hindi in Devanagari. After the call, before storing, turns in Devanagari or Arabic script are handed to `romanizeTurns()`: chunks of about 6 KB, one Claude call each with a JSON schema, in parallel, at most 60 KB per meeting; the model transliterates into Roman Urdu, never translating; only the ids asked for are accepted. A failed chunk, no time left or no API key leaves those turns as transcribed and the ingest goes on; the report carries counts and spend. The analysis, summaries and parser are told the transcript may hold Roman Urdu or Devanagari and write the notes in English. The wake word and the command grammar stay English. |
+
+### 5.8 Processing: how AI output is made
+
+| ID | Requirement | Priority | Acceptance criteria |
+|---|---|---|---|
+| P1 | Leased jobs in Postgres | P0 | `processing_jobs` rows per meeting with kind (`ingest_media`, `detect_commands`, `analyze`, `summarize`, `learn`, `run_command`, `answer_in_meeting`, `notify_owner`), status, `lease_until`, `claim_token`, attempts, a report. A job has at most 3 attempts: after a failed attempt it is due again after 1 minute, then 4 minutes; the third failure is final. Jobs are created by the import, the webhook, a typed command, an approval, a rewrite, the notes trigger and the keep-alive's scheduling (section 1). `claim_job()` takes one job under `for update skip locked`, the kicked meeting first and live answers and approved commands before notes. `complete_job()` publishes only while its claim token holds; an expired lease is enforced by the next `claim_job()` sweep, not by `complete_job()` (audit F24). Input or output the database refuses ends the job at once ("rejected"): output `complete_job()` refuses, and a transcript `ingest_transcript()` refuses, so neither is fetched and paid for again. A parse that fails for good queues `analyze` and `summarize` again even when the notes exist, which re-sends the owner's note and adds a second history line (audit F5). A rate limit or outage at Anthropic releases the job without using an attempt; a missing or refused API key releases it for ten minutes and ends the run. A changed transcript retires jobs running against the old one and clears the meeting's notes marks. Done and failed jobs are pruned after thirty days; a meeting records `analyzed_at` and `summarized_at` for itself. |
+| P2 | The runner inside functions | P0 | The runner is a function of a client, a config and a time budget (270 s of Vercel's 300 s; a Claude call gets what is left, up to about 245 s). It runs after a response in: the webhook, the meeting page while notes or cards are pending, the typed-command, approval and rewrite routes, `/api/jobs/kick` (cron secret; a POST body may name a meeting, kinds and the hop) and the daily keep-alive. A run that ends on its budget with due jobs left posts once to the kick route so a fresh function carries on until nothing is due; a run that stopped for a reason a new function would not change does not chain. A ready meeting's page re-kicks a job still running six minutes after its claim lost its lease. `GET /api/health` reports the queue in numbers (due, scheduled, running, failed today, the oldest wait), the last keep-alive and what is configured, 503 when a due job has waited over thirty minutes; public, counts only. |
+| P3 | Claude calls | P0 | Every call has no tools, a JSON schema the API enforces, the transcript as the first (cached) block of the message, memory and commands labelled as data, the instruction last. `analyze` returns a headline, chapters, action items and decisions, each citing turns; `summarize` returns the four templates; both are validated against a schema, then grounded: a citation must be a real turn of the meeting (the database proves it), an owner must be a speaker or named in the cited turn, a due date must be said there; what fails is dropped item by item and reported, and whatever survives is published. There is no failure threshold: a `summarize` whose every template is dropped stores an empty list as a success. The four runs read one cached prefix. Every job report records tokens and an estimated cost. |
+| P4 | The Attendee webhook | P0 | HMAC-SHA256 over Attendee's canonical JSON with a constant-time compare, numbers kept as the signer wrote them; 503 without a secret, 401 on a bad signature; idempotent; never creates or revives a meeting; answers within 1 s; kicks the runner after answering. "Ended" moves the meeting to `transcribed` and queues `ingest_media`, which fetches the transcript and the recording's link, reads the recording's length from the MP4 header in a few range requests (never downloading it), merges consecutive captions per speaker except where a command starts, romanizes where needed, stores the turns and marks the meeting `ready` with the bot id as its `video_ref`. |
+| P5 | The daily keep-alive | P0 | Vercel Cron at 06:17 UTC (`/api/cron/keepalive`) with the cron secret: one real query keeps Supabase from pausing; prunes the write-limit log, finished jobs after thirty days, live utterances after a day, PIN tries after a day; sweeps bots that never reported back after six hours (timed from `created_at` for a `requested` or `recording` row, which closes a scheduled bot's live call; audit F1); purges guests older than thirty days who never continued with Google (rows, then their audio, then Attendee is told to forget their bots; never a guest whose bot is in a call); schedules the auto-join bots; runs whatever is queued with the time left. One row in `cron_runs` records the counts. |
+
+## 6. Pages
+
+The app shell speaks in gaming words. The sidebar entries are Quests (`/dashboard`),
+Spells (`/tasks`), Lore (`/memory`), Loadout (`/connectors`), Tutorial (`/samples`) and
+Summon AFK (`/send`).
+
+| Route | What |
+|---|---|
+| `/` **[AFK.ai addition]** | The landing page, for everyone, always in the light palette: a twelve-second animation as the full-screen hero, played by scrolling (a play button under reduced motion), the nav floating over it; the claim with its second line typed by the scroll, beside three things to do (open the sample, sign in, a form that takes a Gmail address to be added as a Google test user); "the short version", a timeline of seven stops from the pasted link to the shared clip, its spine drawn by the scroll; a closing line; the footer. Signed in, its links lead to `/dashboard`. |
+| `/dashboard` | Quests, in this order: the guest notice, the Quest log title, the first-run checklist (W5), the calendar week (F9a), the cards awaiting approval (C4), then the meetings list grouped by period (F1), then the record line (W6: the Player card summary, beside the list on a wide screen, linking to `/dashboard/record`); the wrap-up dialog over it (W1). |
+| `/dashboard/record` | The Player card (W6). |
+| `/samples` | Tutorial: the public seed meetings, paged. |
+| `/meetings/[meetingId]` | Notes beside the synced transcript with the docked player (video above the notes for a bot meeting); tabs for the summary (with templates and potential tasks), action items, decisions, chapters, highlights, Tasks (owner only); the owner's Share panel (A1), "Share the notes" (W4), Delete (F9b); the processing view with its steps while not ready; URL state `t`, `tab`, `template`, `q`. Sample meetings are indexable with a canonical link; a user's own meeting is `noindex`. |
+| `/search?q=` | F8. `noindex`. |
+| `/share/[token]` | F7. `noindex`. |
+| `/m/[code]` | A1: the PIN form, then the shared meeting view. |
+| `/send` | Summon AFK: F9, the labelled demo, "What you can say". |
+| `/sign-in` | Continue with Google: links the guest identity this browser has, or signs in to an existing one; its entry points are hidden while the Supabase project's Google provider is off (read from Supabase's public auth settings, cached five minutes). |
+| `/welcome` | M10. |
+| `/memory` | Lore: M6, M8, M11. |
+| `/tasks` | Spells: every command across the user's meetings, the waiting ones first as approvable cards, then the record, each row linking to its meeting's Tasks tab. |
+| `/connectors` | Loadout: X8. |
+| `/privacy` | What is kept, for how long, and what the bot announces. |
+| `/auth/callback`, `/auth/sign-out` | The OAuth round trip; sign-out is POST-only, or from the callback only with a PKCE verifier cookie proving the round trip started here. |
+| `/connectors/[provider]/start`, `/connectors/[provider]/callback` | X1, X7. |
+| `/robots.txt`, `/sitemap.xml`, `/manifest.webmanifest`, `/icon.svg`, `/apple-icon`, `/opengraph-image` | Generated; the sitemap lists the public pages and the sample meetings. The mark (an empty chair with an amber line) is drawn in `src/components/ui/logo.tsx`; `icon.svg`, `apple-icon.tsx` and `opengraph-image.tsx` carry their own copies of its paths, and `icon.svg` differs slightly from `logo.tsx` (one leg ends at x 18 and 49 rather than 17 and 50, stroke 9 rather than 8). |
+
+Most data pages have a `loading.tsx` in the shape of what is coming; `/connectors`,
+`/dashboard/record`, `/m/[code]`, `/sign-in`, `/welcome` and `/privacy` fall back to the
+root `src/app/loading.tsx` ("Loading…"). Every page has an error state (the root
+`src/app/error.tsx`) and an empty state where a list can be empty. Signed in, pages sit in the app shell (sidebar,
+account, search in the top bar, one content column); signed out, under the public
+header. Theme: light by default, a sun/moon toggle that sets `data-theme="dark"` and
+keeps the choice in localStorage, restored before first paint by an inline script with the
+CSP nonce.
+
+## 7. API routes
+
+| Route | Does |
+|---|---|
+| `POST /api/bot` | F9, F9a: validates the link, inserts the meeting under the caps, creates the Attendee bot (now or at `joinAt`). |
+| `POST /api/webhooks/attendee` | P4, L1. |
+| `GET /api/meetings/[meetingId]/media`, `GET /api/m/[code]/media` | A fresh short-lived recording link (signed audio: six hours public, one hour private; video: Attendee's thirty-minute link). |
+| `DELETE /api/meetings/[meetingId]` | F9b. |
+| `POST /api/meetings/[meetingId]/commands` | C5. |
+| `POST /api/meetings/[meetingId]/link` | A1: rotate, enable or disable (the owner's page reads the link under RLS). |
+| `POST /api/meetings/[meetingId]/share-notes` | W4. |
+| `POST /api/meetings/[meetingId]/review`, `POST /api/meetings/[meetingId]/snooze` | W1, W3. |
+| `POST /api/commands/[commandId]`, `POST /api/commands/[commandId]/rewrite` | C4, C7: approve or dismiss; rewrite with a note. |
+| `PUT /api/items/[itemId]/state` | F5: a private tick. |
+| `POST /api/highlights`, `PATCH/DELETE /api/highlights/[highlightId]`, `POST/DELETE /api/highlights/[highlightId]/share` | F6, F7. |
+| `POST /api/m/[code]/pin` | A1. |
+| `GET/DELETE /api/memory`, `PUT /api/memory/[...path]`, `POST /api/memory/onboarding` | M6, M10: export all as a zip, or erase all; save one file with the conflict check; the welcome's one write. |
+| `DELETE/PATCH /api/connectors/[provider]`, `GET /api/connectors/slack/channels`, `POST /api/connectors/google/contacts` | X2, X7, M11. |
+| `DELETE /api/contacts/[contactId]` | M11. |
+| `POST /api/calendar/autojoin` | F9a: the switch. |
+| `GET /api/wrap-up` | W1, W3. |
+| `POST /api/access-requests` | The landing page's test-user form: inserts the lower-cased address as the visitor; a repeat answers like a first, so the list cannot be probed. |
+| `GET/POST /api/jobs/kick`, `GET /api/health`, `GET /api/cron/keepalive` | P2, P5. |
+
+Every route validates its input with Zod and acts as the visitor under RLS or makes its
+own access decision before using the secret key. Every route that writes as a visitor
+counts the write against the 60-a-minute limit. The exceptions: `POST /api/m/[code]/pin`
+has no identity to count, and is bounded instead by the proxy's share read bucket (120 a
+minute per client) and the database's PIN-try count; the webhook, the kick route and the
+keep-alive authenticate with a secret; the owner-only link, review and snooze functions
+do not count against the limit (audit F32).
+
+## 8. Non-functional requirements
+
+| Area | Target | How it is verified |
+|---|---|---|
+| Load | The long meeting's page shows its main content within 2.5 s on desktop and 4 s on a throttled phone (CPU 4× slower, slow 4G) | Playwright trace on the deployed build |
+| Interaction | Seeking, tab and template switches respond within 100 ms; the highlighted line is at most 250 ms behind the audio | Browser performance trace |
+| Scale | Smooth at 3 hours, 5,000 turns and 12 speakers | A generated test fixture, never seeded or shown as real |
+| Sync | The highlighted line is always the turn under the playhead by the source timings | Unit tests at turn boundaries, plus a listen-through |
+| Search | The server answers within 300 ms for 95% of searches over the seed data | Timed requests |
+| Accessibility | WCAG 2.2 AA on every journey; axe finds no serious or critical issue; everything works by keyboard alone; player shortcuts off while typing; speakers told apart by more than colour; reduced motion respected | axe in Playwright, a keyboard-only run |
+| States | Every view that loads data has loading, empty and error states | Playwright tests that force each one |
+| Degradation | Missing AI output or failed media never blanks the page; the transcript stays usable and a retry is offered. No connector: drafts without addresses, `mailto:` instead of a send. No API key: jobs wait and the page says so | Tests that inject each failure |
+| Persistence | Time, tab, template and search live in the URL; highlights, clips, ticks and the theme survive reloads | Reload and new-tab tests |
+| Availability | Reachable for at least 30 days with no manual action; the daily cron keeps Supabase from pausing | A fresh-visitor check after a deploy and a week later |
+| Visitor boundary | RLS stops any identity from reading or changing another's data or the seed data; share tokens have at least 128 random bits and can be revoked; Supabase's anonymous sign-in limit is on | Database tests with two identities |
+| Limits | The table in section 9, all enforced in the database or by Supabase so they hold across instances | Rate-limit and database tests |
+| Secrets | Credentials live only in Vercel and Supabase settings or untracked env files; never in browser code, the repo or the import output. Only `NEXT_PUBLIC_*` values reach the browser | Search the built code and the repo |
+| Headless Claude | Every call has no tools, a JSON schema the API enforces, and content as data; only the database creates jobs | Review of `src/features/processing/`; tests on the job-creating routes |
+| AI grounding | Every summary point, decision, action item, learned line and parsed argument cites a real turn of the current transcript; the rest is dropped and reported | Automatic checks with counts in the job report |
+| No invented owners, dates or addresses | An owner must be a speaker or named in the cited turn; a due date must be stated there; an address must come from the host's people file, a confirmed card, an invite, the transcript or a Google import, and is shown with its reason | Automatic checks, review of the long meeting |
+| AI quality | Of 20 items from the long meeting checked by hand, at least 90% are supported | Manual check, recorded in [plan.md](plan.md) |
+| Approval **[AFK.ai addition]** | No external effect without a `meeting_commands` row in the approved state created by its owner; the database refuses a run job for any other state | Database tests on the functions; a route test that a visitor cannot approve |
+| At most once **[AFK.ai addition]** | A command has at most one queued or running job and at most one send; calendar inserts carry client ids; the owner's note and a chat line go out at most once | Database tests on the unique index and gates; adapter tests with a fake `fetch` |
+| Token safety **[AFK.ai addition]** | Refresh and bot tokens only sealed in a table no user role can read; one-hour access tokens only in a function's process for one run; never in logs, the browser, cookies or job reports | Tests that read every log call; review |
+| Memory privacy and size **[AFK.ai addition]** | Owner-only rules; refused to guests; no content in logs, seed data or share links; deleted with the account; 32 KB a file, 8 KB a file and 32 KB in all inside a prompt | Database tests with two users; e2e that a share link shows no Tasks or memory |
+| Concurrency | A user's save over a newer version is refused; AFK's appends never lose a user's edit | A database test interleaving an append and a save |
+| Webhook | Signed, idempotent, never creates or revives a meeting, answers within 1 s | Tests with replayed, forged and late events |
+| Import resilience | Leased jobs, at most 3 attempts, outages released without an attempt, re-runs create no duplicates | Database tests on claim and complete; running the import twice |
+| Processing portability | Processing runs inside the deployed app's functions with configuration only from environment variables; nothing runs on the operator's machine | The keys in Vercel |
+| Security headers | A Content-Security-Policy on every HTML response with a per-request nonce and `strict-dynamic`, connections only to this site and the Supabase project, no objects, no framing (media may play from any https origin); `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, `Permissions-Policy` on every response | A test on the CSP builder; a deployed check |
+| Observability | Every external effect appears on the card, in the job report and in `history/actions.md`; logs carry identifiers and counts only; every keep-alive run leaves a row; the health route shows the queue | A test that reads every log call |
+| Retention | Live utterances until ingest or 24 h; bot requests a day; job rows 30 days; guests 30 days unlinked; memory and connectors until the user deletes them | Cleanup steps in the keep-alive; tests |
+| Honesty in the call | The bot's name contains "AFK"; it shows no camera image; it speaks only in reply to a sender's command and only when the profile says so; the Send page says the bot announces itself and everyone on the call should consent | Review; a test call recording |
+| Privacy | Only licensed or consented recordings, credited in the app; no third-party analytics; the anonymous identity holds no personal data; recordings served only through short-lived links | Review |
+| Cost | $0 a month beyond the Claude API spend (cents per meeting: analyze, summarize, parse, learn, answers, romanize; a spending limit on the key); all services on free tiers; Attendee's free bot hours, then $0.50 an hour | Billing pages |
+
+## 9. Limits
+
+| What | Limit |
+|---|---|
+| Writes per identity | 60 a minute, counted in the database by a trigger on every visitor-writable table; the route limiter fails closed (503) when the check cannot run |
+| Highlights per identity | 300; links per highlight 50, revoked ones counted |
+| Clip length | At most 600 s (`highlights_max_length`, `MAX_CLIP_SEC`); a spoken highlight is 5 to 60 s |
+| Commands per meeting | 20 spoken parsed (the next 20 recorded as skipped), 20 typed |
+| Bot requests | 1 active per identity (a scheduled bot is not active until it joins), 5 a day per identity, 5 a day per place, `bot_daily_cap` (20) a day in all; one scheduled bot per calendar event; the auto-join schedules at most 20 a run, 36 hours ahead; a bot can be scheduled at most 90 days ahead |
+| The bot in the call | Leaves after 60 s alone in the call, 5 minutes unadmitted in a waiting room, 10 minutes of silence (counted after the first 10), 3 hours at most |
+| New guest identities | 30 an hour per address (Supabase's limit) |
+| Guest retention | 30 days from creation without linking a Google account |
+| A function's processing budget | 270 s; a Claude call up to about 245 s |
+| Job attempts | 3; due again after 1 minute, then 4 minutes; the third failure is final |
+| Function time limits | 300 s for the runner's routes and the meeting page; `POST /api/bot` 30 s; the Google contacts import 60 s |
+| Search | 120 hits a query, 200-character query |
+| Recording links | Audio signed for 6 hours (public) or 1 hour (private); video 30 minutes, renewed two minutes before expiry |
+| Meetings lists | 20 a page, keyset cursor; `/tasks` shows at most 200 commands |
+| Meeting addresses | One per meeting; five wrong PINs lock the code for that visitor for fifteen minutes, and after a lock each further wrong try locks again for fifteen minutes until a right PIN resets the count (audit F17); tries forgotten after a day; grants last seven days |
+| Memory | 9 files of 32 KB per Google user; 8 KB a file and 32 KB in all inside a prompt |
+| Connectors | One per provider per user; approved arguments at most 8 KB; email to 5 To and 5 Cc, follow-up to 10 invitees, Slack message 2,000 characters; email and Slack run once, calendar up to 3 attempts; the OAuth state cookie lasts 10 minutes; the Slack channel list reads at most 5 pages |
+| Contacts | One row per address per user; a Google import of at most three pages of a thousand per list; at most 50 invitees learned per meeting |
+| Public reads per client (a keyed hash of the address, never the address) | A minute: 60 searches, 120 share-link or meeting-address opens, 60 recording-link renewals, 60 health checks; 429 from the proxy before the page runs; 503 if the count cannot be checked |
+| Live utterances | 2 KB each; kept until ingest or 24 h |
+| Live answers | At most 600 characters in the chat |
+| Ingest | The recording-length probe times out after 30 s; consecutive captions of one speaker merge within 1.5 s and up to 600 characters |
+
+## 10. Out of scope, simulated, and accepted limitations
+
+### Not built
+
+Calendar sync beyond the Google connection; roles editable in the app and teams (sign-in
+is Google only); CRM integrations; playlists and comments; transcript editing and
+trimming; editing AI output text; languages other than English for commands and notes
+(Urdu and Hindi speech is transcribed and romanized, the notes stay English); live
+highlighting during a replayed call (F10); recording upload (F12); allowed speakers
+beyond the sender (C9); the morning brief (M9); the outgoing webhook (X6); GitHub issues;
+a face or a talking face for the bot (L4, L5); routines (L6); read tools during drafting
+and free-slot search (X3); reading the host's mail; a photorealistic avatar.
+
+### Simulated or demo-only
+
+| Where | What |
+|---|---|
+| `/send` | "Show me what happens" is a labelled demo of the steps; nothing is sent. |
+| One seed meeting's Tasks tab | Example cards, labelled as examples, approval disabled. |
+| `/memory` for a visitor or guest | A labelled demo profile. |
+
+Everything else is real: the bot, the recording, the transcript, the Claude output, the
+sends.
+
+### Accepted limitations
+
+- A shared clip of a seed meeting plays the full source file limited to the clip's range;
+  the whole file can still be reached, which is acceptable for publicly licensed audio.
+- A private meeting's clip is transcript-only.
+- A clip's excerpt shows every overlapping turn in full.
+- A guest workspace is one browser.
+- A bot meeting's video lives in Attendee's storage for as long as Attendee keeps it.
+- Who may command AFK is decided by a display name.
+- Grounding proves turn ids, owners, dates and addresses, not the rest of an item's
+  wording.
+- `search_meetings()` is callable directly with the publishable key, where the proxy's
+  read limit does not apply.
+- Read limits are per address, so many people behind one office address share a count.
+- A changed transcript on re-ingest deletes the meeting's commands, including the results
+  of ones that ran (the history file keeps its line).
+- Small buttons are 32 px tall (`sm`, `icon-sm`), under the 44 px often used for touch.
+
+### Known gaps
+
+Open defects; the ids in brackets are those in [docs/audit.md](audit.md).
+
+| Area | Gap |
+|---|---|
+| C1, L2 | During the call, anyone whose display name contains the sender's name is treated as the sender (audit F2). |
+| F9 | A bot can be created at Attendee without its id reaching the row, leaving a bot AFK cannot see, and a retry sends a second bot (audit F3). |
+| F9b | Deleting a meeting that has a spoken command probably fails, because `meeting_commands_turn_fk` has no delete action (audit S1, suspected). |
+| W4 | "Share the notes" creates a new email card on every click, and each can be approved and sent (audit F4). |
+| P1, W2 | A parse that fails for good re-generates notes that already exist: a second owner email, a second history line, lost ticks (audit F5). |
+| A1 | After a PIN lockout, each further wrong try locks again for fifteen minutes until a right PIN (audit F17). |
+| M4, M6 | `save_memory_file()` does not refuse the history files and a file saved from its template can overwrite AFK's lines (audit D8, F13). |
+| L1 | Webhook redelivery can re-post the "Heard" chat line: the route ignores the duplicate flag `record_live_utterance()` returns. |
+| C4, X7 | A Slack card cannot be approved without a default channel saved on the Connectors page, even when the Slack skill names one. |
+| C4 | `rewrite_command()` has no cap on how many rewrites a card can take. |
+| F9, A1 | Media-link renewal can loop without backoff when the link's expiry fails to parse. |
+| P1, F5 | Re-running analysis on a meeting deletes its `item_states`, so ticks are lost. |
+| F9a | Scheduled bots have no per-user cap. |
+| A1 | PIN lockout is per visitor, not per link. |
+| A1 | The code carries 56 random bits, not the 60 its comment states. |
+| P5 | A purged guest's scheduled bots are not removed at Attendee. |
+| F1 | Meeting dates always print in America/Los_Angeles, whatever the viewer's time zone. |
+| F2 | The chosen playback speed is not persisted. |
+| Accessibility | `aria-labelledby` ids containing spaces on the dashboard and privacy pages. |
+
+## 11. Seed data
+
+Five real research meetings from the ICSI Meeting Corpus (CC BY 4.0, University of
+Edinburgh), human-transcribed, speakers anonymous in the corpus and labelled "Speaker A",
+"Speaker B" and so on; audio is the corpus's mixed headset channel re-encoded to AAC under
+50 MB.
+
+| Meeting | Length | Speakers |
+|---|---|---|
+| `bmr007` | 60 min, about 1,070 turns | 8 |
+| `bed017` | 39 min | 6 |
+| `bmr021` | 37 min | 6 |
+| `bro007` | 34 min | 4 |
+| `bro015` | 17 min | 6 |
+
+`bmr007` is the long meeting with many speakers and the benchmark for the performance
+targets. Titles are the research group's name; dates are the corpus timestamps. The
+digit-reading task and non-speech annotations are removed from the transcripts; the
+audio is not cut. Credit and the list of changes are shown in the app and in
+`data/README.md`. Summaries, chapters, action items and decisions are Claude output,
+generated once and committed under `data/ai/`. Nothing is invented.
+
+## 12. Vocabulary
+
+| Thing | Words |
+|---|---|
+| Product, bot, wake word | AFK.ai; "AFK.ai Notetaker"; "AFK" |
+| Sidebar | Quests, Spells, Lore, Loadout, Tutorial, Summon AFK |
+| Dashboard, record, cards | Quest log; Player card; spells awaiting your cast |
+| Templates | Catch me up, General, Project update, Brief |
+| Meeting statuses (database) | scheduled, requested, recording, transcribed, ready, failed |
+| Meeting statuses (page) | Scheduled, Requested, Recording, Processing (transcribed, notes being written), Ready, Failed |
+| Item kinds, sources | point, action, decision, note; ai, command |
+| Command kinds | task, decision, note, highlight, remember, email, followup, remind, slack, ask, recap; and the internal `unknown` ("not understood") |
+| Command statuses | detected, applied, proposed, unparsed, approved, running, done, failed, dismissed, skipped |
+| Job kinds | ingest_media, detect_commands, analyze, summarize, learn, run_command, answer_in_meeting, notify_owner |
+| Memory | The nine paths in 5.3; zones: the user's zone, "Learned by AFK" |
+| Levels | Lurker, Attendee, Delegator, Decision-maker, Chief AFK Officer, AFK Legend |
+| The mark | An empty chair with an amber line |

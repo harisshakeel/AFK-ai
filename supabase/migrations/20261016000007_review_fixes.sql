@@ -1,4 +1,4 @@
--- Fixes from the pre-submission review (docs/review.md).
+-- Fixes from a pre-submission review.
 
 -- 1. Exported AI output is loaded only when a job is waiting for it. Re-running the seed
 --    import against an unchanged transcript used to delete and re-insert every item,

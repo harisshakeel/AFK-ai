@@ -3,7 +3,7 @@
 -- from the start, shown to the owner alone. Behind them a visitor sees the recording,
 -- the transcript and the summary, and nothing of the owner's: no action items, tasks,
 -- commands, highlights or memory. The owner can switch the link off and on, or mint a
--- new code and PIN. The code carries sixty bits, so it cannot be guessed; the PIN is
+-- new code and PIN. The code carries 56 random bits, so it cannot be guessed; the PIN is
 -- for a link that was passed on, and wrong tries are counted per link and visitor.
 
 -- 1. The link, one per meeting.
@@ -19,7 +19,8 @@ create table public.meeting_links (
 comment on table public.meeting_links is
   'The public address of a meeting: /m/<code> behind a four-digit PIN. Made with the meeting; the owner reads it, nobody writes it from the browser.';
 
--- Twelve characters from a 32-letter alphabet (no 0, 1, l, o), sixty random bits.
+-- Twelve characters from a 32-letter alphabet (no 0, 1, l, o), drawn from fifteen hex
+-- digits of a v4 UUID, one of them the fixed version digit: 56 random bits.
 create function public.new_link_code()
 returns text language plpgsql volatile set search_path = '' as $$
 declare

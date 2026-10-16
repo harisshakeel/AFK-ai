@@ -14,8 +14,8 @@ type HashInput = {
 
 /**
  * sha256 over exactly what ingest_transcript() stores. An equal hash means re-importing
- * would change nothing, so the import skips it and existing AI output stays valid
- * (docs/design-review.md fix 10). Key order is fixed here, not taken from the input.
+ * would change nothing, so the import skips it and existing AI output stays valid.
+ * Key order is fixed here, not taken from the input.
  */
 export function transcriptHash({ durationSec, speakers, turns }: HashInput): string {
   const canonical = JSON.stringify({

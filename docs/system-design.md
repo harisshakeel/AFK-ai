@@ -1,311 +1,297 @@
-# AFK.ai — system design
+# System design
 
-How the system behaves: who can do what, the security controls that enforce it, the
-limits, and the gaps we know about. Written 2026-10-16 against
-[docs/requirements.md](requirements.md) (v5) and [docs/architecture.md](architecture.md).
-No code existed when this was written; where a table, function or route is named, it is
-the name the code will use.
+How AFK.ai behaves as built: who calls it, what each caller may do, the controls that
+enforce it and where each lives, how work is kept at most once, the limits, retention,
+and the gaps we know about. [architecture.md](architecture.md) has the data model and
+the processing detail; [data-flows.md](data-flows.md) follows each feature from input to
+output; [requirements.md](requirements.md) holds the requirement IDs used below.
+
+## Components
+
+| Component | Runs on | Trust |
+|---|---|---|
+| Web app (Next.js 16, App Router) | Vercel, `bom1` | Public. Pages read as the visitor under Row Level Security; route handlers validate every input with Zod and write as the visitor, or with the secret key only after deciding access themselves |
+| Proxy (`src/proxy.ts`) | In front of every page and route except static files, generated icons and `/api/webhooks` | Throttles the public read paths per client, sets the Content-Security-Policy with a fresh nonce, refreshes the visitor's Supabase session, sends a signed-out `/welcome` to `/sign-in` |
+| Postgres, Auth, Storage | Supabase, `ap-south-1` | The source of truth and the policy engine: RLS on every table, column-level grants, state changes through SQL functions that run as one transaction |
+| Job runner (`src/features/processing/runner.ts`, started from `src/server/jobs.ts`) | Inside the web app's functions, after a response | The only place Claude is called. Leases jobs from Postgres for no longer than its own budget; publishes output only while it still holds the job's claim token |
+| Kick and health routes (`/api/jobs/kick`, `/api/health`) | Vercel functions | The kick route starts a run behind the cron secret, for the chain and for an external pinger. The health route reports the queue in numbers, the last keep-alive and what is configured; 503 when a due job has waited over thirty minutes |
+| Daily keep-alive (`/api/cron/keepalive`) | Vercel Cron, 06:17 UTC (`vercel.json`) | Housekeeping and retention behind the cron secret; one row in `cron_runs` per run |
+| Claude API (`@anthropic-ai/sdk`) | Anthropic | `claude-sonnet-5-5` by default (`CLAUDE_MODEL`), no tools, a JSON schema the API enforces, the transcript as data in the message. Billed to the owner's key (`ANTHROPIC_API_KEY`) |
+| Attendee | attendee.dev | The meeting bot, sent now or scheduled for a calendar meeting's time. Transcribes from captions or Deepgram (`ATTENDEE_TRANSCRIPTION`, `ATTENDEE_DEEPGRAM_LANGUAGE`), records video and keeps it. Talks to the app only through a signed webhook; the app calls it to send a bot, post to the chat, fetch the transcript, mint a recording link, and forget a bot's data |
+| Gmail, Google Calendar, Slack | Google, Slack | Reached only from an approved `run_command` job or the owner's note, with the user's own sealed token |
+| Browser | Anyone | Holds the publishable key and, after the first write, a Supabase session (anonymous or Google). Reads what RLS allows; writes only through the granted columns |
 
 ## Actors
 
-| Actor | How they are identified | What it is |
+| Actor | Identified by | What it is |
 |---|---|---|
-| **Visitor** | No session | Someone browsing without having done anything yet |
-| **Guest** | Supabase anonymous user (`is_anonymous = true`), httpOnly session cookie | A visitor after their first action; owns a workspace on this device only |
-| **Member** | Supabase user with a linked Google identity | A guest who continued with Google, or someone who signed in; the same workspace on every device |
-| **Sender** | A meeting participant whose platform name matches the owner's name | The owner, on the call; the only person the bot takes commands and questions from |
-| **Other participant** | Anyone else on the call | Recorded, transcribed, may read chat answers; can do nothing to AFK.ai |
-| **Clip viewer** | Unguessable link | Anyone with a clip link; no account |
-| **PIN viewer** | Unguessable link + 4-digit PIN, then a PIN cookie | Anyone with a PIN-shared meeting link; no account |
-| **Attendee** | Webhook signature + `idempotency_key` | The meeting-bot provider calling our webhook |
-| **Vercel cron** | `CRON_SECRET` header | The daily kick and heartbeat |
-| **Job runner** | Service-role client inside our own functions | Runs rows from `jobs`; every query scoped to a workspace explicitly |
-
-A **workspace** is the unit of ownership. `workspaces.owner_id = auth.users.id`. Everything
-a user has — meetings, segments, summaries, chapters, action items, decisions, notes,
-highlights, clips, PIN shares, cards, sends, memory, connections, activity, quotas — hangs
-off a workspace through `workspace_id`.
+| Visitor | No session | Someone browsing who has done nothing yet |
+| Guest | A Supabase anonymous identity (`is_anonymous`), made in the browser on the first write | Owns a private workspace in that one browser |
+| Google user | A Supabase identity with Google linked (a guest who continued with Google keeps the same user id) | The same workspace on every device, plus memory, contacts and connectors |
+| PIN viewer | The grant cookie `afk-m-<code>` set after the right PIN | Anyone given a meeting's address and PIN; no account |
+| Clip viewer | A 64-hex share token in `/share/<token>` | Anyone given a clip link; no account |
+| Job runner | The service-role client inside the app's own functions | Runs `processing_jobs` rows |
+| Attendee webhook | HMAC signature over the body | The bot provider reporting state changes and live utterances |
+| Cron | `CRON_SECRET` as a bearer token | Vercel Cron, the chain between functions, an optional pinger |
 
 ## Who can do what
 
-| Action | Visitor | Guest | Member | Clip viewer | PIN viewer | Sender on call | Other participant |
-|---|---|---|---|---|---|---|---|
-| Browse seed meetings (audio, transcript, summaries, chapters, search) | ✔ | ✔ | ✔ | — | — | — | — |
-| Tick, note or highlight on a seed meeting (stored per workspace) | creates a guest | ✔ | ✔ | — | — | — | — |
-| Send the bot, paste a link | creates a guest | ✔ (guest quotas) | ✔ | — | — | — | — |
-| See, play, search own meetings | — | ✔ | ✔ | — | — | — | — |
-| Switch templates, regenerate a summary | — | ✔ | ✔ | — | — | — | — |
-| Edit action items, decisions, notes, highlights; create clips | — | ✔ | ✔ | — | — | — | — |
-| Typed commands after the call | — | ✔ | ✔ | — | — | — | — |
-| Read, edit, download, erase memory | — | ✔ | ✔ | — | — | — | — |
-| Connect Google Calendar, Gmail, Slack | — | — (asked to continue with Google) | ✔ | — | — | — | — |
-| Approve a card that sends | — | — | ✔ | — | — | — | — |
-| Create or revoke a PIN share; share the notes | — | — | ✔ | — | — | — | — |
-| Delete a meeting; export data; delete account | — | ✔ (own) | ✔ | — | — | — | — |
-| Play one clip and its transcript excerpt (private meeting: transcript only) | — | — | — | ✔ | — | — | — |
-| Play a whole shared meeting: recording, transcript, Catch me up summary, navigation | — | — | — | — | ✔ | — | — |
-| Spoken commands and questions during the call | — | — | — | — | — | ✔ | ✘ ignored |
-| Read chat answers during the call | — | — | — | — | — | ✔ | ✔ (visible to all) |
+| Caller | Reads | Writes | AI runs |
+|---|---|---|---|
+| Visitor | The sample meetings (seed rows with no owner, once ready), shared clips, `/m/<code>` pages with the PIN, the empty dashboard, labelled demos | Nothing; the first write creates their identity | None |
+| Guest | The above, plus their own meetings, commands and highlights; the Memory page as a demo; the Connectors page locked | Own highlights, clips, ticks, an access request; send the bot (5 a day, one active at a time); typed commands except `/remember`; dismiss commands; delete own meetings. Never a connector, a memory file or a contact | Their own meetings: notes, items, parsed commands, live answers; no learned lines, no owner's note |
+| Google user | Everything a guest reads, plus their memory files, their connectors (never the token) and their contacts | Everything a guest writes, plus `/remember`, approving external commands, connecting and disconnecting Gmail, Calendar and Slack, editing, exporting or erasing memory, deleting contacts, the calendar auto-join switch | Their own meetings, learned lines and the owner's note too |
+| PIN viewer | One ready meeting through `get_shared_meeting()`: title, date, length, headline, speakers, turns, summary points and notes said on the call, the recording through `/api/m/<code>/media` | Nothing | None |
+| Clip viewer | One clip through `get_shared_clip()`: its range, the overlapping turns, the meeting title and date, the speakers heard in it; audio limited to the range for a sample meeting, transcript only for a private one | Nothing | None |
+| Job runner | Everything, including sealed connector tokens (opened in its process only) | Job state, transcripts, AI output, commands, highlights it makes for the owner, command results, memory appends, contacts; sends mail, creates events and posts to Slack only through approved `run_command` jobs, and the owner's note through `notify_owner` | Yes, on the owner's key |
+| Attendee webhook | Nothing returned | Advances one bot meeting's state, stores live utterances and live commands; never creates or revives a meeting | None itself; it kicks the runner |
+| Cron | The queue in numbers | Prunes, sweeps, purges, schedules auto-join bots, runs what is queued | Through the runner |
 
-Rules behind the table:
-- A guest can do everything a member can **except** anything that needs a connected
-  account (connections, sends, PIN shares and share-the-notes), because tokens belong to
-  an account, and guest quotas are lower (see Limits).
-- A member sees only their own workspace. There is no admin role in the product. The
-  internal admin view (costs, bot hours) is a separate, environment-gated page for the
-  developer, read-only, with no transcript content.
-- A PIN viewer sees nothing of the owner's beyond the recording, transcript, summary and
-  navigation of that one meeting: no action items, notes, cards, memory, highlights,
-  other meetings, or the owner's name. A clip viewer sees even less.
-- The sender is matched by **participant name only**, never by voice. No match means
-  spoken commands are off for that meeting and the owner is told.
-
-## Data model (what lives where)
-
-| Table | Owner column | Notes |
-|---|---|---|
-| `workspaces` | `owner_id` → `auth.users` | `kind` (guest/member), `last_active_at`, settings, `plan_limits` overrides |
-| `meetings` | `workspace_id` | state machine, Attendee `bot_id`, platform, timings, cost columns, `is_seed` |
-| `segments` | `workspace_id` | speaker, start/end ms, text, `text_search tsvector`, `script` (latin/devanagari/arabic), `is_command` |
-| `summaries`, `chapters`, `action_items`, `decisions`, `notes`, `highlights`, `clips` | `workspace_id` | each claim row carries `segment_id` + `quote` (grounding) |
-| `seed_annotations` | `workspace_id` | per-workspace ticks, notes and highlights on seed meetings |
-| `cards`, `card_sends` | `workspace_id` | card state machine; `card_sends(card_id PRIMARY KEY)` |
-| `memory_entries` | `workspace_id` | section, content, `source_kind`, `source_segment_id`, `source_quote`, `status` (proposed/accepted) |
-| `connections` | `workspace_id` | provider, encrypted token `{kid, iv, tag, ct}`, scopes, `broken_at`; **no client access** |
-| `pin_shares`, `pin_attempts` | `workspace_id` | token, PIN hash, revoked_at, attempt counters |
-| `jobs` | `workspace_id` (nullable for system jobs) | see Background jobs |
-| `webhook_deliveries` | — | provider, `delivery_id` unique, received_at, status |
-| `rate_limits` | `workspace_id` | `key`, `window_start`, `count` |
-| `activity` | `workspace_id` | who/how/when/what for commands and cards; ids only |
-| `usage` | `workspace_id` | per-call token counts and cost, per bot-hour, per transcription minute |
-| `email_sends`, `memory_uses`, `calendar_events` | `workspace_id` | one row per outbound email (unique on meeting + kind); which memory entries each prompt used; this week's calendar events |
-| `test_user_requests` | — | Gmail addresses from the landing form, unique; owner-only |
-| `heartbeats` | — | one row per daily cron run; keeps the free project awake |
-
-Seed meetings have `workspace_id = NULL` and `is_seed = true`; their rows are readable by
-everyone and writable by no one except the seed script (service role).
+Nothing lists users, and no row of one user's is readable by another. Jobs are created
+only by the database: the seed import, the Attendee webhook (through `mark_bot_finished()`
+and `record_live_utterance()`), a typed command, an approval, a rewrite
+(`rewrite_command()` queues `detect_commands`), the notes chain (`complete_job()` queues
+`learn` after a summary, the `meetings_owner_note` trigger queues `notify_owner`) and the
+daily keep-alive's calendar scheduling (a scheduled bot is a meeting row whose finished
+call queues its work through the webhook). So the bot caps and the command caps bound how
+many Claude calls anyone can cause.
 
 ## Security controls
 
-### Data access rules (RLS)
+| Threat | Control | Where it is enforced |
+|---|---|---|
+| Reading someone else's meeting, notes or commands | RLS on every table. Meetings are readable when seeded and ready, or owned by the caller; speakers, turns, chapters and items follow through `can_read_meeting()`. Commands, highlights, share links, ticks and meeting links are owner-only | `can_read_meeting()` (migration 01), the policies in migrations 02, 03, 09, 39 |
+| Writing around the route handlers with the publishable key | Revoke-all, then column grants: `highlights` (insert `meeting_id, start_sec, end_sec, note`), `share_links` (insert `token, highlight_id`, update `revoked_at`), `item_states` (`item_id, done`), `memory_files` (insert `owner_id, path, content`, update `content`, delete), `access_requests` (`email`); select only on the rest. `contacts` follows the same pattern: users hold select and delete only (migration 42), matching its two RLS policies. State changes for commands, jobs and links are functions the browser roles cannot execute | Grants in migrations 01 to 42 (`contacts` in migrations 33 and 42); `apply_typed_command()`, `approve_command()` granted to `service_role` only |
+| Write flooding | 60 writes a minute per identity. Routes call `note_visitor_write()` through `requireVisitor()` and fail closed (503) when the check cannot run; the tables a visitor writes directly carry the `enforce_visitor_write()` trigger, so the Data API counts too. Counts run under an advisory lock on the identity | `src/server/http.ts`, `note_visitor_write()` (migration 29), `enforce_visitor_write()` (migration 10, access requests in 29) |
+| Over-sized clips and link sprawl | A trigger clamps a highlight inside the recording, and a check keeps a clip at most 600 s long; caps of 300 highlights per identity and 50 links per highlight, each under an advisory lock on its key | `clamp_highlight()` (trigger `highlights_clamp`), the `highlights_max_length` check (migration 03), `cap_highlights()` (trigger `highlights_cap`), `cap_share_links()` (trigger `share_links_cap`) |
+| Bot abuse (paid minutes) | One active bot per identity (partial unique index `meetings_one_active_bot_per_owner`, scheduled bots excluded); 5 requests a day per identity, 5 a day per place (a keyed hash of the sender's address), and `app_settings.bot_daily_cap` (20) in all, in one trigger under one advisory lock; Supabase allows 30 new anonymous identities an hour per address | `cap_bot_requests()` (migration 29), `supabase/config.toml` |
+| Claude spend | Only the database creates jobs; bot and command caps bound them; `cap_meeting_commands()` (trigger `meeting_commands_cap`) allows 20 spoken and 20 typed commands a meeting; every job report records tokens and an estimated cost | `claim_job()`, the caps, the job report |
+| Forged or replayed webhooks | HMAC-SHA256 over Attendee's canonical JSON with a constant-time compare, numbers kept as signed; 503 without `ATTENDEE_WEBHOOK_SECRET`, 401 on a bad signature, 413 over 100,000 characters. State writes are compare-and-set on the meeting's status; live utterances are keyed by Attendee's idempotency key; no event creates a meeting | `src/app/api/webhooks/attendee/route.ts`, `parseWebhookBody`, `verifyWebhookSignature` (`src/features/capture/attendee.ts`), `mark_bot_finished()`, `record_live_utterance()` |
+| Scraping the public read paths | Per-client limits a minute on `/search` (60), `/share/<token>`, `/m/<code>` and `/api/m/<code>/pin` (120 together), the two media routes (60) and `/api/health` (60). The client is an HMAC of its address under a key derived from `SUPABASE_SECRET_KEY`; the database holds no addresses. 429 from the proxy before the page runs, 503 when the count cannot be checked | `src/lib/read-limit.ts`, `throttleReads` in `src/proxy.ts`, `note_read_hit()` (service role only) |
+| Script injection | A Content-Security-Policy on every HTML response: scripts only with the request's nonce plus `strict-dynamic` (`unsafe-eval` in development only), connections only to this site and the Supabase project, media also from any https origin (the bot provider's storage address is not known in advance, and a media source can neither run script nor read the page), no objects, no frames, `form-action` and `base-uri` self, `upgrade-insecure-requests` in production | `buildContentSecurityPolicy()` in `src/lib/csp.ts`, `src/proxy.ts` |
+| Framing, sniffing, referrer leaks | `frame-ancestors 'none'`, plus `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin` and a `Permissions-Policy` denying camera, microphone, geolocation and payment on every response, static files included | `src/lib/csp.ts`, `next.config.ts` |
+| Connector token theft | Refresh and bot tokens sealed with AES-256-GCM under `CONNECTOR_TOKEN_KEY` (32 bytes, server only), with the owner and provider bound in as authenticated data, so a current (`v2`) ciphertext moved to another row fails to open. A `v1` ciphertext, sealed before the binding, still opens without it (audit D21, F40). Stored in `connector_secrets`, RLS on with no policy and no user grants. Access tokens live only in a function's process for one run. Disconnect revokes at the provider and deletes the row | `sealSecret()` and `openSecret()` in `src/features/connectors/token-crypto.ts`, `store_connector()` (migration 14), `src/server/connectors/store.ts`, `src/features/processing/token-source.ts` |
+| A forged OAuth round trip | The OAuth state is a signed, short-lived cookie bound to the user and the provider; PKCE for Google | `src/features/connectors/oauth-state.ts` |
+| Connectors or memory for a guest | Refused in RLS (`connectors` checks `is_anonymous`; `memory_files` and `contacts` check `is_google_user()`), in the connector start route and in the approve route; `append_memory_lines()` returns at once for a guest | Migrations 14, 30, 33; `src/app/api/commands/[commandId]/route.ts` |
+| Acting without consent | An adapter runs only from a `run_command` job, which only `approve_command()` inserts, after the route has read the command as the visitor (RLS finds it only for the owner), validated the confirmed arguments with the kind's schema and checked the app is connected | `approve_command()`, `start_command()`, `src/app/api/commands/[commandId]/route.ts` |
+| An address AFK invents | Addresses come only from the host's people file, cards the host confirmed, calendar invites of meetings AFK was sent to, an address said in the call and found in the transcript, and a Google import the host asked for. `contacts` is written only through `learn_contacts()` (service role). Nothing is sent without approval | `learn_contacts()` (migrations 33, 38), `src/features/connectors/address-book.ts`, `src/features/commands/tasks-tab.tsx` |
+| Prompt injection through transcripts, memory or tool output | No tools in any Claude call; a JSON schema; content labelled as data with the instruction last; every output grounded against the current transcript before it is stored. A live answer with no surviving citation becomes the fixed "That wasn't discussed yet." | `src/features/processing/claude.ts`, `src/features/summaries/grounding.ts`, `src/features/summaries/prompts.ts`, `src/features/processing/answer-in-meeting.ts` |
+| Memory tampering | AFK appends only below the "Learned by AFK" rule through `append_memory_lines()`. The user's save goes through `PUT /api/memory/<path>`, which refuses the two history files (403), then `save_memory_file()`, which refuses a save over a newer version (P0006, 409). The function itself has no path check, and the Data API grants (`update (content)` with the owner's update policy) let a Google user write `history/*.md` directly with the publishable key (audit D8). A save with no expected version overwrites a row AFK created meanwhile (audit F13). The `memory_files_user_write` trigger stamps `updated_by = 'you'` and counts the write | Migrations 12, 13, 16, 25, 30; `src/app/api/memory/[...path]/route.ts` |
+| Guessing a meeting's address or PIN | The code is minted by the database (twelve characters from a 32-letter alphabet); the PIN is checked in one function under an advisory lock on code and client; five wrong tries lock that pair for fifteen minutes, and after a lock each further wrong try locks it again for fifteen minutes, since the count resets only on a right PIN (audit D9, F17); an unknown, switched-off or not-ready code answers like a wrong PIN. Both functions run as the service role only | `new_link_code()`, `open_meeting_link()` (migration 39), `src/app/api/m/[code]/pin/route.ts` |
+| A forwarded or forged PIN grant | The grant cookie is HttpOnly, SameSite=Lax, Secure on https, seven days, named for its code, carrying an HMAC of code and expiry under a key derived from `SUPABASE_SECRET_KEY`, checked in constant time. A cookie for one code opens no other. Every read also checks the link itself (`enabled`, the code, a ready meeting). Switching the link off suspends every grant at once; switching it back on (`set_meeting_link_enabled()`) re-admits grants minted earlier, since a grant is bound to the code and not to an on-off epoch (audit D20). "New link and PIN" (`rotate_meeting_link()`) changes the code, which ends every grant, and also switches the link on | `src/features/meeting-link/link-grant.ts`, `get_shared_meeting()`, `src/app/m/[code]/page.tsx`, `src/app/api/m/[code]/media/route.ts` |
+| Guessable share links | 64 hex characters from two v4 UUIDs, minted by a trigger whatever the browser sent; one live link per highlight (`share_links_one_live_per_highlight`); revocable | `mint_share_token()` (migration 10) |
+| Logout by link | Sign-out is POST-only, or from the auth callback only when the PKCE verifier cookie proves the round trip started here | `src/app/auth/callback`, `src/app/auth/sign-out` |
+| Cron and kick credentials | One `CRON_SECRET`, compared in constant time over byte lengths; 401 when missing or wrong, logged loudly when unset | `requireCronSecret()` in `src/server/http.ts` |
+| Secrets leaking into the browser or the code | Only `NEXT_PUBLIC_*` values reach the browser. Every file under `src/server/` starts with `import "server-only"`, so a client import fails the build | `src/lib/env.ts`, `src/server/` |
+| Content in logs | One log module, one JSON line per event, identifiers and counts only; an error records its name and message; a test reads every log call | `src/server/log.ts`, `src/lib/log-line.ts`, `src/server/log.test.ts` |
+| Stale guests | Anonymous identities older than thirty days that never linked Google are purged daily, except one whose bot is in a call: the users (cascading everything they own), then their audio objects, then Attendee is told to forget each bot's data | `purge_stale_guests()` (migration 32), `src/app/api/cron/keepalive/route.ts` |
+| AFK reading the calendar unasked | The calendar is read only for a Google user who connected it: on their own dashboard, or by the keep-alive when their profile says "AFK joins my calendar meetings: yes". Every scheduled bot is a meeting row under the same caps | `src/server/calendar-autojoin.ts`, `cap_bot_requests()` |
+| A recording outliving its meeting | Delete tells a bot still in the call to leave, deletes the row (cascading turns, jobs, items, commands, highlights, links, the address), removes the audio object, and tells Attendee to forget the bot's data (best effort, logged when refused). A meeting with a spoken command is suspected to fail this delete (audit S1, see Known gaps) | `src/app/api/meetings/[meetingId]/route.ts` |
 
-- RLS is enabled on **every** table, including `jobs`, `webhook_deliveries`, `usage` and
-  `rate_limits`. A table without a policy is unreadable.
-- The standard policy on every workspace table, for select, insert, update and delete:
-  `workspace_id in (select id from workspaces where owner_id = (select auth.uid()))`.
-  Every `workspace_id` column is indexed.
-- Seed rows: a separate permissive **select** policy `is_seed = true` (or
-  `workspace_id is null` on child tables), granted to `anon` and `authenticated`. No
-  insert, update or delete policy for anyone.
-- `connections`, `card_sends`, `jobs`, `webhook_deliveries`, `usage`, `rate_limits`: no
-  client policies at all. Only the service-role client, inside our own server code, reads
-  or writes them, and only through the SQL functions below.
-- **Restrictive** policies on `cards` (approve), `pin_shares` and `connections` require
-  `(select auth.jwt() ->> 'is_anonymous')::boolean = false`, so a guest cannot send or
-  share even if application code has a bug.
-- Database tests (PGlite, running the real migrations) prove for every table that a
-  session for workspace A cannot select, insert, update or delete workspace B's rows, and
-  that `anon` can read seed rows and nothing else.
+## Idempotency and at-most-once
 
-### State changes in SQL functions, one transaction each
-
-Every state change goes through a `security definer` function with `set search_path =
-''`, which checks ownership against `auth.uid()` (or takes an explicit workspace id when
-called by the runner), enforces the rule, writes, and returns the new row. Application
-code never updates state columns directly.
-
-| Function | Rule it enforces |
+| Where | Mechanism |
 |---|---|
-| `start_guest_workspace()` | one workspace per user; sets `kind = 'guest'` |
-| `link_or_merge_workspace(guest_user_id)` | keep/merge choice when a Google account already has a workspace; re-parents rows in one transaction |
-| `launch_bot(meeting_id)` | bot-hour quota, one bot per meeting, state `scheduled → joining`, inserts the Attendee call as a job |
-| `transition_meeting(meeting_id, to_state, attendee_event_id)` | only forward transitions; idempotent on the event id |
-| `upsert_segment(meeting_id, …)` | unique on `(meeting_id, attendee_utterance_id)`; refreshes `text_search` |
-| `store_claims(meeting_id, kind, claims jsonb)` | drops claims whose `segment_id` or `quote` fail the grounding check; records the dropped count |
-| `approve_card(card_id)` | `state = 'waiting'` only; member only; inserts `card_sends` row and the `card.send` job in the same transaction |
-| `claim_send(card_id, runner_id)` | `pending`, or `sending` with a lease older than 10 minutes; else no row |
-| `record_send(card_id, provider_message_id)` | `card_sends.status = 'sent'`, `cards.state = 'sent'` together |
-| `return_card(card_id, note)` | rewrite count ≤ 5; new version, old kept |
-| `create_pin_share(meeting_id, pin)` | member only; one active share per meeting; stores a PIN hash |
-| `check_pin(token, pin, ip)` | counts attempts; 5 wrong in 15 min locks; 20 in a day disables and notifies |
-| `delete_meeting(meeting_id)` | cascades; enqueues `attendee.delete_data` job; keeps memory entries but nulls their source link |
-| `consume_quota(workspace_id, key, limit, window)` | atomic upsert on `rate_limits`; returns allowed |
-| `claim_jobs(runner_id, n)`, `complete_job`, `fail_job` | leases; see Background jobs |
-| `purge_guests()` | deletes `is_anonymous` users idle 30 days; cascades |
+| Jobs | One queued or running job per (meeting, kind) through the partial unique index `processing_jobs_one_active`, and one per command through `processing_jobs_one_per_command`; inserts use `on conflict do nothing`. `claim_job()` takes one job under `for update skip locked` with a fresh `claim_token`, so two runners never take the same job. `complete_job()` and `start_job_effect()` act only while the job is `running` with that claim token; neither reads `lease_until`, so a run that outlives its lease still publishes until the next `claim_job()` sweep clears the token (audit D11, F24) |
+| External commands | `approve_command()` locks the command row, accepts only a proposed command, or a failed one whose `executed_at` is null or whose kind is a calendar one, stores the approved arguments and inserts at most one `run_command` job (one attempt for email and Slack, three for calendar kinds). `start_command()` checks the claim, locks the command and sets `executed_at` before the adapter is called; a second start for email or Slack returns `ambiguous` and the card says to check the Sent folder |
+| Calendar events | The event id is derived from the command id (`calendarEventId()` in `src/features/connectors/calendar.ts`), so a retry reads the existing event back instead of making a second |
+| Sends with no command row | The owner's note (`notify_owner`) and a live answer's chat line go through `start_job_effect()` (migration 37): under the job's row lock and only while its claim holds, it stamps `effect_at` once; an attempt after one that reached Gmail or the chat sends nothing. At most once, not at least once. The live fallback line takes the same lock through `claim_live_fallback()` (migration 41): it goes out only when the answer has not started and stamps `effect_at` as it does, so a question gets either the fallback or the answer in the chat, never both |
+| Spoken commands | Unique per (meeting, turn, kind) through `meeting_commands_spoken_once`; live commands unique per utterance through `meeting_commands_one_per_live_utterance`; re-running a parse records nothing twice |
+| Typed commands | Applied under the meeting's row lock by `apply_typed_command()`, which returns the new command's id |
+| Webhook | Status changes are compare-and-set, so a redelivery changes nothing; a live utterance is stored once per idempotency key, and a redelivered question queues no second answer |
+| Bots | One active bot per owner and one scheduled bot per calendar event (`meetings_one_bot_per_calendar_event`); every count is taken inside `cap_bot_requests()` under one lock. The daily `sweep_stale_bots()` fails a Scheduled, Requested or Recording row six hours after its call was due, `coalesce(scheduled_for, created_at)`; Attendee ends every call within three hours of joining, so a live call is never swept (migration 40, audit F1) |
+| Share links and ticks | A lost race returns the row that won, with the caller's value applied on top for ticks |
+| Seed import | An unchanged transcript (by hash) is skipped; re-running creates no duplicates |
+| Guest linking | Continuing with Google links the identity in place (same user id), so nothing is copied or merged |
 
-### Validating input
+## The job lifecycle
 
-Zod 4 at every boundary: form data, server-action arguments, route-handler bodies, query
-params, environment variables (once, in `env.ts`), webhook payloads (after the signature
-check), and every Claude response. `safeParse`, never `parse` in a `try`. Unknown keys are
-stripped on external payloads. Strings are trimmed and bounded. Meeting URLs must be a
-Zoom, Meet or Teams URL by pattern.
+A job is `queued`, `running`, `done` or `failed`, with `attempts` (at most 3 by default),
+`run_after`, `lease_until` and `claim_token`.
 
-### The transcript is data
+1. **Queued.** By the database only. `mark_bot_finished()` moves a finished bot meeting
+   to `transcribed` and queues `ingest_media`. `ingest_transcript()` queues
+   `detect_commands` for an owned meeting, or `analyze` and `summarize` for a seed
+   meeting. `apply_commands()` queues `analyze` and `summarize`. A finished `summarize`
+   queues `learn` for a Google user (in `complete_job()`), and the `meetings_owner_note`
+   trigger queues `notify_owner` for a Google user whenever `summarized_at` is set or
+   changes, so a re-summarised meeting sends the owner a second note (audit S3). An
+   approval queues `run_command`; a typed command that needs the model or a rewrite
+   (`rewrite_command()`) queues `detect_commands`; a live question queues
+   `answer_in_meeting` (two attempts). A `detect_commands` job that fails for good queues
+   `analyze` and `summarize` (`job_failed_for_good()`).
+2. **Claimed.** `claim_job()` first sweeps expired leases (a job past its attempts fails
+   with its follow-ups), then takes one due job: the kicked meeting's first, then live
+   answers and approved commands, then the oldest due. The lease is the run's remaining
+   budget plus 60 seconds, so a function cut off mid-job frees the job soon after.
+3. **Finished.** `complete_job()` with one outcome:
+   - `done` or `skipped`: applies the payload in the same transaction and marks it done.
+   - `failed`: counts an attempt. With the default of 3 attempts, the job is due again 1
+     minute after the first failure and 4 minutes after the second; the third failure is
+     final and calls `job_failed_for_good()`, which records it on the meeting or the card.
+   - `rejected`: output that `complete_job()` refused to store (a check, foreign key or
+     similar refusal), or a transcript `ingest_transcript()` refused, fails the job at
+     once, so the same refusal is not fetched and paid for three times.
+   - `release`: a rate limit, an Anthropic outage, an unreachable service or a missing
+     API key puts the job back without using an attempt, due again after the provider's
+     retry time, five minutes, or ten minutes for a missing key.
+4. **Superseded.** A changed transcript fails the meeting's queued and running
+   `detect_commands`, `analyze`, `summarize` and `learn` jobs and clears its notes marks.
+5. **Pruned.** Done and failed jobs older than thirty days go with the keep-alive.
 
-- Claude is called with **no tools** and a JSON schema. There is no code path from model
-  output to an action except through Zod validation, the grounding check, and the SQL
-  functions above, which enforce ownership and state independently of what the model
-  said.
-- Spoken and typed commands are parsed into a fixed set of command kinds with bounded
-  fields; a command can only create rows in the owner's workspace. "AFK, delete
-  everything" is not a command and becomes a note.
-- A command's draft (email, invite, Slack post) is a **card**; it is never sent without
-  the owner's click.
+**Who runs jobs.** `kickJobs()` runs the runner after a response in the webhook, the
+meeting page while notes or cards are pending (and again for a job still running six
+minutes after its claim), the typed-command, approval and rewrite routes,
+`POST /api/jobs/kick` and the daily keep-alive. A run gets 270 of the function's 300
+seconds and keeps 20 seconds of headroom; it starts no job with 45 seconds or less left;
+a job's Claude call gets what is left less 5 seconds, so at most about 245 seconds
+(`runner.ts`; `claude.ts` uses 240 seconds only when no timeout is passed).
 
-### Signed, idempotent webhooks
-
-- Node runtime, raw body, verify before parsing, `crypto.timingSafeEqual`.
-- Attendee: `X-Webhook-Signature` = base64(HMAC-SHA256(base64-decoded secret, sorted-key
-  compact JSON)). No timestamp, so every delivery's `idempotency_key` is stored in
-  `webhook_deliveries` and a repeat returns 200 without side effects.
-- Slack: `v0:<timestamp>:<raw body>`, HMAC-SHA256 hex, reject if the timestamp is more
-  than 5 minutes off.
-- Google Calendar push: no HMAC; verify `X-Goog-Channel-Token` and channel id against the
-  stored `watch`, then list changes with the `syncToken`; re-`watch` before expiry.
-- Two webhook secrets are valid during a rotation.
-- The webhook route is the only place that calls Attendee's chat endpoint on the live
-  path, and it is rate-limited per meeting (see Limits).
-
-### Secrets only in environment variables
-
-- `SUPABASE_SERVICE_ROLE_KEY`, `ANTHROPIC_API_KEY`, `ATTENDEE_API_KEY`,
-  `ATTENDEE_WEBHOOK_SECRET` (two during rotation), `DEEPGRAM_API_KEY` (held in Attendee's
-  dashboard, not ours), `GOOGLE_CLIENT_SECRET`, `SLACK_CLIENT_SECRET`,
-  `SLACK_SIGNING_SECRET`, `TOKEN_ENCRYPTION_KEYS` (json of `kid → key`),
-  `CRON_SECRET`, `JOBS_KICK_SECRET`. Validated once with Zod in `env.ts`.
-- Non-secret switches, also in env and validated: `CLAUDE_MODEL` (default
-  `claude-sonnet-5-5`), `TRANSCRIPTION_PROVIDER` (`captions` by default, or
-  `deepgram`), and the test modes `ATTENDEE_MODE`, `AI_MODE`, `AUTH_TEST_MODE`,
-  `PROVIDERS_MODE`, which `env.ts` refuses to enable when `VERCEL_ENV=production`.
-- The Anthropic key is created by the owner with a spending limit and put straight into
-  Vercel; it never appears in chat or in the repo. The Deepgram key lives in Attendee's
-  project settings, not in ours.
-- Modules that read them `import "server-only"`. Only `NEXT_PUBLIC_SUPABASE_URL` and
-  `NEXT_PUBLIC_SUPABASE_ANON_KEY` reach the client.
-- OAuth tokens are encrypted in the app with AES-256-GCM (`{kid, iv, tag, ct}`), key from
-  `TOKEN_ENCRYPTION_KEYS`, rotated by adding a `kid`. They are decrypted only inside a
-  send or calendar-read job, and never logged or returned.
-- Vercel environment variables are marked sensitive (write-only). Preview deployments
-  point at the staging Supabase project, never production.
-
-### Logs with ids and counts only
-
-- Structured JSON logs with: request id, route, workspace id, meeting id, job id, card id,
-  state before/after, durations, token counts, dropped-claim counts, provider status
-  codes.
-- Never logged: transcript text, segment text, summaries, card content, email addresses,
-  participant names, memory content, tokens, signed URLs, PINs.
-- Error messages shown to users name what happened and the next action, never a provider
-  message or a stack trace.
-
-### Rate limits in the database
-
-`consume_quota(workspace_id, key, limit, window)` is called inside the SQL function that
-performs the action, so the check and the action are one transaction. Limits are rows in
-`plan_limits` (defaults per workspace kind) and can be changed without a deploy.
-
-### Anything that sends runs at most once
-
-1. `approve_card`: `UPDATE cards SET state='approved' WHERE id=$1 AND state='waiting' AND
-   workspace_id=$ws`; zero rows is a double click. Same transaction: insert
-   `card_sends(card_id, status='pending')` and a `card.send` job with
-   `idempotency_key = 'card:' || card_id`.
-2. `claim_send` leases the send row (10-minute lease). No row returned means another
-   runner has it; exit.
-3. Provider call, with the best dedupe each one offers:
-   - Google Calendar `events.insert` with a client-set `id` derived from the card id; a
-     409 `duplicate` is success.
-   - Gmail `messages.send` with a deterministic `Message-ID: <card_id@afk.ai>`; after an
-     unknown outcome, search `rfc822msgid:` before any retry.
-   - Slack `chat.postMessage` with `metadata.event_payload.card_id`; before any retry,
-     scan `conversations.history` for it.
-4. `record_send` writes `provider_message_id` and both states in one transaction.
-5. Retry only errors raised before the request left. A timeout or an ambiguous response
-   moves the card to `needs_check`; nothing is ever auto-resent. The owner sees "We're
-   not sure this was sent" with a manual check.
-6. The summary email (FR-09) and the card-nudge email (FR-20) go through the same path
-   with their own `card_sends`-style rows (`email_sends(meeting_id, kind)` unique).
-
-### Background jobs
-
-`jobs(id, workspace_id, kind, payload jsonb, idempotency_key unique, run_at, lease_until,
-attempts, max_attempts, status, last_error_code, created_at, completed_at)`.
-
-- **Enqueue** happens inside the SQL function that decided the work, with an
-  `idempotency_key` so a repeated decision doesn't create a second job.
-- **Claim**: `claim_jobs(runner_id, n)` — `SELECT … WHERE status='queued' AND run_at <=
-  now() AND (lease_until IS NULL OR lease_until < now()) ORDER BY run_at FOR UPDATE SKIP
-  LOCKED LIMIT n`, then set `lease_until = now() + lease`, `attempts = attempts + 1`.
-  Leases are 5 minutes; a job that needs longer renews its lease between steps.
-- **Run**: inside `after()` of the request that enqueued, or from `/api/jobs/kick`.
-  `runJobs(deadline = start + 240 s)` runs claimed jobs one at a time. At most two
-  runners per function invocation; concurrency across invocations is bounded by the
-  leases, not by a lock.
-- **Finish**: `complete_job` or `fail_job(error_code)`. After `max_attempts` (3), the job
-  is `failed`, and the thing that depends on it (meeting, card) shows the failure with a
-  retry button, which enqueues a fresh job.
-- **Chain**: at the deadline with work left, POST `/api/jobs/kick` with
-  `JOBS_KICK_SECRET` and exit. The kick route itself only calls `after(runJobs)` and
-  returns 202.
-- **Kick sources**: every mutation that enqueued work; every webhook; the daily Vercel
-  cron (which also writes the Supabase heartbeat); the dashboard request path when
-  `exists (select 1 from jobs where status='queued' and run_at <= now())`.
-- **Crashes**: a runner that dies leaves its lease to expire; the next kick re-claims.
-  Each job is idempotent on its key, and the pipeline is a chain of separate jobs, so a
-  finished Claude call is never repeated.
-- **The live path never uses jobs.** Live commands and answers run inside the Attendee
-  webhook request.
+**The chain and its end.** A run that stops on its budget reads `queue_status()`. With
+due jobs left it posts once to `/api/jobs/kick` with the hop count, and a fresh function
+carries on. A run that stopped for a reason a new function would not change (no API key,
+the provider down, the claim refused) does not chain. A released job is due only after
+its retry time, and a failing job spends its attempts, so a job that keeps releasing or
+failing cannot drive the chain. The chain therefore ends when nothing is due.
 
 ## Limits
 
-Per workspace, enforced in the database, adjustable in `plan_limits` without a deploy.
-
-| Limit | Guest | Member |
+| What | Limit | Enforced by |
 |---|---|---|
-| Bot hours per month | 2 in total, ever | 20 |
-| Bots running at once | 1 | 3 |
-| Commands per meeting (spoken + typed) | 50 | 50 |
-| Live questions per meeting | 20 | 20 |
-| Chat messages the bot posts per meeting | 25 | 25 |
-| Summary generations per meeting per day | 8 | 8 |
-| Rewrites per card | 5 | 5 |
-| Cards waiting at once | 25 | 100 |
-| Card sends per day | 0 | 50 emails, 20 invites, 50 Slack posts |
-| Memory entries | 500 | 2,000 |
-| Memory tokens per prompt | 4,000 | 4,000 |
-| PIN attempts | — | 5 per 15 min per link; 20 per day disables |
-| Requests per minute (any route) | 60 | 120 |
-| Seed-audio signed URLs per hour | 30 | 30 |
+| Writes per identity | 60 a minute | `note_visitor_write()`, `enforce_visitor_write()` |
+| Highlights per identity | 300; links per highlight 50, revoked ones counted | `cap_highlights()`, `cap_share_links()` |
+| Clip length | At most 600 s; a spoken "highlight that" clips 5 to 60 s | `highlights_max_length` (migration 03), `MAX_CLIP_SEC` in `src/lib/time-rules.ts`, `HIGHLIGHT_MIN_SEC`/`HIGHLIGHT_MAX_SEC` in `src/features/commands/parse.ts` |
+| Commands per meeting | 20 spoken parsed (the next 20 recorded as skipped), 20 typed | `cap_meeting_commands()` |
+| Tasks page | At most 200 commands listed | `TASKS_LIMIT` in `src/features/commands/tasks-queries.ts` |
+| Bot requests | 1 active per identity (a scheduled bot is not active until it joins); 5 a day per identity; 5 a day per place; `bot_daily_cap` (20) a day in all; one scheduled bot per calendar event; a bot scheduled at most 90 days ahead; the auto-join schedules at most 20 a run, 36 hours ahead; at most 12 sender names a meeting | `cap_bot_requests()`, the unique indexes, `src/app/api/bot/route.ts`, `src/server/calendar-autojoin.ts`, the `sender_names` check (migration 23) |
+| A bot in the call | Leaves after 60 s alone, 5 minutes unadmitted in a waiting room, 10 minutes of silence (counted after the first 10), 3 hours at most | `BOT_LEAVE_SETTINGS` in `src/features/capture/attendee.ts` |
+| New guest identities | 30 an hour per address | `supabase/config.toml` |
+| Processing budget | 270 s of 300 s per function, 20 s of it headroom; a job's Claude call at most about 245 s (240 s when no timeout is passed); the ingest's recording probe 30 s | `src/server/jobs.ts`, `src/features/processing/runner.ts`, `src/features/processing/claude.ts`, `PROBE_TIMEOUT_MS` in `src/features/processing/jobs.ts` |
+| Function length | 300 s for the routes that run jobs; 30 s for `POST /api/bot`; 60 s for the Google contacts import | `maxDuration` in each route |
+| Job attempts | 3 (calendar commands 3, email and Slack 1, live answers 2); retries 1 then 4 minutes after a failure | `complete_job()`, `approve_command()` |
+| Search | 120 hits a query, 200-character query | `SEARCH_LIMIT` in `src/features/search/search-queries.ts`, `src/app/search/page.tsx` |
+| Recording links | Audio signed for 6 hours (sample) or 1 hour (private); video 30 minutes (Attendee's link), renewed two minutes before expiry | `src/server/media/media-url.ts` |
+| Meetings lists | 20 a page, keyset cursor | `list_meetings()` |
+| Meeting links | One per meeting; five wrong PINs lock the code for that client for fifteen minutes, then each further wrong try locks it again for fifteen minutes until a right PIN resets the count (audit F17); tries forgotten after a day without one; grants last seven days | `open_meeting_link()`, `prune_link_tries()`, `link-grant.ts` |
+| Memory | 9 files of 32 KB per Google user; 8 KB a file and 32 KB in all inside a prompt | `memory_files` checks, `src/features/memory/files.ts` |
+| Connectors | One per provider per user; approved arguments at most 8 KB; email to 5 To and 5 Cc addresses, follow-up to 10 invitees, Slack message 2,000 characters; the Slack channel list reads at most 5 pages of 200; the OAuth state cookie lasts 10 minutes | `connectors` unique key, the `approved_args` check (migration 14), `src/features/connectors/approve-args.ts`, `CHANNEL_PAGES` in `slack.ts`, `CONNECT_STATE_TTL_SEC` in `oauth-state.ts` |
+| Contacts | One row per address per user; at most 50 invitees learned per meeting; a Google import of at most three pages of a thousand per list | `contacts` unique key, `learn_contacts()`, `src/features/connectors/people.ts` |
+| Public reads per client | 60 searches, 120 share-link and meeting-address opens, 60 recording-link renewals, 60 health checks a minute | `READ_LIMITS` in `src/lib/read-limit.ts` |
+| Live utterances | 2 KB of text each | `record_live_utterance()` |
+| Live answers | 600 characters | `ANSWER_MAX_CHARS` in `src/features/commands/answer.ts` |
+| Final transcript | Consecutive captions of one speaker merge when under 1.5 s apart, up to 600 characters | `src/features/capture/attendee-transcript.ts` |
+| Webhook body | 100,000 characters | The webhook route |
 
-Platform limits we design around:
+## Retention
 
-| Platform | Limit | Source |
+| Data | Kept | Removed by |
 |---|---|---|
-| Vercel Hobby | 300 s per function; cron once a day ± 59 min; 100 GB transfer; 1M invocations; 1-hour log retention; non-commercial use | https://vercel.com/docs/functions/limitations · https://vercel.com/docs/cron-jobs/usage-and-pricing · https://vercel.com/docs/limits/fair-use-guidelines |
-| Supabase Free | 2 projects; 500 MB database; 1 GB storage; 5 GB egress; pauses after 7 days of low activity; anonymous sign-ins 30 per hour per IP | https://supabase.com/pricing · https://supabase.com/docs/guides/platform/free-project-pausing · https://supabase.com/docs/guides/auth/auth-anonymous |
-| Attendee | 5 free bot hours, then $0.50/hour; bot auto-leaves per our settings (5 min waiting room, 10 min silence, 3 h) | https://attendee.dev/pricing |
-| Deepgram | $200 credit, then ≈ $0.35/hour | https://deepgram.com/pricing |
-| Claude | spending limit on the API key; 512-token cache minimum; 5-minute cache TTL | https://platform.claude.com/docs/en/about-claude/pricing |
-| Google OAuth (Testing mode, by decision) | up to 100 test users; refresh tokens expire after 7 days, so every Google connection shows "reconnect by <date>" | https://developers.google.com/identity/protocols/oauth2#expiration |
+| Meetings, turns, notes, commands, highlights, links, the address | Until the owner deletes the meeting (or the guest is purged) | `DELETE /api/meetings/[meetingId]`, cascades |
+| Bot recordings and Attendee transcripts | At Attendee for as long as Attendee keeps them; never copied | Attendee is told to forget them on delete and on guest purge |
+| Live utterances | Until the final transcript is ingested, else 24 hours | `ingest_transcript()`, `prune_live_utterances()` |
+| Bot request counts | 24 hours | `cap_bot_requests()` |
+| Write-limit and read-limit counts | One minute | `note_visitor_write()`, `note_read_hit()`, the keep-alive |
+| PIN tries | One day | `prune_link_tries()` |
+| Done and failed jobs | 30 days; a meeting keeps `analyzed_at` and `summarized_at` for itself | `prune_finished_jobs()` |
+| Guests who never continued with Google | 30 days from creation | `purge_stale_guests()` |
+| Memory files, connectors, contacts | Until the user deletes them, or the account goes | The Memory and Connectors pages |
+| Keep-alive runs | One `cron_runs` row per run, not pruned | |
+
+## Pagination
+
+`list_meetings(p_own, p_limit, p_before_recorded, p_before_created, p_before_id)` returns
+one page as the caller (security invoker, so RLS applies), ordered by recorded date, then
+creation time, then id, unrecorded meetings last. The page asks for one row more than it
+shows; if it arrives, the last shown row's key becomes the `?after=` cursor (base64url,
+validated with Zod on the way back; anything malformed means the first page). A cursor
+is a position, not an offset, so a meeting arriving between two pages never shifts or
+repeats a row. `/dashboard` and `/samples` page the same way.
+
+## Scalability
+
+| Property | How AFK.ai has it |
+|---|---|
+| Stateless compute | Every run starts empty inside a function; all state is in Postgres. A second instance needs nothing from the first |
+| Durable, idempotent work | Jobs are rows with a lease and a claim token, taken with `skip locked`, retried with backoff, with at-most-once gates on everything that sends |
+| One point of serialization | State changes are SQL functions in one transaction with row locks, advisory locks and partial unique indexes; correctness does not depend on how many runners exist |
+| Bounded units of work | A run has a time budget, a recording is never downloaded (its length comes from the MP4 header in a few range requests), a meeting has a command cap |
+| Back-pressure at the edge | Write limits, bot caps, read limits and the anonymous sign-in limit live in the database or Supabase, so they hold across instances |
+| Observability | Every job carries a report with tokens and cost; every keep-alive leaves a row; the health route reports the queue |
+
+A meeting notetaker is bursty and idle-heavy, so compute follows events and the queue
+lives in Postgres. The nearest ceilings are Postgres connections through the pooler and
+Anthropic's rate limits. At ten times the load, a long queue behind one chain is the
+first limit: a small always-on process around `runJobs` can claim beside the functions
+under the same leases. At a hundred times, Postgres as a queue (claim contention) and
+full-text search cost come next: a broker behind the claim and complete calls, a read
+replica, a dedicated search index, media on a CDN.
 
 ## Known gaps
 
-| Gap | Effect | Mitigation now | Decision needed |
-|---|---|---|---|
-| Vercel Hobby is non-commercial | A commercial launch on Hobby breaks the fair-use terms | Build and demo on Hobby | Confirm non-commercial, or plan $20/month Pro at launch |
-| Timed jobs run at the next kick | A "9:00 tomorrow" reminder can be late on a quiet day, up to a day | Kicks from every request and webhook; daily cron | Accept, or add a second daily cron at a different hour |
-| Supabase pauses after 7 idle days | The whole app stops | Daily cron writes a heartbeat row | None |
-| Seed-audio egress | 5 GB/month ≈ 170 full plays of a seed meeting | Signed URLs rate-limited per workspace | Accept for v1 |
-| Sonnet-only cost | ≈ $0.45–0.57 Claude per hour-long meeting; all-in after credits ≈ $0.95–1.07 with captions, $1.30–1.42 with Deepgram | Captions are the default; `CLAUDE_MODEL` can switch to Haiku; cost recorded per meeting | Decided: revisit with real cost data once the bot works |
-| Attendee and Deepgram are usage costs beyond Claude | $0.50 and ≈ $0.35 per hour after free allowances | Bot-hour quotas; Deepgram off by default | Decided: accepted |
-| Google OAuth in Testing mode | Connections die after seven days; 100 test users max | "Reconnect by" dates on Loadout; test-user form on the landing page | Decided: accepted |
-| One Supabase project shared by previews | A preview deployment reads and writes the same database as production | Test modes only in the Preview env; test workspaces tagged and purged by `guests.purge`; no destructive migrations run from previews | Accepted |
-| Test-user emails | The landing form stores visitors' Gmail addresses | Owner-only table; stated on the Privacy page; deleted on request | Accepted |
-| PGlite ≠ Supabase | No `auth` schema or `pg_cron`; some extensions missing | Test prelude stubs `auth.uid()`/`auth.jwt()`; migrations avoid Supabase-only extensions | Accept, or run the Docker stack occasionally |
-| Live path runs in the webhook request | A slow Claude call delays the 2xx to Attendee; Attendee retries after a timeout | Answers use `max_tokens` bounds and a 10 s client timeout; a retry is deduped by `idempotency_key` | None |
-| Sender matched by name | A participant who renames themselves to the owner's name could issue commands | Commands only create rows in the owner's workspace; sends still need the owner's click | Accept for v1 |
-| httpOnly session vs browser Realtime | Live bot state may need polling | Poll every 5 s on the live meeting page | Decide at build time |
-| Roman Urdu unverified | FR-22 may not be achievable as written | Transliteration step planned | Test clip before committing |
-| No admin role | Support cannot look inside a workspace | Logs with ids and counts; user-driven export | Accept |
-| Deleted meeting, kept memory | Memory entries lose their quote link but keep content | Owner is told how many; can erase | Accept (per NFR-03.5) |
+Accepted limitations of the design:
+
+- **Video lives in Attendee's storage.** A bot meeting's recording is never copied; it
+  lasts as long as Attendee keeps it, and each fresh link is one Attendee call.
+- **A private meeting's clip is shared as text only**, because any link to the file
+  would expose the whole recording. A sample meeting's clip plays the full source file
+  limited to the clip's range, and a clip's excerpt shows every overlapping turn in full.
+- **Who may command AFK is decided by a display name.** A participant who renames
+  themselves to the sender's name can speak commands.
+- **Grounding proves turn ids, owners, dates and addresses**, not the rest of an item's
+  wording.
+- **A guest workspace is one browser.** Clearing cookies loses it; the dashboard says so.
+- **Processing starts from events.** A job released by an outage with no event after it
+  waits for the next event or the daily keep-alive. An external pinger on the kick route
+  closes that ([going-live.md](going-live.md)); the health route shows the wait.
+- **Read limits are per address**, so many people behind one office address share a count.
+- **`search_meetings()` is callable directly** with the publishable key, where the
+  proxy's read limit does not apply.
+- **A changed transcript on re-ingest deletes the meeting's commands**, including the
+  results of ones that ran (the history file keeps its line).
+
+Current defects:
+
+- **Live, anyone whose display name contains the sender's name counts as the sender**
+  (audit F2). `matchesSender` is a token-subset test; the post-call parser's tie rule is
+  not applied live.
+- **A bot's id can fail to reach its meeting row** (audit F3). The update in
+  `src/server/bots.ts` is unchecked and a timed-out create still marks the row failed, so
+  a paid bot joins that no webhook can match, and a retry sends a second bot.
+- **Deleting a meeting with a spoken command probably fails** (audit S1, suspected).
+  `meeting_commands_turn_fk` has no delete action, so the cascade from the meeting to its
+  turns is likely refused.
+- **"Share the notes" makes a new card on every click** (audit F4), and each can be
+  approved and sent.
+- **A parse that fails for good re-generates notes that already exist** (audit F5): a
+  second owner email, a second history line, and lost ticks.
+- **A memory save with no expected version overwrites a row AFK created meanwhile**
+  (audit F13), and a Google user can write the history files through the Data API
+  (audit D8).
+- **The claim token, not the lease, gates publishing** (audit F24), so a run that
+  outlives its lease still publishes until the next sweep.
+- **After a PIN lockout, every further wrong try locks again** for fifteen minutes until
+  a right PIN (audit F17).
+- **`v1` connector ciphertexts open without the owner and provider binding** (audit F40).
+- **Small buttons are 32 px tall** (`sm`, `icon-sm`), under the 44 px often used for
+  touch.
+- **Webhook redelivery can re-post the "Heard" chat line.** The route ignores the
+  `duplicate` flag that `record_live_utterance()` returns before posting it.
+- **A Slack card cannot be approved without a default channel** saved on the Connectors
+  page.
+- **`rewrite_command()` has no cap.** Each rewrite queues a new parse; only the write
+  limit bounds it.
+- **Media-link renewal can loop without backoff** when the link's expiry fails to parse.
+- **Re-running analysis deletes `item_states`**, so visitors' ticks on AI items are lost.
+- **Scheduled bots have no per-user cap.** They are exempt from the one-active-bot rule,
+  so only the daily request counts bound how many a user holds scheduled.
+- **PIN lockout is per visitor, not per link.** A guesser who changes address gets five
+  fresh tries.
+- **A purged guest's scheduled bots are not removed at Attendee**; Attendee is told to
+  forget their data, but a bot scheduled to join is not cancelled.
+- **Meeting dates always print in America/Los_Angeles** (`MEETING_TIME_ZONE` in
+  `src/lib/format-date.ts`), whatever the viewer's zone.
+- **Playback speed is not persisted** across reloads.
+- **The meeting link code carries 56 random bits, not 60.** `new_link_code()` reads 15
+  hex characters of a v4 UUID, one of which is the fixed version digit.
+- **`aria-labelledby` ids contain spaces** on the dashboard and privacy pages, so those
+  labels do not resolve.
