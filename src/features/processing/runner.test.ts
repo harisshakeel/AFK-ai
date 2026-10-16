@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
 import type { Db, ProcessingDeps } from "./config";
+import * as jobs from "./jobs";
 import { runJobs, shouldChain } from "./runner";
 
 /**
@@ -123,6 +124,18 @@ describe("runJobs", () => {
         .map((call) => call.args?.p_outcome);
       expect(outcomes, code).toEqual(["done", "rejected"]);
     }
+  });
+
+  it("rejects a job that throws a refusal, so a refused transcript is not fetched and paid for again", async () => {
+    const { deps, calls } = stubDeps([job("ingest_media"), null]);
+    vi.spyOn(jobs, "runIngestMedia").mockRejectedValueOnce(
+      new jobs.RefusedError("transcript was rejected: turn ends past the duration"),
+    );
+    const summary = await runJobs(deps, { budgetMs: 120_000 });
+    expect(summary).toEqual({ ran: 1, done: 0, failed: 1, released: 0, stop: "idle" });
+    const completion = calls.find((call) => call.fn === "complete_job")?.args;
+    expect(completion?.p_outcome).toBe("rejected");
+    expect(String(completion?.p_error)).toContain("transcript was rejected");
   });
 
   it("fails a job whose store broke for a reason a retry can mend, using an attempt", async () => {

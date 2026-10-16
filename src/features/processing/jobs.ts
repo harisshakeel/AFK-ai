@@ -32,6 +32,33 @@ export class TransientError extends Error {
   }
 }
 
+/**
+ * The database refused what a job tried to store (a check, bad input, a raised
+ * exception): the same input would be refused the same way on every retry, so the runner
+ * rejects the job at once instead of paying for it again.
+ */
+export class RefusedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "RefusedError";
+  }
+}
+
+/** A Postgres error code that means the data was refused, not that the store broke. */
+export function isRefusal(code: string): boolean {
+  return /^(22|23)[0-9A-Z]{3}$|^P0\d{3}$/.test(code);
+}
+
+/**
+ * The error for a transcript ingest_transcript() did not take: a refusal ends the ingest
+ * at once (each retry would fetch from Attendee and romanize again); a store that broke
+ * for a reason a retry can mend uses an attempt.
+ */
+export function transcriptRejection(error: { code?: string; message: string }): Error {
+  const message = `transcript was rejected: ${error.message}`;
+  return isRefusal(error.code ?? "") ? new RefusedError(message) : new Error(message);
+}
+
 /** Every row of a paged query; a failed page is transient (the database, not the job). */
 export const fetchAll = <T>(page: Parameters<typeof fetchAllRows<T>>[0]) =>
   fetchAllRows<T>(page, (message) => new TransientError(message));
@@ -343,7 +370,7 @@ export async function runIngestMedia(
   });
   if (ingestError) {
     if (ingestError.code === "P0002") return null; // deleted meanwhile
-    throw new Error(`transcript was rejected: ${ingestError.message}`);
+    throw transcriptRejection(ingestError);
   }
 
   // The bot id is the recording's address at Attendee (media-url.ts mints links from it).

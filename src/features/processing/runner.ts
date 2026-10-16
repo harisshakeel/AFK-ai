@@ -4,7 +4,15 @@ import { runAnswerInMeeting } from "./answer-in-meeting.ts";
 import { ConfigurationError, ProviderUnavailableError } from "./claude.ts";
 import type { ProcessingDeps } from "./config.ts";
 import { runDetectCommands } from "./detect-commands.ts";
-import { type Job, type JobResult, TransientError, runGeneration, runIngestMedia } from "./jobs.ts";
+import {
+  type Job,
+  type JobResult,
+  RefusedError,
+  TransientError,
+  isRefusal,
+  runGeneration,
+  runIngestMedia,
+} from "./jobs.ts";
 import { runLearn } from "./learn.ts";
 import { runNotifyOwner } from "./notify-owner.ts";
 import { runCommand } from "./run-command.ts";
@@ -168,6 +176,13 @@ export async function runJobs(deps: ProcessingDeps, options: RunOptions): Promis
         log("job.released", { ...fields, reason: message });
         break;
       }
+      if (error instanceof RefusedError) {
+        // The database refused the job's input before its output: same answer on retry.
+        await complete(deps, job, "rejected", { error: message });
+        summary.failed += 1;
+        log("job.failed", { ...fields, reason: "store_refused" });
+        continue;
+      }
       if (error instanceof TransientError || (error instanceof AdapterError && error.retryable)) {
         // The service was unreachable before anything happened: later, no attempt used.
         await complete(deps, job, "release", {
@@ -226,10 +241,6 @@ type Completion = "published" | "lost" | { code: string };
  * (22), a broken constraint (23), a raised exception or a missing row (P0). The same
  * output gets the same answer. A timeout, a deadlock or a lost connection does not.
  */
-function isRefusal(code: string): boolean {
-  return /^(22|23)[0-9A-Z]{3}$|^P0\d{3}$/.test(code);
-}
-
 async function complete(
   deps: ProcessingDeps,
   job: Job,
