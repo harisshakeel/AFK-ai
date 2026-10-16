@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 
 import type { PGlite } from "@electric-sql/pglite";
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { isTypedCommandCap } from "../../src/features/commands/typed-cap";
 import { meetingFileSchema } from "../../src/features/meetings/meeting-file-schema";
@@ -123,6 +123,12 @@ let db: PGlite;
 beforeEach(async () => {
   db = await createTestDatabase();
   for (const id of [VISITOR, OTHER_VISITOR, OWNER, STRANGER]) await createUser(db, id);
+});
+
+// Each test's Postgres is a WebAssembly instance holding its whole heap; left open, a
+// hundred of them outgrow a CI runner's memory and the runner is shut down mid-run.
+afterEach(async () => {
+  await db.close();
 });
 
 describe("reading meetings", () => {
@@ -1980,9 +1986,6 @@ describe("live presence (completion plan, batch 7, requirements L1 and L2)", () 
 
 describe("access requests", () => {
   it("takes one email per visitor, as themselves, and shows the list to nobody", async () => {
-    const db = await createTestDatabase();
-    await createUser(db, VISITOR);
-    await createUser(db, OTHER_VISITOR);
     const visitor: Caller = { role: "authenticated", userId: VISITOR };
     const insert = "insert into public.access_requests (email) values ($1)";
     await as(db, visitor, insert, ["someone@gmail.com"]);
