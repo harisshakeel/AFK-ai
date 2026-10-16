@@ -1,0 +1,2541 @@
+{
+ "id": "bed017",
+ "title": "Even Deeper Understanding group meeting",
+ "source": {
+  "corpus": "ICSI Meeting Corpus",
+  "session": "Bed017",
+  "licence": "CC BY 4.0",
+  "url": "https://groups.inf.ed.ac.uk/ami/icsi/",
+  "modified": "Transcript converted to turns; digit-reading task and non-speech annotations removed.",
+  "notes": "No digits read. Channel 5 seems to be shut off (or extremely badly adjusted) from 9 min. 38 sec. to 12 min. 47 sec. During that time, me010 is only marginally audible. At 27 min., 53 sec., fe004's \"OK\" is audible from other, but not on her own close-talking, microphones. Discourse notes - Very funny non-serious \"argument\" at the beginning of this one. Prior to minute 2, lots of surprise reactions (to images on screen)."
+ },
+ "recordedAt": "2001-07-19T16:00:00-07:00",
+ "durationSec": 2322.283,
+ "speakers": [
+  {
+   "code": "fe004",
+   "label": "Speaker A"
+  },
+  {
+   "code": "me003",
+   "label": "Speaker B"
+  },
+  {
+   "code": "fn050",
+   "label": "Speaker C"
+  },
+  {
+   "code": "mn015",
+   "label": "Speaker D"
+  },
+  {
+   "code": "me010",
+   "label": "Speaker E"
+  },
+  {
+   "code": "mn059",
+   "label": "Speaker F"
+  }
+ ],
+ "turns": [
+  {
+   "speaker": "fe004",
+   "startSec": 10.95,
+   "endSec": 11.712,
+   "text": "Why?",
+   "id": "bed017-0000"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 11.417,
+   "endSec": 13.129,
+   "text": "I'm known. I -",
+   "id": "bed017-0001"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 11.81,
+   "endSec": 13.06,
+   "text": "Um.",
+   "id": "bed017-0002"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 12.56,
+   "endSec": 15.29,
+   "text": "No, cuz she already told me it, before she told you.",
+   "id": "bed017-0003"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 14.85,
+   "endSec": 18.79,
+   "text": "No, she told me a long time ago. She told me – she told me like two weeks ago.",
+   "id": "bed017-0004"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 16.18,
+   "endSec": 18.28,
+   "text": "Oh, well, it doesn't matter what time.",
+   "id": "bed017-0005"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 17.879,
+   "endSec": 27.531,
+   "text": "OK. [unclear] You know how to toggle the display width function -",
+   "id": "bed017-0006"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 20.223,
+   "endSec": 21.04,
+   "text": "Wow.",
+   "id": "bed017-0007"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 20.55,
+   "endSec": 23.796,
+   "text": "Well maybe she hadn't just started transcribing me yet. Anyway.",
+   "id": "bed017-0008"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 23.605,
+   "endSec": 24.609,
+   "text": "What is it?",
+   "id": "bed017-0009"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 24.42,
+   "endSec": 26.026,
+   "text": "Let me explain something to you.",
+   "id": "bed017-0010"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 25.808,
+   "endSec": 26.727,
+   "text": "Um,",
+   "id": "bed017-0011"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 26.026,
+   "endSec": 28.6,
+   "text": "My laugh is better than yours.",
+   "id": "bed017-0012"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 27.345,
+   "endSec": 28.153,
+   "text": "there.",
+   "id": "bed017-0013"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 28.635,
+   "endSec": 29.748,
+   "text": "Yo.",
+   "id": "bed017-0014"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 28.728,
+   "endSec": 29.954,
+   "text": "I beg to differ.",
+   "id": "bed017-0015"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 30.339,
+   "endSec": 31.842,
+   "text": "Um, OK.",
+   "id": "bed017-0016"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 31.06,
+   "endSec": 35.421,
+   "text": "But you have to say something genuinely funny before you'll get an example.",
+   "id": "bed017-0017"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 31.23,
+   "endSec": 32.03,
+   "text": "Yeah.",
+   "id": "bed017-0018"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 34.417,
+   "endSec": 37.76,
+   "text": "The thing is I don't know how to get to the next page. Here.",
+   "id": "bed017-0019"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 35.26,
+   "endSec": 40.7,
+   "text": "No. [unclear] You should be – at least be self-satisfied enough to laugh at your own jokes.",
+   "id": "bed017-0020"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 38.076,
+   "endSec": 39.188,
+   "text": "Actually I thought -",
+   "id": "bed017-0021"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 40.911,
+   "endSec": 41.605,
+   "text": "There.",
+   "id": "bed017-0022"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 41.113,
+   "endSec": 42.937,
+   "text": "No, it's a different laugh.",
+   "id": "bed017-0023"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 43.825,
+   "endSec": 44.767,
+   "text": "How weird.",
+   "id": "bed017-0024"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 44.12,
+   "endSec": 45.136,
+   "text": "Ooh, wow!",
+   "id": "bed017-0025"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 44.738,
+   "endSec": 46.591,
+   "text": "Oh! Holy mackerel.",
+   "id": "bed017-0026"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 45.453,
+   "endSec": 46.919,
+   "text": "Wow. Whoa!",
+   "id": "bed017-0027"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 45.768,
+   "endSec": 46.383,
+   "text": "What?!",
+   "id": "bed017-0028"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 47.897,
+   "endSec": 49.897,
+   "text": "Oh. OK. I",
+   "id": "bed017-0029"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 51.125,
+   "endSec": 53.208,
+   "text": "wasn't even doing anything. OK.",
+   "id": "bed017-0030"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 52.39,
+   "endSec": 53.38,
+   "text": "Uh.",
+   "id": "bed017-0031"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 52.9,
+   "endSec": 55.706,
+   "text": "Eva's got a laptop, she's trying to show it off.",
+   "id": "bed017-0032"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 56.08,
+   "endSec": 59.05,
+   "text": "That was r- actually Robert's idea. But anyhow.",
+   "id": "bed017-0033"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 60.912,
+   "endSec": 61.29,
+   "text": "Um",
+   "id": "bed017-0034"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 64.99,
+   "endSec": 66.66,
+   "text": "O K. So, here we are.",
+   "id": "bed017-0035"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 66.618,
+   "endSec": 67.627,
+   "text": "Once again.",
+   "id": "bed017-0036"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 67.136,
+   "endSec": 82.06,
+   "text": "Once again, right, together. Um, so we haven't had a meeting for a while, and – and probably won't have one next week, I think a number of people are gone. Um, so Robert, why don't you bring us up to date on where we are with EDU?",
+   "id": "bed017-0037"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 84.17,
+   "endSec": 120.134,
+   "text": "Um, uh in a – in a smaller group we had uh, talked and decided about continuation of the data collection. So Fey's time with us is almost officially over, and she brought us some thirty subjects and, t- collected the data, and ten dialogues have been transcribed and can be looked at. If you're interested in that, talk to me. Um, and we found another uh, cogsci student who's interested in playing wizard for us.",
+   "id": "bed017-0038"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 120.47,
+   "endSec": 151.767,
+   "text": "Here we're gonna make it a little bit more complicated for the subjects, uh this round. She's actually suggested to look um, at the psychology department students, because they have to partake in two experiments in order to fulfill some requirements. So they have to be subjected, before they can actually graduate. And um, we want to design it so that they really have to think about having some time,",
+   "id": "bed017-0039"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 151.767,
+   "endSec": 178.995,
+   "text": "two days, for example, to plan certain things and figure out which can be done at what time, and, um, sort of package the whole thing in a – in a re- in a few more complicated um, structure. That's for the data collection. As for SmartKom, I'm – the last SmartKom meeting I mentioned that we have some problems with the synthesis, which as of this morning should be resolved.",
+   "id": "bed017-0040"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 179.224,
+   "endSec": 179.679,
+   "text": "Good.",
+   "id": "bed017-0041"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 179.61,
+   "endSec": 210.805,
+   "text": "And, so, \"should be\" means they aren't yet, but – but I think I have the info now that I need. Plus, Johno and I are meeting tomorrow, so maybe uh uh, when tomorrow is over, we're done. And ha- n- hav- we'll never have to look at it again Maybe it'll take some more time, to be realistic, but at least we're - we're seeing the end of the tunnel there. That was that. Um,",
+   "id": "bed017-0042"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 211.93,
+   "endSec": 237.83,
+   "text": "the uh, uh I don't think we need to discuss the formalism that'll be done officially s- once we're done. Um, something happened, in – on Eva's side with the PRM that we're gonna look at today, and um, we have a visitor from Bruchsal from the International University. Andreas, I think you've met everyone except Nancy.",
+   "id": "bed017-0043"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 236.766,
+   "endSec": 237.833,
+   "text": "Sorry. Hi. Hi.",
+   "id": "bed017-0044"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 236.895,
+   "endSec": 238.696,
+   "text": "Yeah. Hi.",
+   "id": "bed017-0045"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 237.83,
+   "endSec": 241.214,
+   "text": "Hi. Hi. And, um,",
+   "id": "bed017-0046"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 239.4,
+   "endSec": 244.8,
+   "text": "So when you said \"Andreas\" I thought you were talking about Stolcke. Now I know that we aren't, OK.",
+   "id": "bed017-0047"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 244.765,
+   "endSec": 247.641,
+   "text": "Andy, you actually go by Andy, right? Oh, OK.",
+   "id": "bed017-0048"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 246.37,
+   "endSec": 247.256,
+   "text": "Yeah.",
+   "id": "bed017-0049"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 247.641,
+   "endSec": 249.39,
+   "text": "Eh -",
+   "id": "bed017-0050"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 247.71,
+   "endSec": 252.06,
+   "text": "Cuz there is another Andreas around, so, to avoid some confusion.",
+   "id": "bed017-0051"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 249.43,
+   "endSec": 250.009,
+   "text": "Hmm.",
+   "id": "bed017-0052"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 252.024,
+   "endSec": 253.787,
+   "text": "That will be Reuter?",
+   "id": "bed017-0053"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 253.468,
+   "endSec": 253.794,
+   "text": "Yeah.",
+   "id": "bed017-0054"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 253.787,
+   "endSec": 285.006,
+   "text": "Oh, OK. So my scientific director of the EML is also the dean of the International University, one of his many occupations that just contributes to the fact that he is very occupied. And, um, the - um, he [unclear] might tell us a little bit about what he's actually doing, and why it is s- somewhat related, and – by uh using maybe some of the same technologies that we are using. And um. Was that enough of an update?",
+   "id": "bed017-0055"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 285.311,
+   "endSec": 285.93,
+   "text": "I think so.",
+   "id": "bed017-0056"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 289.951,
+   "endSec": 291.7,
+   "text": "In what order shall we proceed?",
+   "id": "bed017-0057"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 291.66,
+   "endSec": 292.594,
+   "text": "OK.",
+   "id": "bed017-0058"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 291.7,
+   "endSec": 293.906,
+   "text": "Maybe you have your on-line -",
+   "id": "bed017-0059"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 294.27,
+   "endSec": 300.695,
+   "text": "Uh, yeah, sure. Um, so, I've be- just been looking at, um, Ack!",
+   "id": "bed017-0060"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 302.232,
+   "endSec": 332.795,
+   "text": "What are you doing? Yeah . OK. Um, I've been looking at the PRM stuff. Um, so, this is, sort of like the latest thing I have on it, and I sorta constructed a couple of classes. Like, a user class, a site class, and - and you know, a time, a route, and then – and a query class. And I tried to simplify it down a little bit, so that I can actually um, look at it more. It's the same paper that I gave to Jerry last time. Um,",
+   "id": "bed017-0061"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 333.32,
+   "endSec": 361.388,
+   "text": "so basically I took out a lot of stuff, a lot of the decision nodes, and then tried to – The red lines on the, um, graph are the um, relations between the different um, classes. Like, a user has like, a query, and then, also has, you know um, reference slots to its preferences, um, the special needs and, you know, money, and",
+   "id": "bed017-0062"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 362.6,
+   "endSec": 391.147,
+   "text": "the user interest . And so this is more or less similar to the flat Bayes-net that I have, you know, with the input nodes and all that. And - So I tried to construct the dependency models, and a lot of these stuff I got from the flat Bayes-net, and what they depend on, and it turns out, you know, the CPT's are really big, if I do that, so I tried to see how I can do, um – put in the computational nodes in between.",
+   "id": "bed017-0063"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 391.5,
+   "endSec": 404.22,
+   "text": "And what that would look like in a PRM. And so I ended up making several classes - Actually, you know, a class of – with different attributes that",
+   "id": "bed017-0064"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 405.32,
+   "endSec": 437.266,
+   "text": "are the intermediate nodes, and one of them is like, time affordability money affordability, site availability, and the travel compatibility. And so some of these classes are - s- some of these attributes only depend on stuff from, say, the user, or s- f- just from, I don't know, like the site. S- like, um, these here, it's only like, user, but, if you look at travel compatibility for each of these factors,",
+   "id": "bed017-0065"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 437.266,
+   "endSec": 468.16,
+   "text": "you need to look at a pair of, you know, what the um, preference of the user is versus, you know, what type of an event it is, or you know, which form of transportation the user has and whether, you know, the onsite parking matters to the user, in that case. And that makes the scenario a little different in a PRM, because, um, then you have one-user objects and potentially you can have many different sites",
+   "id": "bed017-0066"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 468.38,
+   "endSec": 481.536,
+   "text": "in – in mind. And so for each of the site you'll come up with this rating, of travel compatibility. And, they all depend on the same users, but different sites, and that makes a -",
+   "id": "bed017-0067"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 483.25,
+   "endSec": 492.28,
+   "text": "I'm tr- I w- I wa- have been trying to see whether the PRM would make it more efficient if we do inferencing like that. And so,",
+   "id": "bed017-0068"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 493.56,
+   "endSec": 503.496,
+   "text": "I guess you end up having fewer number of nodes than in a flat Bayes-net, cuz otherwise you would - c- well, it's probably the same . But um,",
+   "id": "bed017-0069"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 507.76,
+   "endSec": 514.078,
+   "text": "No, you would definitely have - be able to re-use, like, um,",
+   "id": "bed017-0070"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 515.09,
+   "endSec": 531.564,
+   "text": "all the user stuff, and not - not having to recompute a lot of the stuff, because it's all from the user side. So if you changed sites, you - you can, you know, save some work on that. But, you know, in the case where, it depends on both the user and the site, then",
+   "id": "bed017-0071"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 533.87,
+   "endSec": 562.39,
+   "text": "I'm still having a hard time trying to see how um, using the PRM will help. Um, so anyhow, using those intermediate nodes then, this – this would be the class that represent the intermediate nodes. And that would – basically it's just another class in the model, with, you know, references to the user and the site and the time. And then, after you group them together this - no- the dependencies would -",
+   "id": "bed017-0072"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 562.79,
+   "endSec": 571.92,
+   "text": "of the queries would be reduced to this. And so, you know, it's easier to specify the CPT and all.",
+   "id": "bed017-0073"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 573.113,
+   "endSec": 578.378,
+   "text": "Um, so I think that's about as far as I've gone on the PRM stuff.",
+   "id": "bed017-0074"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 578.22,
+   "endSec": 579.35,
+   "text": "Well",
+   "id": "bed017-0075"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 579.705,
+   "endSec": 580.454,
+   "text": "Right.",
+   "id": "bed017-0076"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 580.175,
+   "endSec": 580.794,
+   "text": "No.",
+   "id": "bed017-0077"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 582.022,
+   "endSec": 585.985,
+   "text": "So y- you didn't yet tell us what the output is.",
+   "id": "bed017-0078"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 586.419,
+   "endSec": 587.513,
+   "text": "The output.",
+   "id": "bed017-0079"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 587.82,
+   "endSec": 589.763,
+   "text": "So what decisions does this make?",
+   "id": "bed017-0080"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 589.39,
+   "endSec": 594.564,
+   "text": "OK. So it only makes two decisions, in this model. And one is",
+   "id": "bed017-0081"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 595.601,
+   "endSec": 629.397,
+   "text": "basically how desirable a site is meaning, um, how good it matches the needs of a user. And the other is the mode of the visit, whether th- It's the EVA decision. Um, so, instead of um, doing a lot of, you know, computation about, you know, which one site it wants of – the user wants to visit, I'll come - well, try to come up with like, sort of a list of sites. And for each site, you know, where – h- how – how well it fits, and basically a rating of how well it fits and",
+   "id": "bed017-0082"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 629.397,
+   "endSec": 630.418,
+   "text": "what to do with it.",
+   "id": "bed017-0083"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 631.846,
+   "endSec": 633.028,
+   "text": "So.",
+   "id": "bed017-0084"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 634.655,
+   "endSec": 635.848,
+   "text": "Anything else I missed?",
+   "id": "bed017-0085"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 637.675,
+   "endSec": 651.66,
+   "text": "So that was pretty quick. She's ac- uh uh Eva's got a little write-up on it that uh, probably gives the – the details to anybody who needs them. Um, so",
+   "id": "bed017-0086"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 654.54,
+   "endSec": 659.399,
+   "text": "the - You – you didn't look at all yet to see if there's anybody has a implementation .",
+   "id": "bed017-0087"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 659.723,
+   "endSec": 661.89,
+   "text": "No, not yet, um -",
+   "id": "bed017-0088"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 660.738,
+   "endSec": 664.512,
+   "text": "OK. So one – so one of the questions, you know, about these PRMs is",
+   "id": "bed017-0089"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 662.981,
+   "endSec": 663.81,
+   "text": "Mm-hmm.",
+   "id": "bed017-0090"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 664.512,
+   "endSec": 679.401,
+   "text": "uh, we aren't gonna build our own interpreter, so if – if we can't find one, then we uh, go off and do something else and wait until s- one appears. Uh, so one of the things that Eva's gonna do over the next few weeks is see if we can track that down. Uh,",
+   "id": "bed017-0091"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 680.465,
+   "endSec": 716.341,
+   "text": "the people at Stanford write papers as if they had one, but, um, we'll see. So w- Anyway. So that's a – a major open issue. If there is an interpreter, it looks like you know, what Eva's got should run and we should be able to actually um, try to solve, you know, the problems, to actually take the data, and do it. Uh, and we'll see. Uh, I actually think it is cleaner, and the ability to instantiate, you know, instance of people and sites and stuff, um,",
+   "id": "bed017-0092"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 718.389,
+   "endSec": 727.158,
+   "text": "will help in the expression. Whether the inference gets any faster or not I don't know. Uh, it wouldn't surprise me if it – if it doesn't.",
+   "id": "bed017-0093"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 726.926,
+   "endSec": 727.431,
+   "text": "Mm-hmm.",
+   "id": "bed017-0094"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 727.158,
+   "endSec": 755.102,
+   "text": "You know, it's the same kind of information. I think there are things that you can express this way which you can't express in a normal belief-net, uh, without going to some incredible hacking of – sort of rebuilding it on the fly. I mean, the notion of instantiating your el- elements from the ontology and stuff fits this very nicely and doesn't fit very well into the extended belief-net. So that was one of the main reasons for doing it.",
+   "id": "bed017-0095"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 755.826,
+   "endSec": 756.982,
+   "text": "Um.",
+   "id": "bed017-0096"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 762.72,
+   "endSec": 772.67,
+   "text": "I don't know. So, uh, people who have thought about the problem, like Robert i- it looked to me like if Eva were able to come up with",
+   "id": "bed017-0097"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 775.5,
+   "endSec": 792.74,
+   "text": "you know, value for each of a number of uh, sites plus its EVA thing, that a travel planner should be able to take it from there. And - you know, with some other information about how much time the person has and whatever, and then plan a route.",
+   "id": "bed017-0098"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 792.229,
+   "endSec": 806.177,
+   "text": "Um-hmm, um, well, first of all uh, uh, great looks, mu- much cleaner, nnn, nnn, Certain – certain beauty in it, so, um, if beauty is truth, then, uh we're in good shape. But, the um,",
+   "id": "bed017-0099"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 807.912,
+   "endSec": 814.993,
+   "text": "as, uh, mentioned before we probably should look at t- the details. So if you have a write-up then uh, I'd love to read it and uh -",
+   "id": "bed017-0100"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 812.071,
+   "endSec": 812.564,
+   "text": "Mm-hmm.",
+   "id": "bed017-0101"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 815.258,
+   "endSec": 820.659,
+   "text": "because, um, i- Can you go all the way back to the – the very top?",
+   "id": "bed017-0102"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 820.63,
+   "endSec": 821.45,
+   "text": "Yeah.",
+   "id": "bed017-0103"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 822.007,
+   "endSec": 831.042,
+   "text": "Um, uh these – [unclear] these – w- w- when these are instantiated they take on the same values? that we had before? or are they -",
+   "id": "bed017-0104"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 824.713,
+   "endSec": 827.47,
+   "text": "I can't really see the whole thing.",
+   "id": "bed017-0105"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 831.26,
+   "endSec": 833.97,
+   "text": "have they changed, in a sense?",
+   "id": "bed017-0106"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 833.685,
+   "endSec": 837.99,
+   "text": "Well I think I basically leave them to similar things.",
+   "id": "bed017-0107"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 836.041,
+   "endSec": 836.431,
+   "text": "Uh-huh.",
+   "id": "bed017-0108"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 838.204,
+   "endSec": 845.567,
+   "text": "Some of the things might - that might be different, maybe like - are that the hours for the site.",
+   "id": "bed017-0109"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 843.766,
+   "endSec": 845.713,
+   "text": "Hmm.",
+   "id": "bed017-0110"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 845.92,
+   "endSec": 858.08,
+   "text": "And, eventually I meant that to mean whether they're open at this hour or not. And status would be, you know, more or less like, whether they're under construction, and – and – or",
+   "id": "bed017-0111"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 852.366,
+   "endSec": 854.208,
+   "text": "Uh-huh.",
+   "id": "bed017-0112"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 858.27,
+   "endSec": 859.809,
+   "text": "And the, uh,",
+   "id": "bed017-0113"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 858.634,
+   "endSec": 859.822,
+   "text": "stuff like that.",
+   "id": "bed017-0114"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 859.809,
+   "endSec": 870.325,
+   "text": "other question I would have is that presumably, from the way the Stanford people talk about it, you can put the probabilities also on the relations.",
+   "id": "bed017-0115"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 871.657,
+   "endSec": 872.299,
+   "text": "If -",
+   "id": "bed017-0116"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 871.86,
+   "endSec": 874.59,
+   "text": "Which is the structural uncertainty?",
+   "id": "bed017-0117"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 873.92,
+   "endSec": 877.03,
+   "text": "Yeah. Yeah, I – that's -",
+   "id": "bed017-0118"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 878.56,
+   "endSec": 886.18,
+   "text": "That I think was actually in the previous - the Ubenth stuff. I don't remember whether they carried that over to this or not,",
+   "id": "bed017-0119"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 883.244,
+   "endSec": 883.929,
+   "text": "Mmm.",
+   "id": "bed017-0120"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 886.59,
+   "endSec": 888.93,
+   "text": "uh, structural uncertainty.",
+   "id": "bed017-0121"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 888.81,
+   "endSec": 893.406,
+   "text": "It's sort of in the definition or – in the – in Daphne's definition of a PRM is that",
+   "id": "bed017-0122"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 893.39,
+   "endSec": 894.17,
+   "text": "OK.",
+   "id": "bed017-0123"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 893.406,
+   "endSec": 898.16,
+   "text": "classes and relations, and you're gonna have CPT's over the classes and their relations.",
+   "id": "bed017-0124"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 900.846,
+   "endSec": 901.68,
+   "text": "Alright.",
+   "id": "bed017-0125"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 901.97,
+   "endSec": 904.197,
+   "text": "More uncertainty, or – or -",
+   "id": "bed017-0126"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 901.977,
+   "endSec": 903.1,
+   "text": "Uh,",
+   "id": "bed017-0127"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 904.799,
+   "endSec": 911.137,
+   "text": "I remember them learning when, you know, you don't know the structure for sure, but I don't remember reading how you specify",
+   "id": "bed017-0128"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 904.843,
+   "endSec": 905.82,
+   "text": "I should say.",
+   "id": "bed017-0129"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 907.15,
+   "endSec": 907.85,
+   "text": "Yeah.",
+   "id": "bed017-0130"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 910.88,
+   "endSec": 914.47,
+   "text": "Yeah, that would be exactly my question. Well -",
+   "id": "bed017-0131"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 911.169,
+   "endSec": 911.673,
+   "text": "Right.",
+   "id": "bed017-0132"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 911.844,
+   "endSec": 914.343,
+   "text": "wh- to start with. Yeah. Yeah.",
+   "id": "bed017-0133"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 913.618,
+   "endSec": 928.11,
+   "text": "Yeah. So, uh, the – the plan is – is when Daphne gets back, we'll get in touch and supposedly, um, we'll actually get s- deep – seriously connected to – to their work and",
+   "id": "bed017-0134"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 928.225,
+   "endSec": 928.581,
+   "text": "Yep.",
+   "id": "bed017-0135"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 928.734,
+   "endSec": 936.35,
+   "text": "somebody'll – Uh, you know – If it's a group meeting once a week probably someone'll go down and, whatever. So, we'll actually figure all this out.",
+   "id": "bed017-0136"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 936.69,
+   "endSec": 937.1,
+   "text": "OK .",
+   "id": "bed017-0137"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 944.487,
+   "endSec": 960.165,
+   "text": "OK. Then I think the w- long term perspective is – is pretty clear. We get rocking and rolling on this again, once we get a package, if, when, and how, then",
+   "id": "bed017-0138"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 959.702,
+   "endSec": 960.276,
+   "text": "Mm-hmm.",
+   "id": "bed017-0139"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 960.46,
+   "endSec": 967.445,
+   "text": "this becomes foregrounded profiled, focused, again.",
+   "id": "bed017-0140"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 967.997,
+   "endSec": 969.408,
+   "text": "Designated?",
+   "id": "bed017-0141"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 968.95,
+   "endSec": 970.29,
+   "text": "Of course.",
+   "id": "bed017-0142"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 970.771,
+   "endSec": 972.465,
+   "text": "And um,",
+   "id": "bed017-0143"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 974.738,
+   "endSec": 983.098,
+   "text": "until then we'll come up with a something that's – [unclear] that's way more complicated for you. Right?",
+   "id": "bed017-0144"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 982.125,
+   "endSec": 982.561,
+   "text": "OK.",
+   "id": "bed017-0145"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 983.098,
+   "endSec": 985.918,
+   "text": "Because this was laughingly easy, right?",
+   "id": "bed017-0146"
+  },
+  {
+   "speaker": "fn050",
+   "startSec": 986.37,
+   "endSec": 996.01,
+   "text": "Actually I had to take out a lot of the complicated stuff, cuz I – I made it really complicated in the beginning, and Jerry was like, \"this is just too much\".",
+   "id": "bed017-0147"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 997.28,
+   "endSec": 1010.821,
+   "text": "Yeah. So, um, you could, from this, go on and say suppose there's a group of people traveling together and you wanted to plan something that somehow, with some Pareto optimal",
+   "id": "bed017-0148"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1010.518,
+   "endSec": 1012.484,
+   "text": "That's good .",
+   "id": "bed017-0149"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1010.821,
+   "endSec": 1013.655,
+   "text": "uh, uh, thing for -",
+   "id": "bed017-0150"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1012.484,
+   "endSec": 1015.79,
+   "text": "That's definitely a job for artificial intelligence.",
+   "id": "bed017-0151"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1015.587,
+   "endSec": 1016.836,
+   "text": "uh, or -",
+   "id": "bed017-0152"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1016.2,
+   "endSec": 1019.23,
+   "text": "Well that's not – not even something humans – yeah.",
+   "id": "bed017-0153"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1016.48,
+   "endSec": 1019.39,
+   "text": "Except for humans can't really solve it either, so.",
+   "id": "bed017-0154"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1018.802,
+   "endSec": 1027.095,
+   "text": "Right. Right. Well that's the – that would – that would be a – uh, you could sell it, as a – OK, eh you don't have to fight about this, just give your preferences to the -",
+   "id": "bed017-0155"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1022.67,
+   "endSec": 1023.167,
+   "text": "Yeah.",
+   "id": "bed017-0156"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1026.244,
+   "endSec": 1028.841,
+   "text": "And then you can blame the computer. So.",
+   "id": "bed017-0157"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1027.095,
+   "endSec": 1028.569,
+   "text": "w- Exactly.",
+   "id": "bed017-0158"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1027.776,
+   "endSec": 1036.51,
+   "text": "Hmm. But what does it – uh – Would a pote- potential result be to – to split up and never talk to each other again? You know.",
+   "id": "bed017-0159"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1035.84,
+   "endSec": 1038.61,
+   "text": "That should be one of them.",
+   "id": "bed017-0160"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1036.51,
+   "endSec": 1038.76,
+   "text": "Yeah.",
+   "id": "bed017-0161"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1036.96,
+   "endSec": 1038.1,
+   "text": "Yeah. Right.",
+   "id": "bed017-0162"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 1038.202,
+   "endSec": 1039.143,
+   "text": "That'd be nice.",
+   "id": "bed017-0163"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1039.108,
+   "endSec": 1039.59,
+   "text": "Mmm.",
+   "id": "bed017-0164"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1039.17,
+   "endSec": 1056.49,
+   "text": "Anyway. So. So there i- there are some – some u- uh, you know, uh, elaborations of this that you could try to put in to this structure, but I don't think it's worth it now. Because we're gonna see what – what else uh - what else we're gonna do.",
+   "id": "bed017-0165"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1058.81,
+   "endSec": 1060.2,
+   "text": "Anyway. But uh,",
+   "id": "bed017-0166"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1061.45,
+   "endSec": 1067.19,
+   "text": "it's good, yeah and – and there were a couple other ideas of – of uh, things for Eva to look at",
+   "id": "bed017-0167"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1068.821,
+   "endSec": 1070.515,
+   "text": "in – in the interim.",
+   "id": "bed017-0168"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1072.6,
+   "endSec": 1080.968,
+   "text": "Good. Then, we can move on and see what Andreas has got out his sleeve. Or Andy, for that matter?",
+   "id": "bed017-0169"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1080.955,
+   "endSec": 1107.395,
+   "text": "OK. So uh, uh, well, thanks for having me here, first of all. Um, so maybe just a – a little background on – on my visit. So, uh, I'm not really involved in any project, that's uh - that's relevant to you uh, a- at the moment, uh, the – the reason is really for me uh, to have an opportunity to talk to some other researchers in the field. And – and so I'll just n- sort of give you a real quick introduction to what I'm working on, and",
+   "id": "bed017-0170"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1107.888,
+   "endSec": 1136.369,
+   "text": "um, I just hope that you have some comments or, maybe you're interested in it to find out more, and – and so I'll be uh, happy to talk to you and – and uh, I'd also like to find out some more and – and maybe I'll just walk around the office and and then – and ask some – some questions, uh, in a couple days. So I'll be here for uh, tomorrow and then uh, the remainder of uh, next week. OK, so, um, what I started looking at, uh, to begin with is just uh, content management systems uh, i- i- in general. So",
+   "id": "bed017-0171"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1136.63,
+   "endSec": 1161.57,
+   "text": "um, uh what's uh – Sort of the state of the art there is to um – uh you have a bunch of – of uh documents or learning units or learning objects, um, and you store meta-data uh, associate to them. So there's some international standards like the I-triple-E, uh – There's an I-triple-E, LON standard, and um, these fields are pretty straightforward, you have uh author information, you have uh, size information, format information and so on.",
+   "id": "bed017-0172"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1161.57,
+   "endSec": 1196.36,
+   "text": "Uh, but they're two uh fields that are um, more interesting. One is uh you store keywords associated with the uh – with the document, and one is uh, you have sort of a, um, well, what is the document about? So it's some sort of taxonomic uh, ordering of – of the – of the units. Now, if you sort of put on your semantic glasses, uh you say, well that's not all that easy, because there's an implicit um, uh, assumption behind that is that uh, all the users of this system share the same interpretation of the keyword and the same interpretation of",
+   "id": "bed017-0173"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1196.69,
+   "endSec": 1222.888,
+   "text": "uh, whichever taxonomy is used, and uh, I think that's a – that's a very – that's a key point of these systems and they sort of always brush over this real quickly without really elaborating much of that and uh – As a matter of fact, the only thing that m- apparently really works out so far are library ordering codes, which are very, very coarse grain, so you have some like, science, biology, and then – But that's really all that we have at the moment. So I think there's a huge,",
+   "id": "bed017-0174"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1222.888,
+   "endSec": 1245.643,
+   "text": "um, uh need for improvement there. Now, what this uh – a standard like this would give us is we could um, sort of uh with a search engine just query uh, different repositories all over the world. But we can't really - Um, so what I'm – what I try to do is um, to have um, uh – So. So the scenario is the following, you- you're working on some sort of project and you encounter a certain problem. Now,",
+   "id": "bed017-0175"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1245.643,
+   "endSec": 1267.748,
+   "text": "what – what we have at our university quite a bit is that uh, students um, try to u- program a certain assignment, for example, they always run into the same problems, uh, and they always come running to us, and they'll say why's it not – it's not working, and we always give out the same answer, so we thought, well, it'd be nice to have a system that could sort of take care of this, and so, what I want to build is basically a – a smart FA Q system.",
+   "id": "bed017-0176"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1268.109,
+   "endSec": 1298.842,
+   "text": "Now, what you uh need to do here is you need to provide some context information which is more elaborate than \"I'm looking for this and this and this keyword. \" So. And I think that I don't need to tell you this. I'm – I'm sure you have the same – when – when somebody utters a sentence in a certain, uh, context it, and – and the same sentence in another context makes a huge difference. So, I want to be able to model information like, um, so in the – in the context of – in the context of developing distributed systems, of a- at a computer science school, um,",
+   "id": "bed017-0177"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1299.08,
+   "endSec": 1325.591,
+   "text": "what kind of software is the person using, which homework assignment is he or she working on at the moment, um, maybe what's the background of that student's um, which um, which error message was encountered. So this sort of information I think should be transmitted, uh, when a certain document is retrieved. Now, um, basically giving this um – Uh so we somehow need to have a formalized um, way of writing this down basically,",
+   "id": "bed017-0178"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1325.591,
+   "endSec": 1347.511,
+   "text": "and that's where the shared interpretation of – of certain terms and keywords comes in again. And, using this and some – some uh, knowledge about the domain I think you can do some – some simple inferences. Like you know that when somebody's working about – uh, working on – on servlets for example, he's using Java, cuz servlets are used - are written in Java. So some – some inferences like that, now,",
+   "id": "bed017-0179"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1347.511,
+   "endSec": 1381.41,
+   "text": "um, u- using this you can infer more information, and you could then match this to the meta-data of um – off the documents you're – you're searching against. So, uh what I wanna do is basically have some sort of um - given these inputs, and then I can compute how many documents match, and use this as a metric in the search. Now, what I plan to do is I want to uh sort of do a uh - uh try to improve the quality of the search results, and I want to do this by having a depth uh, um, um – steepest descent approach.",
+   "id": "bed017-0180"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1381.602,
+   "endSec": 1407.19,
+   "text": "So if I knew which operating system the person was working on, would this improve my search result? And – and having uh, uh a symbolic formalized model of this I could simply compute that, and find out which um - which questions are worth um, asking. And that's what I then propagate back to the user, and – and sort of try to optimize the search in this way. Now, the big problem that I'm facing right now is um,",
+   "id": "bed017-0181"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1407.19,
+   "endSec": 1433.741,
+   "text": "it's fairly easy to hack up a system uh quickly, that – that works in the small domain, but the problem is obviously the scalability. And uh uh, so Robert was mentioning uh, earlier today is that uh, Microsoft for example with their printer set up program has a Bayesian network, which does exactly this, but there you face a problem that these are very hard to extend. And so, uh what I'm – What I try to do is basically try to model this uh, in a way that you could really combine",
+   "id": "bed017-0182"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1433.95,
+   "endSec": 1465.125,
+   "text": "uh, knowledge from very different sources, and – and um, sort of looking into some of the ideas that the semantic web community uh, came up with. Trying to – to have uh, an approach how to integrate s- uh certain uh – representation of certain concepts and also some computational rules, um, what you can do with those. Um. What I'm also looking into is a probabilistic approach into this because document retrievals is a very fuzzy procedure, so it's probably not that easy to simply have a symbolic",
+   "id": "bed017-0183"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1465.341,
+   "endSec": 1492.777,
+   "text": "uh, computational model. That – that probably isn't expressive enough. So. So that's another thing, um, which I think you're also uh, uh looking into right now. And then um, uh sort of as an add-on to this whole idea, um, uh that would be now, depending on what the search engine or the content repository – depending on which - um, uh, which uh, rules and which ontologies it – it uses, or basically its view of the world,",
+   "id": "bed017-0184"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1492.777,
+   "endSec": 1513.948,
+   "text": "uh you can get very different results. So it might ma- make a lot of sense to actually query a lot of different search engines. And there you could have an idea where you actually have sort of a – a peer to peer approach, where we're all sort of carrying around our individual bookshelves, and um, if you have a question about a homework, it's – probably makes sense to ask somebody who's in your class with you, sort of the guru in the certain area,",
+   "id": "bed017-0185"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1513.948,
+   "endSec": 1531.19,
+   "text": "rather than going to some Yahoo-like uh, search engine. So these are some of the – just in a nutshell, some of the ideas. And I think a lot of the - even though it's a – it's a very different domain, but I think a lot of the, um, issues are – are fairly similar. So.",
+   "id": "bed017-0186"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1532.58,
+   "endSec": 1533.748,
+   "text": "OK.",
+   "id": "bed017-0187"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1540.2,
+   "endSec": 1545.226,
+   "text": "And so some of the – I don't know how much you know about the larger Heidelberg project, I – Are you -",
+   "id": "bed017-0188"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1544.505,
+   "endSec": 1547.329,
+   "text": "Uh I know, yeah I know abou- about it.",
+   "id": "bed017-0189"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1545.528,
+   "endSec": 1554.3,
+   "text": "So it seems like a lot of – some of the issues are the same. It's like, um, you know, the c- context-based factors that influence how you interpret,",
+   "id": "bed017-0190"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1553.67,
+   "endSec": 1554.87,
+   "text": "Mm-hmm. Mm-hmm.",
+   "id": "bed017-0191"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1554.51,
+   "endSec": 1562.01,
+   "text": "um, s- how to interpret. In – in this case, infer- in- in knowing – wanting to know what kinds of things to ask. We- we've kind of talked about that, but we haven't",
+   "id": "bed017-0192"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1562.331,
+   "endSec": 1563.11,
+   "text": "Mm-hmm.",
+   "id": "bed017-0193"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1562.62,
+   "endSec": 1566.72,
+   "text": "worried too much about that end of the discourse. But maybe you guys had that in the previous",
+   "id": "bed017-0194"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1565.82,
+   "endSec": 1571.58,
+   "text": "Well, in a – in one – t- one s- mmm, small difference in a – in a way, is that",
+   "id": "bed017-0195"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1567.28,
+   "endSec": 1567.833,
+   "text": "models.",
+   "id": "bed017-0196"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1571.58,
+   "endSec": 1577.199,
+   "text": "he doesn't have to come up with an answer, but he wants to point to the places w- w-",
+   "id": "bed017-0197"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1575.43,
+   "endSec": 1583.594,
+   "text": "Yeah, so. So I'm – I'm not – I'm not building an expert – Uh, I want to build a smart librarian, basically that can point you to the right reference. I don't wanna compute the answer,",
+   "id": "bed017-0198"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1575.497,
+   "endSec": 1579.166,
+   "text": "Documents that have the answers. Mm-hmm. Right.",
+   "id": "bed017-0199"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1580.407,
+   "endSec": 1581.198,
+   "text": "Right.",
+   "id": "bed017-0200"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1583.594,
+   "endSec": 1585.45,
+   "text": "so it's a little bit easier for me.",
+   "id": "bed017-0201"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1584.6,
+   "endSec": 1591.643,
+   "text": "Well. Uh, you have to s- still m- understand what the content says about itself, and then match it to",
+   "id": "bed017-0202"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1590.53,
+   "endSec": 1591.439,
+   "text": "Mm-hmm.",
+   "id": "bed017-0203"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1591.643,
+   "endSec": 1594.223,
+   "text": "what you think the informational needs -",
+   "id": "bed017-0204"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1592.081,
+   "endSec": 1592.989,
+   "text": "Mm-hmm.",
+   "id": "bed017-0205"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1592.68,
+   "endSec": 1598.84,
+   "text": "So you also don't have to figure out what the content is. You're just taking the keywords as a topic text, as -",
+   "id": "bed017-0206"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1597.98,
+   "endSec": 1603.426,
+   "text": "I – I assume that – that the- there will be learning systems that – that tag their – their content.",
+   "id": "bed017-0207"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1602.1,
+   "endSec": 1602.835,
+   "text": "OK.",
+   "id": "bed017-0208"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1603.606,
+   "endSec": 1605.56,
+   "text": "And um, um,",
+   "id": "bed017-0209"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1603.737,
+   "endSec": 1604.472,
+   "text": "Right.",
+   "id": "bed017-0210"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1606.077,
+   "endSec": 1624.46,
+   "text": "m- [unclear] and basically what I – what I envision is that you – rather than just supplying a bunch of keywords you could basically – for – for an FAQ for example you could state sort of like a logic condition, when this document applies. So \"this document explains how to set up your uh, mail account on Linux\" or something like this.",
+   "id": "bed017-0211"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1623.45,
+   "endSec": 1624.43,
+   "text": "Mm-hmm.",
+   "id": "bed017-0212"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1625.16,
+   "endSec": 1640.85,
+   "text": "So. So something – something very specific that you can then - But the – I think that the key point with these uh, learning systems is that uh, a learning system is only as good as uh the amount of content it – it carries. You can have the best learning system with the best",
+   "id": "bed017-0213"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1637.962,
+   "endSec": 1639.315,
+   "text": "Mmm, mm-hmm.",
+   "id": "bed017-0214"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1641.09,
+   "endSec": 1669.715,
+   "text": "search interface, if there's no content inside of it, it's not very useful. So I think ultimately because um, uh developing these – these rules and these inference uh – inferences I think is very costly, so um, uh I think you must be able to reuse some - some existing um, domain – domain information, or – or – or ontologies that – that uh other people wrote and then try to integrate them, and then also search the entire web basically, rather than just the small",
+   "id": "bed017-0215"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1670.36,
+   "endSec": 1672.377,
+   "text": "uh, content management system.",
+   "id": "bed017-0216"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1673.502,
+   "endSec": 1675.28,
+   "text": "OK. Mm-hmm.",
+   "id": "bed017-0217"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1674.977,
+   "endSec": 1678.71,
+   "text": "So I think that's – that's crucial for – for the success of – or [unclear] -",
+   "id": "bed017-0218"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1683.121,
+   "endSec": 1688.012,
+   "text": "So, you're not - I guess I'm trying to figure out how – how it maps to the kinds of things",
+   "id": "bed017-0219"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1686.92,
+   "endSec": 1687.63,
+   "text": "Mm-hmm.",
+   "id": "bed017-0220"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1688.012,
+   "endSec": 1697.446,
+   "text": "that we've talked about in this group, and, actually associated groups, cuz some of us do pretty detailed linguistic analyses, and I'm guessing that you – you won't be doing that?",
+   "id": "bed017-0221"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1697.12,
+   "endSec": 1697.827,
+   "text": "No.",
+   "id": "bed017-0222"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1697.446,
+   "endSec": 1699.968,
+   "text": "OK. Just checking. So, OK.",
+   "id": "bed017-0223"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1698.379,
+   "endSec": 1699.543,
+   "text": "Hmm.",
+   "id": "bed017-0224"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1698.628,
+   "endSec": 1699.97,
+   "text": "No.",
+   "id": "bed017-0225"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1699.968,
+   "endSec": 1703.547,
+   "text": "So, you take the query, and - and -",
+   "id": "bed017-0226"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1704.25,
+   "endSec": 1712.18,
+   "text": "On the other hand, uh, FrameNet could well be useful. So do you know the FrameNet story?",
+   "id": "bed017-0227"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1711.843,
+   "endSec": 1715.4,
+   "text": "Um, yeah. Uh, not – not too much, but uh,",
+   "id": "bed017-0228"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1713.154,
+   "endSec": 1713.475,
+   "text": "OK.",
+   "id": "bed017-0229"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1715.12,
+   "endSec": 1718.25,
+   "text": "Oh. Th- that's another thing you might wanna look into while you're here.",
+   "id": "bed017-0230"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1715.79,
+   "endSec": 1717.097,
+   "text": "I have a rough overview.",
+   "id": "bed017-0231"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1718.46,
+   "endSec": 1740.53,
+   "text": "Because, um, you know, the standard story is that keyworks – keywords evoke frames, and the frames may well give you additional keywords or uh, if you know that – that – that a – a bunch of keywords uh, indicate a frame, then you can find documents that actually have the whole frame, rather th- than just",
+   "id": "bed017-0232"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1740.004,
+   "endSec": 1741.561,
+   "text": "Mmm. Mmm.",
+   "id": "bed017-0233"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1740.717,
+   "endSec": 1760.823,
+   "text": "uh, individual – So there's a lot of stuff, and people are looking at that. Most of the work here is just trying to get the frames right. There's linguists and stuff and there's a lot of it and they're – they're busily working away. But there are some application efforts trying to exploit it. And this looks t- it seems to be that this is a place where",
+   "id": "bed017-0234"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1760.39,
+   "endSec": 1761.55,
+   "text": "Yeah. Yeah.",
+   "id": "bed017-0235"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1761.027,
+   "endSec": 1762.39,
+   "text": "you might be able to do that.",
+   "id": "bed017-0236"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1761.776,
+   "endSec": 1764.5,
+   "text": "Yeah. I'm sure I could learn a lot about um,",
+   "id": "bed017-0237"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1763.207,
+   "endSec": 1763.994,
+   "text": "Mmm.",
+   "id": "bed017-0238"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1764.5,
+   "endSec": 1778.288,
+   "text": "yeah, just how to – how to come up with these structures, cuz it's – it's very easy to whip up something quickly, but it maybe then makes sense to – to me, but not to anybody else, and – and if we want to share and integrate things, they must - well, they must be well designed really.",
+   "id": "bed017-0239"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1778.98,
+   "endSec": 1782.55,
+   "text": "Remember the uh, Prashant story?",
+   "id": "bed017-0240"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1782.24,
+   "endSec": 1782.95,
+   "text": "Right.",
+   "id": "bed017-0241"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1782.969,
+   "endSec": 1788.575,
+   "text": "The absolutely no – no linguistic background person that the IU sent over here.",
+   "id": "bed017-0242"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1787.95,
+   "endSec": 1788.61,
+   "text": "Right.",
+   "id": "bed017-0243"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1788.575,
+   "endSec": 1798.32,
+   "text": "And Andreas and I tried to come up wi- or we had come up actually with a eh – with him working on an interface for FrameNet, as it was back then, that would",
+   "id": "bed017-0244"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1796.8,
+   "endSec": 1797.46,
+   "text": "Right.",
+   "id": "bed017-0245"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1798.74,
+   "endSec": 1801.096,
+   "text": "p- do some of the work for this machine,",
+   "id": "bed017-0246"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1800.25,
+   "endSec": 1801.02,
+   "text": "Yeah.",
+   "id": "bed017-0247"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1801.096,
+   "endSec": 1805.75,
+   "text": "which uh, never got done because Prashant found a happy occupation which in the -",
+   "id": "bed017-0248"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1803.566,
+   "endSec": 1809.61,
+   "text": "W- yeah, I know, I mean it – it – he – w- he did w- what – what he did was much more s- sensible for him. I think uh,",
+   "id": "bed017-0249"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1808.41,
+   "endSec": 1812.77,
+   "text": "Absolutely. Yeah. But so – I'm just saying, the uh, we had that idea",
+   "id": "bed017-0250"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1809.925,
+   "endSec": 1813.94,
+   "text": "you know - Yeah. The idea was there. Yeah, OK.",
+   "id": "bed017-0251"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1813.3,
+   "endSec": 1815.65,
+   "text": "uh to – to exploit FrameNet",
+   "id": "bed017-0252"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1814.113,
+   "endSec": 1815.149,
+   "text": "Yeah.",
+   "id": "bed017-0253"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1814.74,
+   "endSec": 1815.459,
+   "text": "Hmm.",
+   "id": "bed017-0254"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1816.11,
+   "endSec": 1820.26,
+   "text": "there as well. And um.",
+   "id": "bed017-0255"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1820.71,
+   "endSec": 1822.81,
+   "text": "Yeah, actually you guys never -",
+   "id": "bed017-0256"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1823.04,
+   "endSec": 1828.571,
+   "text": "And Srini's doing information extraction also, right? with that FrameNet base. Mm-hmm.",
+   "id": "bed017-0257"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1825.575,
+   "endSec": 1826.648,
+   "text": "Right. Yeah.",
+   "id": "bed017-0258"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1826.12,
+   "endSec": 1826.85,
+   "text": "Mmm.",
+   "id": "bed017-0259"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1827.46,
+   "endSec": 1832.35,
+   "text": "So you – you guys never sent anybody else from I U. You were y- no -",
+   "id": "bed017-0260"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1831.568,
+   "endSec": 1833.28,
+   "text": "Except – except Prashant?",
+   "id": "bed017-0261"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1832.83,
+   "endSec": 1840.31,
+   "text": "Yeah. Uh, this was supposedly an exchange program, and – I – we – you know, it's fine. We don't care, but it just – I'm a little surprised that",
+   "id": "bed017-0262"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1834.36,
+   "endSec": 1836.38,
+   "text": "Um,",
+   "id": "bed017-0263"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1840.63,
+   "endSec": 1843.954,
+   "text": "uh, Andreas didn't come up with anyone else he wanted to send.",
+   "id": "bed017-0264"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1845.217,
+   "endSec": 1847.47,
+   "text": "Uh I don't know, I mean the uh -",
+   "id": "bed017-0265"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1845.33,
+   "endSec": 1849.21,
+   "text": "Alright. I mean I had forgotten a- I – To be honest with you, I'd totally forgotten we had a program.",
+   "id": "bed017-0266"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1845.876,
+   "endSec": 1846.709,
+   "text": "Hmm.",
+   "id": "bed017-0267"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1850.51,
+   "endSec": 1852.252,
+   "text": "Uh it's in the program?",
+   "id": "bed017-0268"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1851.014,
+   "endSec": 1855.97,
+   "text": "Uh I – I think it's – it's really the lack of students uh, at IU at the moment.",
+   "id": "bed017-0269"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1852.7,
+   "endSec": 1857.54,
+   "text": "Yeah. Yeah. No, no. There was a whole co- There was a little contract signed. It was – Yeah.",
+   "id": "bed017-0270"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1858.25,
+   "endSec": 1868.04,
+   "text": "Yeah, yeah. I think it's ju- it's more the lack of – of students, really, and w- we have all these sponsors that are always sort of eager to get some teams. But -",
+   "id": "bed017-0271"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1863.3,
+   "endSec": 1864.43,
+   "text": "Yeah, I know.",
+   "id": "bed017-0272"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1863.796,
+   "endSec": 1864.695,
+   "text": "Mmm.",
+   "id": "bed017-0273"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1865.982,
+   "endSec": 1866.633,
+   "text": "Right.",
+   "id": "bed017-0274"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1867.696,
+   "endSec": 1868.433,
+   "text": "Right.",
+   "id": "bed017-0275"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1868.824,
+   "endSec": 1871.868,
+   "text": "Well I mean if – if I were a student, I'd love to come here, rather than",
+   "id": "bed017-0276"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1871.009,
+   "endSec": 1871.834,
+   "text": "Yeah.",
+   "id": "bed017-0277"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1871.868,
+   "endSec": 1874.24,
+   "text": "work for some German company, or -",
+   "id": "bed017-0278"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1874.001,
+   "endSec": 1874.764,
+   "text": "Right.",
+   "id": "bed017-0279"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1876.05,
+   "endSec": 1880.59,
+   "text": "You are being recorded right now, so beware.",
+   "id": "bed017-0280"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1879.13,
+   "endSec": 1880.07,
+   "text": "Oh, right!",
+   "id": "bed017-0281"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1882.04,
+   "endSec": 1887.48,
+   "text": "Well, I didn't say anybody to – anything to offend – well, except for the sponsors maybe, but -",
+   "id": "bed017-0282"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1885.764,
+   "endSec": 1886.678,
+   "text": "Right. Anyway.",
+   "id": "bed017-0283"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1887.98,
+   "endSec": 1892.77,
+   "text": "Right. So I thi- tha- that's – that's one of the things that might be worth looking into while you're here.",
+   "id": "bed017-0284"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1891.193,
+   "endSec": 1892.61,
+   "text": "Mm-hmm.",
+   "id": "bed017-0285"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1893.3,
+   "endSec": 1896.07,
+   "text": "Uh, unfortunately,",
+   "id": "bed017-0286"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1897.123,
+   "endSec": 1904.99,
+   "text": "Srini, who is heavily involved in DAML and all this sort of stuff is himself out of town.",
+   "id": "bed017-0287"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1904.656,
+   "endSec": 1909.202,
+   "text": "Mm-hmm. Well I'll go to the uh, Semantic Web Workshop, uh,",
+   "id": "bed017-0288"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1908.0,
+   "endSec": 1910.16,
+   "text": "Right, and -",
+   "id": "bed017-0289"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1909.312,
+   "endSec": 1910.61,
+   "text": "in two weeks.",
+   "id": "bed017-0290"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1910.94,
+   "endSec": 1913.37,
+   "text": "Yeah, for – for some reason he's not doing that.",
+   "id": "bed017-0291"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1913.62,
+   "endSec": 1914.532,
+   "text": "Yeah.",
+   "id": "bed017-0292"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1914.41,
+   "endSec": 1919.24,
+   "text": "I don't know why he [unclear] – oh, I, who knows? Anyway, s- yeah, you'll see – you'll certainly see a lot of the people there.",
+   "id": "bed017-0293"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1914.532,
+   "endSec": 1922.987,
+   "text": "Well, he had other things to do. The uh - The other person I thought of is Dan Gildea? because he did some work on topic",
+   "id": "bed017-0294"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1921.777,
+   "endSec": 1926.16,
+   "text": "Yeah. St- statistical stuff. That would be a very good idea.",
+   "id": "bed017-0295"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1923.538,
+   "endSec": 1926.42,
+   "text": "spotting w- um,",
+   "id": "bed017-0296"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1925.691,
+   "endSec": 1926.195,
+   "text": "Mm-hmm.",
+   "id": "bed017-0297"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1926.42,
+   "endSec": 1941.28,
+   "text": "which is, I mean, you – I mean. I don't – Depending on how well you wanna integrate with that end, you know, like, taking the data and fig- you said the learning systems that figure out – We – There's someone in ICSI who actually has been working on - has worked on that kinda stuff, and he's worked with frame net, so you could talk to him about, you know, both of those things at once. So.",
+   "id": "bed017-0298"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1938.41,
+   "endSec": 1939.677,
+   "text": "Mm-hmm. Mm-hmm.",
+   "id": "bed017-0299"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1941.37,
+   "endSec": 1944.17,
+   "text": "And he just finished writing a draft of his thesis. So.",
+   "id": "bed017-0300"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1944.13,
+   "endSec": 1945.707,
+   "text": "So, uh, who is that again?",
+   "id": "bed017-0301"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1944.289,
+   "endSec": 1951.72,
+   "text": "I- u- Dan Gildea, GILDEA. And, he's in one of the rooms on the fifth floor and stuff, and -",
+   "id": "bed017-0302"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1948.666,
+   "endSec": 1952.7,
+   "text": "Who? I can take you to his office. It's just around the corner.",
+   "id": "bed017-0303"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 1951.13,
+   "endSec": 1951.92,
+   "text": "OK, great.",
+   "id": "bed017-0304"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 1958.34,
+   "endSec": 1963.24,
+   "text": "Hmm. Well, if you fal- solve the problem, hope you can do one for us too.",
+   "id": "bed017-0305"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1966.247,
+   "endSec": 1968.35,
+   "text": "Alright, was there anything else for this?",
+   "id": "bed017-0306"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1971.76,
+   "endSec": 1973.65,
+   "text": "One of these times soon",
+   "id": "bed017-0307"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1974.77,
+   "endSec": 1976.64,
+   "text": "we're gonna hear about construal.",
+   "id": "bed017-0308"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1977.11,
+   "endSec": 1985.49,
+   "text": "Yeah. I'm sure. I have um – I think it was November two thousand three or some - No. Wh- I had something in my calendar.",
+   "id": "bed017-0309"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1984.637,
+   "endSec": 1985.967,
+   "text": "Oh, OK. Right .",
+   "id": "bed017-0310"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1986.953,
+   "endSec": 1988.174,
+   "text": "Um,",
+   "id": "bed017-0311"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 1988.312,
+   "endSec": 1990.76,
+   "text": "Wait a second. That's a long way away.",
+   "id": "bed017-0312"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 1989.856,
+   "endSec": 1992.53,
+   "text": "Good thinking!",
+   "id": "bed017-0313"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 1993.45,
+   "endSec": 2006.794,
+   "text": "Uh well, maybe I can – I can bribe my way out of this. So. So I did some double checking and it seems like spring break in two thousand one. No.",
+   "id": "bed017-0314"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2002.256,
+   "endSec": 2005.82,
+   "text": "Talk about changing the topic.",
+   "id": "bed017-0315"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2005.42,
+   "endSec": 2010.15,
+   "text": "Well, no, but he's – he's – he's – he's – as you said, he's, like the state legislature, he's trying to offer us bribes.",
+   "id": "bed017-0316"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2007.727,
+   "endSec": 2011.99,
+   "text": "At least this is a private meeting. Right, exactly, OK, that's the link.",
+   "id": "bed017-0317"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 2011.17,
+   "endSec": 2018.292,
+   "text": "This uh - Oh, they refused the budget again? Is it – so about CITRIS? Yeah, still nothing.",
+   "id": "bed017-0318"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2018.249,
+   "endSec": 2049.55,
+   "text": "Uh, this – this – this – t- the s- we're, uh, involved in a literally three hundred million dollar uh, program. Uh, with the State of California. And, the State of California is now a month and a half behind its legis- its legally required date to approve a budget. So the budget has not been approved. And two days ago - There's two l- you know, so, two branches of legislature. One branch approved it,",
+   "id": "bed017-0319"
+  },
+  {
+   "speaker": "mn059",
+   "startSec": 2049.315,
+   "endSec": 2050.061,
+   "text": "Mm-hmm.",
+   "id": "bed017-0320"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2050.022,
+   "endSec": 2084.35,
+   "text": "and, um, yesterdayday there was this uh – uh I thought that the other branch would just approve it, but now there's actually a little back sliding to people who - who approved it got flak from there, eh anyway. So, um - Oh! I have to tell you a wonderful story about this, OK? And then we'll go. So, I – it turns out I wound up having lunch today with a guy named Tom Kalil. KILL – KALIL. And, uh, he now",
+   "id": "bed017-0321"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2084.68,
+   "endSec": 2117.14,
+   "text": "works at Berkeley. In fact he's hired to run a lot of CITRIS, even though we don't have the money they - So they've been hiring people right and left, so, uh, they think the money's coming. So – and he was, I think, the chief staffer to Clinton on technology matters. He was in the White House, I don't remember what he was saying . A- anyway, like that. And, is now doing all the politics for CITRIS, but also, has a uh, a lot of interest in",
+   "id": "bed017-0322"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2117.44,
+   "endSec": 2148.115,
+   "text": "uh, actually doing things for society, so digital divide and stuff like that. So that's s- interesting to me but maybe not to you. But the really interesting thing was, he st- he s- he s- said something about, you know I'm interested in things that have high social multiplier, something that is of great social value. He said, \"for example\", this was his only example, \"if you had a adult literacy program that was as good as an individual tutor,",
+   "id": "bed017-0323"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2148.45,
+   "endSec": 2170.9,
+   "text": "and as compelling as a video game, then that would have a huge social impact\". I said, \"Oh great! That's a good problem to work on.\" Anyway. So it was nice that uh, he's got this view, of A, that's what you should try to do, and B, uh, language would be a good way to do it. So that's -",
+   "id": "bed017-0324"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2170.75,
+   "endSec": 2171.961,
+   "text": "Mmm. Definitely.",
+   "id": "bed017-0325"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2173.227,
+   "endSec": 2175.56,
+   "text": "So anyway, that's the end of the story.",
+   "id": "bed017-0326"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2176.72,
+   "endSec": 2179.04,
+   "text": "But for adults and not for the",
+   "id": "bed017-0327"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2178.54,
+   "endSec": 2182.76,
+   "text": "This was – Yeah. I didn't push him on the ch- on the child thing, but, uh,",
+   "id": "bed017-0328"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2179.845,
+   "endSec": 2181.59,
+   "text": "children. Uh-huh.",
+   "id": "bed017-0329"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2183.12,
+   "endSec": 2185.68,
+   "text": "you know, a- again, if – if you – if you",
+   "id": "bed017-0330"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2184.58,
+   "endSec": 2185.33,
+   "text": "Oh.",
+   "id": "bed017-0331"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2186.69,
+   "endSec": 2188.15,
+   "text": "um,",
+   "id": "bed017-0332"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2189.54,
+   "endSec": 2194.845,
+   "text": "and this was – this was literacy, which actually is somewhat different problem. Maybe easier. I don't know.",
+   "id": "bed017-0333"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2192.4,
+   "endSec": 2193.71,
+   "text": "Mm-hmm.",
+   "id": "bed017-0334"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2194.95,
+   "endSec": 2216.05,
+   "text": "So this is reading, rather than teaching - Another project we started on, and – and didn't get funded for was, uh, to try to build an automatic tutoring program, for kids whose first language wasn't English. Which is like half the school population in California. Something like that, isn't it?",
+   "id": "bed017-0335"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2215.766,
+   "endSec": 2216.237,
+   "text": "Mm-hmm.",
+   "id": "bed017-0336"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2216.384,
+   "endSec": 2236.69,
+   "text": "Yeah. So, enormous problem in California, and the idea was if we're so smart about language understanding and speech understanding, couldn't we build uh, programs that would be tutors for the kids. We think we could. Anyway. So – so – But this is a slightly different problem, and",
+   "id": "bed017-0337"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2234.993,
+   "endSec": 2235.912,
+   "text": "Mm-hmm.",
+   "id": "bed017-0338"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2237.204,
+   "endSec": 2254.768,
+   "text": "um, I know none of us have the spare time to look at it right now, but it i- it's - it's interesting and I may um, talk to him some more about is em- somebody already doing this, and stuff like that. So anyway, that was – that was today's little story.",
+   "id": "bed017-0339"
+  },
+  {
+   "speaker": "me003",
+   "startSec": 2253.72,
+   "endSec": 2254.418,
+   "text": "Hmm.",
+   "id": "bed017-0340"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 2256.792,
+   "endSec": 2271.385,
+   "text": "OK. So I – I did manage to get – pull my head out of the sling by sidetracking into CITRIS, but uh or – a- temporarily putting it out of the sling but, I – I'll volunteer to put it right back in by stating that",
+   "id": "bed017-0341"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2262.078,
+   "endSec": 2263.6,
+   "text": "No, no.",
+   "id": "bed017-0342"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2266.24,
+   "endSec": 2266.92,
+   "text": "Right.",
+   "id": "bed017-0343"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 2271.56,
+   "endSec": 2280.09,
+   "text": "I am n- uh among some other things in the process of writing up stuff that we have been discussing at our daily meetings,",
+   "id": "bed017-0344"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2279.692,
+   "endSec": 2280.345,
+   "text": "Yeah.",
+   "id": "bed017-0345"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 2280.432,
+   "endSec": 2295.59,
+   "text": "and also revising, thanks for all the comments, the c- the original construal proposal. And, if I put one and one together, I may end up with a number that's greater than one and that I – I can potentially present once you get back.",
+   "id": "bed017-0346"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2294.752,
+   "endSec": 2295.91,
+   "text": "Greater than two?",
+   "id": "bed017-0347"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2295.226,
+   "endSec": 2298.021,
+   "text": "You're good.",
+   "id": "bed017-0348"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 2296.42,
+   "endSec": 2301.785,
+   "text": "Nnn. s- sometimes, you know the sum is not uh less than the -",
+   "id": "bed017-0349"
+  },
+  {
+   "speaker": "fe004",
+   "startSec": 2299.73,
+   "endSec": 2301.52,
+   "text": "Uh, right, right.",
+   "id": "bed017-0350"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2300.63,
+   "endSec": 2309.584,
+   "text": "Right. Right. Anyway. Yeah, so – OK, so that'd be great, but I'd - I think it's - it's time again, right?",
+   "id": "bed017-0351"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 2309.906,
+   "endSec": 2314.244,
+   "text": "Absolutely. Yeah. But um, and hopefully all sidetracking",
+   "id": "bed017-0352"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2310.321,
+   "endSec": 2311.465,
+   "text": "Yeah. OK.",
+   "id": "bed017-0353"
+  },
+  {
+   "speaker": "mn015",
+   "startSec": 2314.46,
+   "endSec": 2319.135,
+   "text": "um, other things will have disappeared, soon.",
+   "id": "bed017-0354"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2318.042,
+   "endSec": 2319.598,
+   "text": "Good. Yep.",
+   "id": "bed017-0355"
+  },
+  {
+   "speaker": "me010",
+   "startSec": 2321.587,
+   "endSec": 2322.283,
+   "text": "Done?",
+   "id": "bed017-0356"
+  }
+ ]
+}

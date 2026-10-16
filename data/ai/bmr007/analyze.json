@@ -1,0 +1,110 @@
+{
+  "meetingId": "bmr007",
+  "kind": "analyze",
+  "transcriptHash": "2d3c79ba7c5376beed13d9d2496e6556c6b5386edf96430e0f80aa69d4adaeae",
+  "generatedAt": "2026-10-16T22:03:00.475Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "headline": "The group reviewed Speaker F's overlap statistics, discussed speaker detection and audio pixelization, and agreed to record seat numbers, with follow-ups on backchannels and the activity list.",
+    "chapters": [
+      {
+        "title": "Consent forms and agenda",
+        "firstTurnId": "bmr007-0000"
+      },
+      {
+        "title": "Overlap analysis by minute",
+        "firstTurnId": "bmr007-0051"
+      },
+      {
+        "title": "Overlaps in meetings versus Switchboard",
+        "firstTurnId": "bmr007-0250"
+      },
+      {
+        "title": "Types of overlap and floor-grabbing",
+        "firstTurnId": "bmr007-0423"
+      },
+      {
+        "title": "Recording smaller or blindfolded meetings",
+        "firstTurnId": "bmr007-0461"
+      },
+      {
+        "title": "Pictures and seat numbers",
+        "firstTurnId": "bmr007-0542"
+      },
+      {
+        "title": "Speaker detection with close-talking mikes",
+        "firstTurnId": "bmr007-0633"
+      },
+      {
+        "title": "Three-month list and audio pixelization",
+        "firstTurnId": "bmr007-0898"
+      },
+      {
+        "title": "Wrap-up and digits",
+        "firstTurnId": "bmr007-1006"
+      }
+    ],
+    "actions": [
+      {
+        "text": "Add a seat number to the enrollment forms for each participant",
+        "ownerSpeaker": "me011",
+        "ownerName": null,
+        "dueText": "on the next set of forms",
+        "turnIds": ["bmr007-0560", "bmr007-0562"]
+      },
+      {
+        "text": "Send a more thought-through sentence about the digits support work for the IBM list",
+        "ownerSpeaker": "me011",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr007-0910", "bmr007-0911", "bmr007-0912"]
+      },
+      {
+        "text": "Send corrections or suggestions on the three-month activity list",
+        "ownerSpeaker": null,
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr007-0907"]
+      },
+      {
+        "text": "Subdivide the overlaps further and analyse the backchannels",
+        "ownerSpeaker": "fe008",
+        "ownerName": null,
+        "dueText": "for next time",
+        "turnIds": ["bmr007-1042"]
+      },
+      {
+        "text": "Study the distribution of overlap durations with the program",
+        "ownerSpeaker": "mn005",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr007-0169"]
+      },
+      {
+        "text": "Send thoughts for the next meeting's agenda to Speaker B",
+        "ownerSpeaker": null,
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr007-1006", "bmr007-1008"]
+      }
+    ],
+    "decisions": [
+      {
+        "text": "Digits are read at the end of meetings from here on, for consistency.",
+        "turnIds": ["bmr007-0019", "bmr007-0021", "bmr007-0023"]
+      },
+      {
+        "text": "Overlaps that span a minute boundary are counted once, in the first minute, not double counted.",
+        "turnIds": ["bmr007-0217", "bmr007-0223"]
+      },
+      {
+        "text": "Seat numbers are recorded on the enrollment sheet instead of taking pictures of the meeting.",
+        "turnIds": ["bmr007-0555", "bmr007-0560", "bmr007-0562"]
+      },
+      {
+        "text": "Audio pixelization uses a beep over the removed speech, on all channels, keeping the original timing.",
+        "turnIds": ["bmr007-0940", "bmr007-0954", "bmr007-0976", "bmr007-0994"]
+      }
+    ]
+  }
+}

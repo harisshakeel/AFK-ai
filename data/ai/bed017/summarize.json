@@ -1,0 +1,217 @@
+{
+  "meetingId": "bed017",
+  "kind": "summarize",
+  "transcriptHash": "46ba5d73db945f9160cb76f511639e1867ff6f078b58542532a106263ca662c9",
+  "generatedAt": "2026-10-16T22:02:48.417Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "templates": [
+      {
+        "key": "catch_up",
+        "sections": [
+          {
+            "heading": "What you missed",
+            "points": [
+              {
+                "text": "Data collection continues: about thirty subjects were collected, ten dialogues are transcribed, and another cogsci student will play wizard in a more complicated round using psychology students.",
+                "turnIds": ["bed017-0038", "bed017-0039", "bed017-0040"]
+              },
+              {
+                "text": "Speaker C presented a simplified PRM with user, site, time, route and query classes and intermediate nodes that shrink the probability tables; it outputs a site desirability rating and an EVA mode.",
+                "turnIds": ["bed017-0061", "bed017-0065", "bed017-0082"]
+              },
+              {
+                "text": "Visitor Andy from the International University presented a smart FAQ and librarian system that uses context and ontologies to point to the right documents.",
+                "turnIds": ["bed017-0170", "bed017-0176", "bed017-0198"]
+              },
+              {
+                "text": "Speaker E suggests Andy look at FrameNet and talk to Dan Gildea, and Speaker D offers to take Andy to Gildea's office.",
+                "turnIds": ["bed017-0227", "bed017-0294", "bed017-0303"]
+              }
+            ]
+          },
+          {
+            "heading": "What needs attention",
+            "points": [
+              {
+                "text": "Speaker E says Eva will try to track down a PRM interpreter over the next few weeks, since the group will not build its own.",
+                "turnIds": ["bed017-0091"]
+              },
+              {
+                "text": "Speaker D wants to read the PRM write-up to check the details.",
+                "turnIds": ["bed017-0100"]
+              },
+              {
+                "text": "Speaker D is writing up the daily meeting discussions and revising the construal proposal, and may present it once Speaker E is back.",
+                "turnIds": ["bed017-0344", "bed017-0346"]
+              }
+            ]
+          },
+          {
+            "heading": "Still open",
+            "points": [
+              {
+                "text": "It is open whether a usable PRM interpreter exists, and whether PRM inference would be any faster than a flat Bayes-net.",
+                "turnIds": ["bed017-0091", "bed017-0092", "bed017-0093"]
+              },
+              {
+                "text": "How to specify structural uncertainty (probabilities on relations) in the PRM is unresolved; the plan is to work it out with Daphne's group when Daphne returns.",
+                "turnIds": ["bed017-0115", "bed017-0128", "bed017-0134"]
+              },
+              {
+                "text": "The SmartKom synthesis problems should be resolved but are not yet confirmed.",
+                "turnIds": ["bed017-0040", "bed017-0042"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "general",
+        "sections": [
+          {
+            "heading": "Overview",
+            "points": [
+              {
+                "text": "The group met after a break for an update on EDU, a PRM presentation, and a talk by visitor Andy on his content management research.",
+                "turnIds": ["bed017-0037", "bed017-0038", "bed017-0043", "bed017-0170"]
+              }
+            ]
+          },
+          {
+            "heading": "Key points",
+            "points": [
+              {
+                "text": "Data collection continues with a new wizard and a harder task design for psychology students.",
+                "turnIds": ["bed017-0038", "bed017-0039", "bed017-0040"]
+              },
+              {
+                "text": "Speaker C's PRM reuses user-side computation across sites, but she still sees no clear gain where outputs depend on both user and site.",
+                "turnIds": ["bed017-0071", "bed017-0072"]
+              },
+              {
+                "text": "Speaker E thinks the PRM is cleaner and fits ontology instances well, though inference may not be faster.",
+                "turnIds": ["bed017-0092", "bed017-0093", "bed017-0095"]
+              },
+              {
+                "text": "Andy wants a smart librarian that uses context to decide which questions to ask, and reuses existing ontologies rather than building everything himself.",
+                "turnIds": ["bed017-0177", "bed017-0181", "bed017-0198", "bed017-0215"]
+              },
+              {
+                "text": "Speaker E suggests FrameNet could help match documents to whole frames rather than individual keywords.",
+                "turnIds": ["bed017-0232", "bed017-0234"]
+              },
+              {
+                "text": "Speaker E describes the CITRIS state budget delay and a literacy tutoring idea from a CITRIS staffer.",
+                "turnIds": ["bed017-0319", "bed017-0323", "bed017-0324"]
+              }
+            ]
+          },
+          {
+            "heading": "Next steps",
+            "points": [
+              {
+                "text": "Eva is to look for a PRM interpreter over the next few weeks.",
+                "turnIds": ["bed017-0091"]
+              },
+              {
+                "text": "Speaker D takes Andy to Dan Gildea's office.",
+                "turnIds": ["bed017-0303", "bed017-0304"]
+              },
+              {
+                "text": "Speaker D may present the revised construal proposal after Speaker E returns.",
+                "turnIds": ["bed017-0346"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "project_update",
+        "sections": [
+          {
+            "heading": "Progress",
+            "points": [
+              {
+                "text": "Thirty subjects were collected and ten dialogues are transcribed.",
+                "turnIds": ["bed017-0038"]
+              },
+              {
+                "text": "Speaker C built a simplified PRM with intermediate classes that make the probability tables easier to specify.",
+                "turnIds": ["bed017-0061", "bed017-0065", "bed017-0073"]
+              },
+              {
+                "text": "The SmartKom synthesis problems should be resolved as of this morning, according to Speaker D.",
+                "turnIds": ["bed017-0040", "bed017-0042"]
+              }
+            ]
+          },
+          {
+            "heading": "Problems and risks",
+            "points": [
+              {
+                "text": "No PRM interpreter has been found yet, and the group will not build its own.",
+                "turnIds": ["bed017-0088", "bed017-0091"]
+              },
+              {
+                "text": "Speaker C still cannot see how the PRM helps when outputs depend on both user and site.",
+                "turnIds": ["bed017-0072"]
+              },
+              {
+                "text": "Speaker E says inference may not get faster with a PRM.",
+                "turnIds": ["bed017-0093"]
+              },
+              {
+                "text": "The synthesis fix is not yet confirmed, and may take more time.",
+                "turnIds": ["bed017-0042"]
+              }
+            ]
+          },
+          {
+            "heading": "Plans",
+            "points": [
+              {
+                "text": "A new cogsci student will play wizard in a more complicated data collection round using psychology students.",
+                "turnIds": ["bed017-0038", "bed017-0039", "bed017-0040"]
+              },
+              {
+                "text": "Speaker D and Johno meet tomorrow on the SmartKom synthesis issue.",
+                "turnIds": ["bed017-0042"]
+              },
+              {
+                "text": "Eva will look for a PRM interpreter over the next few weeks.",
+                "turnIds": ["bed017-0091"]
+              },
+              {
+                "text": "Speaker D is revising the construal proposal and may present it once Speaker E is back.",
+                "turnIds": ["bed017-0346"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "brief",
+        "sections": [
+          {
+            "heading": "In three points",
+            "points": [
+              {
+                "text": "EDU data collection continues with a new wizard and a more complicated task for psychology students, after thirty subjects and ten transcribed dialogues.",
+                "turnIds": ["bed017-0038", "bed017-0039", "bed017-0040"]
+              },
+              {
+                "text": "Speaker C's simplified PRM outputs a site rating and an EVA mode, but progress depends on finding an interpreter, which Eva will look for.",
+                "turnIds": ["bed017-0082", "bed017-0091"]
+              },
+              {
+                "text": "Visitor Andy presented a smart FAQ and librarian system, and Speaker E suggested FrameNet and talking to Dan Gildea.",
+                "turnIds": ["bed017-0176", "bed017-0227", "bed017-0294"]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

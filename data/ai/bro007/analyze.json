@@ -1,0 +1,106 @@
+{
+  "meetingId": "bro007",
+  "kind": "analyze",
+  "transcriptHash": "b0e6ee5f99450169b9e8ff9b328de5438c3a10385481e42b914a850a95c03495",
+  "generatedAt": "2026-10-16T22:04:39.258Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "headline": "The group reviewed robustness-system results, ruled out a server-side silence detector because of delay, and planned to fix the system on Tuesday and start the write-up now.",
+    "chapters": [
+      {
+        "title": "Combo system architecture",
+        "firstTurnId": "bro007-0000"
+      },
+      {
+        "title": "Weighting scheme and OGI baseline",
+        "firstTurnId": "bro007-0053"
+      },
+      {
+        "title": "Silence detection and delay",
+        "firstTurnId": "bro007-0082"
+      },
+      {
+        "title": "Comparing table rows",
+        "firstTurnId": "bro007-0111"
+      },
+      {
+        "title": "Test set sizes and significance",
+        "firstTurnId": "bro007-0155"
+      },
+      {
+        "title": "Which systems to pursue",
+        "firstTurnId": "bro007-0232"
+      },
+      {
+        "title": "Evaluation format and deadline",
+        "firstTurnId": "bro007-0282"
+      },
+      {
+        "title": "Next steps and research ideas",
+        "firstTurnId": "bro007-0367"
+      },
+      {
+        "title": "Compute offer and digits data",
+        "firstTurnId": "bro007-0414"
+      }
+    ],
+    "actions": [
+      {
+        "text": "Combine the results into a single weighted number and compare the systems",
+        "ownerSpeaker": "mn007",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bro007-0061", "bro007-0062", "bro007-0063"]
+      },
+      {
+        "text": "Email out the number of words in each test set",
+        "ownerSpeaker": null,
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bro007-0186", "bro007-0197"]
+      },
+      {
+        "text": "Start the training as soon as the data arrives from the partners",
+        "ownerSpeaker": null,
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bro007-0268", "bro007-0271"]
+      },
+      {
+        "text": "Start the system write-up right away",
+        "ownerSpeaker": null,
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bro007-0271", "bro007-0272", "bro007-0274"]
+      },
+      {
+        "text": "Edit the write-up for English",
+        "ownerSpeaker": "me013",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bro007-0277"]
+      },
+      {
+        "text": "Try a fourth architecture with a single KLT at the end, if it fits in",
+        "ownerSpeaker": "mn007",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bro007-0407", "bro007-0409", "bro007-0410", "bro007-0412"]
+      }
+    ],
+    "decisions": [
+      {
+        "text": "Drop the second silence detector (the filt systems) because there is no room for it on the server side due to the delay.",
+        "turnIds": ["bro007-0091", "bro007-0097", "bro007-0233"]
+      },
+      {
+        "text": "Focus on the yellow-highlighted systems and add the second-row system to the set to evaluate.",
+        "turnIds": ["bro007-0235", "bro007-0406"]
+      },
+      {
+        "text": "Fix the system on Tuesday, since the submission is due Wednesday.",
+        "turnIds": ["bro007-0259", "bro007-0263", "bro007-0365"]
+      }
+    ]
+  }
+}

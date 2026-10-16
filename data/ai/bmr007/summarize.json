@@ -1,0 +1,233 @@
+{
+  "meetingId": "bmr007",
+  "kind": "summarize",
+  "transcriptHash": "2d3c79ba7c5376beed13d9d2496e6556c6b5386edf96430e0f80aa69d4adaeae",
+  "generatedAt": "2026-10-16T22:03:35.304Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "templates": [
+      {
+        "key": "catch_up",
+        "sections": [
+          {
+            "heading": "What you missed",
+            "points": [
+              {
+                "text": "Speaker F's minute-by-minute count shows overlaps in bursts throughout the meeting, not clustered in one region; this is not statistically verified.",
+                "turnIds": ["bmr007-0059", "bmr007-0062"]
+              },
+              {
+                "text": "The meeting had 215 overlaps in about 45 minutes, and only four minutes had none.",
+                "turnIds": ["bmr007-0142", "bmr007-0149"]
+              },
+              {
+                "text": "Speaker F says most overlaps in this meeting are benevolent types, such as backchannels, early answers and finishing each other's sentences, not hostile ones.",
+                "turnIds": ["bmr007-0435", "bmr007-0437", "bmr007-0439"]
+              },
+              {
+                "text": "Speaker E's threshold-and-median-filter speaker detector works for one speaker but needs retuning for others, and the acoustic change detector performs poorly on close-talking mikes.",
+                "turnIds": ["bmr007-0635", "bmr007-0636", "bmr007-0666"]
+              },
+              {
+                "text": "Audio pixelization replaces sensitive speech with a beep, applied on all channels and preserving timing; Speaker E has kept the original recordings.",
+                "turnIds": ["bmr007-0931", "bmr007-0940", "bmr007-0976", "bmr007-0983"]
+              }
+            ]
+          },
+          {
+            "heading": "What needs attention",
+            "points": [
+              {
+                "text": "Speaker E will add seat numbers to the enrollment forms so speaker positions are known.",
+                "turnIds": ["bmr007-0560", "bmr007-0562"]
+              },
+              {
+                "text": "Speaker E will send Speaker B a more specific sentence describing the digits-support work for the IBM list.",
+                "turnIds": ["bmr007-0910", "bmr007-0911", "bmr007-0912"]
+              },
+              {
+                "text": "Speaker B asks everyone to send agenda ideas before the next meeting.",
+                "turnIds": ["bmr007-1006", "bmr007-1008"]
+              },
+              {
+                "text": "Speaker B asks participants to send corrections or additions to the three-month activity list for IBM.",
+                "turnIds": ["bmr007-0907"]
+              }
+            ]
+          },
+          {
+            "heading": "Still open",
+            "points": [
+              {
+                "text": "Whether overlap rates depend on the number of people, compared with two-person conversations like Switchboard, is unresolved.",
+                "turnIds": ["bmr007-0253", "bmr007-0276", "bmr007-0347"]
+              },
+              {
+                "text": "Speaker A and Speaker F disagree on whether two-person meetings serve as a control; Speaker A would record them but not as a priority.",
+                "turnIds": ["bmr007-0461", "bmr007-0463", "bmr007-0503"]
+              },
+              {
+                "text": "A blindfold or no-visual-contact meeting is proposed, but the human subjects form would need work and Speaker B suggests waiting until the mikes are set up.",
+                "turnIds": ["bmr007-0864", "bmr007-0886", "bmr007-0894"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "general",
+        "sections": [
+          {
+            "heading": "Overview",
+            "points": [
+              {
+                "text": "The group met to hear Speaker F's overlap analysis and Speaker E's speaker-detection work, and to review a three-month activity list for IBM.",
+                "turnIds": ["bmr007-0034", "bmr007-0036", "bmr007-0050"]
+              },
+              {
+                "text": "The discussion was lively and ended with the group reading digits.",
+                "turnIds": ["bmr007-0992", "bmr007-1060"]
+              }
+            ]
+          },
+          {
+            "heading": "Key points",
+            "points": [
+              {
+                "text": "Speaker F counted overlaps per minute and by speaker pair; overlaps come in bursts, and Speaker E notes the raw counts need normalizing by how much each person speaks.",
+                "turnIds": ["bmr007-0061", "bmr007-0078", "bmr007-0087"]
+              },
+              {
+                "text": "Speaker A asks how overlaps compare with two-person conversations, while Speaker B says the first-order finding is simply how many overlaps occur.",
+                "turnIds": ["bmr007-0253", "bmr007-0318"]
+              },
+              {
+                "text": "Speaker H proposes labeling overlaps as benevolent or competitive; Speaker B and Speaker F think most are competitive or benevolent rather than hostile.",
+                "turnIds": ["bmr007-0425", "bmr007-0447", "bmr007-0450"]
+              },
+              {
+                "text": "Speaker E's energy-threshold detector is speaker-sensitive, and Javier's acoustic change detector performs poorly on close-talking mikes.",
+                "turnIds": ["bmr007-0635", "bmr007-0666"]
+              },
+              {
+                "text": "Speaker C suggests running a BIC change detector on all frames instead of relying on silence candidates.",
+                "turnIds": ["bmr007-0707", "bmr007-0724"]
+              },
+              {
+                "text": "Audio pixelization beeps out sensitive speech on all channels, keeping the timing intact.",
+                "turnIds": ["bmr007-0931", "bmr007-0976", "bmr007-0994"]
+              }
+            ]
+          },
+          {
+            "heading": "Next steps",
+            "points": [
+              {
+                "text": "Speaker F plans to subdivide the overlaps further and look at backchannels, hoping to report next time.",
+                "turnIds": ["bmr007-1042"]
+              },
+              {
+                "text": "Speaker E will add seat numbers to the enrollment forms.",
+                "turnIds": ["bmr007-0562"]
+              },
+              {
+                "text": "Participants are asked to send agenda ideas ahead of the next meeting.",
+                "turnIds": ["bmr007-1006", "bmr007-1008"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "project_update",
+        "sections": [
+          {
+            "heading": "Progress",
+            "points": [
+              {
+                "text": "Speaker F wrote a script that splits overlap markings into minutes and counts two-, three- and more-speaker overlaps, producing a table for the 45-minute meeting.",
+                "turnIds": ["bmr007-0059", "bmr007-0061"]
+              },
+              {
+                "text": "Speaker C has the duration of each overlap and plans to study their distribution.",
+                "turnIds": ["bmr007-0165", "bmr007-0169"]
+              },
+              {
+                "text": "Speaker E tried thresholding with median filtering, which works on one speaker with tuning, and implemented Javier's change detector on close-talking mikes.",
+                "turnIds": ["bmr007-0635", "bmr007-0664"]
+              },
+              {
+                "text": "Speaker E's audio pixelization software is written; Speaker B lists the XML formats, pilot data and release forms as done, with the next IBM batch still being prepared.",
+                "turnIds": ["bmr007-0899", "bmr007-0900", "bmr007-0903"]
+              }
+            ]
+          },
+          {
+            "heading": "Problems and risks",
+            "points": [
+              {
+                "text": "The threshold detector needs per-speaker tuning of filter width and threshold, even with loudness normalization.",
+                "turnIds": ["bmr007-0635", "bmr007-0636"]
+              },
+              {
+                "text": "The broad phone classifier in the change detector performs badly even on close-talking mikes.",
+                "turnIds": ["bmr007-0666"]
+              },
+              {
+                "text": "Speaker E says the detector fails when the mike is worn on a lapel or far from the face.",
+                "turnIds": ["bmr007-1045", "bmr007-1047"]
+              },
+              {
+                "text": "The overlap counts are from one meeting with no statistical testing, so they cannot support firm findings.",
+                "turnIds": ["bmr007-0077", "bmr007-0096"]
+              }
+            ]
+          },
+          {
+            "heading": "Plans",
+            "points": [
+              {
+                "text": "Speaker E plans to use thresholding to generate candidates and feed them into the acoustic change detector.",
+                "turnIds": ["bmr007-0672", "bmr007-0673"]
+              },
+              {
+                "text": "Speaker F plans to subdivide overlaps and analyze backchannels for next time.",
+                "turnIds": ["bmr007-1042"]
+              },
+              {
+                "text": "Speaker E will add seat numbers to the enrollment forms.",
+                "turnIds": ["bmr007-0562"]
+              },
+              {
+                "text": "Speaker C plans to study the distribution of overlap durations.",
+                "turnIds": ["bmr007-0169"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "brief",
+        "sections": [
+          {
+            "heading": "In three points",
+            "points": [
+              {
+                "text": "Speaker F's analysis shows 215 overlaps in a 45-minute meeting, in bursts throughout, mostly benevolent types such as backchannels.",
+                "turnIds": ["bmr007-0062", "bmr007-0142", "bmr007-0435"]
+              },
+              {
+                "text": "Speaker E's close-talking detectors need per-speaker tuning, and the acoustic change detector currently works poorly.",
+                "turnIds": ["bmr007-0635", "bmr007-0666"]
+              },
+              {
+                "text": "Audio pixelization beeps out sensitive speech on all channels, and Speaker E will add seat numbers to the forms.",
+                "turnIds": ["bmr007-0562", "bmr007-0931", "bmr007-0976"]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

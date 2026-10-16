@@ -1,0 +1,209 @@
+{
+  "meetingId": "bro007",
+  "kind": "summarize",
+  "transcriptHash": "b0e6ee5f99450169b9e8ff9b328de5438c3a10385481e42b914a850a95c03495",
+  "generatedAt": "2026-10-16T22:04:57.808Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "templates": [
+      {
+        "key": "catch_up",
+        "sections": [
+          {
+            "heading": "What you missed",
+            "points": [
+              {
+                "text": "A second silence detector on the server side is ruled out because there is no room left for it given the delay.",
+                "turnIds": ["bro007-0091", "bro007-0097"]
+              },
+              {
+                "text": "The group will focus on three architectures, adding the second-row system without the left-path KLT as a maybe, since filtered variants are out because of the delay.",
+                "turnIds": ["bro007-0233", "bro007-0235", "bro007-0406"]
+              },
+              {
+                "text": "Running the neural net transformation in parallel with the features, rather than in sequence, gave fairly consistent improvements.",
+                "turnIds": ["bro007-0396"]
+              },
+              {
+                "text": "The system is fixed on Tuesday, since the submission is due Wednesday, and the German and Danish data then needs only new HTK runs, with no new training.",
+                "turnIds": ["bro007-0263", "bro007-0365", "bro007-0367", "bro007-0373"]
+              }
+            ]
+          },
+          {
+            "heading": "What needs attention",
+            "points": [
+              {
+                "text": "Speaker B is asked to email the number of words and sentences in each test set so the small differences can be judged.",
+                "turnIds": ["bro007-0186", "bro007-0197"]
+              },
+              {
+                "text": "Speaker B is to combine the results into a single weighted number, 40 percent TI-digits and 60 percent SpeechDat-Car, to compare systems.",
+                "turnIds": ["bro007-0054", "bro007-0061", "bro007-0063"]
+              },
+              {
+                "text": "The write-up should start right away, and Speaker A offers to edit the English.",
+                "turnIds": ["bro007-0271", "bro007-0277"]
+              }
+            ]
+          },
+          {
+            "heading": "Still open",
+            "points": [
+              {
+                "text": "It is unclear whether the 40/35/25 weighting applies to percentages or raw errors, and the exact submission deadline hour is also uncertain.",
+                "turnIds": ["bro007-0237", "bro007-0244", "bro007-0365"]
+              },
+              {
+                "text": "Highly mismatched Italian looks worse in some systems, with Speaker B noting something funny happening there, and no cause is given.",
+                "turnIds": ["bro007-0074", "bro007-0077"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "general",
+        "sections": [
+          {
+            "heading": "Overview",
+            "points": [
+              {
+                "text": "The group reviews a results table comparing feature systems for the evaluation, with Speaker B explaining the block diagrams and Speaker A probing the numbers.",
+                "turnIds": ["bro007-0001", "bro007-0012", "bro007-0040"]
+              },
+              {
+                "text": "The meeting also covers the evaluation deadline and format, and ends with digits recording.",
+                "turnIds": ["bro007-0297", "bro007-0333", "bro007-0427"]
+              }
+            ]
+          },
+          {
+            "heading": "Key points",
+            "points": [
+              {
+                "text": "The combo system has three paths: a KLT, an MLP on several frames, and an MLP on low-pass filtered features, with outputs added and then a KLT.",
+                "turnIds": ["bro007-0002", "bro007-0016", "bro007-0020", "bro007-0023"]
+              },
+              {
+                "text": "The weighting is 40 percent TI-digits and 60 percent SpeechDat-Car, with well-matched 40, medium 35 and high mismatch 25.",
+                "turnIds": ["bro007-0054"]
+              },
+              {
+                "text": "A server-side silence detector helps some conditions but cannot fit because of the delay.",
+                "turnIds": ["bro007-0089", "bro007-0091"]
+              },
+              {
+                "text": "Reducing the KLT dimensionality is mostly worse, so it is not favoured.",
+                "turnIds": ["bro007-0143", "bro007-0149", "bro007-0155"]
+              },
+              {
+                "text": "Speaker A offers access to a University of Washington server farm of ten multiprocessor IBM machines if CPU-heavy jobs arise.",
+                "turnIds": ["bro007-0414", "bro007-0416", "bro007-0422"]
+              }
+            ]
+          },
+          {
+            "heading": "Next steps",
+            "points": [
+              {
+                "text": "The system is fixed on Tuesday and the write-up starts as soon as possible.",
+                "turnIds": ["bro007-0263", "bro007-0271"]
+              },
+              {
+                "text": "Speaker B plans to focus on three architectures and possibly try a fourth with a single KLT at the end.",
+                "turnIds": ["bro007-0406", "bro007-0407", "bro007-0409"]
+              },
+              {
+                "text": "After Tuesday, the next meeting starts discussing future research directions.",
+                "turnIds": ["bro007-0375", "bro007-0377"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "project_update",
+        "sections": [
+          {
+            "heading": "Progress",
+            "points": [
+              {
+                "text": "Speaker B reports the group's results are better than OGI's baseline, though OGI has not sent its updated results.",
+                "turnIds": ["bro007-0068", "bro007-0070", "bro007-0071"]
+              },
+              {
+                "text": "Running the neural net transformation in parallel with the features gives fairly consistent improvements.",
+                "turnIds": ["bro007-0396"]
+              },
+              {
+                "text": "Clean TI-digits features exist, but the clean training has not been tested yet.",
+                "turnIds": ["bro007-0321"]
+              }
+            ]
+          },
+          {
+            "heading": "Problems and risks",
+            "points": [
+              {
+                "text": "There is no room for a server-side silence detector because of the delay, which also rules out the filtered systems.",
+                "turnIds": ["bro007-0091", "bro007-0233"]
+              },
+              {
+                "text": "Highly mismatched Italian is a weak spot for some systems.",
+                "turnIds": ["bro007-0074", "bro007-0077"]
+              },
+              {
+                "text": "The TI-digits results are not in yet, and the test sets may be small enough that tiny differences are meaningless.",
+                "turnIds": ["bro007-0055", "bro007-0056", "bro007-0183"]
+              },
+              {
+                "text": "The exact submission deadline hour and time zone are unclear.",
+                "turnIds": ["bro007-0331", "bro007-0360", "bro007-0365"]
+              }
+            ]
+          },
+          {
+            "heading": "Plans",
+            "points": [
+              {
+                "text": "The group starts training once the data arrives from Dave, who promised it tomorrow, and starts the write-up right away.",
+                "turnIds": ["bro007-0245", "bro007-0268", "bro007-0271"]
+              },
+              {
+                "text": "The system is fixed on Tuesday, then German and Danish data needs only new HTK runs.",
+                "turnIds": ["bro007-0263", "bro007-0367", "bro007-0373"]
+              },
+              {
+                "text": "Speaker B plans to focus on three architectures and possibly add a fourth with one KLT at the end.",
+                "turnIds": ["bro007-0406", "bro007-0407", "bro007-0409"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "brief",
+        "sections": [
+          {
+            "heading": "In three points",
+            "points": [
+              {
+                "text": "Filtered systems and a server-side silence detector are out because of the delay, leaving three architectures plus the second-row system as a maybe.",
+                "turnIds": ["bro007-0091", "bro007-0233", "bro007-0235", "bro007-0406"]
+              },
+              {
+                "text": "The system is fixed Tuesday for the Wednesday submission, with the write-up starting now and later German and Danish data needing only HTK runs.",
+                "turnIds": ["bro007-0263", "bro007-0271", "bro007-0365", "bro007-0373"]
+              },
+              {
+                "text": "Speaker B is to produce a single weighted score and the test set sizes to judge whether small differences matter.",
+                "turnIds": ["bro007-0061", "bro007-0063", "bro007-0186", "bro007-0197"]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

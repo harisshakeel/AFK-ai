@@ -1,0 +1,75 @@
+{
+  "meetingId": "bed017",
+  "kind": "analyze",
+  "transcriptHash": "46ba5d73db945f9160cb76f511639e1867ff6f078b58542532a106263ca662c9",
+  "generatedAt": "2026-10-16T22:02:17.637Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "headline": "The group reviewed EDU data collection and a simplified PRM model, heard a visitor's smart FAQ research, and discussed FrameNet and CITRIS; no formal decisions were made.",
+    "chapters": [
+      {
+        "title": "Laptop banter and setup",
+        "firstTurnId": "bed017-0000"
+      },
+      {
+        "title": "EDU and SmartKom updates",
+        "firstTurnId": "bed017-0037"
+      },
+      {
+        "title": "PRM model presentation",
+        "firstTurnId": "bed017-0060"
+      },
+      {
+        "title": "PRM interpreter and next steps",
+        "firstTurnId": "bed017-0086"
+      },
+      {
+        "title": "Visitor's smart FAQ research",
+        "firstTurnId": "bed017-0170"
+      },
+      {
+        "title": "FrameNet and contacts",
+        "firstTurnId": "bed017-0227"
+      },
+      {
+        "title": "CITRIS and literacy tutoring",
+        "firstTurnId": "bed017-0306"
+      },
+      {
+        "title": "Construal proposal update",
+        "firstTurnId": "bed017-0341"
+      }
+    ],
+    "actions": [
+      {
+        "text": "Look for an existing PRM interpreter or implementation",
+        "ownerSpeaker": null,
+        "ownerName": "Eva",
+        "dueText": "over the next few weeks",
+        "turnIds": ["bed017-0091"]
+      },
+      {
+        "text": "Share the PRM write-up so Speaker D can read the details",
+        "ownerSpeaker": "fn050",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bed017-0086", "bed017-0100"]
+      },
+      {
+        "text": "Take Andy to Dan Gildea's office",
+        "ownerSpeaker": "mn015",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bed017-0303", "bed017-0304"]
+      },
+      {
+        "text": "Write up the daily-meeting discussions and revise the original construal proposal, to present once Speaker E is back",
+        "ownerSpeaker": "mn015",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bed017-0344", "bed017-0346"]
+      }
+    ],
+    "decisions": []
+  }
+}

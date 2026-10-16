@@ -1,0 +1,243 @@
+{
+  "meetingId": "bmr021",
+  "kind": "summarize",
+  "transcriptHash": "8804f0a7dcae4e9a2fa206f80d0d8be2cda7fb46f967409cba050f271bd89060",
+  "generatedAt": "2026-10-16T22:04:28.258Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "templates": [
+      {
+        "key": "catch_up",
+        "sections": [
+          {
+            "heading": "What you missed",
+            "points": [
+              {
+                "text": "The group agrees to buy two more Crown microphones right away, since the Sony headsets pinch and are hard to adjust and the Crown mikes give a slightly better signal.",
+                "turnIds": ["bmr021-0029", "bmr021-0039", "bmr021-0061", "bmr021-0088"]
+              },
+              {
+                "text": "Speaker C plans four more wireless channels, pending a check with Morgan, and will likely swap the problematic wired Andrea mike for a Shure after testing it.",
+                "turnIds": ["bmr021-0136", "bmr021-0144"]
+              },
+              {
+                "text": "Compressing wave files with the Sphere Wencode shorten option is accepted as a good short-term fix for disk space, since it needs no coding.",
+                "turnIds": ["bmr021-0223", "bmr021-0287"]
+              },
+              {
+                "text": "In Speaker F's experiments the ICSI front-end gives about 52.6 and 51.3 percent error against about 49 and 47.1 for the SRI front-end; combining them gives 48.5 and 46.5.",
+                "turnIds": ["bmr021-0492", "bmr021-0496", "bmr021-0497", "bmr021-0500"]
+              },
+              {
+                "text": "Speaker D installed Transcriber and Channeltrans on an NT machine, so they are now available under Windows.",
+                "turnIds": ["bmr021-0420", "bmr021-0431"]
+              }
+            ]
+          },
+          {
+            "heading": "What needs attention",
+            "points": [
+              {
+                "text": "Speaker C asks people to write Crown or Sony in the mike type field, and whoever sets up the meeting fills out the key file.",
+                "turnIds": ["bmr021-0092", "bmr021-0103"]
+              },
+              {
+                "text": "Speaker C advises Speaker D to ask a Sys Admin to put Transcriber in a central place for all NT machines, and Speaker D agrees.",
+                "turnIds": ["bmr021-0439", "bmr021-0444"]
+              },
+              {
+                "text": "Speaker B and Speaker E have not yet read the naming conventions Speaker C sent; Speaker E will read them by next week.",
+                "turnIds": ["bmr021-0366", "bmr021-0369", "bmr021-0372"]
+              },
+              {
+                "text": "Speaker C wants a list of file reorganization tasks drawn up, and Speaker B suggests doing that next week.",
+                "turnIds": ["bmr021-0343", "bmr021-0346"]
+              },
+              {
+                "text": "Speaker C says a check is needed on why the backup software sees the same meeting files as rewritten every night, since Dave Johnson has not yet looked into it.",
+                "turnIds": ["bmr021-0326", "bmr021-0329"]
+              }
+            ]
+          },
+          {
+            "heading": "Still open",
+            "points": [
+              {
+                "text": "Speaker F does not want the segment names changed without advance notice, and Speaker A is also reluctant to rename everything; this is not settled.",
+                "turnIds": ["bmr021-0375", "bmr021-0377", "bmr021-0390"]
+              },
+              {
+                "text": "How to prevent meetings being recorded with microphones off is unresolved; Speaker C says dead channels are detectable, but what the software should do is not decided.",
+                "turnIds": ["bmr021-0593", "bmr021-0603", "bmr021-0620"]
+              },
+              {
+                "text": "Speaker B asks whether a NIST routine can seek in a compressed file with uncompressed indices; Speaker F does not think so.",
+                "turnIds": ["bmr021-0264", "bmr021-0265"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "general",
+        "sections": [
+          {
+            "heading": "Overview",
+            "points": [
+              {
+                "text": "The group covers microphone purchases, file reorganization and disk space, a Windows Transcriber install, recognition experiment results, and then reads digits.",
+                "turnIds": [
+                  "bmr021-0007",
+                  "bmr021-0189",
+                  "bmr021-0420",
+                  "bmr021-0452",
+                  "bmr021-0573"
+                ]
+              }
+            ]
+          },
+          {
+            "heading": "Key points",
+            "points": [
+              {
+                "text": "The EDU group dislikes the Crown mikes, but several speakers here prefer them, and Speaker C says they sound slightly better than the Sony ones.",
+                "turnIds": ["bmr021-0007", "bmr021-0015", "bmr021-0039"]
+              },
+              {
+                "text": "Speaker F proposes compressing files with Wencode shorten to save disk space, and describes gaining three gigabytes this way during a Switchboard-two run.",
+                "turnIds": ["bmr021-0196", "bmr021-0223", "bmr021-0238"]
+              },
+              {
+                "text": "A disk crash and odd nightly backup activity on wave files raise questions about how files are spread across disks.",
+                "turnIds": ["bmr021-0309", "bmr021-0313", "bmr021-0329"]
+              },
+              {
+                "text": "Speaker D installed Transcriber and Channeltrans on an NT machine.",
+                "turnIds": ["bmr021-0420", "bmr021-0431"]
+              },
+              {
+                "text": "The ICSI front-end performs worse than the SRI front-end, but combining the two still improves the error rate.",
+                "turnIds": ["bmr021-0497", "bmr021-0500", "bmr021-0531"]
+              },
+              {
+                "text": "Speaker F raises that some meetings were recorded with microphones off, and the group considers ways to catch this.",
+                "turnIds": ["bmr021-0591", "bmr021-0593", "bmr021-0608"]
+              }
+            ]
+          },
+          {
+            "heading": "Next steps",
+            "points": [
+              {
+                "text": "The group will buy two more Crown mikes and track mike type in the key file.",
+                "turnIds": ["bmr021-0088", "bmr021-0092", "bmr021-0105"]
+              },
+              {
+                "text": "The group will make a list of file reorganization and naming changes, possibly next week.",
+                "turnIds": ["bmr021-0346", "bmr021-0362"]
+              },
+              {
+                "text": "Speaker F will run the SRI system without vocal tract length normalization as a diagnostic.",
+                "turnIds": ["bmr021-0563", "bmr021-0569"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "project_update",
+        "sections": [
+          {
+            "heading": "Progress",
+            "points": [
+              {
+                "text": "Speaker F and Chuck built a script that runs ICSI feature calculation and writes the cepstra files the SRI system reads.",
+                "turnIds": ["bmr021-0452", "bmr021-0456"]
+              },
+              {
+                "text": "Speaker F trained male and female ICSI-feature systems plus an SRI-feature baseline, with comparable configuration, and got error rates of about 52.6 and 51.3 percent for ICSI versus 49 and 47.1 for SRI.",
+                "turnIds": ["bmr021-0456", "bmr021-0490", "bmr021-0497"]
+              },
+              {
+                "text": "Combining the two systems at utterance level gives 48.5 and 46.5 percent error, so combination still helps.",
+                "turnIds": ["bmr021-0500", "bmr021-0503", "bmr021-0531"]
+              },
+              {
+                "text": "Speaker D installed Transcriber and Channeltrans on an NT machine.",
+                "turnIds": ["bmr021-0420", "bmr021-0431"]
+              }
+            ]
+          },
+          {
+            "heading": "Problems and risks",
+            "points": [
+              {
+                "text": "Speaker F attributes about one percent of the ICSI gap to missing vocal tract length normalization, and Czero normalization differs between the systems.",
+                "turnIds": ["bmr021-0467", "bmr021-0481", "bmr021-0507"]
+              },
+              {
+                "text": "The gap widens with adaptation, and the combination gain shrinks.",
+                "turnIds": ["bmr021-0531", "bmr021-0534"]
+              },
+              {
+                "text": "Disk space is tight, and a disk crash left channel files split across disks and disorganized.",
+                "turnIds": ["bmr021-0192", "bmr021-0290", "bmr021-0297"]
+              },
+              {
+                "text": "The backup software sees the same shortened meeting files as rewritten nightly, which is unexplained.",
+                "turnIds": ["bmr021-0327", "bmr021-0329", "bmr021-0332"]
+              },
+              {
+                "text": "Some meetings were recorded with several microphones turned off, which makes them unusable.",
+                "turnIds": ["bmr021-0591", "bmr021-0595"]
+              }
+            ]
+          },
+          {
+            "heading": "Plans",
+            "points": [
+              {
+                "text": "Speaker C will test a Shure mike today or tomorrow to replace the Andrea mike.",
+                "turnIds": ["bmr021-0144"]
+              },
+              {
+                "text": "Chuck is working on tandem features, and Speaker F is retraining on the large training set and plans system combination, probably on males only.",
+                "turnIds": ["bmr021-0534", "bmr021-0535", "bmr021-0537"]
+              },
+              {
+                "text": "Speaker F will run the SRI system without vocal tract length normalization, and may try warping factors with the ICSI front-end.",
+                "turnIds": ["bmr021-0511", "bmr021-0512", "bmr021-0563"]
+              },
+              {
+                "text": "Speaker C plans to get two more Crown mikes and four more wireless channels.",
+                "turnIds": ["bmr021-0088", "bmr021-0136", "bmr021-0144"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "brief",
+        "sections": [
+          {
+            "heading": "In three points",
+            "points": [
+              {
+                "text": "The group will buy two more Crown mikes now and plans four more wireless channels, after the EDU group's dislike of the Crown headsets.",
+                "turnIds": ["bmr021-0007", "bmr021-0088", "bmr021-0144"]
+              },
+              {
+                "text": "File reorganization and naming conventions need a task list, with shortening files as the short-term disk-space fix.",
+                "turnIds": ["bmr021-0287", "bmr021-0343", "bmr021-0362"]
+              },
+              {
+                "text": "The ICSI front-end trails the SRI front-end in error rate, but combining the two still helps.",
+                "turnIds": ["bmr021-0497", "bmr021-0500", "bmr021-0531"]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

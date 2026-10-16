@@ -1,0 +1,193 @@
+{
+  "meetingId": "bro015",
+  "kind": "summarize",
+  "transcriptHash": "a72ae9aa30bc3894e6067d91ad198846866066a921ee64d64c10b1dc025efda6",
+  "generatedAt": "2026-10-16T22:05:34.370Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "templates": [
+      {
+        "key": "catch_up",
+        "sections": [
+          {
+            "heading": "What you missed",
+            "points": [
+              {
+                "text": "Hynek is expected to visit for a couple of days next week, with the days not yet known, to work intensively with people.",
+                "turnIds": ["bro015-0001"]
+              },
+              {
+                "text": "Sunil may come for part of the summer; if so, the effort shifts here because Pratibha will be at IBM.",
+                "turnIds": ["bro015-0002", "bro015-0003"]
+              },
+              {
+                "text": "Sunil's spectral subtraction with LDA filters was no better than before, and adding on-line normalization did not improve it further.",
+                "turnIds": ["bro015-0065", "bro015-0069"]
+              },
+              {
+                "text": "Speaker A finds that fewer HTK training iterations would let the group run many more experiments, since the Italian system's chosen setting was not its best.",
+                "turnIds": ["bro015-0094", "bro015-0102"]
+              }
+            ]
+          },
+          {
+            "heading": "What needs attention",
+            "points": [
+              {
+                "text": "Speaker A still has to send everyone a pointer on running the HTK system on the Linux boxes and changing the number of iterations.",
+                "turnIds": ["bro015-0102", "bro015-0103"]
+              },
+              {
+                "text": "Speaker B says that with no progress on Sunil's side, it falls to the group here to put more work in.",
+                "turnIds": ["bro015-0053", "bro015-0055", "bro015-0058"]
+              }
+            ]
+          },
+          {
+            "heading": "Still open",
+            "points": [
+              {
+                "text": "The Aurora VAD is undecided: the leaning is an idealized VAD run on clean channel zero, with its end points applied to the noisy channel, and the Aurora group is still arguing.",
+                "turnIds": ["bro015-0014", "bro015-0018", "bro015-0027", "bro015-0028"]
+              },
+              {
+                "text": "A standardized shared place for the software has not been created; Speaker C has sent emails to start the process, and Speaker B defers the topic.",
+                "turnIds": ["bro015-0074", "bro015-0075", "bro015-0077"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "general",
+        "sections": [
+          {
+            "heading": "Overview",
+            "points": [
+              {
+                "text": "The group shared news and status updates on Aurora and robustness work, and Speaker B notes that things are slowing down while results are collated.",
+                "turnIds": ["bro015-0050", "bro015-0051"]
+              }
+            ]
+          },
+          {
+            "heading": "Key points",
+            "points": [
+              {
+                "text": "Hynek visits next week, and Sunil may come for part of the summer while Pratibha is at IBM.",
+                "turnIds": ["bro015-0001", "bro015-0002", "bro015-0003"]
+              },
+              {
+                "text": "Aurora is still undecided on the VAD, and the weighting is likely to average improvements rather than word error rates.",
+                "turnIds": ["bro015-0014", "bro015-0031", "bro015-0036"]
+              },
+              {
+                "text": "Sunil's spectral subtraction with LDA filters was not better than before, and on-line normalization did not help further.",
+                "turnIds": ["bro015-0065", "bro015-0069"]
+              },
+              {
+                "text": "Speaker F plans to explore using phase for channel normalization, noting that phase should be additive if the channel is multiplicative in the frequency domain.",
+                "turnIds": ["bro015-0089", "bro015-0090"]
+              },
+              {
+                "text": "Speaker A suggests reducing HTK iterations to run more experiments and plans to try a more powerful silence model to reduce insertions in noise.",
+                "turnIds": ["bro015-0102", "bro015-0113"]
+              }
+            ]
+          },
+          {
+            "heading": "Next steps",
+            "points": [
+              {
+                "text": "Speaker A will send a pointer on running HTK on the Linux boxes and changing iterations.",
+                "turnIds": ["bro015-0102", "bro015-0103"]
+              },
+              {
+                "text": "The group moves on to reading digits and then turns the mikes off.",
+                "turnIds": ["bro015-0116"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "project_update",
+        "sections": [
+          {
+            "heading": "Progress",
+            "points": [
+              {
+                "text": "Speaker C and Speaker E have started writing a report on their work, and Speaker E stopped the voiced-unvoiced work to do so.",
+                "turnIds": ["bro015-0038", "bro015-0045", "bro015-0047"]
+              },
+              {
+                "text": "Sunil sent results combining spectral subtraction and LDA filters, which were not better than before; on-line normalization added no further improvement.",
+                "turnIds": ["bro015-0063", "bro015-0065", "bro015-0069"]
+              },
+              {
+                "text": "Speaker D's group is doing background reading on phonetics.",
+                "turnIds": ["bro015-0085"]
+              }
+            ]
+          },
+          {
+            "heading": "Problems and risks",
+            "points": [
+              {
+                "text": "Speaker C reports no progress from Sunil's side because Sunil is in India.",
+                "turnIds": ["bro015-0053"]
+              },
+              {
+                "text": "The Aurora VAD and weighting decisions are not final, and no standardized shared location for the software exists yet.",
+                "turnIds": ["bro015-0028", "bro015-0035", "bro015-0074", "bro015-0075"]
+              },
+              {
+                "text": "Speaker A did no HTK work this week because Meeting Recorder tasks and a disk crash took the time.",
+                "turnIds": ["bro015-0080"]
+              }
+            ]
+          },
+          {
+            "heading": "Plans",
+            "points": [
+              {
+                "text": "Speaker F will start thinking about ways to use phase for channel normalization.",
+                "turnIds": ["bro015-0089"]
+              },
+              {
+                "text": "Speaker A plans to try a more powerful silence model to cut insertions in noise.",
+                "turnIds": ["bro015-0113"]
+              },
+              {
+                "text": "Speaker C has a lunch talk next week.",
+                "turnIds": ["bro015-0041", "bro015-0042"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "brief",
+        "sections": [
+          {
+            "heading": "In three points",
+            "points": [
+              {
+                "text": "Hynek visits next week, and Sunil may join for part of the summer while Pratibha is at IBM.",
+                "turnIds": ["bro015-0001", "bro015-0002", "bro015-0003"]
+              },
+              {
+                "text": "Aurora decisions on the VAD and weighting are still undecided, and Sunil's spectral subtraction results were no better than before.",
+                "turnIds": ["bro015-0014", "bro015-0028", "bro015-0069"]
+              },
+              {
+                "text": "Speaker A suggests fewer HTK iterations to run more experiments, and Speaker F will explore phase-based channel normalization.",
+                "turnIds": ["bro015-0089", "bro015-0102"]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

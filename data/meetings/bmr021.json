@@ -1,0 +1,4438 @@
+{
+ "id": "bmr021",
+ "title": "Meeting Recorder project meeting",
+ "source": {
+  "corpus": "ICSI Meeting Corpus",
+  "session": "Bmr021",
+  "licence": "CC BY 4.0",
+  "url": "https://groups.inf.ed.ac.uk/ami/icsi/",
+  "modified": "Transcript converted to turns; digit-reading task and non-speech annotations removed.",
+  "notes": ""
+ },
+ "recordedAt": "2001-04-26T14:45:00-07:00",
+ "durationSec": 2206.88,
+ "speakers": [
+  {
+   "code": "me001",
+   "label": "Speaker A"
+  },
+  {
+   "code": "me018",
+   "label": "Speaker B"
+  },
+  {
+   "code": "me011",
+   "label": "Speaker C"
+  },
+  {
+   "code": "mn014",
+   "label": "Speaker D"
+  },
+  {
+   "code": "fe008",
+   "label": "Speaker E"
+  },
+  {
+   "code": "mn017",
+   "label": "Speaker F"
+  }
+ ],
+ "turns": [
+  {
+   "speaker": "me001",
+   "startSec": 0.0,
+   "endSec": 0.804,
+   "text": "If you're popular.",
+   "id": "bmr021-0000"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 0.0,
+   "endSec": 3.2,
+   "text": "One two three four five six – I'm on seven.",
+   "id": "bmr021-0001"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 0.53,
+   "endSec": 1.43,
+   "text": "We're on.",
+   "id": "bmr021-0002"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1.375,
+   "endSec": 4.04,
+   "text": "It's probably the PZMs.",
+   "id": "bmr021-0003"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2.15,
+   "endSec": 4.2,
+   "text": "Yeah.",
+   "id": "bmr021-0004"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3.237,
+   "endSec": 6.122,
+   "text": "So, I think we pre-crashed, so I think we're OK.",
+   "id": "bmr021-0005"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 5.93,
+   "endSec": 7.02,
+   "text": "Pre-crashed.",
+   "id": "bmr021-0006"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 6.122,
+   "endSec": 20.61,
+   "text": "So it should be a really short meeting, I hope. Uh, agenda items, number one, I wanna talk – since we were just discussing that – is microphone issues. What the heck are we gonna do about microphones? So uh I got passed on that the EDU group doesn't like the",
+   "id": "bmr021-0007"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 20.56,
+   "endSec": 21.85,
+   "text": "Oh.",
+   "id": "bmr021-0008"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 20.8,
+   "endSec": 27.82,
+   "text": "uh, Crown mikes. I do. I l- I think – I find them very comfortable. Uh, but it seems to depend on your head shape.",
+   "id": "bmr021-0009"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 21.296,
+   "endSec": 22.86,
+   "text": "Who does?",
+   "id": "bmr021-0010"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 22.86,
+   "endSec": 25.44,
+   "text": "I do. Yeah, I do too.",
+   "id": "bmr021-0011"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 27.82,
+   "endSec": 30.269,
+   "text": "So you guys need to start going to the EDU meetings.",
+   "id": "bmr021-0012"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 27.935,
+   "endSec": 28.944,
+   "text": "I see.",
+   "id": "bmr021-0013"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 29.512,
+   "endSec": 30.7,
+   "text": "Yeah right.",
+   "id": "bmr021-0014"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 29.52,
+   "endSec": 32.355,
+   "text": "They don't work for me very well. I much prefer these.",
+   "id": "bmr021-0015"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 29.62,
+   "endSec": 30.269,
+   "text": "That's right.",
+   "id": "bmr021-0016"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 32.048,
+   "endSec": 33.38,
+   "text": "Yep. Um,",
+   "id": "bmr021-0017"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 32.456,
+   "endSec": 32.983,
+   "text": "Yeah.",
+   "id": "bmr021-0018"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 33.023,
+   "endSec": 33.79,
+   "text": "Me too.",
+   "id": "bmr021-0019"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 33.79,
+   "endSec": 34.68,
+   "text": "So do I.",
+   "id": "bmr021-0020"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 34.422,
+   "endSec": 36.426,
+   "text": "I prefer these, but I don't mind using those.",
+   "id": "bmr021-0021"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 36.43,
+   "endSec": 37.021,
+   "text": "Right.",
+   "id": "bmr021-0022"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 36.818,
+   "endSec": 37.78,
+   "text": "Th- those are intimidating.",
+   "id": "bmr021-0023"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 37.78,
+   "endSec": 45.47,
+   "text": "So apparently they – they like It has one good effect, that people are trying to get there early because the people who get there early get to pick the mike.",
+   "id": "bmr021-0024"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 43.909,
+   "endSec": 46.647,
+   "text": "OK.",
+   "id": "bmr021-0025"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 45.81,
+   "endSec": 46.77,
+   "text": "Interesting.",
+   "id": "bmr021-0026"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 46.52,
+   "endSec": 66.629,
+   "text": "People who show up late have to use these. So, um, we should probably get different mikes. So the question is, the easiest thing to do is certainly to just get two more, um, Sony mikes. Just two more of those, um. And that – that's easy and that will certainly work. The other option is to try yet another mike. Find one we like and potentially get six, all the same.",
+   "id": "bmr021-0027"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 66.76,
+   "endSec": 74.03,
+   "text": "I have a question about this. Are the auditory quality – Is it, uh, much different between this kind and the – the fancy ones?",
+   "id": "bmr021-0028"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 74.11,
+   "endSec": 77.364,
+   "text": "Um, these are better, if they're worn correctly.",
+   "id": "bmr021-0029"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 75.9,
+   "endSec": 77.876,
+   "text": "They are. OK.",
+   "id": "bmr021-0030"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 77.29,
+   "endSec": 78.48,
+   "text": "Those are better than the Sonys?",
+   "id": "bmr021-0031"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 77.48,
+   "endSec": 77.972,
+   "text": "Have you -",
+   "id": "bmr021-0032"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 78.364,
+   "endSec": 80.4,
+   "text": "Yeah. Yeah, definitely.",
+   "id": "bmr021-0033"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 79.266,
+   "endSec": 80.867,
+   "text": "Have you listened to – to them?",
+   "id": "bmr021-0034"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 80.4,
+   "endSec": 80.874,
+   "text": "Yeah.",
+   "id": "bmr021-0035"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 80.867,
+   "endSec": 81.365,
+   "text": "Yeah?",
+   "id": "bmr021-0036"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 80.874,
+   "endSec": 81.511,
+   "text": "Yeah.",
+   "id": "bmr021-0037"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 81.365,
+   "endSec": 81.968,
+   "text": "OK.",
+   "id": "bmr021-0038"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 82.39,
+   "endSec": 85.41,
+   "text": "So, I mean, they're not a lot better, but they are a little better.",
+   "id": "bmr021-0039"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 85.286,
+   "endSec": 88.44,
+   "text": "Are they more directional, the microphones, as far as -",
+   "id": "bmr021-0040"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 87.031,
+   "endSec": 97.01,
+   "text": "Um, they're more directional, a little better error – uh, noise cancellation, and also you can really get it right in front of your mouth, like this, whereas that one, to avoid breath noise, you really have to put it at – to the side.",
+   "id": "bmr021-0041"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 92.841,
+   "endSec": 93.572,
+   "text": "OK.",
+   "id": "bmr021-0042"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 97.15,
+   "endSec": 99.5,
+   "text": "So you seem to get better signal with this one.",
+   "id": "bmr021-0043"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 99.11,
+   "endSec": 104.2,
+   "text": "The other thing is, is it just a few people who don't like them in the EDU group? Cuz -",
+   "id": "bmr021-0044"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 103.34,
+   "endSec": 107.12,
+   "text": "I don't know, but – you know, in – in sort of random polling",
+   "id": "bmr021-0045"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 105.896,
+   "endSec": 113.25,
+   "text": "L- Liz – Liz said something that leaves me believing that nobody likes them. They are ver-",
+   "id": "bmr021-0046"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 112.4,
+   "endSec": 117.25,
+   "text": "Gosh, cuz I much prefer them, I think they're a whole lot, multiple levels, better.",
+   "id": "bmr021-0047"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 118.33,
+   "endSec": 124.01,
+   "text": "It seems a shame t- to discard – discard them if – if they're better auditory quality and there're only a few people who dis- who object.",
+   "id": "bmr021-0048"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 118.439,
+   "endSec": 119.49,
+   "text": "I mean, so s-",
+   "id": "bmr021-0049"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 120.9,
+   "endSec": 121.59,
+   "text": "Right.",
+   "id": "bmr021-0050"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 124.01,
+   "endSec": 127.629,
+   "text": "Yeah, that's why I was saying if we could just unplug them and plug them in.",
+   "id": "bmr021-0051"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 126.24,
+   "endSec": 135.036,
+   "text": "Well, I mean, that's the other option, is that we could switch the form so it's more obvious the distinction between channel and mike, um, and then get",
+   "id": "bmr021-0052"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 130.09,
+   "endSec": 131.52,
+   "text": "You know, pretty -",
+   "id": "bmr021-0053"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 135.7,
+   "endSec": 140.018,
+   "text": "duplicates. I mean, there's no problem with that. It's just – what -",
+   "id": "bmr021-0054"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 136.257,
+   "endSec": 136.903,
+   "text": "Hmm.",
+   "id": "bmr021-0055"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 140.36,
+   "endSec": 143.251,
+   "text": "Should we get just more Sony ones? I hate the Sony ones.",
+   "id": "bmr021-0056"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 143.463,
+   "endSec": 144.4,
+   "text": "Which ones are those?",
+   "id": "bmr021-0057"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 143.777,
+   "endSec": 146.624,
+   "text": "b- the one you're wearing. Because it – it pinches -",
+   "id": "bmr021-0058"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 144.674,
+   "endSec": 145.801,
+   "text": "The one I'm wearing? Oh.",
+   "id": "bmr021-0059"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 144.863,
+   "endSec": 145.517,
+   "text": "Those.",
+   "id": "bmr021-0060"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 146.624,
+   "endSec": 148.149,
+   "text": "pinches the temples too much.",
+   "id": "bmr021-0061"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 146.631,
+   "endSec": 147.116,
+   "text": "Oh.",
+   "id": "bmr021-0062"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 147.86,
+   "endSec": 149.45,
+   "text": "And -",
+   "id": "bmr021-0063"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 148.149,
+   "endSec": 151.62,
+   "text": "I mean, so, if you wear it sort of around the back, it's not too bad.",
+   "id": "bmr021-0064"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 150.51,
+   "endSec": 151.2,
+   "text": "Yeah.",
+   "id": "bmr021-0065"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 151.36,
+   "endSec": 157.32,
+   "text": "I hate it because it's hard to adjust the microphone. I mean, I spend all this time fumbling around with it and still not",
+   "id": "bmr021-0066"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 151.44,
+   "endSec": 152.424,
+   "text": "Yeah.",
+   "id": "bmr021-0067"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 152.02,
+   "endSec": 152.74,
+   "text": "But I -",
+   "id": "bmr021-0068"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 153.9,
+   "endSec": 154.61,
+   "text": "Right.",
+   "id": "bmr021-0069"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 157.35,
+   "endSec": 158.25,
+   "text": "reasonable, yeah.",
+   "id": "bmr021-0070"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 157.91,
+   "endSec": 164.64,
+   "text": "Right. So, I mean, we could try another mike. But then we have the wiring issue, and – So I – I don't know what to do. What do – what do people think?",
+   "id": "bmr021-0071"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 164.64,
+   "endSec": 167.57,
+   "text": "But the problem is again the – the plug, or – ? Wh-",
+   "id": "bmr021-0072"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 166.998,
+   "endSec": 177.18,
+   "text": "The plug is proprietary. So that's why I was saying getting more Sony ones is trivial, because we can just go out and buy them. Any other ones we have to buy them in pigtail versions and get them wired.",
+   "id": "bmr021-0073"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 167.57,
+   "endSec": 168.984,
+   "text": "OK. OK.",
+   "id": "bmr021-0074"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 171.819,
+   "endSec": 173.72,
+   "text": "OK. Yeah.",
+   "id": "bmr021-0075"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 179.09,
+   "endSec": 186.684,
+   "text": "OK, n- now may- maybe I just don't know this but, um, are the only two possibilities from Sony the two that we've tried? Or is there another -",
+   "id": "bmr021-0076"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 186.2,
+   "endSec": 190.76,
+   "text": "Yes. So, the only possibilities from Sony are that one and the lapel mike.",
+   "id": "bmr021-0077"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 186.684,
+   "endSec": 187.75,
+   "text": "I see. OK.",
+   "id": "bmr021-0078"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 189.18,
+   "endSec": 189.94,
+   "text": "OK.",
+   "id": "bmr021-0079"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 191.14,
+   "endSec": 192.202,
+   "text": "Oh, I see.",
+   "id": "bmr021-0080"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 191.79,
+   "endSec": 194.85,
+   "text": "So this isn't Sony. This is Crown. The one we're wearing.",
+   "id": "bmr021-0081"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 193.74,
+   "endSec": 195.51,
+   "text": "Isn't that something. OK.",
+   "id": "bmr021-0082"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 195.05,
+   "endSec": 197.121,
+   "text": "And so we had these wired for us.",
+   "id": "bmr021-0083"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 196.79,
+   "endSec": 198.08,
+   "text": "Oh. I see. OK.",
+   "id": "bmr021-0084"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 198.39,
+   "endSec": 203.804,
+   "text": "Well, it s- It seems like right now if – if u- what they're complaining are those, if we just got two more of these -",
+   "id": "bmr021-0085"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 198.48,
+   "endSec": 199.19,
+   "text": "And so -",
+   "id": "bmr021-0086"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 198.502,
+   "endSec": 199.613,
+   "text": "Huh, I remember that now.",
+   "id": "bmr021-0087"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 203.53,
+   "endSec": 208.401,
+   "text": "I think that's probably the right first step is just get two more immediately, and have them available.",
+   "id": "bmr021-0088"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 205.436,
+   "endSec": 206.06,
+   "text": "Yeah.",
+   "id": "bmr021-0089"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 206.17,
+   "endSec": 206.603,
+   "text": "OK.",
+   "id": "bmr021-0090"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 208.17,
+   "endSec": 210.307,
+   "text": "And then they can just unplug those from the -",
+   "id": "bmr021-0091"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 210.49,
+   "endSec": 218.52,
+   "text": "Right. And just make sure that you write down \"Crown\" or \"Sony\" on the mike number, which I'll change to mike type, or something like that.",
+   "id": "bmr021-0092"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 210.78,
+   "endSec": 211.601,
+   "text": "transmitter.",
+   "id": "bmr021-0093"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 215.25,
+   "endSec": 216.002,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0094"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 217.107,
+   "endSec": 217.741,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0095"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 218.558,
+   "endSec": 219.115,
+   "text": "Yeah.",
+   "id": "bmr021-0096"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 219.99,
+   "endSec": 225.51,
+   "text": "It might be good to double check at the end of the meeting too, cuz that would be an easy place for, uh, an error in the data.",
+   "id": "bmr021-0097"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 224.98,
+   "endSec": 225.517,
+   "text": "Yep.",
+   "id": "bmr021-0098"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 226.38,
+   "endSec": 227.68,
+   "text": "For it to be forgotten.",
+   "id": "bmr021-0099"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 228.61,
+   "endSec": 233.178,
+   "text": "Well, it'll be me - It'll be whoever's setting up the meeting, who fills out the key file, so",
+   "id": "bmr021-0100"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 233.37,
+   "endSec": 240.6,
+   "text": "OK, it's just – I'm just thinking that if – it'd be – yeah, but I know – but I mean to have the user fill it out wouldn't be as reliable as have the -",
+   "id": "bmr021-0101"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 233.77,
+   "endSec": 235.839,
+   "text": "It has the same potential for error as everything else.",
+   "id": "bmr021-0102"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 239.062,
+   "endSec": 244.554,
+   "text": "No, no, we definitely would not have the user fill it out. It would be me, Chuck, or Liz, depending on which meeting it is.",
+   "id": "bmr021-0103"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 240.98,
+   "endSec": 245.007,
+   "text": "Good, OK. Perfect. Perfect, OK.",
+   "id": "bmr021-0104"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 244.554,
+   "endSec": 246.84,
+   "text": "OK, so we'll de- definitely go ahead and do that.",
+   "id": "bmr021-0105"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 246.69,
+   "endSec": 248.387,
+   "text": "How much is it just to buy the mike?",
+   "id": "bmr021-0106"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 248.463,
+   "endSec": 249.361,
+   "text": "Couple hundred.",
+   "id": "bmr021-0107"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 249.422,
+   "endSec": 250.2,
+   "text": "Really.",
+   "id": "bmr021-0108"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 249.923,
+   "endSec": 250.413,
+   "text": "Yeah.",
+   "id": "bmr021-0109"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 251.25,
+   "endSec": 252.91,
+   "text": "Is that more or less than you thought?",
+   "id": "bmr021-0110"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 251.66,
+   "endSec": 253.297,
+   "text": "It depends on how good the mike is.",
+   "id": "bmr021-0111"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 252.419,
+   "endSec": 255.56,
+   "text": "Oh that's way more than I thought. I – yeah.",
+   "id": "bmr021-0112"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 253.767,
+   "endSec": 255.094,
+   "text": "Oh, OK.",
+   "id": "bmr021-0113"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 254.02,
+   "endSec": 254.72,
+   "text": "Yeah.",
+   "id": "bmr021-0114"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 254.15,
+   "endSec": 255.46,
+   "text": "For one of these?",
+   "id": "bmr021-0115"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 255.56,
+   "endSec": 260.431,
+   "text": "Well the Crown ones were like two-fifty. I think those are like one-ninety.",
+   "id": "bmr021-0116"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 260.199,
+   "endSec": 261.418,
+   "text": "God.",
+   "id": "bmr021-0117"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 260.825,
+   "endSec": 262.956,
+   "text": "Oops.",
+   "id": "bmr021-0118"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 261.56,
+   "endSec": 262.1,
+   "text": "Wow!",
+   "id": "bmr021-0119"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 262.479,
+   "endSec": 263.2,
+   "text": "But.",
+   "id": "bmr021-0120"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 262.76,
+   "endSec": 265.818,
+   "text": "Is there any educational discount?",
+   "id": "bmr021-0121"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 264.09,
+   "endSec": 265.16,
+   "text": "Yeah right.",
+   "id": "bmr021-0122"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 266.94,
+   "endSec": 268.45,
+   "text": "Student discount.",
+   "id": "bmr021-0123"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 266.94,
+   "endSec": 271.24,
+   "text": "No. Yeah, good mikes are expensive. So.",
+   "id": "bmr021-0124"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 270.25,
+   "endSec": 277.422,
+   "text": "And when I was at Computer Motion we used Shure, the SM-ten-A's, and I think they were only like eighty bucks or something.",
+   "id": "bmr021-0125"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 272.722,
+   "endSec": 273.186,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0126"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 277.06,
+   "endSec": 279.582,
+   "text": "Yeah, eighty or ninety for the Shures. So.",
+   "id": "bmr021-0127"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 278.374,
+   "endSec": 280.796,
+   "text": "Yeah. But they were – they seemed pretty good.",
+   "id": "bmr021-0128"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 280.623,
+   "endSec": 287.67,
+   "text": "I mean, the Sony ones are expensive because they're proprietary, so they can charge whatever they want. These are expensive because they're quite high quality. So.",
+   "id": "bmr021-0129"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 283.53,
+   "endSec": 287.348,
+   "text": "Oh. Right, right.",
+   "id": "bmr021-0130"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 288.29,
+   "endSec": 290.69,
+   "text": "So we should buzz that out if we send the data to Sony.",
+   "id": "bmr021-0131"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 292.404,
+   "endSec": 293.277,
+   "text": "Ah, come on.",
+   "id": "bmr021-0132"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 294.63,
+   "endSec": 301.25,
+   "text": "We should keep a list of things we're gonna bleep out and the conditions under which -",
+   "id": "bmr021-0133"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 296.9,
+   "endSec": 302.8,
+   "text": "Well, I'm just joking. So, you do not have to bleep that out. I don't mind if Sony knows my opinion. So.",
+   "id": "bmr021-0134"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 302.917,
+   "endSec": 303.69,
+   "text": "Hmm.",
+   "id": "bmr021-0135"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 304.09,
+   "endSec": 317.32,
+   "text": "Um. Also, we're pro- I wanna double check with Morgan, he did say yes before I went to Japan on buying another wireless system so that we can go all wireless, instead of the mix of wired and wireless. And I think that's the right thing to do.",
+   "id": "bmr021-0136"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 317.53,
+   "endSec": 321.76,
+   "text": "So then all those red channels there would become wireless ones?",
+   "id": "bmr021-0137"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 317.683,
+   "endSec": 318.245,
+   "text": "And I'm -",
+   "id": "bmr021-0138"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 317.724,
+   "endSec": 318.576,
+   "text": "Yeah.",
+   "id": "bmr021-0139"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 321.286,
+   "endSec": 321.726,
+   "text": "Yep.",
+   "id": "bmr021-0140"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 321.76,
+   "endSec": 322.08,
+   "text": "Cool.",
+   "id": "bmr021-0141"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 322.161,
+   "endSec": 322.614,
+   "text": "Yep.",
+   "id": "bmr021-0142"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 322.978,
+   "endSec": 323.637,
+   "text": "Uh-huh.",
+   "id": "bmr021-0143"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 323.29,
+   "endSec": 337.51,
+   "text": "Four more wireless. Um. And also I'm gonna re- probably replace the Andrea mike with a Shure, but I'll test it, uh, sometime today or tomorrow to make sure the Shure one really works, cuz I have an extra Shure in my office.",
+   "id": "bmr021-0144"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 337.09,
+   "endSec": 338.34,
+   "text": "The Andrea mike?",
+   "id": "bmr021-0145"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 338.005,
+   "endSec": 338.58,
+   "text": "Yeah.",
+   "id": "bmr021-0146"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 338.34,
+   "endSec": 340.55,
+   "text": "Yeah, apparently it's had some problems.",
+   "id": "bmr021-0147"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 339.096,
+   "endSec": 340.55,
+   "text": "That's causing problems, yeah.",
+   "id": "bmr021-0148"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 340.55,
+   "endSec": 341.92,
+   "text": "Which one is the Andrea mike?",
+   "id": "bmr021-0149"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 341.92,
+   "endSec": 342.96,
+   "text": "It was over here sometimes.",
+   "id": "bmr021-0150"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 342.96,
+   "endSec": 343.671,
+   "text": "A wired one?",
+   "id": "bmr021-0151"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 343.12,
+   "endSec": 344.62,
+   "text": "The – yeah a wired one.",
+   "id": "bmr021-0152"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 344.03,
+   "endSec": 345.44,
+   "text": "Yeah. It's uh -",
+   "id": "bmr021-0153"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 344.62,
+   "endSec": 347.97,
+   "text": "Well, if you're gonna go to all wireless, Oh, you mean in the meantime.",
+   "id": "bmr021-0154"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 346.84,
+   "endSec": 349.666,
+   "text": "This one. In the meantime, right, because uh -",
+   "id": "bmr021-0155"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 348.57,
+   "endSec": 349.67,
+   "text": "Ah, I see.",
+   "id": "bmr021-0156"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 348.865,
+   "endSec": 349.382,
+   "text": "Yeah.",
+   "id": "bmr021-0157"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 350.403,
+   "endSec": 354.05,
+   "text": "it'll – it'll probably take a couple weeks to get it delivered from Sony anyway.",
+   "id": "bmr021-0158"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 353.634,
+   "endSec": 357.16,
+   "text": "Yeah. I haven't – In the meetings that I recorded s-",
+   "id": "bmr021-0159"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 354.633,
+   "endSec": 355.108,
+   "text": "So -",
+   "id": "bmr021-0160"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 357.24,
+   "endSec": 359.69,
+   "text": "It's always been at most six people, so I've never had to -",
+   "id": "bmr021-0161"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 359.69,
+   "endSec": 360.76,
+   "text": "Oh really? Yeah.",
+   "id": "bmr021-0162"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 360.21,
+   "endSec": 362.67,
+   "text": "Recently I haven't had to used any of the wired ones at all.",
+   "id": "bmr021-0163"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 361.84,
+   "endSec": 366.49,
+   "text": "I guess cuz everyone's been out of town. Probably over the summer it'll be the same cuz it tends to be less,",
+   "id": "bmr021-0164"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 363.726,
+   "endSec": 364.246,
+   "text": "Yeah.",
+   "id": "bmr021-0165"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 367.42,
+   "endSec": 369.18,
+   "text": "fewer people. Um,",
+   "id": "bmr021-0166"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 370.838,
+   "endSec": 373.58,
+   "text": "File - Uh, done with microphone issues, I think?",
+   "id": "bmr021-0167"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 372.78,
+   "endSec": 374.28,
+   "text": "Should we close the door?",
+   "id": "bmr021-0168"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 374.42,
+   "endSec": 375.21,
+   "text": "If you want.",
+   "id": "bmr021-0169"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 375.01,
+   "endSec": 378.33,
+   "text": "Oh, I'm thinking – I don't know about the acoustics. That's – that's all I was wondering about.",
+   "id": "bmr021-0170"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 379.02,
+   "endSec": 382.54,
+   "text": "And this way we can get a door-slam in the uh – in the transcript file.",
+   "id": "bmr021-0171"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 380.59,
+   "endSec": 382.46,
+   "text": "Yeah.",
+   "id": "bmr021-0172"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 380.71,
+   "endSec": 383.28,
+   "text": "Yeah that's right, we gotta get the obligatory door-slam.",
+   "id": "bmr021-0173"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 385.07,
+   "endSec": 386.631,
+   "text": "Oh well. No- not quite a slam.",
+   "id": "bmr021-0174"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 388.76,
+   "endSec": 389.67,
+   "text": "There's some knocks.",
+   "id": "bmr021-0175"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 391.13,
+   "endSec": 393.0,
+   "text": "Get a special phone for that.",
+   "id": "bmr021-0176"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 393.115,
+   "endSec": 393.871,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0177"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 393.63,
+   "endSec": 395.28,
+   "text": "Uh, the door-slam phone?",
+   "id": "bmr021-0178"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 393.72,
+   "endSec": 396.684,
+   "text": "I guess, right, the door-slam phone.",
+   "id": "bmr021-0179"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 394.66,
+   "endSec": 395.15,
+   "text": "Yeah.",
+   "id": "bmr021-0180"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 395.15,
+   "endSec": 396.24,
+   "text": "You have a special phone?",
+   "id": "bmr021-0181"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 396.24,
+   "endSec": 397.43,
+   "text": "No, we could add one.",
+   "id": "bmr021-0182"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 396.89,
+   "endSec": 398.05,
+   "text": "Oh, we could add one, yeah.",
+   "id": "bmr021-0183"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 397.43,
+   "endSec": 399.02,
+   "text": "And then we could have the phone phone,",
+   "id": "bmr021-0184"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 397.631,
+   "endSec": 398.247,
+   "text": "Yeah.",
+   "id": "bmr021-0185"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 399.19,
+   "endSec": 402.338,
+   "text": "That's an idea.",
+   "id": "bmr021-0186"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 399.301,
+   "endSec": 400.888,
+   "text": "for – for when the phone rings.",
+   "id": "bmr021-0187"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 402.32,
+   "endSec": 402.844,
+   "text": "Um,",
+   "id": "bmr021-0188"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 405.36,
+   "endSec": 419.574,
+   "text": "Uh, file reorganization. This is something we were talking about before I left and saying we should probably wait until after I'm back, and now I'm back, so, we should do that at some point. So we should get ourselves a list of everything we wanna do to reorganize the file structure and anything else.",
+   "id": "bmr021-0189"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 418.68,
+   "endSec": 421.05,
+   "text": "Can I – can I just mention something?",
+   "id": "bmr021-0190"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 420.91,
+   "endSec": 421.273,
+   "text": "Sure.",
+   "id": "bmr021-0191"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 421.25,
+   "endSec": 430.12,
+   "text": "Um, uh, I think the file regards reorganization. Also, um, another issue there is disk space probably, right? Um, so",
+   "id": "bmr021-0192"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 427.589,
+   "endSec": 428.087,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0193"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 430.447,
+   "endSec": 438.51,
+   "text": "I know that the files that you've been cutting up for us f- for the recognition experiments, uh, one way – one really",
+   "id": "bmr021-0194"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 435.64,
+   "endSec": 436.39,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0195"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 438.55,
+   "endSec": 455.41,
+   "text": "brain - uh, brain-dead way of – of – of not causing any trouble, but saving disk space is to, uh, use the s- the Sphere, the NIST, uh, Wencode program. to – to encode, you know, to compress them.",
+   "id": "bmr021-0196"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 455.17,
+   "endSec": 456.96,
+   "text": "Shorten. Is that the same as shorten?",
+   "id": "bmr021-0197"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 455.72,
+   "endSec": 463.956,
+   "text": "Uh, yeah, but it does it s- it happens so that the program that reads the waveforms does the unshortening transparently.",
+   "id": "bmr021-0198"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 456.7,
+   "endSec": 457.61,
+   "text": "Yeah.",
+   "id": "bmr021-0199"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 464.97,
+   "endSec": 471.77,
+   "text": "Well, OK, you mean it's built into the SRI, because we have the same thing with shorten in the sound tools. So.",
+   "id": "bmr021-0200"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 471.498,
+   "endSec": 474.91,
+   "text": "Y- uh, I guess, but it um,",
+   "id": "bmr021-0201"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 476.24,
+   "endSec": 480.31,
+   "text": "So it's just a question of – of what decompression is built into your tools.",
+   "id": "bmr021-0202"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 480.41,
+   "endSec": 481.236,
+   "text": "Well, it's -",
+   "id": "bmr021-0203"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 480.411,
+   "endSec": 483.405,
+   "text": "Well like – Hhh.",
+   "id": "bmr021-0204"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 481.236,
+   "endSec": 486.571,
+   "text": "It's actually built into the Sphere library that NIST delivers, so – Right.",
+   "id": "bmr021-0205"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 485.55,
+   "endSec": 486.729,
+   "text": "Oh really? I didn't know that.",
+   "id": "bmr021-0206"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 487.086,
+   "endSec": 491.551,
+   "text": "And actually, s- the sound tools don't understand that. For the -",
+   "id": "bmr021-0207"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 490.81,
+   "endSec": 492.31,
+   "text": "At least Feacalc doesn't.",
+   "id": "bmr021-0208"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 491.551,
+   "endSec": 492.99,
+   "text": "At least Feacalc doesn't. So.",
+   "id": "bmr021-0209"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 492.99,
+   "endSec": 494.7,
+   "text": "Well, that's not a sound tool, right.",
+   "id": "bmr021-0210"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 494.14,
+   "endSec": 512.78,
+   "text": "But since – since these files are made to be used with the SRI recognizer, uh and the SRI front-end uses the Sphere library which in turn does this transparently um, uh, that will be a quick and - quick and easy way to just, uh, get you know, uh, be able to use more -",
+   "id": "bmr021-0211"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 508.64,
+   "endSec": 509.54,
+   "text": "Yeah.",
+   "id": "bmr021-0212"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 508.703,
+   "endSec": 509.317,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0213"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 512.78,
+   "endSec": 519.21,
+   "text": "The other thing I could do to relieve some of the pressure um is just move everything to my eighteen gig disk, which is local.",
+   "id": "bmr021-0214"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 519.004,
+   "endSec": 521.14,
+   "text": "But that's gonna be only temporary.",
+   "id": "bmr021-0215"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 520.4,
+   "endSec": 522.86,
+   "text": "Well, I mean, I don't know -",
+   "id": "bmr021-0216"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 521.474,
+   "endSec": 527.17,
+   "text": "I mean, you should do that too, probably, but – but as you do that you can also just run the -",
+   "id": "bmr021-0217"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 523.74,
+   "endSec": 526.27,
+   "text": "Yeah, it is kind of a temporary solution.",
+   "id": "bmr021-0218"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 527.37,
+   "endSec": 528.738,
+   "text": "To shorten everything.",
+   "id": "bmr021-0219"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 528.29,
+   "endSec": 535.27,
+   "text": "well, actually, the – th- what you do is you run - Oh, now I have another use for the -",
+   "id": "bmr021-0220"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 536.81,
+   "endSec": 541.92,
+   "text": "The way I recently used it, and there might be better ways – So the program's called Wencode.",
+   "id": "bmr021-0221"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 541.55,
+   "endSec": 542.25,
+   "text": "Mmm.",
+   "id": "bmr021-0222"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 542.07,
+   "endSec": 558.45,
+   "text": "And I think the type, y- you say um I think dash T and then there are different - different encoding methods, but if you wanna use the shorten one, you say d- \"minus T shorten\", and then the old uh wavefile and the new",
+   "id": "bmr021-0223"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 559.47,
+   "endSec": 575.565,
+   "text": "wavefile, and then – Oops! And then I check, you know, if this works, so, you can use the - the shell \"AND\" operator or something. Then I just move the new wavefile to the, you know, to the old",
+   "id": "bmr021-0224"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 576.238,
+   "endSec": 576.808,
+   "text": "Right.",
+   "id": "bmr021-0225"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 576.74,
+   "endSec": 584.34,
+   "text": "wavefile, and then you have replaced the old one with one that behaves identically as long as your programs that use it know how to",
+   "id": "bmr021-0226"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 581.25,
+   "endSec": 582.01,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0227"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 584.48,
+   "endSec": 587.72,
+   "text": "decode it on the fly. And that -",
+   "id": "bmr021-0228"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 587.86,
+   "endSec": 588.43,
+   "text": "OK.",
+   "id": "bmr021-0229"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 588.43,
+   "endSec": 592.315,
+   "text": "that just saved my butt because I actually was running – On a different experiment, I had",
+   "id": "bmr021-0230"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 593.53,
+   "endSec": 605.428,
+   "text": "segmented - I was processing the whole Switchboard-two corpus, which is two hundred eighty hours of speech, and I was noticing, as I was almost finishing the processing, that I was running out of disk space.",
+   "id": "bmr021-0231"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 605.349,
+   "endSec": 606.116,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0232"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 605.428,
+   "endSec": 614.373,
+   "text": "And – and so I uh had this flash of inspiration of just uh the same – the same disk had the segmented waveforms on them, so I -",
+   "id": "bmr021-0233"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 610.94,
+   "endSec": 612.68,
+   "text": "Shortening everything on the fly.",
+   "id": "bmr021-0234"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 614.632,
+   "endSec": 619.256,
+   "text": "while this other thing was still going on, I was run- I was running this – this thing.",
+   "id": "bmr021-0235"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 616.27,
+   "endSec": 619.25,
+   "text": "You had another process running that was shortening it. Yep.",
+   "id": "bmr021-0236"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 618.24,
+   "endSec": 620.3,
+   "text": "Wow, wow!",
+   "id": "bmr021-0237"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 619.256,
+   "endSec": 624.491,
+   "text": "And low and behold I gained three g- three gig of space and um, you know -",
+   "id": "bmr021-0238"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 622.435,
+   "endSec": 623.38,
+   "text": "Wow!",
+   "id": "bmr021-0239"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 623.38,
+   "endSec": 626.911,
+   "text": "Did you have to re-nice one of the processes to make sure that \"shorten\"?",
+   "id": "bmr021-0240"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 625.689,
+   "endSec": 631.77,
+   "text": "No, no. Actually it was fast enough. This is very fast. This – this really runs quickly. And that's -",
+   "id": "bmr021-0241"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 629.02,
+   "endSec": 634.24,
+   "text": "Wow. That must have been suspenseful.",
+   "id": "bmr021-0242"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 632.233,
+   "endSec": 635.02,
+   "text": "Watching the disk meter.",
+   "id": "bmr021-0243"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 632.34,
+   "endSec": 641.53,
+   "text": "That was very suspenseful. That was – that was the most excitement I had all weekend. Uh, uh boy, it uh came out just fine. So.",
+   "id": "bmr021-0244"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 639.311,
+   "endSec": 640.321,
+   "text": "To be OK.",
+   "id": "bmr021-0245"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 639.71,
+   "endSec": 650.55,
+   "text": "You know what would be a - u- I don't know if this would mess other things up, but - It seems like kind of a pain to have all these split up files around. What would be easier would be like pointers.",
+   "id": "bmr021-0246"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 649.22,
+   "endSec": 650.78,
+   "text": "The list, yep.",
+   "id": "bmr021-0247"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 650.55,
+   "endSec": 654.368,
+   "text": "You know, lists like \"original wavefile, start, end\".",
+   "id": "bmr021-0248"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 652.37,
+   "endSec": 653.266,
+   "text": "Start end.",
+   "id": "bmr021-0249"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 654.368,
+   "endSec": 655.473,
+   "text": "This is -",
+   "id": "bmr021-0250"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 654.385,
+   "endSec": 656.434,
+   "text": "Yep, the way Feacalc – calc does it.",
+   "id": "bmr021-0251"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 655.18,
+   "endSec": 670.25,
+   "text": "Right, the – the only reason we do this is because the – the SRI front-end doesn't have a way to – to um go into a l- a longer file with indices. Um, so I – I suppose",
+   "id": "bmr021-0252"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 667.0,
+   "endSec": 668.354,
+   "text": "And segment on the fly.",
+   "id": "bmr021-0253"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 670.25,
+   "endSec": 673.78,
+   "text": "someone could try to put a hack like that into the -",
+   "id": "bmr021-0254"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 673.55,
+   "endSec": 678.19,
+   "text": "It would be easy. It wouldn't be hard at all. Someone just needs to d- sit down and do it who has some time.",
+   "id": "bmr021-0255"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 679.45,
+   "endSec": 680.197,
+   "text": "So.",
+   "id": "bmr021-0256"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 681.28,
+   "endSec": 683.64,
+   "text": "But there's also some – I guess -",
+   "id": "bmr021-0257"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 683.64,
+   "endSec": 692.048,
+   "text": "And that way we wouldn't have multiple versions floating around. About the only difficulty with that is if it's compressed. Then you really do have to decompress it first.",
+   "id": "bmr021-0258"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 692.99,
+   "endSec": 693.97,
+   "text": "That's true.",
+   "id": "bmr021-0259"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 693.12,
+   "endSec": 696.743,
+   "text": "Right? Because the pointers are - Y- you don't know how much it's comp-",
+   "id": "bmr021-0260"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 696.47,
+   "endSec": 700.95,
+   "text": "Well, is there – is there – is there a NIST routine which",
+   "id": "bmr021-0261"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 696.743,
+   "endSec": 698.445,
+   "text": "It doesn't compress it by a fixed amount.",
+   "id": "bmr021-0262"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 696.75,
+   "endSec": 698.9,
+   "text": "Exactly. Right right right right right.",
+   "id": "bmr021-0263"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 701.11,
+   "endSec": 705.45,
+   "text": "can seek in a compressed file but with uncompressed indices?",
+   "id": "bmr021-0264"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 705.84,
+   "endSec": 707.03,
+   "text": "I don't think so.",
+   "id": "bmr021-0265"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 707.04,
+   "endSec": 708.94,
+   "text": "And yeah I mean, that – it -",
+   "id": "bmr021-0266"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 707.93,
+   "endSec": 718.0,
+   "text": "No, no. I mean, if you - Th- the – the – the - If you can operate on the full - If you don't have to segment it, then there would be less of a reason to do the compression, because you don't have that wasted -",
+   "id": "bmr021-0267"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 718.0,
+   "endSec": 718.303,
+   "text": "Right.",
+   "id": "bmr021-0268"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 718.12,
+   "endSec": 719.46,
+   "text": "that extra copy. So.",
+   "id": "bmr021-0269"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 718.74,
+   "endSec": 723.59,
+   "text": "Right we – I mean the original Switchboard files are not compressed, right? So we could leave those as they are.",
+   "id": "bmr021-0270"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 719.074,
+   "endSec": 719.523,
+   "text": "Yeah.",
+   "id": "bmr021-0271"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 721.36,
+   "endSec": 722.27,
+   "text": "Right.",
+   "id": "bmr021-0272"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 723.33,
+   "endSec": 731.31,
+   "text": "Well, I mean, it just depends on how much disk space is a problem. I mean the – what you could do is decompress it to a temporary place and then operate on it and then delete it.",
+   "id": "bmr021-0273"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 723.515,
+   "endSec": 724.13,
+   "text": "Right.",
+   "id": "bmr021-0274"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 731.69,
+   "endSec": 732.185,
+   "text": "But.",
+   "id": "bmr021-0275"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 732.34,
+   "endSec": 737.437,
+   "text": "I mean, the segmentation also saves you space in the sense that you cut out all the nonspeech regions.",
+   "id": "bmr021-0276"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 736.18,
+   "endSec": 738.23,
+   "text": "Just silences, yeah.",
+   "id": "bmr021-0277"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 737.437,
+   "endSec": 741.65,
+   "text": "And if you have, you know, twenty channels and only five speakers, then it's -",
+   "id": "bmr021-0278"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 737.44,
+   "endSec": 738.086,
+   "text": "That's true.",
+   "id": "bmr021-0279"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 737.98,
+   "endSec": 738.79,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0280"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 739.32,
+   "endSec": 743.26,
+   "text": "Well, assuming you'd – Yeah. Assuming that you then off-load the original",
+   "id": "bmr021-0281"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 743.45,
+   "endSec": 744.32,
+   "text": "Yeah.",
+   "id": "bmr021-0282"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 743.93,
+   "endSec": 745.14,
+   "text": "Switchboard files.",
+   "id": "bmr021-0283"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 745.136,
+   "endSec": 745.508,
+   "text": "So.",
+   "id": "bmr021-0284"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 746.259,
+   "endSec": 747.021,
+   "text": "Mmm.",
+   "id": "bmr021-0285"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 746.329,
+   "endSec": 746.699,
+   "text": "Yeah.",
+   "id": "bmr021-0286"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 747.75,
+   "endSec": 751.311,
+   "text": "Well, it seems like just shortening them is a good short-term solution so we don't have to do any coding.",
+   "id": "bmr021-0287"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 749.371,
+   "endSec": 750.744,
+   "text": "Yeah, yeah.",
+   "id": "bmr021-0288"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 751.506,
+   "endSec": 752.548,
+   "text": "Yeah.",
+   "id": "bmr021-0289"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 751.9,
+   "endSec": 755.76,
+   "text": "But I think – kind of – We've had – There was a big disk crash when you were gone and -",
+   "id": "bmr021-0290"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 752.186,
+   "endSec": 752.633,
+   "text": "So.",
+   "id": "bmr021-0291"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 755.76,
+   "endSec": 759.029,
+   "text": "No, it was – I was still here. It was the day I left.",
+   "id": "bmr021-0292"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 757.47,
+   "endSec": 760.563,
+   "text": "Oh was that the day you left? That's suspicious.",
+   "id": "bmr021-0293"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 760.04,
+   "endSec": 761.2,
+   "text": "He did it on purpose.",
+   "id": "bmr021-0294"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 760.563,
+   "endSec": 763.682,
+   "text": "Yeah. Leave to Japan the day the disk crashes.",
+   "id": "bmr021-0295"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 762.517,
+   "endSec": 766.12,
+   "text": "No if I – if I had done it on purpose I would have timed it right after I left.",
+   "id": "bmr021-0296"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 767.69,
+   "endSec": 780.149,
+   "text": "But, um – Yeah so, Chuck helped me out in, uh, r- regenerating all the cha- the different channel files for like a few meetings – for like six meetings. So I think they're split up even further. It's kind of even more disorganized now since",
+   "id": "bmr021-0297"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 775.918,
+   "endSec": 776.555,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0298"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 780.7,
+   "endSec": 785.228,
+   "text": "we moved some of the meetings to different directories. They're on a different disk even, right?",
+   "id": "bmr021-0299"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 785.133,
+   "endSec": 785.858,
+   "text": "Are they?",
+   "id": "bmr021-0300"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 785.228,
+   "endSec": 788.487,
+   "text": "I think – you – didn't you expand them to XE on Abbott?",
+   "id": "bmr021-0301"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 788.91,
+   "endSec": 789.86,
+   "text": "XF.",
+   "id": "bmr021-0302"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 789.608,
+   "endSec": 790.906,
+   "text": "No, you – the ones that",
+   "id": "bmr021-0303"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 790.44,
+   "endSec": 791.41,
+   "text": "Oh, different ones?",
+   "id": "bmr021-0304"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 791.353,
+   "endSec": 793.534,
+   "text": "You – the ones that you put them on when you put them on XE.",
+   "id": "bmr021-0305"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 793.692,
+   "endSec": 795.308,
+   "text": "I don't remember where I put them now.",
+   "id": "bmr021-0306"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 795.17,
+   "endSec": 797.6,
+   "text": "I think you put them on XE. So.",
+   "id": "bmr021-0307"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 796.076,
+   "endSec": 796.916,
+   "text": "OK.",
+   "id": "bmr021-0308"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 796.74,
+   "endSec": 811.559,
+   "text": "Well what we – what we found out was that um the disk that crashed was – it – w- with a – with a meta disk allocation, you had both c- t- transcripts and the shortened files and the expanded files were all on XE – were on the same – sorry, different partitions of the same physical disk.",
+   "id": "bmr021-0309"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 809.52,
+   "endSec": 810.57,
+   "text": "Physical disk.",
+   "id": "bmr021-0310"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 811.51,
+   "endSec": 812.23,
+   "text": "Mmm.",
+   "id": "bmr021-0311"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 812.033,
+   "endSec": 823.03,
+   "text": "And it's conceivable I mean, I – I don't – I mean, so um, I was told that it's possible that that might have, uh, caused additional wear on it. Maybe caused it to – to go bad sooner.",
+   "id": "bmr021-0312"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 821.75,
+   "endSec": 829.187,
+   "text": "Well, I think there was something else going on, because uh Dave Johnson said that DD was getting accessed frequently. And it shouldn't be.",
+   "id": "bmr021-0313"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 821.799,
+   "endSec": 822.434,
+   "text": "Hmm.",
+   "id": "bmr021-0314"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 827.699,
+   "endSec": 828.984,
+   "text": "Oh. Uh-huh.",
+   "id": "bmr021-0315"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 829.89,
+   "endSec": 833.721,
+   "text": "Right? That data never gets touched, because we write it once and then we never touch it again.",
+   "id": "bmr021-0316"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 830.02,
+   "endSec": 832.226,
+   "text": "Well, why not? Oh sure it does.",
+   "id": "bmr021-0317"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 833.28,
+   "endSec": 835.68,
+   "text": "Yeah, after each meeting we copy the data to -",
+   "id": "bmr021-0318"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 833.425,
+   "endSec": 834.449,
+   "text": "Except that -",
+   "id": "bmr021-0319"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 835.83,
+   "endSec": 839.882,
+   "text": "Well, I mean, so the wavefiles, or – or anything at all, because the transcripts are there as well.",
+   "id": "bmr021-0320"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 837.142,
+   "endSec": 840.067,
+   "text": "The wave files. I mean, he was saying gigabytes.",
+   "id": "bmr021-0321"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 840.35,
+   "endSec": 842.1,
+   "text": "Oh, gigabytes. I see.",
+   "id": "bmr021-0322"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 840.58,
+   "endSec": 842.608,
+   "text": "And so, it has to be the wave files.",
+   "id": "bmr021-0323"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 842.15,
+   "endSec": 843.61,
+   "text": "Yeah, there was something weird about that.",
+   "id": "bmr021-0324"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 842.18,
+   "endSec": 843.27,
+   "text": "Yeah, that's right.",
+   "id": "bmr021-0325"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 843.61,
+   "endSec": 847.67,
+   "text": "Yeah, so I asked Dave about it and he hasn't looked into it yet, but we should definitely double check on it.",
+   "id": "bmr021-0326"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 847.67,
+   "endSec": 853.44,
+   "text": "Yeah like – like the same meeting – shortened, files that we pull off of Popcorn when we're done doing the recording,",
+   "id": "bmr021-0327"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 853.45,
+   "endSec": 854.11,
+   "text": "Yeah.",
+   "id": "bmr021-0328"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 853.88,
+   "endSec": 859.552,
+   "text": "looked, to the backup software, as if they had been written, you know, every single night,",
+   "id": "bmr021-0329"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 857.97,
+   "endSec": 858.712,
+   "text": "Every night.",
+   "id": "bmr021-0330"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 859.54,
+   "endSec": 860.67,
+   "text": "Is that right.",
+   "id": "bmr021-0331"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 860.016,
+   "endSec": 863.17,
+   "text": "i- for – f- you know, a week in a row, which is really weird.",
+   "id": "bmr021-0332"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 861.45,
+   "endSec": 864.46,
+   "text": "That's very strange. I didn't realize that. OK.",
+   "id": "bmr021-0333"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 862.0,
+   "endSec": 863.3,
+   "text": "Wow.",
+   "id": "bmr021-0334"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 864.97,
+   "endSec": 871.07,
+   "text": "So at any rate, so for file reorganization we need to first decide what we're gonna do and then when we're gonna do it.",
+   "id": "bmr021-0335"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 871.162,
+   "endSec": 871.82,
+   "text": "Yeah.",
+   "id": "bmr021-0336"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 871.82,
+   "endSec": 878.75,
+   "text": "So I'm not sure who isn't involved with that. I mean, certainly me, Chuck and Jane. Anyone else care?",
+   "id": "bmr021-0337"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 880.22,
+   "endSec": 890.31,
+   "text": "And I – and I'd like, in terms of the conventions, to also, uh, you know, s- send a bit to Dan Ellis to see if it's – if there's any – get his input on it. I don't think – I don't think that'll be – Yeah.",
+   "id": "bmr021-0338"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 880.479,
+   "endSec": 881.39,
+   "text": "No.",
+   "id": "bmr021-0339"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 888.134,
+   "endSec": 888.701,
+   "text": "Right.",
+   "id": "bmr021-0340"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 890.81,
+   "endSec": 892.244,
+   "text": "So, maybe we should do that",
+   "id": "bmr021-0341"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 892.059,
+   "endSec": 892.658,
+   "text": "Yeah.",
+   "id": "bmr021-0342"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 892.71,
+   "endSec": 896.471,
+   "text": "not during this meeting but s- another time, and just get a list of everything we're gonna do.",
+   "id": "bmr021-0343"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 893.35,
+   "endSec": 894.02,
+   "text": "Yeah.",
+   "id": "bmr021-0344"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 894.397,
+   "endSec": 894.953,
+   "text": "Yeah.",
+   "id": "bmr021-0345"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 895.421,
+   "endSec": 899.995,
+   "text": "Yeah. Maybe n- next week if we could. I'm trying to finish up some stuff.",
+   "id": "bmr021-0346"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 897.91,
+   "endSec": 898.536,
+   "text": "OK.",
+   "id": "bmr021-0347"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 899.27,
+   "endSec": 900.847,
+   "text": "Yeah sure. I'd like to -",
+   "id": "bmr021-0348"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 900.906,
+   "endSec": 906.891,
+   "text": "So just update all the naming conventions and put all the files where they really belong, on one disk,",
+   "id": "bmr021-0349"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 906.8,
+   "endSec": 907.946,
+   "text": "That sounds like a good idea.",
+   "id": "bmr021-0350"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 907.852,
+   "endSec": 913.53,
+   "text": "and then leave – leave everything in place until the back-up – until the next full back-up and then delete the old ones.",
+   "id": "bmr021-0351"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 912.923,
+   "endSec": 913.517,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0352"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 913.46,
+   "endSec": 919.814,
+   "text": "OK, now – and you're just – you're not talking about the s- the X disks – the X uh partitions, just the backed up space, or – ?",
+   "id": "bmr021-0353"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 914.08,
+   "endSec": 914.689,
+   "text": "So.",
+   "id": "bmr021-0354"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 920.01,
+   "endSec": 922.174,
+   "text": "Well, both need to be reorganized.",
+   "id": "bmr021-0355"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 922.081,
+   "endSec": 922.78,
+   "text": "OK.",
+   "id": "bmr021-0356"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 923.05,
+   "endSec": 924.057,
+   "text": "So um,",
+   "id": "bmr021-0357"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 925.66,
+   "endSec": 929.81,
+   "text": "various paths, th- I mean this is why we have to do it in a synchronized way, because um",
+   "id": "bmr021-0358"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 929.91,
+   "endSec": 934.472,
+   "text": "I think we should also at the same time try to, uh, convert over to your new naming conventions.",
+   "id": "bmr021-0359"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 933.93,
+   "endSec": 935.87,
+   "text": "Yes, exactly. That too.",
+   "id": "bmr021-0360"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 934.755,
+   "endSec": 935.686,
+   "text": "That'd be good.",
+   "id": "bmr021-0361"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 936.1,
+   "endSec": 938.72,
+   "text": "So that's what I was saying. We need to get a list of all that stuff that we wanna do.",
+   "id": "bmr021-0362"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 936.957,
+   "endSec": 937.711,
+   "text": "Yeah.",
+   "id": "bmr021-0363"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 938.806,
+   "endSec": 939.57,
+   "text": "OK.",
+   "id": "bmr021-0364"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 939.918,
+   "endSec": 946.15,
+   "text": "And so I didn't really get any responses from the naming conventions that I sent out, so I assume that's alright with everyone.",
+   "id": "bmr021-0365"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 945.46,
+   "endSec": 949.89,
+   "text": "I actually haven't looked at it yet. I haven't had a chance, so.",
+   "id": "bmr021-0366"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 946.651,
+   "endSec": 947.618,
+   "text": "No.",
+   "id": "bmr021-0367"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 946.815,
+   "endSec": 948.732,
+   "text": "Hmm.",
+   "id": "bmr021-0368"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 946.83,
+   "endSec": 950.007,
+   "text": "I haven't either. Sorry.",
+   "id": "bmr021-0369"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 946.989,
+   "endSec": 947.443,
+   "text": "Oh.",
+   "id": "bmr021-0370"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 949.985,
+   "endSec": 950.465,
+   "text": "And -",
+   "id": "bmr021-0371"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 950.007,
+   "endSec": 952.19,
+   "text": "I will by next week, though.",
+   "id": "bmr021-0372"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 950.71,
+   "endSec": 953.57,
+   "text": "Uh, I don't know about the naming, I mean,",
+   "id": "bmr021-0373"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 950.835,
+   "endSec": 953.345,
+   "text": "OK. Then I should have made that as an agenda item.",
+   "id": "bmr021-0374"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 954.19,
+   "endSec": 966.59,
+   "text": "Th- so these names that we've been using so far are with uh uh uh I wouldn't just wanna change them you know, without some advance notice.",
+   "id": "bmr021-0375"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 965.666,
+   "endSec": 966.255,
+   "text": "Right.",
+   "id": "bmr021-0376"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 966.65,
+   "endSec": 971.547,
+   "text": "I mean, th- that's all these segment names that we- we've been using. I would rather not mess with them",
+   "id": "bmr021-0377"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 968.73,
+   "endSec": 969.584,
+   "text": "Yeah.",
+   "id": "bmr021-0378"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 971.14,
+   "endSec": 972.552,
+   "text": "Yeah, I'm -",
+   "id": "bmr021-0379"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 971.797,
+   "endSec": 974.94,
+   "text": "until we have some closure on some of the things we are currently",
+   "id": "bmr021-0380"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 974.94,
+   "endSec": 975.31,
+   "text": "Right.",
+   "id": "bmr021-0381"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 975.31,
+   "endSec": 976.66,
+   "text": "dealing with, so -",
+   "id": "bmr021-0382"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 975.46,
+   "endSec": 977.821,
+   "text": "Well, I mean, how you choose to do it – the naming is up to you.",
+   "id": "bmr021-0383"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 977.859,
+   "endSec": 978.642,
+   "text": "Right.",
+   "id": "bmr021-0384"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 977.96,
+   "endSec": 978.85,
+   "text": "Well,",
+   "id": "bmr021-0385"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 978.47,
+   "endSec": 979.32,
+   "text": "So.",
+   "id": "bmr021-0386"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 979.03,
+   "endSec": 980.574,
+   "text": "You're talking about different files.",
+   "id": "bmr021-0387"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 979.32,
+   "endSec": 983.879,
+   "text": "I mean, it should probably be – eventually should probably be consistent with what you're doing but,",
+   "id": "bmr021-0388"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 982.853,
+   "endSec": 983.339,
+   "text": "Yep.",
+   "id": "bmr021-0389"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 983.879,
+   "endSec": 986.214,
+   "text": "yeah, I kind of agree with Andreas, like I'm a little bit -",
+   "id": "bmr021-0390"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 986.561,
+   "endSec": 987.578,
+   "text": "I mean, these -",
+   "id": "bmr021-0391"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 987.065,
+   "endSec": 992.58,
+   "text": "I looked at the naming conventions and they look fine to me, but at the same time it was just like you know to rename everything would be -",
+   "id": "bmr021-0392"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 990.478,
+   "endSec": 995.1,
+   "text": "Well, if we - If we change things, it won't really affect what you're doing, will it?",
+   "id": "bmr021-0393"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 994.182,
+   "endSec": 994.882,
+   "text": "This -",
+   "id": "bmr021-0394"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 994.35,
+   "endSec": 999.012,
+   "text": "No but I think just to be consistent we should also, I mean, have the same conventions, just in case you want -",
+   "id": "bmr021-0395"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 997.995,
+   "endSec": 998.562,
+   "text": "Right.",
+   "id": "bmr021-0396"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 998.13,
+   "endSec": 1000.612,
+   "text": "Yeah. So you – but you can switch that any time you want, right?",
+   "id": "bmr021-0397"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 1000.13,
+   "endSec": 1004.543,
+   "text": "Yeah. Yeah. I mean, it's only gonna affect my work. So. Yeah, it's not gonna -",
+   "id": "bmr021-0398"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1004.813,
+   "endSec": 1005.798,
+   "text": "I mean, if we -",
+   "id": "bmr021-0399"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 1005.022,
+   "endSec": 1011.57,
+   "text": "I assume you're not gonna go, like, into, you know, my directories and change my file names. So. Yeah.",
+   "id": "bmr021-0400"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1007.04,
+   "endSec": 1020.01,
+   "text": "Everybody will use it. Fine slash U slash star.",
+   "id": "bmr021-0401"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1007.41,
+   "endSec": 1008.559,
+   "text": "Right.",
+   "id": "bmr021-0402"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1008.4,
+   "endSec": 1012.247,
+   "text": "I – Actually I was gonna do a global search-replace on all entries at -",
+   "id": "bmr021-0403"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1013.869,
+   "endSec": 1018.9,
+   "text": "at ICSI to change MR to MRM at all places at ICSI.",
+   "id": "bmr021-0404"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 1016.95,
+   "endSec": 1020.53,
+   "text": "Yeah, that'd be great. Really enjoy that.",
+   "id": "bmr021-0405"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1021.66,
+   "endSec": 1023.055,
+   "text": "With no – with no advance warning.",
+   "id": "bmr021-0406"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1022.57,
+   "endSec": 1025.528,
+   "text": "Y- you - Well, maybe I shouldn't say that on re- record.",
+   "id": "bmr021-0407"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1026.091,
+   "endSec": 1026.88,
+   "text": "OK.",
+   "id": "bmr021-0408"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1027.589,
+   "endSec": 1038.45,
+   "text": "There was a typo in some of the contracts that Morgan got that someone, one of our sponsors, did a global sear- search and replace for – between \"sponsor\" and their name.",
+   "id": "bmr021-0409"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1038.258,
+   "endSec": 1038.901,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0410"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1038.28,
+   "endSec": 1040.64,
+   "text": "Oh no, oh no.",
+   "id": "bmr021-0411"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1039.621,
+   "endSec": 1044.189,
+   "text": "And so, it – it was saying, uh - Well, anyway, I won't -",
+   "id": "bmr021-0412"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1043.45,
+   "endSec": 1048.03,
+   "text": "Yeah, one – one can imagine that that might be problematic.",
+   "id": "bmr021-0413"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1044.189,
+   "endSec": 1050.78,
+   "text": "I'm not sure whether that's right. Yeah, one can imagine the problems that that would engender. So.",
+   "id": "bmr021-0414"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1049.93,
+   "endSec": 1053.48,
+   "text": "But this – this name change affects a subset, doesn't need to reflect everything, yeah.",
+   "id": "bmr021-0415"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1053.017,
+   "endSec": 1053.568,
+   "text": "Right.",
+   "id": "bmr021-0416"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 1053.04,
+   "endSec": 1053.75,
+   "text": "Right.",
+   "id": "bmr021-0417"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1055.28,
+   "endSec": 1056.13,
+   "text": "Um,",
+   "id": "bmr021-0418"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1057.97,
+   "endSec": 1060.17,
+   "text": "Thilo, you had – you wanted to talk about the -",
+   "id": "bmr021-0419"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1058.81,
+   "endSec": 1067.68,
+   "text": "Yeah, I had one – one short point. I have just installed a Transcriber version on one of our NT machines so it's available under Windows now.",
+   "id": "bmr021-0420"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1067.68,
+   "endSec": 1071.6,
+   "text": "Oh great. Actually someone – I just got an email this week from someone as-",
+   "id": "bmr021-0421"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1068.22,
+   "endSec": 1069.12,
+   "text": "Isn't that great?",
+   "id": "bmr021-0422"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1070.13,
+   "endSec": 1078.06,
+   "text": "Yeah I re- responded to sh- I have already responded to him. I – I don't know what – what – what he – what the problem was. It was really straightforward, really easy.",
+   "id": "bmr021-0423"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1073.32,
+   "endSec": 1074.4,
+   "text": "To Anant?",
+   "id": "bmr021-0424"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1078.464,
+   "endSec": 1079.948,
+   "text": "And this is not – Mm-hmm.",
+   "id": "bmr021-0425"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1078.89,
+   "endSec": 1081.75,
+   "text": "Oh, I'm sorry, I – I just – So, who did you talk to?",
+   "id": "bmr021-0426"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1081.25,
+   "endSec": 1085.212,
+   "text": "There was some – some guy from SRI who wanted to – to install – Yeah.",
+   "id": "bmr021-0427"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1083.61,
+   "endSec": 1086.49,
+   "text": "Anant? Anant Venkataraman? OK.",
+   "id": "bmr021-0428"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1085.62,
+   "endSec": 1093.46,
+   "text": "Yeah. And he sent an email that he couldn't – couldn't install it and I – I just described him, well, what I did and it was really straightforward, so.",
+   "id": "bmr021-0429"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1087.057,
+   "endSec": 1093.43,
+   "text": "Yeah, OK. Great. Yeah, OK. Great. Great. Thanks. Thanks.",
+   "id": "bmr021-0430"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1093.37,
+   "endSec": 1096.32,
+   "text": "And this is not just the Transcriber, this is the Channeltrans, right?",
+   "id": "bmr021-0431"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1095.88,
+   "endSec": 1097.75,
+   "text": "Yeah, it's the Channeltrans, so the -",
+   "id": "bmr021-0432"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1096.045,
+   "endSec": 1096.743,
+   "text": "Yeah.",
+   "id": "bmr021-0433"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1096.733,
+   "endSec": 1097.858,
+   "text": "Yeah, excellent.",
+   "id": "bmr021-0434"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1097.97,
+   "endSec": 1098.49,
+   "text": "the",
+   "id": "bmr021-0435"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1098.191,
+   "endSec": 1099.21,
+   "text": "Cool.",
+   "id": "bmr021-0436"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1099.43,
+   "endSec": 1100.626,
+   "text": "things that Dave Gelbart -",
+   "id": "bmr021-0437"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1100.12,
+   "endSec": 1100.667,
+   "text": "Excellent.",
+   "id": "bmr021-0438"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1100.7,
+   "endSec": 1106.789,
+   "text": "So you should probably talk to a Sys Admin and get it put in some central place. So that it'll work on all the NT machines.",
+   "id": "bmr021-0439"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1106.531,
+   "endSec": 1113.49,
+   "text": "Well, I mean, as it stands, I – I guess – yeah I see what you mean. It'll – it'll be on the – on the UNIX side but accessible through the Hdrive. Yeah.",
+   "id": "bmr021-0440"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1107.41,
+   "endSec": 1107.832,
+   "text": "OK.",
+   "id": "bmr021-0441"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1109.69,
+   "endSec": 1110.186,
+   "text": "I've -",
+   "id": "bmr021-0442"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1112.6,
+   "endSec": 1113.18,
+   "text": "Right.",
+   "id": "bmr021-0443"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1113.911,
+   "endSec": 1115.95,
+   "text": "OK. Yeah. I could do that.",
+   "id": "bmr021-0444"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1116.78,
+   "endSec": 1120.46,
+   "text": "So I assume Tcl-TK wasn't already on the machine, so you had to install it. Yeah.",
+   "id": "bmr021-0445"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1120.14,
+   "endSec": 1121.61,
+   "text": "I had i- to install it, yeah.",
+   "id": "bmr021-0446"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1123.011,
+   "endSec": 1124.47,
+   "text": "Huh. Yeah.",
+   "id": "bmr021-0447"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1123.044,
+   "endSec": 1123.7,
+   "text": "Uh",
+   "id": "bmr021-0448"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1124.4,
+   "endSec": 1129.024,
+   "text": "So Andreas, would it be appropriate to ask how the experiments are going? Uh -",
+   "id": "bmr021-0449"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1128.88,
+   "endSec": 1137.65,
+   "text": "Oh, well, yeah I – I – I actually wasn't sure whether this is the right meeting for it, because it has uh very little to do with – with meeting recordings, but",
+   "id": "bmr021-0450"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1132.931,
+   "endSec": 1133.416,
+   "text": "Hmm.",
+   "id": "bmr021-0451"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1137.65,
+   "endSec": 1170.25,
+   "text": "[unclear] you know, I did uh run um some recognition experiments with ICSI front-end. Um Uh, and – and you know, this is the j- joint work with Chuck, and uh, um. So, first, uh, you know, we had - we figured out sometime last week how to um - and – and Chuck wrote this really nice little script – Perl script that takes a uh waveform, runs the feature calculation and then dumps it out into the – into um",
+   "id": "bmr021-0452"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1170.25,
+   "endSec": 1186.08,
+   "text": "a f- c- so-called uh cepstra file, which is what the SRI system uses to read features. It's essentially uh uh NIST headered uh waveform. You know, it looks like a waveform except instead of samples you have feature vectors following the header.",
+   "id": "bmr021-0453"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 1184.518,
+   "endSec": 1185.27,
+   "text": "Hmm.",
+   "id": "bmr021-0454"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1184.787,
+   "endSec": 1185.386,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0455"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1186.332,
+   "endSec": 1220.12,
+   "text": "And um that's all done um by the script, and it works great. And uh I first trained up two systems, because it's gender-dep- you know, the SRI system is gender-dependent so to be comparable, I trained uh um on a sh- on a so-called short training set um a male system and a female system, and uh also for debugging purposes, and for the heck of it, I trained um - trained uh on the same training set uh a standard system with the SRI front-end from scratch,",
+   "id": "bmr021-0456"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1220.12,
+   "endSec": 1222.16,
+   "text": "um, and compared the two -",
+   "id": "bmr021-0457"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1222.34,
+   "endSec": 1224.42,
+   "text": "So, w- what features did you use?",
+   "id": "bmr021-0458"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1224.63,
+   "endSec": 1228.317,
+   "text": "Well, we used, uh, twelve PLP uh, uh -",
+   "id": "bmr021-0459"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1227.79,
+   "endSec": 1229.38,
+   "text": "So not RASTA, just PLP.",
+   "id": "bmr021-0460"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1228.867,
+   "endSec": 1229.963,
+   "text": "Just PLP.",
+   "id": "bmr021-0461"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1229.287,
+   "endSec": 1268.68,
+   "text": "Just PLP and actually that – uh, one of the questions I had was what the RASTA would possibly buy us. But um, we'll talk about that later. So, the uh – so the baseline system – w- the SRI system was – uh used – uh also uh uh used t- twelve uh mel – uh mel cepstra um based on a twenty-four filter bank um analysis. Um I do not know what – So the f- the bandwidth of the um SRI front-end is from hundreds hertz to th- th- thirty-se- thirty-seven fifty or something like that.",
+   "id": "bmr021-0462"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1265.66,
+   "endSec": 1267.14,
+   "text": "Thirty-seven fifty.",
+   "id": "bmr021-0463"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1268.68,
+   "endSec": 1279.35,
+   "text": "And I do not know what the um ICSI um front-end would do. I mean, what the bandwidth is. Um,",
+   "id": "bmr021-0464"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1280.547,
+   "endSec": 1284.42,
+   "text": "but the results are such that uh, let's see -",
+   "id": "bmr021-0465"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1284.71,
+   "endSec": 1288.56,
+   "text": "There's one other slight difference, right? Or two – two differences.",
+   "id": "bmr021-0466"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1287.17,
+   "endSec": 1301.43,
+   "text": "Oh yeah. So the SRI system also does um vocal tract length normalization and we couldn't figure out how to do that yet with the ICSI features. So that's one difference. And the other difference is that in the, uh -",
+   "id": "bmr021-0467"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1302.63,
+   "endSec": 1312.842,
+   "text": "in the SRI system, the uh th- the first – the Czero, the energy uh feature is normalized slightly differently from the rest. And what they do is",
+   "id": "bmr021-0468"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1311.93,
+   "endSec": 1312.297,
+   "text": "Huh.",
+   "id": "bmr021-0469"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1312.842,
+   "endSec": 1328.02,
+   "text": "they d- they subtract the maximum - For each waveform segment they subtract the maximum of – of th- over that waveform segment from from the values of – for that waveform. Which is a kind of automatic gain control, that is localized -",
+   "id": "bmr021-0470"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1326.41,
+   "endSec": 1330.33,
+   "text": "Do they subtract the max from each i- one or do they subtract each one from the max?",
+   "id": "bmr021-0471"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1331.279,
+   "endSec": 1332.81,
+   "text": "Who cares?",
+   "id": "bmr021-0472"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1331.68,
+   "endSec": 1332.324,
+   "text": "They subtract -",
+   "id": "bmr021-0473"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1332.93,
+   "endSec": 1333.89,
+   "text": "Doesn't matter?",
+   "id": "bmr021-0474"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1333.423,
+   "endSec": 1335.69,
+   "text": "No, just would be a sign change.",
+   "id": "bmr021-0475"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1334.297,
+   "endSec": 1337.37,
+   "text": "Except you get a lot of negatives the other way.",
+   "id": "bmr021-0476"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1334.92,
+   "endSec": 1348.071,
+   "text": "Right, right, right. Um, and then, after – But after they done this waveform based normalization, they then do a conversation length normalization just like all the other features. So it's their kind of two stage normalization.",
+   "id": "bmr021-0477"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1346.45,
+   "endSec": 1348.99,
+   "text": "Oh! Oh!",
+   "id": "bmr021-0478"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1348.555,
+   "endSec": 1356.931,
+   "text": "Um now, I understand that the common practice here has been to just do c- standard uh mean subtraction, um on the waveform. Um.",
+   "id": "bmr021-0479"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1356.26,
+   "endSec": 1357.53,
+   "text": "For the Czero.",
+   "id": "bmr021-0480"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1356.931,
+   "endSec": 1381.49,
+   "text": "Right. But in what we've done so far, because we didn't have any special provision for Czero , we just treat it as – as any of the other features, we've done standard mean subtraction over the whole conversation side. So um since both SRI and ICSI use this sort of local normalization for Czero that's presumably, you know, someone has done some experiments to – and found out that that works better.",
+   "id": "bmr021-0481"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1381.74,
+   "endSec": 1396.99,
+   "text": "Um, so that's another difference, and that might account for some of the discrepancies in the results. Um, but you know. So the the results are um",
+   "id": "bmr021-0482"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1398.13,
+   "endSec": 1411.34,
+   "text": "Where should I start? Uh the - So there's a two - Oh. I tried it with and without. Uh. So without and with adaptation.",
+   "id": "bmr021-0483"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1412.45,
+   "endSec": 1413.498,
+   "text": "How many iterations?",
+   "id": "bmr021-0484"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1416.29,
+   "endSec": 1417.6,
+   "text": "For the adaptation?",
+   "id": "bmr021-0485"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1416.899,
+   "endSec": 1417.446,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0486"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1418.491,
+   "endSec": 1421.92,
+   "text": "Well, y- we always do three EM iterations to",
+   "id": "bmr021-0487"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1420.685,
+   "endSec": 1421.255,
+   "text": "OK.",
+   "id": "bmr021-0488"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1421.94,
+   "endSec": 1448.64,
+   "text": "and it's – it's this – it's this quick and dirty - the phone loop adaptation which doesn't actually require prior recognition paths and – and so this is not the best you can do with adaptation, but it gives you sort of a first idea of what you could gain with it. And then, you know, so we have the the SRI front-end and the ICSI front-end and other than that the system configuration was identical. So it was the same -",
+   "id": "bmr021-0489"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1448.82,
+   "endSec": 1469.71,
+   "text": "They came up with um you know, same number of uh Gaussians per state cluster Um, same – The clustering used the same information loss threshold, which actually led to roughly the same number of Gaussians overall. So that the system configuration is – is comparable. Um, and the -",
+   "id": "bmr021-0490"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1471.51,
+   "endSec": 1474.4,
+   "text": "Uh, so without adaptation,",
+   "id": "bmr021-0491"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1475.808,
+   "endSec": 1477.33,
+   "text": "you had forty-nine p-",
+   "id": "bmr021-0492"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1476.14,
+   "endSec": 1478.18,
+   "text": "That's error rate or recognition rate?",
+   "id": "bmr021-0493"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1477.5,
+   "endSec": 1478.99,
+   "text": "This is error rate",
+   "id": "bmr021-0494"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1481.439,
+   "endSec": 1486.91,
+   "text": "in percent. And with adaptation",
+   "id": "bmr021-0495"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1488.52,
+   "endSec": 1492.5,
+   "text": "it's forty-seven point one and",
+   "id": "bmr021-0496"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1494.053,
+   "endSec": 1502.07,
+   "text": "this – this was fifty-two point six. and fifty-one point three",
+   "id": "bmr021-0497"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1501.741,
+   "endSec": 1502.229,
+   "text": "Hmm.",
+   "id": "bmr021-0498"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1502.261,
+   "endSec": 1513.9,
+   "text": "and then, when I combined them – I can actually combine them with something like ROVER. It's actually more sophisticated than ROVER but it's - Um, here I got",
+   "id": "bmr021-0499"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1516.003,
+   "endSec": 1522.06,
+   "text": "forty-eight point five and here I got forty-six point five.",
+   "id": "bmr021-0500"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1523.09,
+   "endSec": 1525.72,
+   "text": "So this is just combination at the utterance level.",
+   "id": "bmr021-0501"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1523.16,
+   "endSec": 1524.36,
+   "text": "Um.",
+   "id": "bmr021-0502"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1526.376,
+   "endSec": 1528.22,
+   "text": "At the utterance level, right.",
+   "id": "bmr021-0503"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1528.29,
+   "endSec": 1531.05,
+   "text": "Why do you think the ICSI front-end is so much worse?",
+   "id": "bmr021-0504"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1531.07,
+   "endSec": 1532.759,
+   "text": "Good question. That's fine .",
+   "id": "bmr021-0505"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1532.26,
+   "endSec": 1533.78,
+   "text": "That seems really odd to me.",
+   "id": "bmr021-0506"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1533.637,
+   "endSec": 1540.279,
+   "text": "Um, so, one percent I would attribute to the lack of VTL, about one percent. OK.",
+   "id": "bmr021-0507"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1538.85,
+   "endSec": 1540.76,
+   "text": "Oh right. Right, right, right.",
+   "id": "bmr021-0508"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1539.77,
+   "endSec": 1541.38,
+   "text": "OK. Ah OK.",
+   "id": "bmr021-0509"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1540.603,
+   "endSec": 1549.37,
+   "text": "And then maybe another up – I don't know how much the Czero normalization business really matters I can't it see, I mean can't see it – the [unclear]",
+   "id": "bmr021-0510"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1548.15,
+   "endSec": 1555.12,
+   "text": "Ca- can you run the SRI – Just as an experiment, run the SRI front-end without vocal tract norma- normalization, and see how much difference it makes?",
+   "id": "bmr021-0511"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1553.73,
+   "endSec": 1570.27,
+   "text": "I could. Yeah. I could certainly do that. Yeah. Um. We could also do the vocal tract length normalization with the ICSI features. That's something we wanted to do – yeah. We could – I was actually thinking we could use the warping factors that we compute for the MFCC's",
+   "id": "bmr021-0512"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1562.07,
+   "endSec": 1562.76,
+   "text": "Yeah.",
+   "id": "bmr021-0513"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1562.55,
+   "endSec": 1563.849,
+   "text": "If we could figure out how.",
+   "id": "bmr021-0514"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1568.784,
+   "endSec": 1569.275,
+   "text": "Yeah.",
+   "id": "bmr021-0515"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1570.35,
+   "endSec": 1581.41,
+   "text": "and just try them with the ICSI uh front-end. Because we already have the capability to apply the warping to the um - to the PLP c- uh Dan added the -",
+   "id": "bmr021-0516"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1578.67,
+   "endSec": 1580.38,
+   "text": "Yeah, Dan added that in, but -",
+   "id": "bmr021-0517"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1579.6,
+   "endSec": 1580.653,
+   "text": "Yeah, but the -",
+   "id": "bmr021-0518"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1581.91,
+   "endSec": 1582.84,
+   "text": "So.",
+   "id": "bmr021-0519"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1582.12,
+   "endSec": 1584.994,
+   "text": "They won't - they don't correspond one-to- one though.",
+   "id": "bmr021-0520"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1585.14,
+   "endSec": 1597.65,
+   "text": "No, but they should be close, since this - I mean the - Anyway. But I can certainly try the SRI front-end without uh VTL. That sh- that's – that's certainly quick to do.",
+   "id": "bmr021-0521"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1595.202,
+   "endSec": 1595.725,
+   "text": "Yeah.",
+   "id": "bmr021-0522"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1597.86,
+   "endSec": 1604.67,
+   "text": "Um and so - Yeah, and – and then there's all these um -",
+   "id": "bmr021-0523"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1605.94,
+   "endSec": 1608.0,
+   "text": "You know, the number of um -",
+   "id": "bmr021-0524"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1609.75,
+   "endSec": 1615.361,
+   "text": "You know, this front-end u- had a fair amount of experimentation going into it. You know, how many",
+   "id": "bmr021-0525"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1613.733,
+   "endSec": 1614.379,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0526"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1615.512,
+   "endSec": 1623.35,
+   "text": "filter banks do you use, what – what bandwidth do you use, and stuff like that. And uh we could play the same kind of games with the ICSI front-end.",
+   "id": "bmr021-0527"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1622.64,
+   "endSec": 1623.33,
+   "text": "Right.",
+   "id": "bmr021-0528"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1623.36,
+   "endSec": 1635.35,
+   "text": "Uh, actually, the analysis bandwidth played a very crucial role. We used to use a narrow bandwidth and uh uh that hurt us. So this is, um – And this is – We've now used roughly what everybody else is using. So",
+   "id": "bmr021-0529"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1634.529,
+   "endSec": 1635.051,
+   "text": "Hmm.",
+   "id": "bmr021-0530"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1635.54,
+   "endSec": 1671.225,
+   "text": "um, there's some room for improvements, I figure, in this – in the ICSI front-end. Um. So. But the good news is that even with this – with the ICSI system being that much worse, you still get a win out of combining the two. So that gives some hope for the future. Um. Unfortunately however this seems to be reduced with adaptation, so. Um. Also interestingly the - Um, the difference actually widens. I would actually expect it or – or hope that the adaptation reduces the difference because it might",
+   "id": "bmr021-0531"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1671.727,
+   "endSec": 1674.377,
+   "text": "um, for instance, um",
+   "id": "bmr021-0532"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1676.78,
+   "endSec": 1678.97,
+   "text": "remove some of the um -",
+   "id": "bmr021-0533"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1680.44,
+   "endSec": 1713.019,
+   "text": "You know, som- If you – if you have some – some difference in the front-end processing that uh is suboptimal, but can be possibly remedied by you know moving the um moving the models around. But – but apparently that doesn't - doesn't really – actually the difference becomes larger, so. Um. Anyway. So right now what I'm doing is um - Uh well, there's several things going on. One is that Chuck is working on uh getting the tandem features um into a form that we can train the tandem – the system on the tandem features. So that would actually be the",
+   "id": "bmr021-0534"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1713.358,
+   "endSec": 1726.028,
+   "text": "more interesting experiment. Um, the other thing is I'm training uh retraining the models on the large training set that we usually use to build our evaluation models and then we can -",
+   "id": "bmr021-0535"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1723.663,
+   "endSec": 1724.29,
+   "text": "Right.",
+   "id": "bmr021-0536"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1726.338,
+   "endSec": 1741.69,
+   "text": "And I actually want to do the system combination um with our eval system um, on some subset of the data at least, probably only for the males, because I don't have time to train both males and females, but um. Uh and um -",
+   "id": "bmr021-0537"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1741.186,
+   "endSec": 1746.06,
+   "text": "What about ta- concatenating the two feature vectors into a single one?",
+   "id": "bmr021-0538"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1745.861,
+   "endSec": 1747.148,
+   "text": "It gets pretty big.",
+   "id": "bmr021-0539"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1748.115,
+   "endSec": 1749.98,
+   "text": "It does get pretty big. Yeah.",
+   "id": "bmr021-0540"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1749.308,
+   "endSec": 1749.903,
+   "text": "Hmm.",
+   "id": "bmr021-0541"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1749.91,
+   "endSec": 1756.05,
+   "text": "And m- my experience with that in Broadcast News was usually combining at other levels works better.",
+   "id": "bmr021-0542"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1755.637,
+   "endSec": 1756.256,
+   "text": "Hmm.",
+   "id": "bmr021-0543"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1756.499,
+   "endSec": 1759.61,
+   "text": "So. For – for whatever that's worth.",
+   "id": "bmr021-0544"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1758.34,
+   "endSec": 1760.86,
+   "text": "Oh, you tried that on Broadcast News? Concatenating",
+   "id": "bmr021-0545"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1759.79,
+   "endSec": 1762.717,
+   "text": "Oh yeah. Yeah. So w- Yep.",
+   "id": "bmr021-0546"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1761.331,
+   "endSec": 1764.535,
+   "text": "different feature sets? Yeah. Did you try uh -",
+   "id": "bmr021-0547"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1763.79,
+   "endSec": 1766.65,
+   "text": "It was mostly MSG, PLP, RASTA.",
+   "id": "bmr021-0548"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1766.27,
+   "endSec": 1767.2,
+   "text": "I see.",
+   "id": "bmr021-0549"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1766.78,
+   "endSec": 1775.01,
+   "text": "So, you know, the feature sets we had available. And it was almost always better to combine at the probability level. You know, so we'd run the neural nets and combine the probabilities.",
+   "id": "bmr021-0550"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1768.51,
+   "endSec": 1769.224,
+   "text": "I see.",
+   "id": "bmr021-0551"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1772.48,
+   "endSec": 1775.17,
+   "text": "OK. Alright.",
+   "id": "bmr021-0552"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1776.54,
+   "endSec": 1781.661,
+   "text": "Oh. Yeah, and it does become sort of unwieldy to have these very large feature vectors. And that would",
+   "id": "bmr021-0553"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1779.976,
+   "endSec": 1780.54,
+   "text": "Yep.",
+   "id": "bmr021-0554"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1782.15,
+   "endSec": 1783.059,
+   "text": "blow up the",
+   "id": "bmr021-0555"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1783.55,
+   "endSec": 1787.09,
+   "text": "You'd also have to do some sort of normalization afterwards",
+   "id": "bmr021-0556"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1783.67,
+   "endSec": 1784.319,
+   "text": "uh -",
+   "id": "bmr021-0557"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1787.25,
+   "endSec": 1789.31,
+   "text": "so that they're uh orthogonal.",
+   "id": "bmr021-0558"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1789.036,
+   "endSec": 1790.18,
+   "text": "Right.",
+   "id": "bmr021-0559"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1789.84,
+   "endSec": 1792.2,
+   "text": "So you'd wanna do a linear transform also.",
+   "id": "bmr021-0560"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1792.626,
+   "endSec": 1793.498,
+   "text": "Right.",
+   "id": "bmr021-0561"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1794.713,
+   "endSec": 1796.03,
+   "text": "Um",
+   "id": "bmr021-0562"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1797.31,
+   "endSec": 1814.451,
+   "text": "so the – Yeah, and then we could start experimenting a little bit to try to get the ICSI front-end to perform better. Um. And – and as a preliminary just sort of diagnostic experiment we can – I can certainly run a SRI system without VTL",
+   "id": "bmr021-0563"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1814.439,
+   "endSec": 1815.02,
+   "text": "Yep.",
+   "id": "bmr021-0564"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1815.213,
+   "endSec": 1817.2,
+   "text": "just uh to get -",
+   "id": "bmr021-0565"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1816.169,
+   "endSec": 1818.805,
+   "text": "Wi- without what? Without VTL. OK.",
+   "id": "bmr021-0566"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1816.485,
+   "endSec": 1817.08,
+   "text": "Just -",
+   "id": "bmr021-0567"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1817.77,
+   "endSec": 1818.766,
+   "text": "Vocal tract thing, yeah.",
+   "id": "bmr021-0568"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1817.994,
+   "endSec": 1821.31,
+   "text": "Wh- Yeah. And that – that's quick to do.",
+   "id": "bmr021-0569"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1822.338,
+   "endSec": 1823.064,
+   "text": "So.",
+   "id": "bmr021-0570"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1822.79,
+   "endSec": 1829.615,
+   "text": "I was thinking about tandem system – Well, let's not talk about it here, but I had some thoughts about the tandem system.",
+   "id": "bmr021-0571"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1830.35,
+   "endSec": 1833.66,
+   "text": "yeah so but things are moving ahead, so",
+   "id": "bmr021-0572"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1834.023,
+   "endSec": 1835.445,
+   "text": "OK, should we do digits?",
+   "id": "bmr021-0573"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1835.688,
+   "endSec": 1837.97,
+   "text": "Digits. Sure.",
+   "id": "bmr021-0574"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1837.37,
+   "endSec": 1838.947,
+   "text": "Do we have any other topics?",
+   "id": "bmr021-0575"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1840.622,
+   "endSec": 1845.17,
+   "text": "OK, let's do them one at a time instead of simultaneous since we actually have time.",
+   "id": "bmr021-0576"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1841.914,
+   "endSec": 1844.62,
+   "text": "Poetic reading of digits.",
+   "id": "bmr021-0577"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1842.401,
+   "endSec": 1844.649,
+   "text": "Oh no.",
+   "id": "bmr021-0578"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1914.56,
+   "endSec": 1917.32,
+   "text": "Why don't we let Don go first before his battery dies?",
+   "id": "bmr021-0579"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 1918.411,
+   "endSec": 1919.81,
+   "text": "Mmm, OK.",
+   "id": "bmr021-0580"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2002.0,
+   "endSec": 2004.57,
+   "text": "Do you wanna say that one again? That last one?",
+   "id": "bmr021-0581"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 2005.36,
+   "endSec": 2007.12,
+   "text": "Um, why?",
+   "id": "bmr021-0582"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2007.128,
+   "endSec": 2009.27,
+   "text": "Or did – did you correct the whole one?",
+   "id": "bmr021-0583"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 2007.312,
+   "endSec": 2012.52,
+   "text": "I – yeah, sure. Yeah no I – I gotta write, so – I think. Yeah.",
+   "id": "bmr021-0584"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2010.98,
+   "endSec": 2013.911,
+   "text": "Oh he did? Never mind. OK good. Alright. So.",
+   "id": "bmr021-0585"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2085.563,
+   "endSec": 2088.11,
+   "text": "You can really tell from the prosody where it goes.",
+   "id": "bmr021-0586"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2086.02,
+   "endSec": 2093.46,
+   "text": "s- meeting. I actually have one more thing that – I don't know if it's – i- if – if it's allowed to – to bring up after the dis-",
+   "id": "bmr021-0587"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2091.52,
+   "endSec": 2093.32,
+   "text": "After digits, I don't know.",
+   "id": "bmr021-0588"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2093.66,
+   "endSec": 2099.468,
+   "text": "Anyway. But it might be important. For um – So Liz remarked that she had recorded a meeting where",
+   "id": "bmr021-0589"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2095.57,
+   "endSec": 2096.4,
+   "text": "Go ahead.",
+   "id": "bmr021-0590"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2100.313,
+   "endSec": 2105.84,
+   "text": "it was later found that several of the s- microphones were turned off, um",
+   "id": "bmr021-0591"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2104.637,
+   "endSec": 2105.151,
+   "text": "Mm-hmm.",
+   "id": "bmr021-0592"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2105.86,
+   "endSec": 2118.266,
+   "text": "and this must become a problem especially with non-speech-meetings. So um is there a way that the software could warn you if it gets zeros from some of the channels, or – ?",
+   "id": "bmr021-0593"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2117.88,
+   "endSec": 2120.59,
+   "text": "Probably. We could probably build that in to the front-end.",
+   "id": "bmr021-0594"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2119.077,
+   "endSec": 2126.27,
+   "text": "Because it – you know it's really annoying if you go through all that trouble and then basically the meetings aren't useable because uh even -",
+   "id": "bmr021-0595"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2125.08,
+   "endSec": 2127.495,
+   "text": "What are people doing, they're switching their mikes off or something?",
+   "id": "bmr021-0596"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2127.147,
+   "endSec": 2135.21,
+   "text": "I don't know what they do. Maybe the batteries went dead, or th- they just didn't – they played with the thing and it didn't leave it in the \"on\" position or whatever.",
+   "id": "bmr021-0597"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2135.21,
+   "endSec": 2139.55,
+   "text": "I don't know, uh eh. Fff. What would you like it to do when that happens?",
+   "id": "bmr021-0598"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2138.84,
+   "endSec": 2149.496,
+   "text": "Well, no, if – if you um – I mean obviously you always - I mean, there's never gonna be a signal from all the channels, right? because – or rarely. Um.",
+   "id": "bmr021-0599"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2150.76,
+   "endSec": 2152.65,
+   "text": "But uh.",
+   "id": "bmr021-0600"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2152.69,
+   "endSec": 2157.301,
+   "text": "Well if an unblacked out channel is zero, is actually spitting out zeros, you can be pretty sure it's off.",
+   "id": "bmr021-0601"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2157.64,
+   "endSec": 2158.09,
+   "text": "Right.",
+   "id": "bmr021-0602"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2158.09,
+   "endSec": 2166.26,
+   "text": "Because it doesn't spit out zeros, it spits out epsilons. Right? Cuz there's little background noise. The question is, when the software detects it, what do you want it to do?",
+   "id": "bmr021-0603"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2162.9,
+   "endSec": 2163.744,
+   "text": "Exactly.",
+   "id": "bmr021-0604"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2166.49,
+   "endSec": 2174.37,
+   "text": "That's a good question. I don't know. But is there some – We can collectively think of some – of some mechanism that might reduce the risk of – of just -",
+   "id": "bmr021-0605"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2169.47,
+   "endSec": 2171.11,
+   "text": "I mean, it – it – it -",
+   "id": "bmr021-0606"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2173.13,
+   "endSec": 2178.21,
+   "text": "We – we already have visual feedback, right? You can see whether your mike is working or not. Um.",
+   "id": "bmr021-0607"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2175.32,
+   "endSec": 2183.97,
+   "text": "Right. Right. So maybe it's just to admonish people to actually look at the screen at the beginning of the meeting to make sure they get a signal.",
+   "id": "bmr021-0608"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2182.238,
+   "endSec": 2182.762,
+   "text": "Yep.",
+   "id": "bmr021-0609"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2183.86,
+   "endSec": 2184.5,
+   "text": "Test -",
+   "id": "bmr021-0610"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2183.96,
+   "endSec": 2185.95,
+   "text": "Turn off the screen saver during the meeting.",
+   "id": "bmr021-0611"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2185.8,
+   "endSec": 2187.52,
+   "text": "Tell them to test their mikes, or -",
+   "id": "bmr021-0612"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2187.52,
+   "endSec": 2188.81,
+   "text": "Yeah, something.",
+   "id": "bmr021-0613"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2188.39,
+   "endSec": 2189.94,
+   "text": "I think they sh-",
+   "id": "bmr021-0614"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2188.69,
+   "endSec": 2190.78,
+   "text": "Yeah, I d- I don't know what to do other than -",
+   "id": "bmr021-0615"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 2189.484,
+   "endSec": 2193.356,
+   "text": "It – it can beep if one of the channels dies while recording.",
+   "id": "bmr021-0616"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2192.8,
+   "endSec": 2194.45,
+   "text": "There's no sound out right now.",
+   "id": "bmr021-0617"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 2194.03,
+   "endSec": 2195.89,
+   "text": "Oh. Never mind.",
+   "id": "bmr021-0618"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2195.8,
+   "endSec": 2198.836,
+   "text": "It should give the electric shock to the person recording the meeting.",
+   "id": "bmr021-0619"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2197.54,
+   "endSec": 2201.75,
+   "text": "Yep. Yep. Yeah yeah. That would be good. Well, we can think about what to do about it, but it -",
+   "id": "bmr021-0620"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2197.76,
+   "endSec": 2199.55,
+   "text": "Oh yeah. That's a good one.",
+   "id": "bmr021-0621"
+  },
+  {
+   "speaker": "me001",
+   "startSec": 2197.971,
+   "endSec": 2199.55,
+   "text": "Wow, that's not a bad idea.",
+   "id": "bmr021-0622"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2200.476,
+   "endSec": 2202.162,
+   "text": "Yeah. OK.",
+   "id": "bmr021-0623"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2201.97,
+   "endSec": 2204.42,
+   "text": "It's pretty clear we can detect it, so.",
+   "id": "bmr021-0624"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2204.623,
+   "endSec": 2206.16,
+   "text": "Yeah. Alright.",
+   "id": "bmr021-0625"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2204.84,
+   "endSec": 2205.96,
+   "text": "OK. Are we done?",
+   "id": "bmr021-0626"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2206.15,
+   "endSec": 2206.88,
+   "text": "Yeah.",
+   "id": "bmr021-0627"
+  }
+ ]
+}

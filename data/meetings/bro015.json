@@ -1,0 +1,924 @@
+{
+ "id": "bro015",
+ "title": "Robustness group meeting",
+ "source": {
+  "corpus": "ICSI Meeting Corpus",
+  "session": "Bro015",
+  "licence": "CC BY 4.0",
+  "url": "https://groups.inf.ed.ac.uk/ami/icsi/",
+  "modified": "Transcript converted to turns; digit-reading task and non-speech annotations removed.",
+  "notes": ""
+ },
+ "recordedAt": "2001-04-12T10:30:00-07:00",
+ "durationSec": 1014.7,
+ "speakers": [
+  {
+   "code": "me018",
+   "label": "Speaker A"
+  },
+  {
+   "code": "me013",
+   "label": "Speaker B"
+  },
+  {
+   "code": "mn007",
+   "label": "Speaker C"
+  },
+  {
+   "code": "me006",
+   "label": "Speaker D"
+  },
+  {
+   "code": "fn002",
+   "label": "Speaker E"
+  },
+  {
+   "code": "me026",
+   "label": "Speaker F"
+  }
+ ],
+ "turns": [
+  {
+   "speaker": "me018",
+   "startSec": 1.24,
+   "endSec": 2.83,
+   "text": "OK",
+   "id": "bro015-0000"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3.1,
+   "endSec": 23.572,
+   "text": "Uh. Alright. So. I uh uh wanted to mention a couple little bits of news. Um Hynek is supposed to come for a couple days next week. Don't know which days yet. So hopefully he'll have some intensive time to – to work with people.",
+   "id": "bro015-0001"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 24.808,
+   "endSec": 36.756,
+   "text": "Um. The second thing is that um we're starting to talk about maybe having Sunil come here uh for some chunk of the summer.",
+   "id": "bro015-0002"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 37.843,
+   "endSec": 63.976,
+   "text": "So that may or may not happen but if he does since actually Pratibha is going to be off at IBM um the uh effort will pretty much shift here, cuz Sunil will be here and other people are working on other things I think. So. So. Uh. That's my news.",
+   "id": "bro015-0003"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 65.947,
+   "endSec": 67.61,
+   "text": "Alright.",
+   "id": "bro015-0004"
+  },
+  {
+   "speaker": "me006",
+   "startSec": 67.013,
+   "endSec": 68.8,
+   "text": "Cool. I need a new office mate.",
+   "id": "bro015-0005"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 69.026,
+   "endSec": 72.3,
+   "text": "Oh, OK.",
+   "id": "bro015-0006"
+  },
+  {
+   "speaker": "me006",
+   "startSec": 69.4,
+   "endSec": 70.486,
+   "text": "Yeah. That's cool.",
+   "id": "bro015-0007"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 72.74,
+   "endSec": 74.65,
+   "text": "There you go.",
+   "id": "bro015-0008"
+  },
+  {
+   "speaker": "me006",
+   "startSec": 73.927,
+   "endSec": 75.65,
+   "text": "Right.",
+   "id": "bro015-0009"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 75.28,
+   "endSec": 79.38,
+   "text": "It will be some- sometime in summer. July or August, or.",
+   "id": "bro015-0010"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 78.866,
+   "endSec": 91.767,
+   "text": "Yeah, I mean it may not happen. I mean he wants – uh I think he wants some experience someplace else and he's – he's uh thinking of going someplace, but it's – I mean Pratibha is getting her experience going to IBM and he may come here. So.",
+   "id": "bro015-0011"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 80.424,
+   "endSec": 80.944,
+   "text": "Mm-hmm.",
+   "id": "bro015-0012"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 91.767,
+   "endSec": 99.93,
+   "text": "But y- I don't know maybe June. Maybe earlier. But uh. Anyway, Hynek will be here next week and maybe he'll know more about it.",
+   "id": "bro015-0013"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 104.75,
+   "endSec": 140.83,
+   "text": "Oh yeah. Well, the news more specifically t- for Aurora um So I guess there was again a conference call but uh they are not decide on everything yet. For the VAD they – probably they will do something like having some kind of idealized VAD that they could run on the channel zero of the SpeechDat-Car and then take the same um end points",
+   "id": "bro015-0014"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 140.83,
+   "endSec": 141.63,
+   "text": "Mm-hmm.",
+   "id": "bro015-0015"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 141.4,
+   "endSec": 143.78,
+   "text": "and apply them on channel one so it's -",
+   "id": "bro015-0016"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 142.84,
+   "endSec": 146.72,
+   "text": "Oh so take a real VAD but apply it to – to – to the clean -",
+   "id": "bro015-0017"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 145.338,
+   "endSec": 150.57,
+   "text": "Uh g- Yeah, to the clean and take the end points for the noisy. Mmm.",
+   "id": "bro015-0018"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 147.71,
+   "endSec": 150.82,
+   "text": "clean data. OK.",
+   "id": "bro015-0019"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 151.25,
+   "endSec": 156.01,
+   "text": "But I am not sure this is decided yet. Um.",
+   "id": "bro015-0020"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 155.0,
+   "endSec": 167.14,
+   "text": "And – and i- when they're talking about it, do you have the impression that they're talking about a particular VAD which everybody would use? or – or just that everybody would use the same procedure?",
+   "id": "bro015-0021"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 168.092,
+   "endSec": 173.77,
+   "text": "Well , probably uh s- the same VAD for everybody.",
+   "id": "bro015-0022"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 171.884,
+   "endSec": 172.443,
+   "text": "Mm-hmm.",
+   "id": "bro015-0023"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 174.25,
+   "endSec": 175.69,
+   "text": "Um.",
+   "id": "bro015-0024"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 175.0,
+   "endSec": 177.47,
+   "text": "So they would just provide that as part of the data.",
+   "id": "bro015-0025"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 177.6,
+   "endSec": 180.36,
+   "text": "Maybe. But this is still -",
+   "id": "bro015-0026"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 181.29,
+   "endSec": 183.331,
+   "text": "Yeah. Sounds like they're still arguing. Yeah.",
+   "id": "bro015-0027"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 182.87,
+   "endSec": 186.176,
+   "text": "Yeah, they're still not decided.",
+   "id": "bro015-0028"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 183.331,
+   "endSec": 187.085,
+   "text": "Yeah. Yeah.",
+   "id": "bro015-0029"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 187.148,
+   "endSec": 189.617,
+   "text": "Um I don't know what -",
+   "id": "bro015-0030"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 192.642,
+   "endSec": 221.31,
+   "text": "Yeah. Nothing much. Yeah. Probably the um - these weight things, they will apply the same kind of weighting scheme for TI-digits than for the SpeechDat-Car. So it would be weighting of um - It would be an average of improvements rather than an average of word error rates which would make the more clean",
+   "id": "bro015-0031"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 217.97,
+   "endSec": 218.91,
+   "text": "Mm-hmm.",
+   "id": "bro015-0032"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 221.64,
+   "endSec": 226.47,
+   "text": "parts of TI-digits more important than they are right now.",
+   "id": "bro015-0033"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 229.99,
+   "endSec": 231.305,
+   "text": "OK.",
+   "id": "bro015-0034"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 233.265,
+   "endSec": 238.39,
+   "text": "Uh but it sounds like none of this is really decided, that this is how things are leaning and -",
+   "id": "bro015-0035"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 236.44,
+   "endSec": 250.729,
+   "text": "This They – they t- I think they will tend to go this way, but hmm. Uh. Yeah, if we have the result for the tandem with um MSG also",
+   "id": "bro015-0036"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 252.319,
+   "endSec": 260.895,
+   "text": "So [unclear] it was t- Yeah there is no surpri- there is no surprise. Well,",
+   "id": "bro015-0037"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 262.093,
+   "endSec": 278.47,
+   "text": "so there is nor significant improvement. Um. Yeah, basically that's all. We've started to work on some kind of report for the work so we've not much",
+   "id": "bro015-0038"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 275.62,
+   "endSec": 276.5,
+   "text": "Mm-hmm.",
+   "id": "bro015-0039"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 278.89,
+   "endSec": 280.552,
+   "text": "more results. Hmm.",
+   "id": "bro015-0040"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 278.89,
+   "endSec": 283.57,
+   "text": "Yeah you have a uh – you have a lunch talk sometime in – When is it?",
+   "id": "bro015-0041"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 282.059,
+   "endSec": 283.91,
+   "text": "Mm-hmm. It's next week, yeah.",
+   "id": "bro015-0042"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 283.71,
+   "endSec": 285.25,
+   "text": "Next week? Oh, OK.",
+   "id": "bro015-0043"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 286.42,
+   "endSec": 294.27,
+   "text": "How about the um – the thing that you guys were working on before the uh Uh voiced-unvoiced uh -",
+   "id": "bro015-0044"
+  },
+  {
+   "speaker": "fn002",
+   "startSec": 294.44,
+   "endSec": 301.753,
+   "text": "Oh yes. But, no. This week I'm – I am begin to – to write the report on -",
+   "id": "bro015-0045"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 301.14,
+   "endSec": 301.852,
+   "text": "Ah.",
+   "id": "bro015-0046"
+  },
+  {
+   "speaker": "fn002",
+   "startSec": 301.753,
+   "endSec": 304.52,
+   "text": "I stopped it. Interfered. Yeah.",
+   "id": "bro015-0047"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 302.681,
+   "endSec": 304.43,
+   "text": "You stopped working on it I see",
+   "id": "bro015-0048"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 307.81,
+   "endSec": 309.61,
+   "text": "OK. Uh.",
+   "id": "bro015-0049"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 311.58,
+   "endSec": 320.89,
+   "text": "So it sounds like basically things are slowing down a bit? And – and – and trying to collate results? and get something from it?",
+   "id": "bro015-0050"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 319.68,
+   "endSec": 322.289,
+   "text": "Mm-hmm. Yeah.",
+   "id": "bro015-0051"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 322.25,
+   "endSec": 323.18,
+   "text": "Yeah.",
+   "id": "bro015-0052"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 322.289,
+   "endSec": 332.589,
+   "text": "Um. Yeah. Right now, Sunil seems i- is in India actually. Uh so there is no progress apparently from their side neither.",
+   "id": "bro015-0053"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 326.52,
+   "endSec": 327.28,
+   "text": "Right.",
+   "id": "bro015-0054"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 333.29,
+   "endSec": 336.837,
+   "text": "Right. But that sort of puts it on us to do it. But.",
+   "id": "bro015-0055"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 333.43,
+   "endSec": 334.718,
+   "text": "Um. And -",
+   "id": "bro015-0056"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 336.18,
+   "endSec": 337.359,
+   "text": "I'm sorry?",
+   "id": "bro015-0057"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 336.837,
+   "endSec": 340.788,
+   "text": "Kind of puts it on us to put more in, then, really.",
+   "id": "bro015-0058"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 340.097,
+   "endSec": 341.184,
+   "text": "Yeah.",
+   "id": "bro015-0059"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 340.788,
+   "endSec": 349.84,
+   "text": "I mean. Uh. Who's – who's – was uh looking at the combination of uh spectral s- subtraction approaches with what we had for instance.",
+   "id": "bro015-0060"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 350.05,
+   "endSec": 353.5,
+   "text": "Sunil was working on this.",
+   "id": "bro015-0061"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 352.298,
+   "endSec": 352.874,
+   "text": "OK.",
+   "id": "bro015-0062"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 353.5,
+   "endSec": 366.49,
+   "text": "Um. He sent a bunch of – a bunch of results uh but I don't know what's the status of this. I guess it was just the result that he sent, so. Um.",
+   "id": "bro015-0063"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 365.81,
+   "endSec": 366.94,
+   "text": "What was that again?",
+   "id": "bro015-0064"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 367.78,
+   "endSec": 375.753,
+   "text": "He just used the spectral subtraction and the LDA filters I guess",
+   "id": "bro015-0065"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 374.31,
+   "endSec": 375.21,
+   "text": "Mm-hmm.",
+   "id": "bro015-0066"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 375.753,
+   "endSec": 377.665,
+   "text": "Mmm.",
+   "id": "bro015-0067"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 376.84,
+   "endSec": 378.21,
+   "text": "And -",
+   "id": "bro015-0068"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 377.665,
+   "endSec": 395.336,
+   "text": "And it was not better than what we had before. Then he tried to put the on-line normalization and it did not improve further, putting the on-line normalization, so. Um. Yeah.",
+   "id": "bro015-0069"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 394.648,
+   "endSec": 395.072,
+   "text": "Hmm.",
+   "id": "bro015-0070"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 399.87,
+   "endSec": 400.97,
+   "text": "Huh.",
+   "id": "bro015-0071"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 402.666,
+   "endSec": 406.143,
+   "text": "OK. Well -",
+   "id": "bro015-0072"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 404.299,
+   "endSec": 404.71,
+   "text": "Hmm.",
+   "id": "bro015-0073"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 406.143,
+   "endSec": 416.064,
+   "text": "Yeah. I – uh, I g- so I guess nothing has ever happened about uh making a standardized uh place where the software sits so that people can work with it, and upgrade it?",
+   "id": "bro015-0074"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 415.09,
+   "endSec": 421.53,
+   "text": "No. Well, I – I sent mails to start the – the process and I guess we should have to -",
+   "id": "bro015-0075"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 423.523,
+   "endSec": 433.19,
+   "text": "Well, we know most what we have to – to put in – in this. And. Yeah. So, I guess. Yeah, we m-",
+   "id": "bro015-0076"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 432.77,
+   "endSec": 445.12,
+   "text": "OK. Well, uh. Let's – let's come back to this uh later. Um. OK. Um. Chuck, did you get a chance to do anymore stuff with the uh",
+   "id": "bro015-0077"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 445.94,
+   "endSec": 448.79,
+   "text": "No. I didn't. Um, are you talking about -",
+   "id": "bro015-0078"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 448.05,
+   "endSec": 449.45,
+   "text": "HTK, or – ?",
+   "id": "bro015-0079"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 449.12,
+   "endSec": 457.03,
+   "text": "Uh, no. This week I haven't. I've been – my whole time's been taken up with uh Meeting Recorder stuff. Uh, disk crash and uh",
+   "id": "bro015-0080"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 454.32,
+   "endSec": 458.11,
+   "text": "OK. OK.",
+   "id": "bro015-0081"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 457.43,
+   "endSec": 458.95,
+   "text": "covering things.",
+   "id": "bro015-0082"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 458.31,
+   "endSec": 462.89,
+   "text": "This may be a very short meeting. Uh. Um.",
+   "id": "bro015-0083"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 464.73,
+   "endSec": 469.33,
+   "text": "Anything from your side?",
+   "id": "bro015-0084"
+  },
+  {
+   "speaker": "me006",
+   "startSec": 466.1,
+   "endSec": 472.32,
+   "text": "Uh, continuing readings we come Uh. We're doing some background reading on phonetics.",
+   "id": "bro015-0085"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 469.33,
+   "endSec": 470.31,
+   "text": "Uh-huh.",
+   "id": "bro015-0086"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 472.35,
+   "endSec": 474.86,
+   "text": "OK. Dave?",
+   "id": "bro015-0087"
+  },
+  {
+   "speaker": "me006",
+   "startSec": 472.444,
+   "endSec": 473.443,
+   "text": "Yeah.",
+   "id": "bro015-0088"
+  },
+  {
+   "speaker": "me026",
+   "startSec": 474.07,
+   "endSec": 504.255,
+   "text": "Well um. One thing in – in the paper Avendano and his collaborators wrote is that – is that um they tried doing channel normalization on the reverberant in speech by um subtracting the mean of the log spectral magnitude over a two second window. But they didn't do anything with the phase, and they said perhaps that limited their approach that it did not try to normalize the phase in any way. So I'm – I'm going to start thinking about um ways that the ph- that the phase could be used.",
+   "id": "bro015-0089"
+  },
+  {
+   "speaker": "me026",
+   "startSec": 504.255,
+   "endSec": 529.73,
+   "text": "Um. Si- if – if the um channel and the reverberation is multiplicative in the frequency domain with the speech spectrum then the phases should be additive. So um perhaps just subtracting the mean of the phase would – would help. Um but I don't know I th- I get the impression that they tried to do some things with the phase and they weren't successful.",
+   "id": "bro015-0090"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 535.946,
+   "endSec": 536.65,
+   "text": "OK.",
+   "id": "bro015-0091"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 536.56,
+   "endSec": 560.92,
+   "text": "Oh. You know, there is one other thing. Um Stephane showed me a paper yesterday um where th- uh for the Italian system they had done a series of experiments playing around with the um – the number of iterations, that I talked about last week? And, um, so, there was a whole series of those that they had done. They didn't, I don't think, reported timing for those, but um",
+   "id": "bro015-0092"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 554.927,
+   "endSec": 555.462,
+   "text": "Mm-hmm.",
+   "id": "bro015-0093"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 561.79,
+   "endSec": 577.48,
+   "text": "it turns out that the one that they're actually using was not the best, uh in – in their series of experiments, which I uh – Maybe it's because they uh wanted to use the same number of iterations across all different languages and this was only done on Italian or something.",
+   "id": "bro015-0094"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 576.32,
+   "endSec": 578.5,
+   "text": "Sure. Wh- who's they – they?",
+   "id": "bro015-0095"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 578.04,
+   "endSec": 581.57,
+   "text": "Uh, I don't know who did it do you know, Stephane? Who did that?",
+   "id": "bro015-0096"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 580.91,
+   "endSec": 591.1,
+   "text": "Um. I don't know but it's the company who prepared the Italian database, so it was – Is it Alcatel, or – ?",
+   "id": "bro015-0097"
+  },
+  {
+   "speaker": "fn002",
+   "startSec": 590.65,
+   "endSec": 592.9,
+   "text": "I think so.",
+   "id": "bro015-0098"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 591.606,
+   "endSec": 591.967,
+   "text": "I -",
+   "id": "bro015-0099"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 592.9,
+   "endSec": 593.47,
+   "text": "Mmm.",
+   "id": "bro015-0100"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 594.42,
+   "endSec": 595.77,
+   "text": "I don't know.",
+   "id": "bro015-0101"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 595.11,
+   "endSec": 626.59,
+   "text": "So um you know there wasn't a huge difference in terms of the performance across all the different experiments that they did. Um. But it varied a little bit. And uh – So I guess the main thing that I take out of that is that I think that for our purposes here we could definitely you know decrease the number of iterations that we do and um, at least while we're, you know, working on uh all different of kinds of variations, and that would let us, you know, pump through a lot more experiments. So um I still have to – to send everybody a",
+   "id": "bro015-0102"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 626.64,
+   "endSec": 652.33,
+   "text": "pointer about uh how to run the um HTK system on the Linux boxes and about changing these number of iterations so that - so that you can do that. Um. So the – the other thing that that I was thinking about maybe trying out next is um - Oh! The other th- the other experiment that they had in that paper was uh uh playing with the number of Gaussians per state. And so.",
+   "id": "bro015-0103"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 651.38,
+   "endSec": 652.22,
+   "text": "Uh.",
+   "id": "bro015-0104"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 651.54,
+   "endSec": 652.81,
+   "text": "Mm-hmm.",
+   "id": "bro015-0105"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 652.33,
+   "endSec": 658.87,
+   "text": "I think it's – was playing with the number of states per word. They had sixteen, seventeen, eighteen.",
+   "id": "bro015-0106"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 659.96,
+   "endSec": 664.43,
+   "text": "Yeah, because it was around – between sixteen and twenty or -",
+   "id": "bro015-0107"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 665.0,
+   "endSec": 668.59,
+   "text": "OK. I should look at that more carefully cuz I wonder",
+   "id": "bro015-0108"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 666.58,
+   "endSec": 667.65,
+   "text": "Yeah.",
+   "id": "bro015-0109"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 668.59,
+   "endSec": 675.48,
+   "text": "what they did about - Oh, OK. I was thinking it was Gaussians but it's states. OK.",
+   "id": "bro015-0110"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 673.16,
+   "endSec": 685.25,
+   "text": "So, and - Yeah, apparently, um they had better results when they increased the number of states. From – from eighteen to twenty, or -",
+   "id": "bro015-0111"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 684.68,
+   "endSec": 685.458,
+   "text": "Mm-hmm.",
+   "id": "bro015-0112"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 686.953,
+   "endSec": 709.04,
+   "text": "Yeah. So. The thing I was thinking about was uh, you know, the number of insertions really goes up when you start adding all the noise in, and maybe the thing to do next would be to try to um uh make the silence model more powerful, you know, increasing the number of Gaussians to the number of states, different – different things like that, so. That's probably the next little thing I'll play with when I get a chance",
+   "id": "bro015-0113"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 711.603,
+   "endSec": 713.972,
+   "text": "Um. Let's see.",
+   "id": "bro015-0114"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 715.528,
+   "endSec": 716.364,
+   "text": "Um.",
+   "id": "bro015-0115"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 717.55,
+   "endSec": 725.7,
+   "text": "Why don't – why don't we uh – if there aren't any other major things, why don't we do the digits, and then – then uh turn the mikes off.",
+   "id": "bro015-0116"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 729.066,
+   "endSec": 732.643,
+   "text": "So I'll start. Uh.",
+   "id": "bro015-0117"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 850.199,
+   "endSec": 851.38,
+   "text": "D'you put two?",
+   "id": "bro015-0118"
+  },
+  {
+   "speaker": "fn002",
+   "startSec": 857.69,
+   "endSec": 859.12,
+   "text": "My name is Maria.",
+   "id": "bro015-0119"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 860.27,
+   "endSec": 861.58,
+   "text": "Oh, yeah.",
+   "id": "bro015-0120"
+  },
+  {
+   "speaker": "fn002",
+   "startSec": 862.059,
+   "endSec": 862.58,
+   "text": "This.",
+   "id": "bro015-0121"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 866.51,
+   "endSec": 867.99,
+   "text": "Maria Carmen?",
+   "id": "bro015-0122"
+  },
+  {
+   "speaker": "fn002",
+   "startSec": 867.642,
+   "endSec": 868.616,
+   "text": "Yeah.",
+   "id": "bro015-0123"
+  },
+  {
+   "speaker": "mn007",
+   "startSec": 868.077,
+   "endSec": 868.833,
+   "text": "Hmm.",
+   "id": "bro015-0124"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1013.91,
+   "endSec": 1014.7,
+   "text": "OK.",
+   "id": "bro015-0125"
+  }
+ ]
+}

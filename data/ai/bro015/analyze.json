@@ -1,0 +1,64 @@
+{
+  "meetingId": "bro015",
+  "kind": "analyze",
+  "transcriptHash": "a72ae9aa30bc3894e6067d91ad198846866066a921ee64d64c10b1dc025efda6",
+  "generatedAt": "2026-10-16T22:05:05.837Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "headline": "Group shares Aurora VAD and weighting updates, slowing progress, and HTK iteration findings; nothing is formally decided and results are being collated into a report.",
+    "chapters": [
+      {
+        "title": "Visitor and summer news",
+        "firstTurnId": "bro015-0000"
+      },
+      {
+        "title": "Aurora VAD and weighting",
+        "firstTurnId": "bro015-0014"
+      },
+      {
+        "title": "Progress slowing, report writing",
+        "firstTurnId": "bro015-0044"
+      },
+      {
+        "title": "Spectral subtraction and shared software",
+        "firstTurnId": "bro015-0060"
+      },
+      {
+        "title": "Status round: reading, phase ideas",
+        "firstTurnId": "bro015-0077"
+      },
+      {
+        "title": "HTK iterations and silence model",
+        "firstTurnId": "bro015-0092"
+      },
+      {
+        "title": "Digits reading",
+        "firstTurnId": "bro015-0116"
+      }
+    ],
+    "actions": [
+      {
+        "text": "Send everybody a pointer on running the HTK system on the Linux boxes and changing the number of iterations",
+        "ownerSpeaker": "me018",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bro015-0102", "bro015-0103"]
+      },
+      {
+        "text": "Try a more powerful silence model, for example more Gaussians, to reduce insertions with noise",
+        "ownerSpeaker": "me018",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bro015-0113"]
+      },
+      {
+        "text": "Think about ways the phase could be used for channel normalization, such as subtracting the mean of the phase",
+        "ownerSpeaker": "me026",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bro015-0089", "bro015-0090"]
+      }
+    ],
+    "decisions": []
+  }
+}

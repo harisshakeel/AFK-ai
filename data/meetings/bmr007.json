@@ -1,0 +1,7519 @@
+{
+ "id": "bmr007",
+ "title": "Meeting Recorder project meeting",
+ "source": {
+  "corpus": "ICSI Meeting Corpus",
+  "session": "Bmr007",
+  "licence": "CC BY 4.0",
+  "url": "https://groups.inf.ed.ac.uk/ami/icsi/",
+  "modified": "Transcript converted to turns; digit-reading task and non-speech annotations removed.",
+  "notes": "mn017 (channel A) left early, and did not read digits."
+ },
+ "recordedAt": "2000-11-09T14:45:00-08:00",
+ "durationSec": 3603.141,
+ "speakers": [
+  {
+   "code": "fe016",
+   "label": "Speaker A"
+  },
+  {
+   "code": "me013",
+   "label": "Speaker B"
+  },
+  {
+   "code": "mn005",
+   "label": "Speaker C"
+  },
+  {
+   "code": "me018",
+   "label": "Speaker D"
+  },
+  {
+   "code": "me011",
+   "label": "Speaker E"
+  },
+  {
+   "code": "fe008",
+   "label": "Speaker F"
+  },
+  {
+   "code": "mn014",
+   "label": "Speaker G"
+  },
+  {
+   "code": "mn017",
+   "label": "Speaker H"
+  }
+ ],
+ "turns": [
+  {
+   "speaker": "fe016",
+   "startSec": 0.0,
+   "endSec": 0.298,
+   "text": "We're,",
+   "id": "bmr007-0000"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 0.278,
+   "endSec": 0.557,
+   "text": "Yeah.",
+   "id": "bmr007-0001"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 0.298,
+   "endSec": 1.671,
+   "text": "I mean we -",
+   "id": "bmr007-0002"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1.056,
+   "endSec": 1.287,
+   "text": "Yeah.",
+   "id": "bmr007-0003"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1.232,
+   "endSec": 1.782,
+   "text": "OK.",
+   "id": "bmr007-0004"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2.832,
+   "endSec": 4.293,
+   "text": "We didn't have a house before.",
+   "id": "bmr007-0005"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3.39,
+   "endSec": 4.702,
+   "text": "We're on again? OK.",
+   "id": "bmr007-0006"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 4.618,
+   "endSec": 7.074,
+   "text": "Mm-hmm. That is really great.",
+   "id": "bmr007-0007"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 5.367,
+   "endSec": 6.722,
+   "text": "Yeah, so if uh -",
+   "id": "bmr007-0008"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 5.7,
+   "endSec": 6.043,
+   "text": "OK-",
+   "id": "bmr007-0009"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 6.078,
+   "endSec": 6.755,
+   "text": "Oh, yeah!",
+   "id": "bmr007-0010"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 6.722,
+   "endSec": 9.124,
+   "text": "So if anyone hasn't signed the consent form,",
+   "id": "bmr007-0011"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 7.074,
+   "endSec": 7.94,
+   "text": "That's terrific.",
+   "id": "bmr007-0012"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 9.124,
+   "endSec": 12.357,
+   "text": "please do so. The new consent form. The new and improved consent form.",
+   "id": "bmr007-0013"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 12.145,
+   "endSec": 12.766,
+   "text": "Uh.",
+   "id": "bmr007-0014"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 12.182,
+   "endSec": 14.323,
+   "text": "Now you won't be able to walk or ride your bike, huh?",
+   "id": "bmr007-0015"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 12.637,
+   "endSec": 14.323,
+   "text": "OK. OK.",
+   "id": "bmr007-0016"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 13.951,
+   "endSec": 14.372,
+   "text": "Right.",
+   "id": "bmr007-0017"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 14.323,
+   "endSec": 17.124,
+   "text": "And uh, shall I go ahead and do some digits?",
+   "id": "bmr007-0018"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 16.701,
+   "endSec": 18.333,
+   "text": "Uh, we were gonna do that at the end, remember?",
+   "id": "bmr007-0019"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 18.67,
+   "endSec": 19.936,
+   "text": "OK, whatever you want.",
+   "id": "bmr007-0020"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 19.936,
+   "endSec": 22.802,
+   "text": "Yeah. Just – just to be consistent, from here on in at least, that -",
+   "id": "bmr007-0021"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 22.108,
+   "endSec": 23.521,
+   "text": "The new consent form.",
+   "id": "bmr007-0022"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 22.802,
+   "endSec": 24.079,
+   "text": "that we'll do it at the end.",
+   "id": "bmr007-0023"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 23.521,
+   "endSec": 25.461,
+   "text": "It's uh - Yeah, it doesn't matter. OK.",
+   "id": "bmr007-0024"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 25.859,
+   "endSec": 26.203,
+   "text": "OK",
+   "id": "bmr007-0025"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 26.79,
+   "endSec": 29.343,
+   "text": "Testing, one, two, three.",
+   "id": "bmr007-0026"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 27.218,
+   "endSec": 32.57,
+   "text": "Um Well, it ju- I mean it might be that someone here has to go, and – Right? That was – that was sort of the point.",
+   "id": "bmr007-0027"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 34.341,
+   "endSec": 40.949,
+   "text": "So, uh I had asked actually anybody who had any ideas for an agenda to send it to me and no one did. So,",
+   "id": "bmr007-0028"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 41.206,
+   "endSec": 42.27,
+   "text": "So we all forgot.",
+   "id": "bmr007-0029"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 42.27,
+   "endSec": 42.836,
+   "text": "Uh,",
+   "id": "bmr007-0030"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 42.836,
+   "endSec": 45.38,
+   "text": "From last time I wanted to – Uh The – An iss- uh",
+   "id": "bmr007-0031"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 45.71,
+   "endSec": 46.271,
+   "text": "Right, s-",
+   "id": "bmr007-0032"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 45.71,
+   "endSec": 46.854,
+   "text": "one topic from last time.",
+   "id": "bmr007-0033"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 46.854,
+   "endSec": 56.691,
+   "text": "OK, so one item for an agenda is uh Jane has some uh uh some research to talk about, research issues. Um and",
+   "id": "bmr007-0034"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 56.011,
+   "endSec": 58.11,
+   "text": "And I have some short research issues.",
+   "id": "bmr007-0035"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 58.579,
+   "endSec": 81.575,
+   "text": "Uh, Adam has some short research issues. Um, I have a list of things that I think were done over the last three months I was supposed to send off, uh and, um I – I sent a note about it to uh – to Adam and Jane but I think I'll just run through it also and see if someone thinks it's inaccurate or uh insufficient.",
+   "id": "bmr007-0036"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 80.4,
+   "endSec": 81.65,
+   "text": "A list that you have to send off to who?",
+   "id": "bmr007-0037"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 81.575,
+   "endSec": 84.2,
+   "text": "Uh, to uh uh, IBM.",
+   "id": "bmr007-0038"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 84.675,
+   "endSec": 84.991,
+   "text": "Oh.",
+   "id": "bmr007-0039"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 84.913,
+   "endSec": 89.049,
+   "text": "OK. They're, you know - So. Um,",
+   "id": "bmr007-0040"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 90.572,
+   "endSec": 98.91,
+   "text": "So, uh so, I'll go through that. Um, And, Anything else? anyone wants to talk about?",
+   "id": "bmr007-0041"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 100.124,
+   "endSec": 100.837,
+   "text": "No. OK.",
+   "id": "bmr007-0042"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 100.58,
+   "endSec": 102.398,
+   "text": "What about the, um – your trip, yesterday?",
+   "id": "bmr007-0043"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 102.865,
+   "endSec": 108.33,
+   "text": "Um. Sort of off-topic I guess. Cuz that's Cuz that was all – all about the, uh -",
+   "id": "bmr007-0044"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 106.209,
+   "endSec": 107.062,
+   "text": "Oh, OK.",
+   "id": "bmr007-0045"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 108.33,
+   "endSec": 133.572,
+   "text": "I – I – I can chat with you about that off-line. That's another thing. Um, And, Anything else? Nothing else? Uh, there's a – I mean, there is a – a, um uh telephone call tomorrow, which will be a conference call that some of us are involved in for uh a possible proposal. Um, we'll talk – we'll talk about it next week if – if something -",
+   "id": "bmr007-0046"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 132.672,
+   "endSec": 138.676,
+   "text": "Do you want me to be there for that? I noticed you C C'ed me, but I wasn't actually a recipient. I didn't quite know what to make of that.",
+   "id": "bmr007-0047"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 138.676,
+   "endSec": 141.36,
+   "text": "Uh Well, we'll talk – talk about that after our meeting.",
+   "id": "bmr007-0048"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 141.017,
+   "endSec": 141.487,
+   "text": "OK.",
+   "id": "bmr007-0049"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 141.36,
+   "endSec": 159.696,
+   "text": "OK. Uh, OK. So it sounds like the – the three main things that we have to talk about are, uh this list, uh Jane and – Jane and Adam have some research items, and, other than that, anything, as usual, anything goes beyond that. OK, uh, Jane, since – since you were sort of cut off last time why don't we start with yours, make sure we get to it.",
+   "id": "bmr007-0050"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 159.89,
+   "endSec": 165.937,
+   "text": "OK, it's – it's very eh – it's very brief, I mean – just let me – just hand these out. Oops.",
+   "id": "bmr007-0051"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 165.937,
+   "endSec": 167.778,
+   "text": "Is this the same as the email or different?",
+   "id": "bmr007-0052"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 167.778,
+   "endSec": 170.384,
+   "text": "It's slightly different. I -",
+   "id": "bmr007-0053"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 168.184,
+   "endSec": 168.722,
+   "text": "Thanks.",
+   "id": "bmr007-0054"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 168.801,
+   "endSec": 169.217,
+   "text": "OK.",
+   "id": "bmr007-0055"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 170.384,
+   "endSec": 171.266,
+   "text": "basically the same.",
+   "id": "bmr007-0056"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 171.034,
+   "endSec": 171.776,
+   "text": "Same idea?",
+   "id": "bmr007-0057"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 171.266,
+   "endSec": 196.72,
+   "text": "But, same idea. So, if you've looked at this you've seen it before, so Basically, um as you know, uh part of the encoding includes a mark that indicates an overlap. It's not indicated with, um uh, tight precision, it's just indicated that - OK, so, It's indicated to – to – so the people know what parts of sp- which – which stretches of speech were in the clear, versus being overlapped by others. So, I",
+   "id": "bmr007-0058"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 196.72,
+   "endSec": 216.335,
+   "text": "used this mark and, um and, uh uh, divided the - I wrote a script which divides things into individual minutes, of which we ended up with forty five, and a little bit. And, uh you know, minute zero, of course, is the first minute up to sixty seconds.",
+   "id": "bmr007-0059"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 215.62,
+   "endSec": 216.11,
+   "text": "OK .",
+   "id": "bmr007-0060"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 216.985,
+   "endSec": 238.84,
+   "text": "And, um What you can see is the number of overlaps and then to the right, whether they involve two speakers, three speakers, or more than three speakers. And, um and, what I was looking for sp- sp- specifically was the question of whether they're distributed evenly throughout or whether they're bursts of them. Um. And it looked to me as though - uh, you know – y- this is just -",
+   "id": "bmr007-0061"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 239.948,
+   "endSec": 263.262,
+   "text": "eh – eh, this would – this is not statistically verified, but it did look to me as though there are bursts throughout, rather than being localized to a particular region. The part down there, where there's the maximum number of - of, um overlaps is an area where we were discussing whether or not it would be useful to indi- to s- to code stress, uh, sentence stress as possible indication of, uh information retrieval.",
+   "id": "bmr007-0062"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 263.262,
+   "endSec": 265.948,
+   "text": "So it's like, you know, rather, lively discussion there.",
+   "id": "bmr007-0063"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 266.273,
+   "endSec": 269.2,
+   "text": "What was – what's the – the parenthesized stuff that says, like -",
+   "id": "bmr007-0064"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 269.122,
+   "endSec": 270.615,
+   "text": "Oh, th-",
+   "id": "bmr007-0065"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 269.2,
+   "endSec": 271.772,
+   "text": "e- the first one that says six overlaps and then two point eight?",
+   "id": "bmr007-0066"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 271.687,
+   "endSec": 272.47,
+   "text": "That's the per cent.",
+   "id": "bmr007-0067"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 271.772,
+   "endSec": 272.404,
+   "text": "Mmm.",
+   "id": "bmr007-0068"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 272.47,
+   "endSec": 277.285,
+   "text": "So, six is, uh two point eight percent of the total number of overlaps in the session.",
+   "id": "bmr007-0069"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 273.618,
+   "endSec": 274.248,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0070"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 276.194,
+   "endSec": 277.641,
+   "text": "Ah.",
+   "id": "bmr007-0071"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 277.493,
+   "endSec": 278.118,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0072"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 277.675,
+   "endSec": 292.755,
+   "text": "At the very end, this is when people were, you know, packing up to go basically, there's this final stuff, I think we - I don't remember where the digits fell. I'd have to look at that. But the final three there are no overlaps at all. And couple times there are not. So, i- it seems like it goes through bursts",
+   "id": "bmr007-0073"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 290.927,
+   "endSec": 291.51,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0074"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 292.755,
+   "endSec": 294.56,
+   "text": "but, um that's kind of it. Now,",
+   "id": "bmr007-0075"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 292.832,
+   "endSec": 293.486,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0076"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 294.56,
+   "endSec": 325.033,
+   "text": "Another question is is there – are there individual differences in whether you're likely to be overlapped with or to overlap with others. And, again I want to emphasize this is just one particular um - one particular meeting, and also there's been no statistical testing of it all, but I, um I took the coding of the – I, you know, my – I had this script figure out, um who was the first speaker, who was the second speaker involved in a two-person overlap, I didn't look at the ones involving three or more.",
+   "id": "bmr007-0077"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 325.739,
+   "endSec": 350.096,
+   "text": "And, um this is how it breaks down in the individual cells of who tended to be overlapping most often with who - who else, and if you look at the marginal totals, which is the ones on the right side and across the bottom, you get the totals for an individual. So, um If you look at the bottom, those are the, um numbers of overlaps in which um Adam was involved as the person doing the overlapping and if you look -",
+   "id": "bmr007-0078"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 350.096,
+   "endSec": 359.199,
+   "text": "I'm sorry, but you're o- alphabetical, that's why I'm choosing you And then if you look across the right, then that's where he was the person who was the sp- first speaker in the pair and got overlap-",
+   "id": "bmr007-0079"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 358.3,
+   "endSec": 359.17,
+   "text": "Hmm!",
+   "id": "bmr007-0080"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 359.199,
+   "endSec": 360.615,
+   "text": "overlapped with by somebody.",
+   "id": "bmr007-0081"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 359.718,
+   "endSec": 360.226,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0082"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 361.322,
+   "endSec": 368.823,
+   "text": "And, then if you look down in the summary table, then you see that, um th- they're differences in whether a person got overlapped with or overlapped",
+   "id": "bmr007-0083"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 369.54,
+   "endSec": 371.765,
+   "text": "Is this uh just raw counts or is it -",
+   "id": "bmr007-0084"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 370.16,
+   "endSec": 370.66,
+   "text": "by.",
+   "id": "bmr007-0085"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 371.68,
+   "endSec": 372.358,
+   "text": "Raw counts.",
+   "id": "bmr007-0086"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 372.358,
+   "endSec": 375.791,
+   "text": "So it would be interesting to see how much each person spoke.",
+   "id": "bmr007-0087"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 375.656,
+   "endSec": 376.098,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0088"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 375.883,
+   "endSec": 376.405,
+   "text": "Yes,",
+   "id": "bmr007-0089"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 375.899,
+   "endSec": 376.34,
+   "text": "Yeah",
+   "id": "bmr007-0090"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 376.082,
+   "endSec": 376.647,
+   "text": "Yeah.",
+   "id": "bmr007-0091"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 376.405,
+   "endSec": 379.921,
+   "text": "very true – very true it would be good to normalize with respect to that. Now on the table I did",
+   "id": "bmr007-0092"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 376.79,
+   "endSec": 378.011,
+   "text": "Normalized to how much -",
+   "id": "bmr007-0093"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 376.937,
+   "endSec": 379.128,
+   "text": "Yeah",
+   "id": "bmr007-0094"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 379.921,
+   "endSec": 400.438,
+   "text": "take one step toward, uh away from the raw frequencies by putting, uh percentages. So that the percentage of time of the – of the times that a person spoke, what percentage eh, w- so. Of the times a person spoke and furthermore was involved in a two- two-person overlap, what percentage of the time were they the overlapper and what percent of the time were they th- the overlappee? And there, it looks like you see some differences,",
+   "id": "bmr007-0095"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 400.438,
+   "endSec": 415.642,
+   "text": "um, that some people tend to be overlapped with more often than they're overlapped, but, of course, uh i- e- this is just one meeting, uh there's no statistical testing involved, and that would be required for a – for a finding of any kind of",
+   "id": "bmr007-0096"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 415.34,
+   "endSec": 420.588,
+   "text": "S- so, i- it would be statistically incorrect to conclude from this that Adam talked too much or something.",
+   "id": "bmr007-0097"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 415.642,
+   "endSec": 417.452,
+   "text": "scientific reliability.",
+   "id": "bmr007-0098"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 420.117,
+   "endSec": 424.105,
+   "text": "No – no actually, that would be actually statistically correct, but",
+   "id": "bmr007-0099"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 420.456,
+   "endSec": 422.656,
+   "text": "No, no, no.",
+   "id": "bmr007-0100"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 421.03,
+   "endSec": 421.644,
+   "text": "Yeah, yeah.",
+   "id": "bmr007-0101"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 422.061,
+   "endSec": 424.126,
+   "text": "Yeah, yeah. Yeah, yeah.",
+   "id": "bmr007-0102"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 423.52,
+   "endSec": 427.019,
+   "text": "Yeah, that's right. That's right. And I'm you know, I'm – I don't see a point of singling people out,",
+   "id": "bmr007-0103"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 424.467,
+   "endSec": 425.216,
+   "text": "Yeah. Excuse me.",
+   "id": "bmr007-0104"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 427.019,
+   "endSec": 428.752,
+   "text": "now, this is a case where obviously -",
+   "id": "bmr007-0105"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 427.443,
+   "endSec": 430.224,
+   "text": "B- I – I – I rather enjoyed it, but – but this",
+   "id": "bmr007-0106"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 428.712,
+   "endSec": 430.226,
+   "text": "But the numbers speak for themselves.",
+   "id": "bmr007-0107"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 429.291,
+   "endSec": 430.173,
+   "text": "He's – Yeah, yeah, yeah.",
+   "id": "bmr007-0108"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 429.805,
+   "endSec": 431.738,
+   "text": "Well, you know, it's like – I'm not – I'm not",
+   "id": "bmr007-0109"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 429.813,
+   "endSec": 431.738,
+   "text": "Yes, that's right, so you don't nee- OK.",
+   "id": "bmr007-0110"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 431.738,
+   "endSec": 435.307,
+   "text": "saying on the tape who did better or worse because I don't think that it's – I",
+   "id": "bmr007-0111"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 433.779,
+   "endSec": 434.163,
+   "text": "Sure.",
+   "id": "bmr007-0112"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 435.307,
+   "endSec": 441.369,
+   "text": "you know, and – and th- here's a case where of course, human subjects people would say be sure that you anonymize the results, and – and, so, might as well do this.",
+   "id": "bmr007-0113"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 439.866,
+   "endSec": 441.546,
+   "text": "Yeah, when – this is what -",
+   "id": "bmr007-0114"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 439.997,
+   "endSec": 440.479,
+   "text": "Yeah.",
+   "id": "bmr007-0115"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 441.546,
+   "endSec": 450.547,
+   "text": "This is actually – when Jane sent this email first, is what caused me to start thinking about anonymizing the data.",
+   "id": "bmr007-0116"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 446.699,
+   "endSec": 452.485,
+   "text": "Well, fair enough. Fair enough. And actually, you know, the point is not about an individual, it's the point about tendencies toward",
+   "id": "bmr007-0117"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 448.813,
+   "endSec": 450.183,
+   "text": "Yeah.",
+   "id": "bmr007-0118"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 452.485,
+   "endSec": 454.78,
+   "text": "you know, different styles, different speaker styles.",
+   "id": "bmr007-0119"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 454.286,
+   "endSec": 454.874,
+   "text": "Oh sure.",
+   "id": "bmr007-0120"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 455.377,
+   "endSec": 477.779,
+   "text": "And it would be, you know of course, there's also the question of what type of overlap was this, and w- what were they, and i- and I – and I know that I can distinguish at least three types and, probably more, I mean, the general cultural idea which w- uh, the conversation analysts originally started with in the seventies was that we have this strict model where politeness involves that you let the person finish th- before you start talking, and",
+   "id": "bmr007-0121"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 477.779,
+   "endSec": 493.438,
+   "text": "and you know, I mean, w- we know that - an- and they've loosened up on that too s- in the intervening time, that that that's – that's viewed as being a culturally- relative thing, I mean, that you have the high-involvement style from the East Coast where people will overlap often as an indication of interest in what the other person is saying.",
+   "id": "bmr007-0122"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 493.438,
+   "endSec": 493.978,
+   "text": "Uh-huh.",
+   "id": "bmr007-0123"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 493.438,
+   "endSec": 496.962,
+   "text": "And Yeah, exactly! Well, there you go. Fine, that's alright, that's OK.",
+   "id": "bmr007-0124"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 494.723,
+   "endSec": 496.313,
+   "text": "Exactly!",
+   "id": "bmr007-0125"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 495.329,
+   "endSec": 496.03,
+   "text": "Yeah",
+   "id": "bmr007-0126"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 497.181,
+   "endSec": 516.167,
+   "text": "And – and, you know, in contrast, so Deborah – d- and also Deborah Tannen's thesis she talked about differences of these types, that they're just different styles, and it's um you – you can't impose a model of - there – of the ideal being no overlaps, and you know, conversational analysts also agree with that, so it's now, universally a- ag- agreed with. And – and, als- I mean, I can't say universally,",
+   "id": "bmr007-0127"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 516.167,
+   "endSec": 541.288,
+   "text": "but anyway, the people who used to say it was strict, um now, uh don't. I mean they – they also you know, uh uh, ack- acknowledge the influence of sub- of subcultural norms and cross-cultural norms and things. So, um Then it beco- though – so – just – just superficially to give um a couple ideas of the types of overlaps involved, I have at the bottom several that I noticed. So, uh, there are backchannels, like what Adam just did now and, um",
+   "id": "bmr007-0128"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 541.66,
+   "endSec": 548.205,
+   "text": "um, anticipating the end of a question and simply answering it earlier, and there are several of those in this – in these data where -",
+   "id": "bmr007-0129"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 547.685,
+   "endSec": 548.15,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0130"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 548.205,
+   "endSec": 572.175,
+   "text": "because we're people who've talked to each other, um we know basically what the topic is, what the possibilities are and w- and we've spoken with each other so we know basically what the other person's style is likely to be and so and t- there are a number of places where someone just answered early. No problem. And places also which I thought were interesting, where two or more people gave exactly th- the same answer in unison – different words of course but you know, the – basically,",
+   "id": "bmr007-0131"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 572.175,
+   "endSec": 591.017,
+   "text": "you know everyone's saying \"yes\" or – you know, or ev- even more sp- specific than that. So, uh, the point is that, um overlap's not necessarily a bad thing and that it would be im- i- useful to subdivide these further and see if there are individual differences in styles with respect to the types involved. And that's all I wanted to say on that, unless people have questions.",
+   "id": "bmr007-0132"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 591.488,
+   "endSec": 597.379,
+   "text": "Well, of course th- the biggest, um result here, which is one we've -",
+   "id": "bmr007-0133"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 595.88,
+   "endSec": 604.76,
+   "text": "Yep.",
+   "id": "bmr007-0134"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 597.379,
+   "endSec": 604.633,
+   "text": "we've talked about many times and isn't new to us, but which I think would be interesting to show someone who isn't familiar with this is just the sheer number of overlaps.",
+   "id": "bmr007-0135"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 604.631,
+   "endSec": 605.386,
+   "text": "Yes, yes!",
+   "id": "bmr007-0136"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 604.76,
+   "endSec": 606.051,
+   "text": "Oh, OK – interesting.",
+   "id": "bmr007-0137"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 605.017,
+   "endSec": 605.748,
+   "text": "That – that -",
+   "id": "bmr007-0138"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 605.386,
+   "endSec": 606.092,
+   "text": "Yeah.",
+   "id": "bmr007-0139"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 605.748,
+   "endSec": 610.857,
+   "text": "Right? that – that, um here's a relatively short meeting, it's a forty - forty plus minute",
+   "id": "bmr007-0140"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 610.0,
+   "endSec": 617.32,
+   "text": "Hundred ninety-seven.",
+   "id": "bmr007-0141"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 610.857,
+   "endSec": 623.138,
+   "text": "meeting, and not only were there two hundred and fifteen overlaps but, uh I think there's one - one minute there where there – where – where there wasn't any overlap? I mean, it's -",
+   "id": "bmr007-0142"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 622.53,
+   "endSec": 626.938,
+   "text": "S- n- are -",
+   "id": "bmr007-0143"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 623.138,
+   "endSec": 624.991,
+   "text": "uh throughout this thing?",
+   "id": "bmr007-0144"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 624.892,
+   "endSec": 626.51,
+   "text": "Well, at the bottom, you have the bottom three.",
+   "id": "bmr007-0145"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 624.991,
+   "endSec": 625.852,
+   "text": "It's -",
+   "id": "bmr007-0146"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 625.327,
+   "endSec": 626.489,
+   "text": "It'd be interesting -",
+   "id": "bmr007-0147"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 625.664,
+   "endSec": 626.344,
+   "text": "Yeah.",
+   "id": "bmr007-0148"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 626.51,
+   "endSec": 628.768,
+   "text": "So four – four minutes all together with none – none.",
+   "id": "bmr007-0149"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 626.603,
+   "endSec": 627.166,
+   "text": "You have -",
+   "id": "bmr007-0150"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 628.768,
+   "endSec": 629.64,
+   "text": "But it w-",
+   "id": "bmr007-0151"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 628.768,
+   "endSec": 631.166,
+   "text": "Oh, so the bottom three did have s- stuff going on?",
+   "id": "bmr007-0152"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 631.139,
+   "endSec": 633.134,
+   "text": "Yes, uh-huh. Yeah. But just no overlaps.",
+   "id": "bmr007-0153"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 631.166,
+   "endSec": 634.484,
+   "text": "There was speech? OK, so if – the – this -",
+   "id": "bmr007-0154"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 633.384,
+   "endSec": 637.498,
+   "text": "It'd be interesting to see what the total amount of time is in the overlaps, versus -",
+   "id": "bmr007-0155"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 636.648,
+   "endSec": 639.539,
+   "text": "Yes, exactly and that's – that's where Jose's pro- project comes in.",
+   "id": "bmr007-0156"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 637.034,
+   "endSec": 638.289,
+   "text": "I was about to ask -",
+   "id": "bmr007-0157"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 637.28,
+   "endSec": 638.259,
+   "text": "Yeah, yeah,",
+   "id": "bmr007-0158"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 637.939,
+   "endSec": 638.268,
+   "text": "Yeah.",
+   "id": "bmr007-0159"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 638.067,
+   "endSec": 638.583,
+   "text": "Yeah.",
+   "id": "bmr007-0160"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 638.259,
+   "endSec": 641.29,
+   "text": "I h- I have this- that infor- I have th- that information",
+   "id": "bmr007-0161"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 639.829,
+   "endSec": 640.5,
+   "text": "Hmm.",
+   "id": "bmr007-0162"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 641.625,
+   "endSec": 642.19,
+   "text": "now.",
+   "id": "bmr007-0163"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 642.401,
+   "endSec": 643.434,
+   "text": "Oh, about how much is it?",
+   "id": "bmr007-0164"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 642.913,
+   "endSec": 645.374,
+   "text": "The – the duration of eh – of each of the overlaps.",
+   "id": "bmr007-0165"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 645.374,
+   "endSec": 648.921,
+   "text": "O- oh, what's – what's the – what's the average length?",
+   "id": "bmr007-0166"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 648.18,
+   "endSec": 652.9,
+   "text": "M- I – I haven't averaged it now but, uh I – I will, uh",
+   "id": "bmr007-0167"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 652.664,
+   "endSec": 653.647,
+   "text": "You don't know?",
+   "id": "bmr007-0168"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 652.9,
+   "endSec": 661.208,
+   "text": "I will do the – the study of the – with the – with the program with the – uh, the different, uh the, nnn, distribution of the duration of the overlaps.",
+   "id": "bmr007-0169"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 661.75,
+   "endSec": 665.325,
+   "text": "OK, you – you don- you don't have a feeling for roughly how much it is? Yeah.",
+   "id": "bmr007-0170"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 663.738,
+   "endSec": 667.17,
+   "text": "mmm, Because the – the uh, [unclear] is [unclear] .",
+   "id": "bmr007-0171"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 668.7,
+   "endSec": 673.82,
+   "text": "The duration is, uh the variation – the variation of the duration is uh, very big",
+   "id": "bmr007-0172"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 668.773,
+   "endSec": 669.82,
+   "text": "Yeah.",
+   "id": "bmr007-0173"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 673.774,
+   "endSec": 674.198,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0174"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 673.82,
+   "endSec": 674.53,
+   "text": "on the dat-",
+   "id": "bmr007-0175"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 673.82,
+   "endSec": 675.425,
+   "text": "I suspect that it will also differ,",
+   "id": "bmr007-0176"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 674.972,
+   "endSec": 675.571,
+   "text": "but eh -",
+   "id": "bmr007-0177"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 675.425,
+   "endSec": 678.799,
+   "text": "depending on the type of overlap involved. So backchannels will be very brief and -",
+   "id": "bmr007-0178"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 676.789,
+   "endSec": 677.336,
+   "text": "Yeah.",
+   "id": "bmr007-0179"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 677.382,
+   "endSec": 678.7,
+   "text": "Oh, I'm sure.",
+   "id": "bmr007-0180"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 677.812,
+   "endSec": 688.063,
+   "text": "Because, on your surface eh a bit of zone of overlapping with the duration eh, overlapped and another very very short.",
+   "id": "bmr007-0181"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 685.401,
+   "endSec": 686.144,
+   "text": "Yeah.",
+   "id": "bmr007-0182"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 687.742,
+   "endSec": 687.997,
+   "text": "Yeah.",
+   "id": "bmr007-0183"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 688.063,
+   "endSec": 702.27,
+   "text": "Uh, i- probably it's very difficult to – to – because the – the overlap is, uh on- is only the – in the final \"S\" of the – of the – the fin- the – the end – the end word of the, um previous speaker",
+   "id": "bmr007-0184"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 696.903,
+   "endSec": 697.326,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0185"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 702.92,
+   "endSec": 726.182,
+   "text": "with the – the next word of the – the new speaker. Um, I considered that's an overlap but it's very short, it's an \"X\" with a - and – the idea is probably, eh when eh – when eh, we studied th- th- that zone, eh eh, we h- we have eh eh confusion with eh eh noise.",
+   "id": "bmr007-0186"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 725.492,
+   "endSec": 725.924,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0187"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 726.182,
+   "endSec": 733.075,
+   "text": "With eh that fricative sounds, but uh I have new information but I have to – to study .",
+   "id": "bmr007-0188"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 727.025,
+   "endSec": 727.534,
+   "text": "Yeah.",
+   "id": "bmr007-0189"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 730.23,
+   "endSec": 731.011,
+   "text": "Yeah, but I – I'd -",
+   "id": "bmr007-0190"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 730.905,
+   "endSec": 731.517,
+   "text": "Can I -",
+   "id": "bmr007-0191"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 731.523,
+   "endSec": 733.099,
+   "text": "u- go ahead .",
+   "id": "bmr007-0192"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 734.133,
+   "endSec": 734.446,
+   "text": "Yeah.",
+   "id": "bmr007-0193"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 734.299,
+   "endSec": 737.607,
+   "text": "You split this by minute, um so if an overlap",
+   "id": "bmr007-0194"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 735.922,
+   "endSec": 736.475,
+   "text": "Yes.",
+   "id": "bmr007-0195"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 738.368,
+   "endSec": 743.706,
+   "text": "straddles the boundary between two minutes, that counts towards both of those minutes.",
+   "id": "bmr007-0196"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 740.812,
+   "endSec": 741.222,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0197"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 743.724,
+   "endSec": 745.621,
+   "text": "Actually, um",
+   "id": "bmr007-0198"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 748.313,
+   "endSec": 778.467,
+   "text": "um actually not. Uh, so le- let's think about the case where A starts speaking and then B overlaps with A, and then the minute boundary happens. And let's say that after that minute boundary, um B is still speaking, and A overlaps with B, that would be a new overlap. But otherwise um, let's say B comes to the conclusion of – of that turn without anyone overlapping with him or her, in which case there would be no overlap counted in that second minute.",
+   "id": "bmr007-0199"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 777.639,
+   "endSec": 780.735,
+   "text": "No, but suppose they both talk simultaneously",
+   "id": "bmr007-0200"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 782.008,
+   "endSec": 786.677,
+   "text": "both a – a portion of it is in minute one and another portion of minute two.",
+   "id": "bmr007-0201"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 787.184,
+   "endSec": 795.312,
+   "text": "OK. In that case, um my c- the coding that I was using - since we haven't, uh incorporated Adam's, uh coding of overlap yets, the coding of",
+   "id": "bmr007-0202"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 796.869,
+   "endSec": 816.149,
+   "text": "Yeah, \"yets\" is not a word. Uh since we haven't incorporated Adam's method of handling overl- overlaps yet um then that would have fallen through the cra- cracks. It would be an underestimate of the number of overlaps because, um I wou- I wouldn't be able to pick it up from the way it was encoded so far. We just haven't done th- the precise second to sec- you know,",
+   "id": "bmr007-0203"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 813.511,
+   "endSec": 814.481,
+   "text": "I- I-",
+   "id": "bmr007-0204"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 816.149,
+   "endSec": 818.11,
+   "text": "second to second coding of when they occur.",
+   "id": "bmr007-0205"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 816.457,
+   "endSec": 822.471,
+   "text": "I- I- I'm – I'm – I'm confused now. So l- l- let me restate what I thought Andreas was saying and – and see.",
+   "id": "bmr007-0206"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 820.933,
+   "endSec": 821.443,
+   "text": "Uh-huh.",
+   "id": "bmr007-0207"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 823.052,
+   "endSec": 825.902,
+   "text": "Let's say that in – in second fifty-seven",
+   "id": "bmr007-0208"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 825.963,
+   "endSec": 826.438,
+   "text": "Yep.",
+   "id": "bmr007-0209"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 826.438,
+   "endSec": 829.668,
+   "text": "of one minute, you start talking and I start talking",
+   "id": "bmr007-0210"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 829.486,
+   "endSec": 829.757,
+   "text": "OK.",
+   "id": "bmr007-0211"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 830.025,
+   "endSec": 833.046,
+   "text": "and we ignore each other and keep on talking for six seconds.",
+   "id": "bmr007-0212"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 832.637,
+   "endSec": 833.134,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0213"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 833.569,
+   "endSec": 839.774,
+   "text": "So we go over – So we were – we were talking over one another, and it's just - in each case, it's just sort of one interval. Right?",
+   "id": "bmr007-0214"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 839.432,
+   "endSec": 839.74,
+   "text": "Mm-hmm?",
+   "id": "bmr007-0215"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 840.412,
+   "endSec": 849.112,
+   "text": "So, um we talked over the minute boundary. Is this considered as one overlap in each of the minutes, the way you have done this.",
+   "id": "bmr007-0216"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 849.112,
+   "endSec": 852.253,
+   "text": "No, it wouldn't. It would be considered as an overlap in the first one.",
+   "id": "bmr007-0217"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 852.6,
+   "endSec": 857.876,
+   "text": "OK, so that's good, i- I think, in the sense that I think Andreas meant the question, right?",
+   "id": "bmr007-0218"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 853.58,
+   "endSec": 856.388,
+   "text": "That's – that's good, yeah, cuz the overall rate is -",
+   "id": "bmr007-0219"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 854.904,
+   "endSec": 855.479,
+   "text": "Yeah.",
+   "id": "bmr007-0220"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 855.285,
+   "endSec": 856.376,
+   "text": "Statistical.",
+   "id": "bmr007-0221"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 856.551,
+   "endSec": 857.175,
+   "text": "Yeah.",
+   "id": "bmr007-0222"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 856.701,
+   "endSec": 858.732,
+   "text": "Mm-hmm. Yeah. They're not double counted.",
+   "id": "bmr007-0223"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 856.732,
+   "endSec": 857.296,
+   "text": "Yep.",
+   "id": "bmr007-0224"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 856.988,
+   "endSec": 859.693,
+   "text": "Other- otherwise you'd get double counts, here and there.",
+   "id": "bmr007-0225"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 857.848,
+   "endSec": 858.451,
+   "text": "Yeah.",
+   "id": "bmr007-0226"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 858.22,
+   "endSec": 859.367,
+   "text": "Ah but, yeah.",
+   "id": "bmr007-0227"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 859.693,
+   "endSec": 860.96,
+   "text": "And then it would be harder -",
+   "id": "bmr007-0228"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 859.912,
+   "endSec": 860.565,
+   "text": "Yeah.",
+   "id": "bmr007-0229"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 860.007,
+   "endSec": 860.629,
+   "text": "Yeah.",
+   "id": "bmr007-0230"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 860.058,
+   "endSec": 872.621,
+   "text": "I should also say I did a simplifying, uh count in that if A was speaking B overlapped with A and then A came back again and overlapped with B again, I – I didn't count that as a three-person overlap, I counted that as a two-person overlap,",
+   "id": "bmr007-0231"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 872.078,
+   "endSec": 872.726,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0232"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 872.621,
+   "endSec": 888.67,
+   "text": "and it was A being overlapped with by D . Because the idea was the first speaker had the floor and the second person started speaking and then the f- the first person reasserted the floor kind of thing. These are simplifying assumptions, didn't happen very often, there may be like three overlaps affected that way in the whole thing.",
+   "id": "bmr007-0233"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 884.306,
+   "endSec": 884.728,
+   "text": "Yeah.",
+   "id": "bmr007-0234"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 889.002,
+   "endSec": 890.968,
+   "text": "I want to go back and listen to minute forty-one.",
+   "id": "bmr007-0235"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 890.968,
+   "endSec": 892.002,
+   "text": "Yeah, yeah.",
+   "id": "bmr007-0236"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 892.002,
+   "endSec": 896.654,
+   "text": "Cuz i- i- I find it interesting that there were a large number of overlaps and they were all two-speaker.",
+   "id": "bmr007-0237"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 892.64,
+   "endSec": 892.898,
+   "text": "Yeah.",
+   "id": "bmr007-0238"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 897.465,
+   "endSec": 900.204,
+   "text": "I mean what I thought – what I would have thought in",
+   "id": "bmr007-0239"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 899.34,
+   "endSec": 900.57,
+   "text": "That's interesting.",
+   "id": "bmr007-0240"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 900.204,
+   "endSec": 904.061,
+   "text": "is that when there were a large number of overlaps, it was because everyone was talking at once,",
+   "id": "bmr007-0241"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 900.759,
+   "endSec": 901.502,
+   "text": "That's interesting.",
+   "id": "bmr007-0242"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 903.422,
+   "endSec": 904.569,
+   "text": "Yeah. Yeah.",
+   "id": "bmr007-0243"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 904.439,
+   "endSec": 907.03,
+   "text": "but uh apparently not. That's really neat.",
+   "id": "bmr007-0244"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 906.033,
+   "endSec": 906.422,
+   "text": "Mmm.",
+   "id": "bmr007-0245"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 907.228,
+   "endSec": 909.713,
+   "text": "Yeah, there's a lot of backchannel, a lot o- a lot of -",
+   "id": "bmr007-0246"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 907.337,
+   "endSec": 907.722,
+   "text": "Yeah.",
+   "id": "bmr007-0247"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 907.57,
+   "endSec": 911.102,
+   "text": "This is really interesting data.",
+   "id": "bmr007-0248"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 909.713,
+   "endSec": 911.532,
+   "text": "Yeah, it is. I think so too, I think -",
+   "id": "bmr007-0249"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 910.504,
+   "endSec": 933.462,
+   "text": "I think what's really interesting though, it is before d- saying \" yes, meetings have a lot of overlaps \" is to actually find out how many more we have than two-party. Cuz in two-party conversations, like Switchboard, there's an awful lot too if you just look at backchannels, if you consider those overlaps? it's also ver- it's huge. It's just that people haven't been looking at that because they've been doing single-channel processing for",
+   "id": "bmr007-0250"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 932.426,
+   "endSec": 932.974,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0251"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 933.428,
+   "endSec": 933.827,
+   "text": "Mm-hmm?",
+   "id": "bmr007-0252"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 933.462,
+   "endSec": 947.026,
+   "text": "speech recognition. So, the question is, you know, how many more overlaps do you have of, say the two-person type, by adding more people. to a meeting, and it may be a lot more but i- it may - it may not be.",
+   "id": "bmr007-0253"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 946.656,
+   "endSec": 949.637,
+   "text": "Well, but see, I find it interesting even if it wasn't any more,",
+   "id": "bmr007-0254"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 948.042,
+   "endSec": 948.54,
+   "text": "So.",
+   "id": "bmr007-0255"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 949.637,
+   "endSec": 958.821,
+   "text": "because since we were dealing with this full duplex sort of thing in Switchboard where it was just all separated out we just – everything was just nice, so that – so the issue is in – in a situation",
+   "id": "bmr007-0256"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 954.933,
+   "endSec": 955.308,
+   "text": "Mm-hmm?",
+   "id": "bmr007-0257"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 958.799,
+   "endSec": 960.72,
+   "text": "Well, it's not really \" nice \".",
+   "id": "bmr007-0258"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 958.821,
+   "endSec": 960.152,
+   "text": "where th- that's -",
+   "id": "bmr007-0259"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 960.72,
+   "endSec": 966.564,
+   "text": "It depends what you're doing. So if you were actually having, uh - depends what you're doing, if -",
+   "id": "bmr007-0260"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 967.604,
+   "endSec": 970.747,
+   "text": "Right now we're do- we have individual mikes on the people in this meeting.",
+   "id": "bmr007-0261"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 970.659,
+   "endSec": 971.058,
+   "text": "Mm-hmm?",
+   "id": "bmr007-0262"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 970.747,
+   "endSec": 973.854,
+   "text": "So the question is, you know - \"are there really more overlaps happening",
+   "id": "bmr007-0263"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 975.045,
+   "endSec": 977.287,
+   "text": "than there would be in a two-person party \".",
+   "id": "bmr007-0264"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 977.038,
+   "endSec": 977.828,
+   "text": "Let - let m-",
+   "id": "bmr007-0265"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 977.287,
+   "endSec": 978.908,
+   "text": "And – and there well may be, but -",
+   "id": "bmr007-0266"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 977.828,
+   "endSec": 991.725,
+   "text": "let me rephrase what I'm saying cuz I don't think I'm getting it across. What - what I – what - I shouldn't use words like \" nice \" because maybe that's too – i- too imprecise. But what I mean is that, um in Switchboard, despite the many – many other problems that we have, one problem that we're not considering is overlap.",
+   "id": "bmr007-0267"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 992.867,
+   "endSec": 1001.193,
+   "text": "And what we're doing now is, aside from the many other differences in the task, we are considering overlap and one of the reasons that we're considering it, you know, one of them",
+   "id": "bmr007-0268"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1002.293,
+   "endSec": 1022.585,
+   "text": "not all of them, one of them is that w- uh at least, you know I'm very interested in the scenario in which, uh both people talking are pretty much equally audible, and from a single microphone. And so, in that case, it does get mixed in, and it's pretty hard to jus- to just ignore it, to just do processing on one and not on the other.",
+   "id": "bmr007-0269"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1023.083,
+   "endSec": 1030.249,
+   "text": "I – I agree that it's an issue here but it's also an issue for Switchboard and if you think of meetings being recorded over the telephone, which I think,",
+   "id": "bmr007-0270"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1030.634,
+   "endSec": 1031.138,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0271"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1030.642,
+   "endSec": 1040.714,
+   "text": "you know, this whole point of studying meetings isn't just to have people in a room but to also have meetings over different phone lines. Maybe far field mike people wouldn't be interested in that but all the dialogue issues still apply,",
+   "id": "bmr007-0272"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1040.266,
+   "endSec": 1040.637,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0273"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1040.714,
+   "endSec": 1053.415,
+   "text": "so if each of us was calling and having a meeting that way you kn- you know like a conference call. And, just the question is, y- you know, in Switchboard you would think that's the simplest case of a meeting",
+   "id": "bmr007-0274"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1053.468,
+   "endSec": 1053.881,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0275"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1054.048,
+   "endSec": 1068.924,
+   "text": "of more than one person, and I'm wondering how much more overlap of the types that – that Jane described happen with more people present. So it may be that having three people is very different from having two people or it may not be.",
+   "id": "bmr007-0276"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1069.082,
+   "endSec": 1070.666,
+   "text": "That's an important question to ask. I think what I'm -",
+   "id": "bmr007-0277"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1070.42,
+   "endSec": 1071.43,
+   "text": "So.",
+   "id": "bmr007-0278"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1070.666,
+   "endSec": 1073.918,
+   "text": "All I'm s- really saying is that I don't think we were considering that in Switchboard.",
+   "id": "bmr007-0279"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1074.341,
+   "endSec": 1075.942,
+   "text": "Not you, me. But uh -",
+   "id": "bmr007-0280"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1075.597,
+   "endSec": 1075.954,
+   "text": "Were you?",
+   "id": "bmr007-0281"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1075.667,
+   "endSec": 1077.113,
+   "text": "Though it wasn't in the design.",
+   "id": "bmr007-0282"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1075.942,
+   "endSec": 1076.683,
+   "text": "but - but",
+   "id": "bmr007-0283"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1077.214,
+   "endSec": 1079.886,
+   "text": "Were you – were you – were you – were you measuring it? I mean, w- w- were -",
+   "id": "bmr007-0284"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1079.359,
+   "endSec": 1091.914,
+   "text": "There – there's actually to tell you the truth, the reason why it's hard to measure is because of so, from the point of view of studying dialogue, I mean, which Dan Jurafsky and Andreas and I had some projects on,",
+   "id": "bmr007-0285"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1092.154,
+   "endSec": 1092.699,
+   "text": "Yeah.",
+   "id": "bmr007-0286"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1092.515,
+   "endSec": 1099.384,
+   "text": "you want to know the sequence of turns. So what happens is if you're talking and I have a backchannel in the middle of your turn,",
+   "id": "bmr007-0287"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1099.468,
+   "endSec": 1100.119,
+   "text": "Yeah.",
+   "id": "bmr007-0288"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1099.732,
+   "endSec": 1107.849,
+   "text": "and then you keep going what it looks like in a dialogue model is your turn and then my backchannel, even though my backchannel occurred completely inside your turn.",
+   "id": "bmr007-0289"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1108.041,
+   "endSec": 1108.526,
+   "text": "Yeah?",
+   "id": "bmr007-0290"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1108.799,
+   "endSec": 1113.864,
+   "text": "So, for things like language modeling or dialogue modeling it's - We know that that's wrong",
+   "id": "bmr007-0291"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1114.195,
+   "endSec": 1114.426,
+   "text": "Yeah?",
+   "id": "bmr007-0292"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1114.421,
+   "endSec": 1127.525,
+   "text": "in real time. But, because of the acoustic segmentations that were done and the fact that some of the acoustic data in Switchboard were missing, people couldn't study it, but that doesn't mean in the real world that people don't talk that way.",
+   "id": "bmr007-0293"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1127.377,
+   "endSec": 1128.23,
+   "text": "Yeah, I wasn't saying that.",
+   "id": "bmr007-0294"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1127.792,
+   "endSec": 1128.032,
+   "text": "So,",
+   "id": "bmr007-0295"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1128.425,
+   "endSec": 1130.66,
+   "text": "Right? I was just saying that w- now we're looking at it.",
+   "id": "bmr007-0296"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1128.503,
+   "endSec": 1129.607,
+   "text": "it's - um",
+   "id": "bmr007-0297"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1131.875,
+   "endSec": 1132.644,
+   "text": "Well, we've als-",
+   "id": "bmr007-0298"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1131.875,
+   "endSec": 1138.145,
+   "text": "And – and – and, you – you maybe wanted to look at it before but, for these various technical reasons in terms of how the data was you weren't.",
+   "id": "bmr007-0299"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1132.644,
+   "endSec": 1134.073,
+   "text": "Right. We're looking at it here.",
+   "id": "bmr007-0300"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1138.67,
+   "endSec": 1145.348,
+   "text": "So that's why it's coming to us as new even though it may well be you know, if your – if your hypothes- The hypothesis you were offering",
+   "id": "bmr007-0301"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1145.313,
+   "endSec": 1145.711,
+   "text": "Um.",
+   "id": "bmr007-0302"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1145.348,
+   "endSec": 1149.962,
+   "text": "eh – Right? - if it's the null poth- hypothesis, and if actually you have as much overlap in a two-person,",
+   "id": "bmr007-0303"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1151.045,
+   "endSec": 1156.265,
+   "text": "we don't know the answer to that. The reason we don't know the answer to is cuz it wasn't studied and it wasn't studied because it wasn't set up. Right?",
+   "id": "bmr007-0304"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1155.133,
+   "endSec": 1160.871,
+   "text": "Yeah, all I meant is that if you're asking the question from the point of view of what's different about a meeting,",
+   "id": "bmr007-0305"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1161.242,
+   "endSec": 1161.725,
+   "text": "Mm-hmm?",
+   "id": "bmr007-0306"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1161.418,
+   "endSec": 1177.788,
+   "text": "studying meetings of, say, more than two people versus what kinds of questions you could ask with a two-person meeting. It's important to distinguish that, you know, this project is getting a lot of overlap but other projects were too, but we just couldn't study them.",
+   "id": "bmr007-0307"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1177.602,
+   "endSec": 1178.399,
+   "text": "May have been.",
+   "id": "bmr007-0308"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1177.788,
+   "endSec": 1178.629,
+   "text": "And and so uh",
+   "id": "bmr007-0309"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1178.399,
+   "endSec": 1180.918,
+   "text": "May have been. Right? We do kn- we don't know the numbers.",
+   "id": "bmr007-0310"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1179.628,
+   "endSec": 1183.955,
+   "text": "Well, there is a high rate, So. It's – but I don't know how high, in fact",
+   "id": "bmr007-0311"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1183.323,
+   "endSec": 1184.825,
+   "text": "Well, here- I have a question.",
+   "id": "bmr007-0312"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1184.371,
+   "endSec": 1184.986,
+   "text": "that would be",
+   "id": "bmr007-0313"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1184.915,
+   "endSec": 1186.41,
+   "text": "See, I mean, i- i- le- let me t-",
+   "id": "bmr007-0314"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1185.069,
+   "endSec": 1186.168,
+   "text": "interesting to know.",
+   "id": "bmr007-0315"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1186.817,
+   "endSec": 1192.519,
+   "text": "I mean, my point was just if you wanted to say to somebody, \" what have we learned about overlaps here?\" just never mind comparison with something else,",
+   "id": "bmr007-0316"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1192.504,
+   "endSec": 1193.031,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0317"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1192.798,
+   "endSec": 1197.123,
+   "text": "what we've learned about is overlaps in this situation, is that – the first - the first-order thing I would say is that there's a lot of them.",
+   "id": "bmr007-0318"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1198.611,
+   "endSec": 1199.026,
+   "text": "Yeah.",
+   "id": "bmr007-0319"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1198.636,
+   "endSec": 1200.86,
+   "text": "Right? In – in the sense that i- if you said",
+   "id": "bmr007-0320"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1200.616,
+   "endSec": 1201.033,
+   "text": "Yeah,",
+   "id": "bmr007-0321"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1200.86,
+   "endSec": 1201.798,
+   "text": "if – i- i- i-",
+   "id": "bmr007-0322"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1201.033,
+   "endSec": 1201.887,
+   "text": "I – I don't di-",
+   "id": "bmr007-0323"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1201.798,
+   "endSec": 1203.514,
+   "text": "In a way, I guess what I'm comparing to is more the",
+   "id": "bmr007-0324"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1201.887,
+   "endSec": 1203.835,
+   "text": "I agree with that.",
+   "id": "bmr007-0325"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1203.514,
+   "endSec": 1218.883,
+   "text": "common sense notion of how – how much people overlap. Uh you know the fact that when – when – when, uh, Adam was looking for a stretch of – of speech before, that didn't have any overlaps, and he w- he was having such a hard time and now I look at this and I go, \"well, I can see why he was having such a hard time\". It's happening a lot.",
+   "id": "bmr007-0326"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1217.282,
+   "endSec": 1219.303,
+   "text": "Right. That's also true of Switchboard.",
+   "id": "bmr007-0327"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1219.689,
+   "endSec": 1220.47,
+   "text": "I wasn't saying it wasn't.",
+   "id": "bmr007-0328"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1219.689,
+   "endSec": 1221.84,
+   "text": "It may not be - Right. So it's just,",
+   "id": "bmr007-0329"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1221.193,
+   "endSec": 1221.495,
+   "text": "Right?",
+   "id": "bmr007-0330"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1222.205,
+   "endSec": 1223.153,
+   "text": "um",
+   "id": "bmr007-0331"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1222.266,
+   "endSec": 1223.332,
+   "text": "I was commenting about this.",
+   "id": "bmr007-0332"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1223.735,
+   "endSec": 1224.393,
+   "text": "OK.",
+   "id": "bmr007-0333"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1224.447,
+   "endSec": 1225.094,
+   "text": "I'm saying if I -",
+   "id": "bmr007-0334"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1224.737,
+   "endSec": 1226.214,
+   "text": "All I'm saying is that from the",
+   "id": "bmr007-0335"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1225.094,
+   "endSec": 1242.555,
+   "text": "I'm saying if I have this complicated thing in front of me, and we sh- which, you know we're gonna get much more sophisticated about when we get lots more data, But – Then, if I was gonna describe to somebody what did you learn right here, about, you know, the – the modest amount of data that was analyzed I'd say, \"Well, the first-order thing was there was a lot of overlaps \". In fact - and it's not just an overlap -",
+   "id": "bmr007-0336"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1242.555,
+   "endSec": 1247.056,
+   "text": "bunch of overlaps – second-order thing is it's not just a bunch of overlaps in one particular point,",
+   "id": "bmr007-0337"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1246.884,
+   "endSec": 1247.856,
+   "text": "Right.",
+   "id": "bmr007-0338"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1247.474,
+   "endSec": 1250.973,
+   "text": "but that there's overlaps, uh throughout the thing. And that's interesting. That's all.",
+   "id": "bmr007-0339"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1249.777,
+   "endSec": 1258.45,
+   "text": "Right. No, I – I agree with that. I'm just saying that it may - the reason you get overlaps may or may not be due to sort of the number of people in the meeting.",
+   "id": "bmr007-0340"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1257.68,
+   "endSec": 1259.12,
+   "text": "Oh yeah. Yeah.",
+   "id": "bmr007-0341"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1259.2,
+   "endSec": 1259.548,
+   "text": "And",
+   "id": "bmr007-0342"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1259.519,
+   "endSec": 1260.873,
+   "text": "Yeah, I wasn't making any statement about that.",
+   "id": "bmr007-0343"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1259.992,
+   "endSec": 1263.08,
+   "text": "that's all. And – and it would actually be interesting to find out because",
+   "id": "bmr007-0344"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1260.873,
+   "endSec": 1261.241,
+   "text": "Yeah.",
+   "id": "bmr007-0345"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1263.94,
+   "endSec": 1274.37,
+   "text": "some of the data say Switchboard, which isn't exactly the same kind of context, I mean these are two people who don't know each other and so forth, But we should still be able to somehow",
+   "id": "bmr007-0346"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1275.406,
+   "endSec": 1284.162,
+   "text": "say what – what is the added contra- contribution to sort of overlap time of each additional person, or something like that.",
+   "id": "bmr007-0347"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1282.191,
+   "endSec": 1285.11,
+   "text": "Yep. I could certainly see it going either way.",
+   "id": "bmr007-0348"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1282.627,
+   "endSec": 1284.144,
+   "text": "OK, now.",
+   "id": "bmr007-0349"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1282.636,
+   "endSec": 1284.058,
+   "text": "Yeah, that would be good to know, but w- we -",
+   "id": "bmr007-0350"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1283.385,
+   "endSec": 1283.861,
+   "text": "What -",
+   "id": "bmr007-0351"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1284.144,
+   "endSec": 1287.971,
+   "text": "Wh- yeah, I – I agree – I agree with Adam. And the reason is because I think there's a limit -",
+   "id": "bmr007-0352"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1284.949,
+   "endSec": 1286.074,
+   "text": "But yeah.",
+   "id": "bmr007-0353"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1285.733,
+   "endSec": 1286.393,
+   "text": "Yeah.",
+   "id": "bmr007-0354"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1287.971,
+   "endSec": 1294.264,
+   "text": "there's an upper bound on how many you can have, simply from the standpoint of audibility. When we speak we – we do make a judgment of",
+   "id": "bmr007-0355"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1292.686,
+   "endSec": 1293.032,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0356"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1292.831,
+   "endSec": 1293.447,
+   "text": "Right.",
+   "id": "bmr007-0357"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1294.264,
+   "endSec": 1299.94,
+   "text": "\"can -\" you know, as adults. I mean, children don't adjust so well, I mean, if a truck goes rolling past, adults will",
+   "id": "bmr007-0358"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1299.301,
+   "endSec": 1299.99,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0359"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1300.35,
+   "endSec": 1310.761,
+   "text": "well, depending, but mostly, adults will – will - will hold off to what - to finish the end of the sentence till the – till the noise is past. And I think we generally do monitor things like that, about – whether we – whether our utterance will be in the clear or not.",
+   "id": "bmr007-0360"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1308.436,
+   "endSec": 1308.803,
+   "text": "Right.",
+   "id": "bmr007-0361"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1310.761,
+   "endSec": 1318.012,
+   "text": "And partly it's related to rhythmic structure in conversation, so, you know, you – you t- Yeah, this is d- also um, people tend to time their – their -",
+   "id": "bmr007-0362"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1316.618,
+   "endSec": 1316.952,
+   "text": "Well -",
+   "id": "bmr007-0363"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1318.012,
+   "endSec": 1322.57,
+   "text": "their, um when they come into the conversation based on the overall rhythmic, uh",
+   "id": "bmr007-0364"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1323.132,
+   "endSec": 1323.536,
+   "text": "Right.",
+   "id": "bmr007-0365"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1323.15,
+   "endSec": 1343.216,
+   "text": "uh, ambient thing. So you don't want to be c- cross-cutting. And - and, just to finish this, that um That I think that there may be an upper bound on how many overlaps you can have, simply from the standpoint of audibility and how loud the other people are who are already in the fray. But I – you know, of certain types. Now if it's just backchannels, people may be doing that with less intention of being heard,",
+   "id": "bmr007-0366"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1343.216,
+   "endSec": 1349.613,
+   "text": "just sort of spontaneously doing backchannels, in which case that – those might - there may be no upper bound on those.",
+   "id": "bmr007-0367"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1349.068,
+   "endSec": 1363.472,
+   "text": "I – I have a feeling that backchannels, which are the vast majority of overlaps in Switchboard, uh, don't play as big a role here, because it's very unnatural I think, to backchannel if – in a multi-audience - you know, in a multi-person",
+   "id": "bmr007-0368"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1363.6,
+   "endSec": 1365.262,
+   "text": "If you can see them, actually.",
+   "id": "bmr007-0369"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1363.941,
+   "endSec": 1364.549,
+   "text": "audience.",
+   "id": "bmr007-0370"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1365.262,
+   "endSec": 1367.392,
+   "text": "It's interesting, so if you watch people are going like -",
+   "id": "bmr007-0371"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1365.822,
+   "endSec": 1366.531,
+   "text": "Right.",
+   "id": "bmr007-0372"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1367.69,
+   "endSec": 1368.271,
+   "text": "Yeah.",
+   "id": "bmr007-0373"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1367.69,
+   "endSec": 1372.389,
+   "text": "Right – right, like this here, but That may not be the case if you couldn't see them.",
+   "id": "bmr007-0374"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1370.314,
+   "endSec": 1377.459,
+   "text": "But - but, it's sort of odd if one person's speaking and everybody's listening, and it's unusual to have everybody going \"uh-huh, uh-huh\"",
+   "id": "bmr007-0375"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1377.501,
+   "endSec": 1380.221,
+   "text": "Actually, I think I've done it a fair number of times today. [unclear] But.",
+   "id": "bmr007-0376"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1380.385,
+   "endSec": 1382.669,
+   "text": "Yeah. There's a lot of head-nodding,",
+   "id": "bmr007-0377"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1381.213,
+   "endSec": 1381.795,
+   "text": "Um.",
+   "id": "bmr007-0378"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1382.669,
+   "endSec": 1383.199,
+   "text": "in this",
+   "id": "bmr007-0379"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1382.886,
+   "endSec": 1383.551,
+   "text": "Yeah.",
+   "id": "bmr007-0380"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1383.124,
+   "endSec": 1385.387,
+   "text": "Yep, we need to put trackers on it.",
+   "id": "bmr007-0381"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1385.032,
+   "endSec": 1386.25,
+   "text": "In – in the two-person -",
+   "id": "bmr007-0382"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1385.425,
+   "endSec": 1390.366,
+   "text": "Yeah, yeah, yeah.",
+   "id": "bmr007-0383"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1386.955,
+   "endSec": 1388.682,
+   "text": "Plus – plus – plus the -",
+   "id": "bmr007-0384"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1386.965,
+   "endSec": 1388.492,
+   "text": "He could, he could.",
+   "id": "bmr007-0385"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1388.682,
+   "endSec": 1399.458,
+   "text": "Yeah. So – so actually, um That's in part because the nodding, if you have visual contact, the nodding has the same function, but on the phone, in Switchboard you – you – that wouldn't work. So",
+   "id": "bmr007-0386"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1398.872,
+   "endSec": 1399.883,
+   "text": "Yeah, you don't have it.",
+   "id": "bmr007-0387"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1399.911,
+   "endSec": 1401.329,
+   "text": "so you need to use the backchannel.",
+   "id": "bmr007-0388"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1400.06,
+   "endSec": 1402.782,
+   "text": "Your mike is -",
+   "id": "bmr007-0389"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1403.014,
+   "endSec": 1408.574,
+   "text": "So, in the two-person conversations, when there's backchannel, is there a great deal of",
+   "id": "bmr007-0390"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1407.612,
+   "endSec": 1410.687,
+   "text": "That is an earphone, so if you just put it so it's on your ear.",
+   "id": "bmr007-0391"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1408.574,
+   "endSec": 1412.413,
+   "text": "overlap in the speech? or - Cuz my impression is sometimes",
+   "id": "bmr007-0392"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1411.076,
+   "endSec": 1411.736,
+   "text": "There you go.",
+   "id": "bmr007-0393"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1411.136,
+   "endSec": 1412.479,
+   "text": "Yes. Yeah.",
+   "id": "bmr007-0394"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1412.6,
+   "endSec": 1413.388,
+   "text": "Thank you.",
+   "id": "bmr007-0395"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1413.028,
+   "endSec": 1413.93,
+   "text": "E- for example.",
+   "id": "bmr007-0396"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1413.2,
+   "endSec": 1416.235,
+   "text": "it happens when there's a pause, you know, like you – you",
+   "id": "bmr007-0397"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1415.833,
+   "endSec": 1416.159,
+   "text": "Yes.",
+   "id": "bmr007-0398"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1416.235,
+   "endSec": 1418.271,
+   "text": "get a lot of backchannel, when somebody's pausing",
+   "id": "bmr007-0399"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1416.969,
+   "endSec": 1417.493,
+   "text": "Right.",
+   "id": "bmr007-0400"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1418.931,
+   "endSec": 1419.845,
+   "text": "She's doing that.",
+   "id": "bmr007-0401"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1420.443,
+   "endSec": 1421.604,
+   "text": "Sorry, what were you saying?",
+   "id": "bmr007-0402"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1422.957,
+   "endSec": 1427.97,
+   "text": "It's hard to do both, huh? Um no, when – when – when there's backchannel, I mean, just -",
+   "id": "bmr007-0403"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1425.072,
+   "endSec": 1425.658,
+   "text": "Oh.",
+   "id": "bmr007-0404"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1427.97,
+   "endSec": 1445.115,
+   "text": "I was just listening, and - and when there's two people talking and there's backchannel it seems like, um the backchannel happens when, you know, the pitch drops and the first person - and a lot of times, the first person actually stops talking and then there's a backchannel and then they start up again, and so I'm wondering about - h- I just wonder how much overlap there is. Is there a lot?",
+   "id": "bmr007-0405"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1445.55,
+   "endSec": 1465.695,
+   "text": "I think there's a lot of the kind that Jose was talking about, where - I mean, this is called \"precision timing\" in conversation analysis, where they come in overlapping, but at a point where the information is mostly complete. So all you're missing is some last syllables or something or the last word or some highly predictable words.",
+   "id": "bmr007-0406"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1462.734,
+   "endSec": 1463.693,
+   "text": "Mmm.",
+   "id": "bmr007-0407"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1465.315,
+   "endSec": 1466.228,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0408"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1465.695,
+   "endSec": 1468.732,
+   "text": "So technically, it's an overlap. But",
+   "id": "bmr007-0409"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1467.899,
+   "endSec": 1470.097,
+   "text": "But maybe a – just a small overlap?",
+   "id": "bmr007-0410"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1468.732,
+   "endSec": 1473.899,
+   "text": "you know, from information flow point of view it's not an overlap in the predictable information.",
+   "id": "bmr007-0411"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1469.446,
+   "endSec": 1470.867,
+   "text": "More, yeah.",
+   "id": "bmr007-0412"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1473.127,
+   "endSec": 1475.702,
+   "text": "It'd be interesting if we could do prediction.",
+   "id": "bmr007-0413"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1473.712,
+   "endSec": 1476.813,
+   "text": "I was just thinking more in terms of alignment, alignment overlap.",
+   "id": "bmr007-0414"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1476.187,
+   "endSec": 1477.453,
+   "text": "Yeah.",
+   "id": "bmr007-0415"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1476.891,
+   "endSec": 1480.045,
+   "text": "Language model prediction of overlap, that would be really interesting.",
+   "id": "bmr007-0416"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1479.442,
+   "endSec": 1480.606,
+   "text": "So – so -",
+   "id": "bmr007-0417"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1479.644,
+   "endSec": 1479.966,
+   "text": "Yeah.",
+   "id": "bmr007-0418"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1479.839,
+   "endSec": 1486.19,
+   "text": "Well, that's exactly, exactly why we wanted to study the precise timing of overlaps ins- in",
+   "id": "bmr007-0419"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1483.698,
+   "endSec": 1484.181,
+   "text": "Right.",
+   "id": "bmr007-0420"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1484.298,
+   "endSec": 1485.306,
+   "text": "Right.",
+   "id": "bmr007-0421"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1486.19,
+   "endSec": 1488.72,
+   "text": "uh Switchboard, say, because there's a lot of that.",
+   "id": "bmr007-0422"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1487.357,
+   "endSec": 1491.172,
+   "text": "So – so here's a – here's a first interesting labeling task.",
+   "id": "bmr007-0423"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1491.035,
+   "endSec": 1491.853,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0424"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1491.172,
+   "endSec": 1500.077,
+   "text": "Uh, to distinguish between, say, backchannels precision timing – Sort of you know, benevolent overlaps, and – and - and w- and -",
+   "id": "bmr007-0425"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1499.089,
+   "endSec": 1500.605,
+   "text": "Let's pick a different word.",
+   "id": "bmr007-0426"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1500.077,
+   "endSec": 1505.81,
+   "text": "and sort of, um I don't know, hostile overlaps, where someone is trying to grab the floor from someone else.",
+   "id": "bmr007-0427"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1505.185,
+   "endSec": 1505.768,
+   "text": "Yeah.",
+   "id": "bmr007-0428"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1506.494,
+   "endSec": 1509.574,
+   "text": "Uh, that – that might be an interesting, um problem to look at.",
+   "id": "bmr007-0429"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1508.779,
+   "endSec": 1510.137,
+   "text": "Hostile takeovers.",
+   "id": "bmr007-0430"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1508.802,
+   "endSec": 1510.344,
+   "text": "Yeah. Yeah.",
+   "id": "bmr007-0431"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1509.819,
+   "endSec": 1510.204,
+   "text": "Yeah.",
+   "id": "bmr007-0432"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1510.358,
+   "endSec": 1511.996,
+   "text": "Well, I mean you could do that. I ju- I – I think that",
+   "id": "bmr007-0433"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1510.371,
+   "endSec": 1510.928,
+   "text": "Yeah.",
+   "id": "bmr007-0434"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1511.996,
+   "endSec": 1516.783,
+   "text": "in this meeting I really had the feeling that wasn't happening, that the hostile – hostile type. These were – these were",
+   "id": "bmr007-0435"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1516.214,
+   "endSec": 1517.087,
+   "text": "OK.",
+   "id": "bmr007-0436"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1516.783,
+   "endSec": 1518.872,
+   "text": "benevolent types, as people",
+   "id": "bmr007-0437"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1516.98,
+   "endSec": 1518.096,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0438"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1518.872,
+   "endSec": 1520.769,
+   "text": "finishing each other's sentences, and",
+   "id": "bmr007-0439"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1519.966,
+   "endSec": 1522.839,
+   "text": "Um, I could imagine that as – there's a fair number of",
+   "id": "bmr007-0440"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1520.769,
+   "endSec": 1521.534,
+   "text": "stuff.",
+   "id": "bmr007-0441"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1523.373,
+   "endSec": 1534.411,
+   "text": "um cases where, and this is sort of, not really hostile, but sort of competitive, where one person is finishing something and you have, like, two or three people jumping – trying to -",
+   "id": "bmr007-0442"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1533.814,
+   "endSec": 1535.149,
+   "text": "Trying to get the floor.",
+   "id": "bmr007-0443"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1534.411,
+   "endSec": 1536.961,
+   "text": "trying to - trying to, uh grab the next turn.",
+   "id": "bmr007-0444"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1537.185,
+   "endSec": 1537.62,
+   "text": "Yeah.",
+   "id": "bmr007-0445"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1538.029,
+   "endSec": 1544.69,
+   "text": "And so it's not against the person who talks first because actually we're all waiting for that person to finish. But they all want to be next.",
+   "id": "bmr007-0446"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1544.826,
+   "endSec": 1551.05,
+   "text": "I have a feeling most of these things are – that - that are not a benevolent kind are – are are, uh um",
+   "id": "bmr007-0447"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1552.06,
+   "endSec": 1555.438,
+   "text": "are – are competitive as opposed to real- really – really hostile. But.",
+   "id": "bmr007-0448"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1553.999,
+   "endSec": 1554.825,
+   "text": "Right.",
+   "id": "bmr007-0449"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1554.702,
+   "endSec": 1556.447,
+   "text": "Yeah, I agree. I agree.",
+   "id": "bmr007-0450"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1555.225,
+   "endSec": 1556.99,
+   "text": "I wonder what determines who gets the floor?",
+   "id": "bmr007-0451"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1557.595,
+   "endSec": 1559.17,
+   "text": "Well, there are various things, you – you have the -",
+   "id": "bmr007-0452"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1557.67,
+   "endSec": 1558.216,
+   "text": "I mean -",
+   "id": "bmr007-0453"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1558.416,
+   "endSec": 1560.387,
+   "text": "Uh a vote – vote in Florida. Yeah.",
+   "id": "bmr007-0454"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1558.925,
+   "endSec": 1560.124,
+   "text": "It's been studied a lot.",
+   "id": "bmr007-0455"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1560.551,
+   "endSec": 1561.835,
+   "text": "Voting for -",
+   "id": "bmr007-0456"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1562.9,
+   "endSec": 1567.653,
+   "text": "Um, o- one thing – I – I wanted to - or you can tell a good joke and then everybody's laughing and you get a chance to g- break in. But. But.",
+   "id": "bmr007-0457"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1565.951,
+   "endSec": 1567.608,
+   "text": "Seniority.",
+   "id": "bmr007-0458"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1569.568,
+   "endSec": 1579.46,
+   "text": "Um. You know, the other thing I was thinking was that, um these - all these interesting questions are, of course, pretty hard to answer with, uh u- you know, a small amount of data.",
+   "id": "bmr007-0459"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1579.618,
+   "endSec": 1580.317,
+   "text": "Ach.",
+   "id": "bmr007-0460"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1580.608,
+   "endSec": 1610.548,
+   "text": "So, um I wonder if what you're saying suggests that we should make a conscious attempt to have, um a – a fair number of meetings with, uh a smaller number of people. Right? I mean we – most of our meetings are uh, meetings currently with say five, six, seven, eight people Should we really try to have some two-person meetings, or some three-person meetings and re- record them just to – to – to beef up the – the statistics on that?",
+   "id": "bmr007-0461"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1608.469,
+   "endSec": 1609.427,
+   "text": "That's a control.",
+   "id": "bmr007-0462"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1611.684,
+   "endSec": 1629.717,
+   "text": "Well, it seems like there are two possibilities there, I mean i- it seems like if you have just two people it's not really, y- like a meeting, w- is not as similar as the rest of the - of the sample. It depends on what you're after, of course, but It seems like that would be more a case of the control condition, compared to, uh an experimental",
+   "id": "bmr007-0463"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1628.405,
+   "endSec": 1629.143,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0464"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1629.717,
+   "endSec": 1630.951,
+   "text": "condition, with more than two.",
+   "id": "bmr007-0465"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1631.277,
+   "endSec": 1638.22,
+   "text": "Well, Liz was raising the question of – of whether i- it's the number – there's a relationship between the number of people and the number of overlaps or type of overlaps there,",
+   "id": "bmr007-0466"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1637.119,
+   "endSec": 1637.727,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0467"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1638.751,
+   "endSec": 1648.519,
+   "text": "and, um If you had two people meeting in this kind of circumstance then you'd still have the visuals. You wouldn't have that difference also that you have in the say, in Switchboard data.",
+   "id": "bmr007-0468"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1648.746,
+   "endSec": 1649.13,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0469"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1649.025,
+   "endSec": 1650.396,
+   "text": "Uh",
+   "id": "bmr007-0470"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1649.13,
+   "endSec": 1651.388,
+   "text": "Yeah, I'm just thinking that'd be more like a c- control condition.",
+   "id": "bmr007-0471"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1651.164,
+   "endSec": 1651.728,
+   "text": "Yeah.",
+   "id": "bmr007-0472"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1651.609,
+   "endSec": 1652.048,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0473"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1652.3,
+   "endSec": 1654.229,
+   "text": "Well, but from the acoustic point of view,",
+   "id": "bmr007-0474"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1652.403,
+   "endSec": 1653.005,
+   "text": "Yeah.",
+   "id": "bmr007-0475"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1654.229,
+   "endSec": 1655.089,
+   "text": "it's all good.",
+   "id": "bmr007-0476"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1654.873,
+   "endSec": 1655.826,
+   "text": "Is the same.",
+   "id": "bmr007-0477"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1655.706,
+   "endSec": 1656.871,
+   "text": "Yeah, acoustic is fine, but -",
+   "id": "bmr007-0478"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1656.609,
+   "endSec": 1664.383,
+   "text": "If – if the goal were to just look at overlap you would - you could serve yourself – save yourself a lot of time but not even transcri- transcribe the words.",
+   "id": "bmr007-0479"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1665.894,
+   "endSec": 1666.511,
+   "text": "Yep.",
+   "id": "bmr007-0480"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1666.06,
+   "endSec": 1671.702,
+   "text": "Well, I was thinking you should be able to do this from the acoustics, on the close-talking mikes, right?",
+   "id": "bmr007-0481"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1671.03,
+   "endSec": 1673.816,
+   "text": "Well, that's – the – that was my – my status report, so",
+   "id": "bmr007-0482"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1671.115,
+   "endSec": 1671.78,
+   "text": "Yeah.",
+   "id": "bmr007-0483"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1671.702,
+   "endSec": 1673.731,
+   "text": "Right, I mean Adam was -",
+   "id": "bmr007-0484"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1671.723,
+   "endSec": 1673.899,
+   "text": "You've been working on that. Yeah.",
+   "id": "bmr007-0485"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1672.964,
+   "endSec": 1673.671,
+   "text": "Yeah.",
+   "id": "bmr007-0486"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1673.731,
+   "endSec": 1678.62,
+   "text": "right. I mean, not as well as what – I mean, you wouldn't be able to have any kind of typology, obviously, but",
+   "id": "bmr007-0487"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1673.816,
+   "endSec": 1676.593,
+   "text": "Once we're done with this stuff discussing,",
+   "id": "bmr007-0488"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1674.238,
+   "endSec": 1674.674,
+   "text": "Yeah.",
+   "id": "bmr007-0489"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1677.963,
+   "endSec": 1678.662,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0490"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1679.45,
+   "endSec": 1681.44,
+   "text": "you'd get some rough statistics.",
+   "id": "bmr007-0491"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1681.44,
+   "endSec": 1681.602,
+   "text": "But -",
+   "id": "bmr007-0492"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1681.44,
+   "endSec": 1682.262,
+   "text": "So.",
+   "id": "bmr007-0493"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1682.029,
+   "endSec": 1687.962,
+   "text": "what – what do you think about that? Do you think that would be useful? I'm just thinking that as an action item of whether we should try to record some two-person meetings or something.",
+   "id": "bmr007-0494"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1686.108,
+   "endSec": 1691.18,
+   "text": "I guess my – my first comment was, um only that um",
+   "id": "bmr007-0495"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1693.1,
+   "endSec": 1698.47,
+   "text": "we should n- not attribute overlaps only to meetings, but maybe that's obvious, maybe",
+   "id": "bmr007-0496"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1698.836,
+   "endSec": 1699.403,
+   "text": "Yeah.",
+   "id": "bmr007-0497"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1698.87,
+   "endSec": 1707.7,
+   "text": "everybody knew that, but that in normal conversation with two people there's an awful lot of the same kinds of overlap, and that it would be interesting",
+   "id": "bmr007-0498"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1706.035,
+   "endSec": 1706.467,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0499"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1708.97,
+   "endSec": 1714.61,
+   "text": "to look at whether there are these kinds of constraints that Jane mentioned, that",
+   "id": "bmr007-0500"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1715.9,
+   "endSec": 1728.5,
+   "text": "what maybe the additional people add to this competition that happens right after a turn, you know, because now you can have five people trying to grab the turn, but pretty quickly there're – they back off and you go back to this sort of only one person at a time with one person",
+   "id": "bmr007-0501"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1728.692,
+   "endSec": 1729.184,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0502"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1728.92,
+   "endSec": 1739.23,
+   "text": "interrupting at a time. So, I don't know. To answer your question I it – I don't think it's crucial to have controls but I think it's worth recording all the meetings we",
+   "id": "bmr007-0503"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1739.14,
+   "endSec": 1739.648,
+   "text": "Can.",
+   "id": "bmr007-0504"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1740.345,
+   "endSec": 1741.131,
+   "text": "Well, OK.",
+   "id": "bmr007-0505"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1740.393,
+   "endSec": 1741.042,
+   "text": "Yeah.",
+   "id": "bmr007-0506"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1740.571,
+   "endSec": 1741.651,
+   "text": "So, um",
+   "id": "bmr007-0507"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1741.301,
+   "endSec": 1742.339,
+   "text": "I – I have an idea.",
+   "id": "bmr007-0508"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1742.058,
+   "endSec": 1747.0,
+   "text": "you know. D- I wouldn't not record a two-person meeting just because it only has two people.",
+   "id": "bmr007-0509"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1745.401,
+   "endSec": 1745.835,
+   "text": "Right.",
+   "id": "bmr007-0510"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1746.248,
+   "endSec": 1748.291,
+   "text": "Could we - Could we, um -",
+   "id": "bmr007-0511"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1749.881,
+   "endSec": 1755.27,
+   "text": "we have – have in the past and I think continue – will continue to have a fair number of uh phone conference calls.",
+   "id": "bmr007-0512"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1755.726,
+   "endSec": 1756.034,
+   "text": "Uh-huh.",
+   "id": "bmr007-0513"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1755.76,
+   "endSec": 1757.898,
+   "text": "Yeah, we talked about this repeatedly.",
+   "id": "bmr007-0514"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1756.331,
+   "endSec": 1761.49,
+   "text": "And, uh, and as a - to, um",
+   "id": "bmr007-0515"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1762.66,
+   "endSec": 1771.88,
+   "text": "as another c- c- comparison condition, we could um see what – what what happens in terms of overlap, when you don't have visual contact.",
+   "id": "bmr007-0516"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1772.992,
+   "endSec": 1774.031,
+   "text": "So, um -",
+   "id": "bmr007-0517"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1773.696,
+   "endSec": 1775.085,
+   "text": "Can we actually record?",
+   "id": "bmr007-0518"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1774.075,
+   "endSec": 1777.246,
+   "text": "It just seems like that's a very different thing than what we're doing.",
+   "id": "bmr007-0519"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1775.843,
+   "endSec": 1776.467,
+   "text": "Uh",
+   "id": "bmr007-0520"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1776.727,
+   "endSec": 1779.772,
+   "text": "I mean physically can we record the o- the other -",
+   "id": "bmr007-0521"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1777.042,
+   "endSec": 1782.261,
+   "text": "Well, we'll have to set up for it. Yeah. Well, we're not really set up for it to do that. But.",
+   "id": "bmr007-0522"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1782.156,
+   "endSec": 1782.929,
+   "text": "Or,",
+   "id": "bmr007-0523"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1783.373,
+   "endSec": 1783.66,
+   "text": "Yeah.",
+   "id": "bmr007-0524"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1783.87,
+   "endSec": 1788.386,
+   "text": "this is getting a little extravagant, we could put up some kind of blinds or something to -",
+   "id": "bmr007-0525"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1787.529,
+   "endSec": 1788.273,
+   "text": "Barriers!",
+   "id": "bmr007-0526"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1788.002,
+   "endSec": 1788.492,
+   "text": "Yeah.",
+   "id": "bmr007-0527"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1788.386,
+   "endSec": 1789.898,
+   "text": "to remove, uh",
+   "id": "bmr007-0528"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1789.698,
+   "endSec": 1791.213,
+   "text": "That's what they did on Map Task,",
+   "id": "bmr007-0529"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1789.898,
+   "endSec": 1790.813,
+   "text": "visual contact.",
+   "id": "bmr007-0530"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1791.213,
+   "endSec": 1797.954,
+   "text": "you know, this Map Task corpus? They ran exactly the same pairs of people with and without visual cues and it's quite interesting.",
+   "id": "bmr007-0531"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1798.092,
+   "endSec": 1801.83,
+   "text": "Well, we – we record this meeting so regularly it wouldn't be that -",
+   "id": "bmr007-0532"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1802.981,
+   "endSec": 1804.811,
+   "text": "I mean a little strange.",
+   "id": "bmr007-0533"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1803.492,
+   "endSec": 1805.695,
+   "text": "OK, we can record, but no one can look at each other.",
+   "id": "bmr007-0534"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1805.681,
+   "endSec": 1807.575,
+   "text": "Well, we could just put b- blindfolds on.",
+   "id": "bmr007-0535"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1806.025,
+   "endSec": 1806.275,
+   "text": "Yeah.",
+   "id": "bmr007-0536"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1806.241,
+   "endSec": 1808.219,
+   "text": "Well y- no you – f- Yeah, Yeah.",
+   "id": "bmr007-0537"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1806.243,
+   "endSec": 1806.972,
+   "text": "Close your eyes.",
+   "id": "bmr007-0538"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1807.1,
+   "endSec": 1807.906,
+   "text": "Blindf-",
+   "id": "bmr007-0539"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1807.627,
+   "endSec": 1808.567,
+   "text": "Turn off the lights.",
+   "id": "bmr007-0540"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1809.086,
+   "endSec": 1811.992,
+   "text": "and we'd take a picture of everybody sitting here with blindfolds. That would -",
+   "id": "bmr007-0541"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1812.85,
+   "endSec": 1817.821,
+   "text": "Oh, th- that was the other thing, weren't we gonna take a picture at the beginning of each of these meetings?",
+   "id": "bmr007-0542"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1817.69,
+   "endSec": 1824.373,
+   "text": "Um, what – I had thought we were gonna do is just take pictures of the whiteboards. rather than take pictures of the meeting.",
+   "id": "bmr007-0543"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1824.764,
+   "endSec": 1825.609,
+   "text": "Well, linguistic -",
+   "id": "bmr007-0544"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1824.85,
+   "endSec": 1825.782,
+   "text": "And, uh -",
+   "id": "bmr007-0545"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1825.609,
+   "endSec": 1825.99,
+   "text": "Yeah.",
+   "id": "bmr007-0546"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1825.914,
+   "endSec": 1827.656,
+   "text": "Yes.",
+   "id": "bmr007-0547"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1825.99,
+   "endSec": 1829.755,
+   "text": "Linguistic anthropologists would – would suggest it would be useful to",
+   "id": "bmr007-0548"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1827.656,
+   "endSec": 1829.527,
+   "text": "There's a head nodding here vigorously, yeah.",
+   "id": "bmr007-0549"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1829.998,
+   "endSec": 1831.997,
+   "text": "also take a picture of the meeting. The -",
+   "id": "bmr007-0550"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1831.71,
+   "endSec": 1833.247,
+   "text": "Why – why do we want to have a picture of the meeting?",
+   "id": "bmr007-0551"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1832.201,
+   "endSec": 1834.222,
+   "text": "Ee- you mean, transc-",
+   "id": "bmr007-0552"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1833.232,
+   "endSec": 1836.15,
+   "text": "because you get then the spatial relationship of the speakers.",
+   "id": "bmr007-0553"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1834.222,
+   "endSec": 1834.545,
+   "text": "no -",
+   "id": "bmr007-0554"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1835.667,
+   "endSec": 1838.77,
+   "text": "Well, you could do that by just noting on the enrollment sheet the -",
+   "id": "bmr007-0555"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1836.15,
+   "endSec": 1836.526,
+   "text": "And that",
+   "id": "bmr007-0556"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1836.25,
+   "endSec": 1836.559,
+   "text": "Yeah",
+   "id": "bmr007-0557"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1836.526,
+   "endSec": 1837.131,
+   "text": "could be",
+   "id": "bmr007-0558"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1836.712,
+   "endSec": 1838.324,
+   "text": "Yeah. Yeah.",
+   "id": "bmr007-0559"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1838.22,
+   "endSec": 1839.567,
+   "text": "Seat number, that's a good idea.",
+   "id": "bmr007-0560"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1838.77,
+   "endSec": 1839.581,
+   "text": "the seat number.",
+   "id": "bmr007-0561"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1839.567,
+   "endSec": 1841.714,
+   "text": "I'll do that. I'll do that on the next set of forms.",
+   "id": "bmr007-0562"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1840.288,
+   "endSec": 1840.499,
+   "text": "Yeah.",
+   "id": "bmr007-0563"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1841.738,
+   "endSec": 1847.463,
+   "text": "Yeah. Is possible to get information from the rhythmic – f- from the ge- , eh uh, files.",
+   "id": "bmr007-0564"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1841.742,
+   "endSec": 1843.145,
+   "text": "So you'd number them somehow.",
+   "id": "bmr007-0565"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1844.18,
+   "endSec": 1845.681,
+   "text": "I finally remembered to put, uh",
+   "id": "bmr007-0566"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1847.511,
+   "endSec": 1849.77,
+   "text": "We can – can't you figure it out from the mike number?",
+   "id": "bmr007-0567"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1847.561,
+   "endSec": 1851.692,
+   "text": "put native language on the newer forms. No.",
+   "id": "bmr007-0568"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1851.826,
+   "endSec": 1852.2,
+   "text": "OK.",
+   "id": "bmr007-0569"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1852.2,
+   "endSec": 1852.98,
+   "text": "The wireless ones.",
+   "id": "bmr007-0570"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1855.14,
+   "endSec": 1858.52,
+   "text": "And even the jacks, I mean, I'm sitting here and the jack is over in front of you.",
+   "id": "bmr007-0571"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1858.088,
+   "endSec": 1858.979,
+   "text": "Oh.",
+   "id": "bmr007-0572"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1859.13,
+   "endSec": 1861.08,
+   "text": "But probably from these you could've infer it.",
+   "id": "bmr007-0573"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1861.62,
+   "endSec": 1862.145,
+   "text": "Yeah, but",
+   "id": "bmr007-0574"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1862.023,
+   "endSec": 1863.365,
+   "text": "It would be another task.",
+   "id": "bmr007-0575"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1862.582,
+   "endSec": 1863.793,
+   "text": "It's – it would be trivial -",
+   "id": "bmr007-0576"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1862.917,
+   "endSec": 1864.401,
+   "text": "It would be a research task.",
+   "id": "bmr007-0577"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1863.365,
+   "endSec": 1866.887,
+   "text": "Having – having ground tu- truth would be nice, so seat number would be good.",
+   "id": "bmr007-0578"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1865.302,
+   "endSec": 1866.404,
+   "text": "Yeah, yeah.",
+   "id": "bmr007-0579"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1865.323,
+   "endSec": 1866.476,
+   "text": "You know where you could get it?",
+   "id": "bmr007-0580"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1866.178,
+   "endSec": 1866.501,
+   "text": "Yeah.",
+   "id": "bmr007-0581"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1866.638,
+   "endSec": 1869.168,
+   "text": "Beam-forming during the digit uh stuff.",
+   "id": "bmr007-0582"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1869.432,
+   "endSec": 1872.989,
+   "text": "So I'm gonna put little labels on all the chairs with the seat number. That's a good idea.",
+   "id": "bmr007-0583"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1870.25,
+   "endSec": 1870.634,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0584"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1873.259,
+   "endSec": 1874.67,
+   "text": "Not the chairs. The chairs are -",
+   "id": "bmr007-0585"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1873.439,
+   "endSec": 1876.231,
+   "text": "But you have to keep the chairs in the same pla- like here.",
+   "id": "bmr007-0586"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1873.558,
+   "endSec": 1874.077,
+   "text": "But, uh -",
+   "id": "bmr007-0587"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1874.67,
+   "endSec": 1876.049,
+   "text": "Chairs are movable. Put them -",
+   "id": "bmr007-0588"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1875.846,
+   "endSec": 1876.674,
+   "text": "The chair-",
+   "id": "bmr007-0589"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1876.049,
+   "endSec": 1877.841,
+   "text": "Like, put them on the table where they -",
+   "id": "bmr007-0590"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1876.238,
+   "endSec": 1876.553,
+   "text": "Yep.",
+   "id": "bmr007-0591"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 1876.908,
+   "endSec": 1877.146,
+   "text": "Yeah.",
+   "id": "bmr007-0592"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1877.325,
+   "endSec": 1877.88,
+   "text": "Yep.",
+   "id": "bmr007-0593"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1878.005,
+   "endSec": 1878.51,
+   "text": "Yeah.",
+   "id": "bmr007-0594"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1878.592,
+   "endSec": 1884.07,
+   "text": "But you know, they – the – s- the linguistic anthropologists would say it would be good to have a digital picture anyway, because you get",
+   "id": "bmr007-0595"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1881.919,
+   "endSec": 1882.847,
+   "text": "Just remembered a joke.",
+   "id": "bmr007-0596"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1884.07,
+   "endSec": 1886.896,
+   "text": "a sense also of posture. Posture, and we could like,",
+   "id": "bmr007-0597"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1885.573,
+   "endSec": 1886.736,
+   "text": "What people were wearing.",
+   "id": "bmr007-0598"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1885.611,
+   "endSec": 1886.172,
+   "text": "Yeah.",
+   "id": "bmr007-0599"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1886.896,
+   "endSec": 1889.564,
+   "text": "you know, block out the person's face or whatever but -",
+   "id": "bmr007-0600"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1887.978,
+   "endSec": 1889.031,
+   "text": "The fashion statement.",
+   "id": "bmr007-0601"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1889.564,
+   "endSec": 1892.17,
+   "text": "but, you know, these are important cues, I mean the -",
+   "id": "bmr007-0602"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1889.81,
+   "endSec": 1890.875,
+   "text": "Oh, Andreas was -",
+   "id": "bmr007-0603"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1891.098,
+   "endSec": 1892.247,
+   "text": "How big their heads are.",
+   "id": "bmr007-0604"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1892.17,
+   "endSec": 1894.461,
+   "text": "the - how a person is sitting is -",
+   "id": "bmr007-0605"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1892.741,
+   "endSec": 1893.229,
+   "text": "Yeah.",
+   "id": "bmr007-0606"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1892.761,
+   "endSec": 1893.637,
+   "text": "But if you just f-",
+   "id": "bmr007-0607"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1893.611,
+   "endSec": 1895.673,
+   "text": "Andreas was wearing that same old sweater again.",
+   "id": "bmr007-0608"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1894.03,
+   "endSec": 1898.163,
+   "text": "But from one picture, I don't know that you really get that. Right? You'd want a video for that, I think.",
+   "id": "bmr007-0609"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1897.379,
+   "endSec": 1898.909,
+   "text": "It'd be better than nothing, is – is -",
+   "id": "bmr007-0610"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 1898.171,
+   "endSec": 1899.195,
+   "text": "A video, yeah.",
+   "id": "bmr007-0611"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1899.272,
+   "endSec": 1901.939,
+   "text": "i- Just from a single picture I think you can tell some aspects.",
+   "id": "bmr007-0612"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1900.857,
+   "endSec": 1901.25,
+   "text": "Think so?",
+   "id": "bmr007-0613"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1901.939,
+   "endSec": 1906.134,
+   "text": "I mean I – I could tell you I mean, if I- if I'm in certain meetings I notice that there are certain people who",
+   "id": "bmr007-0614"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1902.213,
+   "endSec": 1903.507,
+   "text": "And - And -",
+   "id": "bmr007-0615"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1906.46,
+   "endSec": 1909.262,
+   "text": "really do - eh - The body language is very uh -",
+   "id": "bmr007-0616"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1909.619,
+   "endSec": 1910.124,
+   "text": "Hmm.",
+   "id": "bmr007-0617"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1909.7,
+   "endSec": 1912.055,
+   "text": "is very interesting in terms of the dominance aspect.",
+   "id": "bmr007-0618"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1910.955,
+   "endSec": 1913.404,
+   "text": "Yeah. And – and Morgan had that funny hair again.",
+   "id": "bmr007-0619"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1913.882,
+   "endSec": 1917.319,
+   "text": "Yeah. Well, I mean you black out the – that part. But it's just, you know, the – the body",
+   "id": "bmr007-0620"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1914.791,
+   "endSec": 1915.593,
+   "text": "Hmm.",
+   "id": "bmr007-0621"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1918.096,
+   "endSec": 1918.609,
+   "text": "He agreed.",
+   "id": "bmr007-0622"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1918.329,
+   "endSec": 1918.685,
+   "text": "you know?",
+   "id": "bmr007-0623"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1920.153,
+   "endSec": 1926.732,
+   "text": "Of course, the – where we sit at the table, I find is very interesting, that we do tend to cong- to gravitate to the same place each time.",
+   "id": "bmr007-0624"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1926.248,
+   "endSec": 1926.566,
+   "text": "Yeah.",
+   "id": "bmr007-0625"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1927.065,
+   "endSec": 1934.207,
+   "text": "and it's somewhat coincidental. I'm sitting here so that I can run into the room if the hardware starts, you know, catching fire or something.",
+   "id": "bmr007-0626"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1932.99,
+   "endSec": 1935.8,
+   "text": "Oh, no, you – you just like to be in charge, that's why you're sitting -",
+   "id": "bmr007-0627"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1935.091,
+   "endSec": 1936.856,
+   "text": "I just want to be at the head of the table.",
+   "id": "bmr007-0628"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 1936.271,
+   "endSec": 1936.726,
+   "text": "Yeah.",
+   "id": "bmr007-0629"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1937.321,
+   "endSec": 1938.17,
+   "text": "Take control.",
+   "id": "bmr007-0630"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 1938.43,
+   "endSec": 1941.638,
+   "text": "Speaking of taking control, you said you had some research to talk about .",
+   "id": "bmr007-0631"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1940.701,
+   "endSec": 1940.94,
+   "text": "Yeah.",
+   "id": "bmr007-0632"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1940.922,
+   "endSec": 1942.66,
+   "text": "Yeah, I've been playing with, um",
+   "id": "bmr007-0633"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 1941.277,
+   "endSec": 1941.6,
+   "text": "Yeah.",
+   "id": "bmr007-0634"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1943.01,
+   "endSec": 1968.343,
+   "text": "uh, using the close-talking mike to do – to try to figure out who's speaking. So my first attempt was just using thresholding and filtering, that we talked about – about two weeks ago, and so I played with that a little bit, and it works O K, except that it's very sensitive to your choice of your filter width and your threshold. So if you fiddle around with it a little bit and you get good numbers you can actually do a pretty good job of segmenting when someone's talking and when they're not.",
+   "id": "bmr007-0635"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1968.68,
+   "endSec": 1975.54,
+   "text": "But if you try to use the same parameters on another speaker, it doesn't work anymore, even if you normalize it based on the absolute loudness.",
+   "id": "bmr007-0636"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 1975.94,
+   "endSec": 1978.569,
+   "text": "But does it work for that one speaker throughout the whole meeting?",
+   "id": "bmr007-0637"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1978.593,
+   "endSec": 1983.129,
+   "text": "It does work for the one speaker throughout the whole meeting. Um Pretty well. Pretty well.",
+   "id": "bmr007-0638"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1982.74,
+   "endSec": 1983.64,
+   "text": "How did you do it Adam?",
+   "id": "bmr007-0639"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1983.96,
+   "endSec": 1985.263,
+   "text": "How did I do it? What do you mean?",
+   "id": "bmr007-0640"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1984.715,
+   "endSec": 1986.39,
+   "text": "Yeah. I mean, wh- what was the -",
+   "id": "bmr007-0641"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1986.9,
+   "endSec": 1988.6,
+   "text": "The algorithm was, uh",
+   "id": "bmr007-0642"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1987.631,
+   "endSec": 1988.06,
+   "text": "Yeah.",
+   "id": "bmr007-0643"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1989.18,
+   "endSec": 1993.0,
+   "text": "take o- every frame that's over the threshold, and then median-filter it,",
+   "id": "bmr007-0644"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1993.373,
+   "endSec": 1993.808,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0645"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1993.58,
+   "endSec": 1994.91,
+   "text": "and then look for runs.",
+   "id": "bmr007-0646"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1996.759,
+   "endSec": 1998.48,
+   "text": "So there was a minimum run length, so that -",
+   "id": "bmr007-0647"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 1998.109,
+   "endSec": 1999.701,
+   "text": "Every frame that's over what threshold?",
+   "id": "bmr007-0648"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 1999.94,
+   "endSec": 2001.165,
+   "text": "A threshold that you pick.",
+   "id": "bmr007-0649"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2001.497,
+   "endSec": 2002.355,
+   "text": "In terms of energy?",
+   "id": "bmr007-0650"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2002.329,
+   "endSec": 2003.109,
+   "text": "Yeah.",
+   "id": "bmr007-0651"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2002.674,
+   "endSec": 2003.413,
+   "text": "Ah! OK.",
+   "id": "bmr007-0652"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2004.09,
+   "endSec": 2006.192,
+   "text": "Say that again? Frame over fres- threshold.",
+   "id": "bmr007-0653"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2005.772,
+   "endSec": 2012.029,
+   "text": "So you take a – each frame, and you compute the energy and if it's over the threshold you set it to one, and if it's under the threshold you set it to zero,",
+   "id": "bmr007-0654"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2012.143,
+   "endSec": 2012.49,
+   "text": "Hmm.",
+   "id": "bmr007-0655"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2012.352,
+   "endSec": 2014.561,
+   "text": "so now you have a bit stream of zeros and ones.",
+   "id": "bmr007-0656"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2013.771,
+   "endSec": 2014.257,
+   "text": "OK.",
+   "id": "bmr007-0657"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2014.898,
+   "endSec": 2019.813,
+   "text": "And then I median – filtered that using, um a fairly long filter length.",
+   "id": "bmr007-0658"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2020.83,
+   "endSec": 2034.96,
+   "text": "Uh well, actually I guess depends on what you mean by long, you know, tenth of a second sorts of numbers. Um and that's to average out you know, pitch, you know, the pitch contours, and things like that. And then, uh looked for long runs.",
+   "id": "bmr007-0659"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2035.948,
+   "endSec": 2036.214,
+   "text": "OK",
+   "id": "bmr007-0660"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2038.57,
+   "endSec": 2046.76,
+   "text": "And that works O K, if you fil- if you tune the filter parameters, if you tune how long your median filter is and how high you're looking for your thresholds.",
+   "id": "bmr007-0661"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2047.78,
+   "endSec": 2051.392,
+   "text": "Did you ever try running the filter before you pick a threshold?",
+   "id": "bmr007-0662"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2051.14,
+   "endSec": 2052.72,
+   "text": "No. I certainly could though.",
+   "id": "bmr007-0663"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2054.61,
+   "endSec": 2078.73,
+   "text": "But this was just I had the program mostly written already so it was easy to do. OK and then the other thing I did, was I took Javier's speaker-change detector – acoustic- change detector, and I implemented that with the close-talking mikes, and unfortunately that's not working real well, and it looks like it's - the problem is – he does it in two passes, the first pass is to find candidate places to do a break.",
+   "id": "bmr007-0664"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2079.54,
+   "endSec": 2106.17,
+   "text": "And he does that using a neural net doing broad phone classification and he has the the, uh one of the phone classes is silence. And so the possible breaks are where silence starts and ends. And then he has a second pass which is a modeling – a Gaussian mixture model. Um looking for uh whether it improves or – or degrades to split at one of those particular places. And what looks like it's happening is that the -",
+   "id": "bmr007-0665"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2106.88,
+   "endSec": 2111.63,
+   "text": "even on the close-talking mike the broad phone class classifier's doing a really bad job.",
+   "id": "bmr007-0666"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2112.7,
+   "endSec": 2113.74,
+   "text": "Who was it trained on?",
+   "id": "bmr007-0667"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2113.74,
+   "endSec": 2115.38,
+   "text": "Uh, I have no idea. I don't remember.",
+   "id": "bmr007-0668"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2114.691,
+   "endSec": 2115.268,
+   "text": "Hmm.",
+   "id": "bmr007-0669"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2115.97,
+   "endSec": 2118.27,
+   "text": "Does an- do you remember, Morgan, was it Broadcast News?",
+   "id": "bmr007-0670"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2118.67,
+   "endSec": 2119.89,
+   "text": "I think so, yeah.",
+   "id": "bmr007-0671"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2119.774,
+   "endSec": 2146.16,
+   "text": "Um So, at any rate, my next attempt, which I'm in the midst of and haven't quite finished yet was actually using the uh, thresholding as the way of generating the candidates. Because one of the things that definitely happens is if you put the threshold low you get lots of breaks. All of which are definitely acoustic events. They're definitely someone talking. But, like, it could be someone who isn't the person here, but the person over there or it can be the person breathing.",
+   "id": "bmr007-0672"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2146.71,
+   "endSec": 2149.06,
+   "text": "And then feeding that into the acoustic change detector.",
+   "id": "bmr007-0673"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2150.85,
+   "endSec": 2154.22,
+   "text": "And so I think that might work. But, I haven't gotten very far on that.",
+   "id": "bmr007-0674"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2155.67,
+   "endSec": 2158.17,
+   "text": "But all of this is close-talking mike, so",
+   "id": "bmr007-0675"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2158.46,
+   "endSec": 2160.595,
+   "text": "Only with eh",
+   "id": "bmr007-0676"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2158.46,
+   "endSec": 2162.57,
+   "text": "it's, uh just – just trying to get some ground truth.",
+   "id": "bmr007-0677"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2161.918,
+   "endSec": 2177.138,
+   "text": "uh, but eh I – I – I think, eh when – when, y- I – I saw the – the – the – the speech from PDA and, eh close talker. I – I think the there is a – a great difference in the – in the signal.",
+   "id": "bmr007-0678"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2176.589,
+   "endSec": 2181.1,
+   "text": "Oh, absolutely. So s- my intention for this is – is as an aide for ground truth.",
+   "id": "bmr007-0679"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2177.138,
+   "endSec": 2180.355,
+   "text": "Um but eh I -",
+   "id": "bmr007-0680"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2181.1,
+   "endSec": 2182.076,
+   "text": "not -",
+   "id": "bmr007-0681"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2181.425,
+   "endSec": 2206.677,
+   "text": "but eh I – I – I mean that eh eh in the – in the mixed file you can find, uh zone with, eh great different, eh level of energy. Um I – I think for, eh algorithm based on energy, eh, that um h- mmm, – more or less, eh, like eh eh, mmm, first sound energy detector.",
+   "id": "bmr007-0682"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2207.001,
+   "endSec": 2207.704,
+   "text": "Say it again?",
+   "id": "bmr007-0683"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2207.639,
+   "endSec": 2226.992,
+   "text": "eh nnn. When y- you the detect the – the – the first at – at the end of – of the detector of, ehm princ- um. What is the – the name in English ? the – the, mmm, the de- detector of, ehm of a word in the – in the s- in - an isolated word in – in the background",
+   "id": "bmr007-0684"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2226.217,
+   "endSec": 2228.195,
+   "text": "I'm – I'm not sure what you're saying, can you try -",
+   "id": "bmr007-0685"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2227.682,
+   "endSec": 2232.146,
+   "text": "That, uh I mean that when – when you use, eh eh any",
+   "id": "bmr007-0686"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2231.177,
+   "endSec": 2233.111,
+   "text": "I think he's saying the onset detector.",
+   "id": "bmr007-0687"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2232.834,
+   "endSec": 2233.379,
+   "text": "Yeah.",
+   "id": "bmr007-0688"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2233.889,
+   "endSec": 2235.11,
+   "text": "Onset detector, OK.",
+   "id": "bmr007-0689"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2235.37,
+   "endSec": 2251.2,
+   "text": "I – I think it's probably to work well eh, because, eh you have eh, in the mixed files a great level of energy. eh and great difference between the sp- speaker. And probably is not so easy when you use the – the PDA, eh that -",
+   "id": "bmr007-0690"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2249.942,
+   "endSec": 2250.445,
+   "text": "Right.",
+   "id": "bmr007-0691"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2251.2,
+   "endSec": 2259.605,
+   "text": "Because the signal is, eh the – in the e- energy level. in – in that, eh eh speech file is, eh more similar.",
+   "id": "bmr007-0692"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2259.805,
+   "endSec": 2260.06,
+   "text": "Right.",
+   "id": "bmr007-0693"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2260.06,
+   "endSec": 2262.85,
+   "text": "between the different eh, speaker, um",
+   "id": "bmr007-0694"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2260.84,
+   "endSec": 2261.961,
+   "text": "But different speakers.",
+   "id": "bmr007-0695"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2262.85,
+   "endSec": 2272.54,
+   "text": "I – I think is – eh, it will i- is my opinion. It will be, eh more difficult to – to detect bass-tone energy. the – the change.",
+   "id": "bmr007-0696"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2272.54,
+   "endSec": 2278.206,
+   "text": "Ah, in the clo- in the PD A, you mean? Absolutely. Yeah, no question. It'll be much harder. Much harder.",
+   "id": "bmr007-0697"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2272.54,
+   "endSec": 2280.46,
+   "text": "I think that, um In the PDA. Yeah. Yeah. And the – the another question, that when",
+   "id": "bmr007-0698"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2277.513,
+   "endSec": 2278.026,
+   "text": "Yeah.",
+   "id": "bmr007-0699"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2280.46,
+   "endSec": 2313.61,
+   "text": "I review the – the – the work of Javier. I think the, nnn, the, nnn, that the idea of using a neural network to – to get a broad class of phonetic, eh from, eh uh a candidate from the – the – the speech signal. If you have, eh uh, I'm considering, only because Javier, eh only consider, eh like candidate, the, nnn, eh the silence, because it is the – the only model, eh – eh, he used that, eh eh nnn,",
+   "id": "bmr007-0700"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2308.939,
+   "endSec": 2309.558,
+   "text": "Right.",
+   "id": "bmr007-0701"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2313.61,
+   "endSec": 2333.151,
+   "text": "to detect the – the possibility of a – a change between the – between the speaker, Um another – another research thing, different groups, eh working, eh on Broadcast News prefer to, eh to consider hypothesis eh between each phoneme.",
+   "id": "bmr007-0702"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2333.384,
+   "endSec": 2335.28,
+   "text": "Mm-hmm. Yeah, when a phone changes.",
+   "id": "bmr007-0703"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2335.58,
+   "endSec": 2354.57,
+   "text": "Because, I – I – I think it's more realistic that, uh only consider the – the the – the silence between the speaker. Eh there – there exists eh silence between – between, eh a speaker. is – is, eh eh acoustic, eh event, important to – to consider.",
+   "id": "bmr007-0704"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2352.85,
+   "endSec": 2353.724,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0705"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2354.783,
+   "endSec": 2355.272,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0706"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2354.92,
+   "endSec": 2382.36,
+   "text": "I – I found that the, eh silence in – in many occasions in the – in the speech file, but, eh when you have, eh eh, two speakers together without enough silence between – between them , eh I think eh is better to use the acoustic change detector basically and I – I – I IX or, mmm, BIC criterion for consider all the frames",
+   "id": "bmr007-0707"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2380.385,
+   "endSec": 2380.984,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0708"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2382.36,
+   "endSec": 2383.747,
+   "text": "in my opinion.",
+   "id": "bmr007-0709"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2383.652,
+   "endSec": 2390.102,
+   "text": "Yeah, the – you know, the reason that he, uh just used silence was not because he thought it was better,",
+   "id": "bmr007-0710"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2389.72,
+   "endSec": 2390.67,
+   "text": "Yeah.",
+   "id": "bmr007-0711"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2390.515,
+   "endSec": 2392.575,
+   "text": "it was – it was – it was the place he was starting.",
+   "id": "bmr007-0712"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2392.28,
+   "endSec": 2392.97,
+   "text": "Yep.",
+   "id": "bmr007-0713"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2392.97,
+   "endSec": 2393.359,
+   "text": "Yeah.",
+   "id": "bmr007-0714"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2392.97,
+   "endSec": 2396.753,
+   "text": "So, he was trying to get something going, and, uh e- e- you know, as – as -",
+   "id": "bmr007-0715"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2394.146,
+   "endSec": 2394.965,
+   "text": "Yeah, yeah, yeah, yeah.",
+   "id": "bmr007-0716"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2396.753,
+   "endSec": 2400.73,
+   "text": "as is in your case, if you're here for only a modest number of months you try to",
+   "id": "bmr007-0717"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2399.163,
+   "endSec": 2399.699,
+   "text": "Yeah.",
+   "id": "bmr007-0718"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2400.73,
+   "endSec": 2401.56,
+   "text": "Do something.",
+   "id": "bmr007-0719"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2400.73,
+   "endSec": 2401.689,
+   "text": "pick a realistic goal,",
+   "id": "bmr007-0720"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2400.845,
+   "endSec": 2401.313,
+   "text": "Yeah,",
+   "id": "bmr007-0721"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2401.689,
+   "endSec": 2406.766,
+   "text": "But his – his goal was always to proceed from there to then allow broad category change also.",
+   "id": "bmr007-0722"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2401.694,
+   "endSec": 2402.792,
+   "text": "yeah, yeah, yeah.",
+   "id": "bmr007-0723"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2406.97,
+   "endSec": 2433.116,
+   "text": "Uh-huh. But, eh do – do you think that if you consider all the frames to apply the – the, eh the BIC criterion to detect the – the – the different acoustic change, eh between speaker, without, uh with, uh silence or with overlapping, uh, I think like – like, eh eh a general, eh eh way of process the – the acoustic change. In a first step, I mean.",
+   "id": "bmr007-0724"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2431.578,
+   "endSec": 2432.451,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0725"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2433.535,
+   "endSec": 2434.129,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0726"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2434.12,
+   "endSec": 2444.685,
+   "text": "An- and then, eh eh without considering the you – you – you, um you can consider the energy like a- another parameter in the – in the feature vector, eh.",
+   "id": "bmr007-0727"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2443.592,
+   "endSec": 2444.55,
+   "text": "Right. Absolutely.",
+   "id": "bmr007-0728"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2444.89,
+   "endSec": 2445.184,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0729"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2444.9,
+   "endSec": 2462.53,
+   "text": "This – this is the idea. And if, if you do that, eh eh, with a BIC uh criterion for example, or with another kind of, eh of distance in a first step, and then you, eh you get the, eh the hypothesis to the – this change acoustic, eh to po- process",
+   "id": "bmr007-0730"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2462.53,
+   "endSec": 2463.49,
+   "text": "Right.",
+   "id": "bmr007-0731"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2463.232,
+   "endSec": 2474.67,
+   "text": "Because, eh eh, probably you – you can find the – the eh a small gap of silence between speaker with eh eh a ga- mmm, small duration",
+   "id": "bmr007-0732"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2474.791,
+   "endSec": 2475.393,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0733"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2475.49,
+   "endSec": 2499.4,
+   "text": "Less than, eh two hundred milliseconds for example and apply another – another algorithm, another approach like, eh eh detector of ene- , eh detector of bass-tone energy to – to consider that, eh that, eh zone. of s- a small silence between speaker, or another algorithm to – to process, eh the – the segment between marks",
+   "id": "bmr007-0734"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2499.619,
+   "endSec": 2500.376,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0735"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2499.851,
+   "endSec": 2507.33,
+   "text": "eh founded by the – the the BIC criterion and applied for – for each frame. I think is, eh",
+   "id": "bmr007-0736"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2505.688,
+   "endSec": 2506.389,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0737"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2508.08,
+   "endSec": 2524.67,
+   "text": "it will be a- an – an – a more general approach the if we compare – with use, eh a neural net or another, eh speech recognizer with a broad class or – or narrow class, because, in my opinion eh it's in my opinion, eh",
+   "id": "bmr007-0738"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2523.015,
+   "endSec": 2523.416,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0739"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2525.1,
+   "endSec": 2536.67,
+   "text": "if you – if you change the condition of the speech, I mean, if you adjust to your algorithm with a mixed speech file and to, eh",
+   "id": "bmr007-0740"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2529.053,
+   "endSec": 2529.73,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0741"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2536.97,
+   "endSec": 2544.232,
+   "text": "to, eh adapt the neural net, eh used by Javier with a mixed file.",
+   "id": "bmr007-0742"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2544.204,
+   "endSec": 2545.241,
+   "text": "With the what file?",
+   "id": "bmr007-0743"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2544.378,
+   "endSec": 2546.371,
+   "text": "uh With a m- mixed file,",
+   "id": "bmr007-0744"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2546.277,
+   "endSec": 2547.282,
+   "text": "\"Mixed\".",
+   "id": "bmr007-0745"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2546.371,
+   "endSec": 2547.489,
+   "text": "with a – the mix,",
+   "id": "bmr007-0746"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2546.392,
+   "endSec": 2547.461,
+   "text": "\"Mixed.\"",
+   "id": "bmr007-0747"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2547.175,
+   "endSec": 2547.966,
+   "text": "\"Mixed?\"",
+   "id": "bmr007-0748"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2547.489,
+   "endSec": 2549.777,
+   "text": "mix. Sorry. And",
+   "id": "bmr007-0749"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2548.929,
+   "endSec": 2549.564,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0750"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2549.777,
+   "endSec": 2566.52,
+   "text": "and then you – you, eh you try to – to apply that, eh, eh, eh, speech recognizer to that signal, to the PDA, eh speech file, I - I think you will have problems, because the – the – the – the condition you – you will need t- t- I – I suppose that you will need to -",
+   "id": "bmr007-0751"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2561.512,
+   "endSec": 2563.264,
+   "text": "Well, I -",
+   "id": "bmr007-0752"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2561.764,
+   "endSec": 2564.446,
+   "text": "Oh, absolutely. This is – this is not what I was suggesting to do.",
+   "id": "bmr007-0753"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2564.021,
+   "endSec": 2564.964,
+   "text": "I – u-",
+   "id": "bmr007-0754"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2566.52,
+   "endSec": 2568.067,
+   "text": "to - to retrain it.",
+   "id": "bmr007-0755"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2568.714,
+   "endSec": 2570.058,
+   "text": "Look, I – I think this is a -",
+   "id": "bmr007-0756"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2569.492,
+   "endSec": 2570.26,
+   "text": "Really?",
+   "id": "bmr007-0757"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2570.058,
+   "endSec": 2575.837,
+   "text": "One – once - It's a – I used to work, like , on voiced – on voice silence detection, you know, and this is this kind of thing.",
+   "id": "bmr007-0758"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2574.887,
+   "endSec": 2575.425,
+   "text": "Yeah.",
+   "id": "bmr007-0759"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2575.837,
+   "endSec": 2597.034,
+   "text": "Um If you have somebody who has some experience with this sort of thing, and they work on it for a couple months, they can come up with something that gets most of the cases fairly easily. Then you say, \"OK, I don't just wanna get most of the cases I want it to be really accurate.\" Then it gets really hard no matter what you do. So, the p- the problem is is that if you say, \"Well I - I have these other data over here,",
+   "id": "bmr007-0760"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2597.034,
+   "endSec": 2602.521,
+   "text": "that I learn things from, either explicit training of neural nets or of Gaussian mixture models or whatever.\"",
+   "id": "bmr007-0761"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2597.388,
+   "endSec": 2597.883,
+   "text": "Yeah.",
+   "id": "bmr007-0762"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2603.08,
+   "endSec": 2608.21,
+   "text": "Uh Suppose you don't use any of those things. You say you have looked for acoustic change. Well, what does that mean?",
+   "id": "bmr007-0763"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2607.944,
+   "endSec": 2608.902,
+   "text": "Yeah.",
+   "id": "bmr007-0764"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2608.21,
+   "endSec": 2610.73,
+   "text": "That – that means you set some thresholds somewhere or something, right?",
+   "id": "bmr007-0765"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2611.048,
+   "endSec": 2611.554,
+   "text": "Yeah.",
+   "id": "bmr007-0766"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2611.318,
+   "endSec": 2628.13,
+   "text": "and – and so where do you get your thresholds from? From something that you looked at. So you always have this problem, you're going to new data um H- how are you going to adapt whatever you can very quickly learn about the new data? Uh, if it's gonna be different from old data that you have? And I think that's a problem",
+   "id": "bmr007-0767"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2627.966,
+   "endSec": 2634.395,
+   "text": "Well, also what I'm doing right now is not intended to be an acoustic change detector for far-field mikes. What I'm doing",
+   "id": "bmr007-0768"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2628.13,
+   "endSec": 2628.846,
+   "text": "with this.",
+   "id": "bmr007-0769"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2634.684,
+   "endSec": 2636.6,
+   "text": "is trying to use the close-talking mike",
+   "id": "bmr007-0770"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2636.699,
+   "endSec": 2637.265,
+   "text": "Yeah!",
+   "id": "bmr007-0771"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2636.86,
+   "endSec": 2638.452,
+   "text": "and just use -",
+   "id": "bmr007-0772"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2638.379,
+   "endSec": 2638.988,
+   "text": "Actually -",
+   "id": "bmr007-0773"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2638.439,
+   "endSec": 2639.436,
+   "text": "You have candidates.",
+   "id": "bmr007-0774"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2638.452,
+   "endSec": 2645.03,
+   "text": "Can- and just generate candidate and just try to get a first pass at something that sort of works.",
+   "id": "bmr007-0775"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2639.45,
+   "endSec": 2642.194,
+   "text": "actually – actually -",
+   "id": "bmr007-0776"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2639.869,
+   "endSec": 2641.246,
+   "text": "the candidate.",
+   "id": "bmr007-0777"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2642.194,
+   "endSec": 2642.516,
+   "text": "I -",
+   "id": "bmr007-0778"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2643.432,
+   "endSec": 2644.883,
+   "text": "to make marking easier.",
+   "id": "bmr007-0779"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2644.469,
+   "endSec": 2645.085,
+   "text": "Or -",
+   "id": "bmr007-0780"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2644.883,
+   "endSec": 2645.151,
+   "text": "Yeah.",
+   "id": "bmr007-0781"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2645.03,
+   "endSec": 2648.545,
+   "text": "and I haven't spent a lot of time on it and I'm not intending to spend a lot of time on it.",
+   "id": "bmr007-0782"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2646.324,
+   "endSec": 2647.856,
+   "text": "OK. I -",
+   "id": "bmr007-0783"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2648.608,
+   "endSec": 2649.49,
+   "text": "So.",
+   "id": "bmr007-0784"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2648.983,
+   "endSec": 2662.048,
+   "text": "um, I, unfortunately, have to run, but, um I can imagine uh building a um model of speaker change detection that takes into account both the far-field and the",
+   "id": "bmr007-0785"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2661.984,
+   "endSec": 2662.718,
+   "text": "Yep.",
+   "id": "bmr007-0786"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2662.51,
+   "endSec": 2666.515,
+   "text": "uh actually, not just the close-talking mike for that speaker, but actually for all of th-",
+   "id": "bmr007-0787"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2665.634,
+   "endSec": 2666.938,
+   "text": "Everyone else.",
+   "id": "bmr007-0788"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2666.515,
+   "endSec": 2667.489,
+   "text": "for all of the speakers.",
+   "id": "bmr007-0789"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2667.406,
+   "endSec": 2668.114,
+   "text": "Yeah.",
+   "id": "bmr007-0790"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2667.983,
+   "endSec": 2677.153,
+   "text": "um If you model the - the effect that me speaking has on your microphone and everybody else's microphone, as well as on that, and you build, um -",
+   "id": "bmr007-0791"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2678.27,
+   "endSec": 2685.723,
+   "text": "basically I think you'd – you would build a - an HMM that has as a state space all of the possible speaker combinations",
+   "id": "bmr007-0792"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2683.874,
+   "endSec": 2684.724,
+   "text": "All the – Yep.",
+   "id": "bmr007-0793"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2685.052,
+   "endSec": 2685.581,
+   "text": "Yeah.",
+   "id": "bmr007-0794"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2686.257,
+   "endSec": 2688.56,
+   "text": "and, um you can control -",
+   "id": "bmr007-0795"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2687.77,
+   "endSec": 2688.838,
+   "text": "It's a little big.",
+   "id": "bmr007-0796"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2690.124,
+   "endSec": 2691.744,
+   "text": "It's not that big actually, um",
+   "id": "bmr007-0797"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2690.21,
+   "endSec": 2695.327,
+   "text": "Two to the N . Two to the number of people in the meeting.",
+   "id": "bmr007-0798"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2695.003,
+   "endSec": 2696.09,
+   "text": "But -",
+   "id": "bmr007-0799"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2696.09,
+   "endSec": 2696.733,
+   "text": "Anyway.",
+   "id": "bmr007-0800"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2696.09,
+   "endSec": 2699.06,
+   "text": "Actually, Andreas may- maybe – maybe just something simpler but – but",
+   "id": "bmr007-0801"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2697.14,
+   "endSec": 2697.627,
+   "text": "Yeah.",
+   "id": "bmr007-0802"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2699.06,
+   "endSec": 2702.262,
+   "text": "along the lines of what you're saying, I was just realizing, I used to know this guy who used to build, uh",
+   "id": "bmr007-0803"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2700.506,
+   "endSec": 2701.591,
+   "text": "Mmm.",
+   "id": "bmr007-0804"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2702.625,
+   "endSec": 2706.96,
+   "text": "um, mike mixers – automatic mike mixers where, you know, t- in order to able to turn up the gain,",
+   "id": "bmr007-0805"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2704.049,
+   "endSec": 2704.621,
+   "text": "Yeah",
+   "id": "bmr007-0806"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2704.745,
+   "endSec": 2705.453,
+   "text": "Mmm.",
+   "id": "bmr007-0807"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2704.79,
+   "endSec": 2705.297,
+   "text": "Yeah.",
+   "id": "bmr007-0808"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2706.96,
+   "endSec": 2707.579,
+   "text": "you know, uh",
+   "id": "bmr007-0809"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2707.554,
+   "endSec": 2708.224,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0810"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2707.579,
+   "endSec": 2712.585,
+   "text": "as much as you can, you - you – you lower the gain on – on the mikes of people who aren't talking, right?",
+   "id": "bmr007-0811"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2712.403,
+   "endSec": 2713.095,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0812"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2712.585,
+   "endSec": 2725.27,
+   "text": "And then he had some sort of reasonable way of doing that, but uh, what if you were just looking at very simple measures like energy measures but you don't just compare it to some threshold overall but you compare it to the energy in the other microphones.",
+   "id": "bmr007-0813"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2725.063,
+   "endSec": 2729.94,
+   "text": "I was thinking about doing that originally to find out who's the loudest, and that person is certainly talking.",
+   "id": "bmr007-0814"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2730.379,
+   "endSec": 2730.904,
+   "text": "Yeah.",
+   "id": "bmr007-0815"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2730.46,
+   "endSec": 2733.92,
+   "text": "But I also wanted to find threshold – uh, excuse me, mol- overlap.",
+   "id": "bmr007-0816"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2734.461,
+   "endSec": 2735.266,
+   "text": "Yeah.",
+   "id": "bmr007-0817"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2735.39,
+   "endSec": 2737.9,
+   "text": "So, not just – just the loudest.",
+   "id": "bmr007-0818"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2736.218,
+   "endSec": 2736.854,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0819"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2736.555,
+   "endSec": 2741.17,
+   "text": "But, eh I – I Sorry. I – I have found that when – when I",
+   "id": "bmr007-0820"
+  },
+  {
+   "speaker": "mn017",
+   "startSec": 2739.345,
+   "endSec": 2741.272,
+   "text": "Sorry, I have to go.",
+   "id": "bmr007-0821"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2740.256,
+   "endSec": 2741.17,
+   "text": "OK.",
+   "id": "bmr007-0822"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2741.56,
+   "endSec": 2751.119,
+   "text": "I analyzed the – the speech files from the, eh mike, eh from the eh close eh microphone, eh I found zones",
+   "id": "bmr007-0823"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2743.703,
+   "endSec": 2749.362,
+   "text": "Could you fill that out anyway? Just, put your name in. Are y- you want me to do it? I'll do it.",
+   "id": "bmr007-0824"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2749.49,
+   "endSec": 2751.03,
+   "text": "But he's not gonna even read that.",
+   "id": "bmr007-0825"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2750.483,
+   "endSec": 2751.03,
+   "text": "I know.",
+   "id": "bmr007-0826"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2751.03,
+   "endSec": 2751.313,
+   "text": "Oh.",
+   "id": "bmr007-0827"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2751.41,
+   "endSec": 2785.02,
+   "text": "with a – a different level of energy. including overlap zone. including. because, eh eh depend on the position of the – of the microph- of the each speaker to, eh, to get more o- or less energy i- in the mixed sign- in the signal. and then, if you consider energy to – to detect overlapping in – in, uh, and you process the – the – in – the – the – the speech file from the – the – the mixed signals. The mixed signals, eh.",
+   "id": "bmr007-0828"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2785.65,
+   "endSec": 2799.345,
+   "text": "I – I think it's – it's difficult, um only to en- with energy to – to consider that in that zone We have eh, eh, overlapping zone Eh, if you process only the the energy of the, of each frame.",
+   "id": "bmr007-0829"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2799.463,
+   "endSec": 2812.207,
+   "text": "Well, it's probably harder, but I – I think what I was s- noting just when he – when Andreas raised that, was that there's other information to be gained from looking at all of the microphones and you may not need to look at very sophisticated things,",
+   "id": "bmr007-0830"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2810.817,
+   "endSec": 2812.797,
+   "text": "Yeah. Yeah.",
+   "id": "bmr007-0831"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2812.207,
+   "endSec": 2818.348,
+   "text": "because if there's - if most of the overlaps - you know, this doesn't cover, say, three, but if most of the overlaps, say, are two,",
+   "id": "bmr007-0832"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2816.23,
+   "endSec": 2816.766,
+   "text": "Yeah.",
+   "id": "bmr007-0833"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2818.348,
+   "endSec": 2826.419,
+   "text": "if the distribution looks like there's a couple high ones and – and the rest of them are low, you know, what I mean, there's some information there about their distribution even with very simple measures.",
+   "id": "bmr007-0834"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2821.172,
+   "endSec": 2821.628,
+   "text": "Yeah.",
+   "id": "bmr007-0835"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2821.237,
+   "endSec": 2823.086,
+   "text": "And everyone else is low, yeah.",
+   "id": "bmr007-0836"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2821.628,
+   "endSec": 2823.039,
+   "text": "Yeah. Yeah.",
+   "id": "bmr007-0837"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2824.865,
+   "endSec": 2826.719,
+   "text": "Yeah. Yeah.",
+   "id": "bmr007-0838"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2826.419,
+   "endSec": 2833.265,
+   "text": "Uh, by the way, I had an idea with – while I was watching Chuck nodding at a lot of these things, is that we can all wear little bells on our heads, so that",
+   "id": "bmr007-0839"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2832.508,
+   "endSec": 2833.466,
+   "text": "Yeah.",
+   "id": "bmr007-0840"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2832.657,
+   "endSec": 2835.72,
+   "text": "Ding, ding, ding, ding.",
+   "id": "bmr007-0841"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2833.542,
+   "endSec": 2836.857,
+   "text": "\"Ding\". That's cute!",
+   "id": "bmr007-0842"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2833.953,
+   "endSec": 2835.14,
+   "text": "then you'd know that -",
+   "id": "bmr007-0843"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2834.179,
+   "endSec": 2834.774,
+   "text": "Yeah.",
+   "id": "bmr007-0844"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2835.418,
+   "endSec": 2838.366,
+   "text": "I think that'd be really interesting too, with blindfolds.",
+   "id": "bmr007-0845"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2839.171,
+   "endSec": 2841.918,
+   "text": "Nodding with blindfolds, \"what are you nodding about?\"",
+   "id": "bmr007-0846"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2839.439,
+   "endSec": 2844.309,
+   "text": "Then - Yeah. The question is, like whether - Well, trying with and -",
+   "id": "bmr007-0847"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2842.982,
+   "endSec": 2844.609,
+   "text": "\"Sorry, I'm just – I'm just going to sleep.\"",
+   "id": "bmr007-0848"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2844.95,
+   "endSec": 2848.13,
+   "text": "with and without, yeah. But then there's just one [unclear] , like.",
+   "id": "bmr007-0849"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2848.094,
+   "endSec": 2849.272,
+   "text": "Yeah.",
+   "id": "bmr007-0850"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2848.627,
+   "endSec": 2854.998,
+   "text": "Actually, I saw a uh – a woman at the bus stop the other day who, um, was talking on her cell phone speaking Japanese, and was bowing.",
+   "id": "bmr007-0851"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2855.054,
+   "endSec": 2855.908,
+   "text": "Yeah",
+   "id": "bmr007-0852"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2855.201,
+   "endSec": 2857.542,
+   "text": "Oh, yeah, that's really common.",
+   "id": "bmr007-0853"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2855.3,
+   "endSec": 2856.503,
+   "text": "you know, profusely.",
+   "id": "bmr007-0854"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 2855.606,
+   "endSec": 2855.923,
+   "text": "Yeah.",
+   "id": "bmr007-0855"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2855.908,
+   "endSec": 2856.442,
+   "text": "Yeah.",
+   "id": "bmr007-0856"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2856.47,
+   "endSec": 2857.565,
+   "text": "Ah.",
+   "id": "bmr007-0857"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2856.503,
+   "endSec": 2857.513,
+   "text": "Just, kept -",
+   "id": "bmr007-0858"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 2856.71,
+   "endSec": 2857.339,
+   "text": "Yeah.",
+   "id": "bmr007-0859"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2857.8,
+   "endSec": 2858.62,
+   "text": "Wow.",
+   "id": "bmr007-0860"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2858.608,
+   "endSec": 2865.145,
+   "text": "It's very difficult if you try – while you're trying, say, to convince somebody on the phone it's difficult not to move your hands. Not -",
+   "id": "bmr007-0861"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2865.074,
+   "endSec": 2865.658,
+   "text": "Mm-hmm?",
+   "id": "bmr007-0862"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2865.145,
+   "endSec": 2867.642,
+   "text": "You know, if you watch people they'll actually do these things. So.",
+   "id": "bmr007-0863"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2868.68,
+   "endSec": 2873.764,
+   "text": "I still think we should try a – a meeting or two with the blindfolds, at least of this meeting that we have lots of recordings of",
+   "id": "bmr007-0864"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2873.083,
+   "endSec": 2873.64,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0865"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2874.23,
+   "endSec": 2875.163,
+   "text": "Yeah, I think th-",
+   "id": "bmr007-0866"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2874.23,
+   "endSec": 2877.69,
+   "text": "Um, maybe for part of the meeting, we don't have to do it the whole meeting.",
+   "id": "bmr007-0867"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2877.374,
+   "endSec": 2878.321,
+   "text": "I think it's a great idea.",
+   "id": "bmr007-0868"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2877.69,
+   "endSec": 2882.758,
+   "text": "That could be fun. It'll be too hard to make barriers, I was thinking because they have to go all the way",
+   "id": "bmr007-0869"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2879.009,
+   "endSec": 2879.463,
+   "text": "W-",
+   "id": "bmr007-0870"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2882.38,
+   "endSec": 2882.81,
+   "text": "Yeah.",
+   "id": "bmr007-0871"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2883.15,
+   "endSec": 2885.819,
+   "text": "you know, I can see Chuck even if you put a barrier here.",
+   "id": "bmr007-0872"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2883.15,
+   "endSec": 2886.342,
+   "text": "Well, we could just turn out the lights.",
+   "id": "bmr007-0873"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2885.501,
+   "endSec": 2891.204,
+   "text": "Actually well also - I – I can say I made barr- barriers for - so that - the stuff I was doing with Collin wha-",
+   "id": "bmr007-0874"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2889.895,
+   "endSec": 2890.668,
+   "text": "Y- Yeah?",
+   "id": "bmr007-0875"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2891.204,
+   "endSec": 2897.99,
+   "text": "which just used, um this kind of foam board. R- really inexpensive. You can – you can masking tape it together, these are",
+   "id": "bmr007-0876"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2897.99,
+   "endSec": 2898.437,
+   "text": "Yeah.",
+   "id": "bmr007-0877"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2897.99,
+   "endSec": 2899.916,
+   "text": "you know, pretty l- large partitions.",
+   "id": "bmr007-0878"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2898.482,
+   "endSec": 2905.159,
+   "text": "But then we also have these mikes, is the other thing I was thinking, so we need a barrier that doesn't disturb the sound,",
+   "id": "bmr007-0879"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2903.533,
+   "endSec": 2904.635,
+   "text": "The acoustics.",
+   "id": "bmr007-0880"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2903.603,
+   "endSec": 2905.422,
+   "text": "It's true, it would disturb the, um the -",
+   "id": "bmr007-0881"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2905.159,
+   "endSec": 2905.993,
+   "text": "um",
+   "id": "bmr007-0882"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2905.422,
+   "endSec": 2906.357,
+   "text": "the long-range – it would -",
+   "id": "bmr007-0883"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2905.868,
+   "endSec": 2907.365,
+   "text": "Blindfolds would be good.",
+   "id": "bmr007-0884"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2905.952,
+   "endSec": 2907.698,
+   "text": "I think, blindfolds.",
+   "id": "bmr007-0885"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2907.365,
+   "endSec": 2909.753,
+   "text": "Probably we should wait until after Adam's set up the mikes,",
+   "id": "bmr007-0886"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2907.44,
+   "endSec": 2910.485,
+   "text": "I mean, it sounds weird but – but - you know it's -",
+   "id": "bmr007-0887"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2909.753,
+   "endSec": 2909.925,
+   "text": "But.",
+   "id": "bmr007-0888"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2911.265,
+   "endSec": 2912.514,
+   "text": "it's cheap and, uh",
+   "id": "bmr007-0889"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2913.725,
+   "endSec": 2914.117,
+   "text": "OK.",
+   "id": "bmr007-0890"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 2913.83,
+   "endSec": 2916.249,
+   "text": "Be interesting to have the camera going.",
+   "id": "bmr007-0891"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2916.659,
+   "endSec": 2918.096,
+   "text": "I think we're going to have to work on the, uh -",
+   "id": "bmr007-0892"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 2917.464,
+   "endSec": 2918.171,
+   "text": "I'll be peeking.",
+   "id": "bmr007-0893"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2918.096,
+   "endSec": 2920.477,
+   "text": "on the human subjects form.",
+   "id": "bmr007-0894"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2919.302,
+   "endSec": 2921.755,
+   "text": "Yeah, that's right, we didn't tell them we would be blindfolding.",
+   "id": "bmr007-0895"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2920.182,
+   "endSec": 2920.775,
+   "text": "That's -",
+   "id": "bmr007-0896"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 2920.477,
+   "endSec": 2923.109,
+   "text": "\"Do you mind being blindfolded while you're interviewed?\"",
+   "id": "bmr007-0897"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2923.321,
+   "endSec": 2948.159,
+   "text": "that's – that's – that's the one that we videotape. So. Um, I – I wanna move this along. Uh I did have this other agenda item which is, uh [unclear] – it's uh a list which I sent to uh – a couple folks, but um I wanted to get broader input on it, So this is the things that I think we did in the last three months obviously not everything we did but – but sort of highlights that I can - can tell s- some outside person, you know, what – what were you actually working on.",
+   "id": "bmr007-0898"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2948.72,
+   "endSec": 2973.024,
+   "text": "Um in no particular order uh, one, uh, ten more hours of meeting r- meetings recorded, something like that, you know from – from, uh three months ago. Uh XML formats and other transcription aspects sorted out and uh sent to IBM. Um, pilot data put together and sent to IBM for transcription, uh next batch of recorded data put together on the CD-ROMs for shipment to IBM,",
+   "id": "bmr007-0899"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2973.13,
+   "endSec": 2974.35,
+   "text": "Hasn't been sent yet, but -",
+   "id": "bmr007-0900"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2974.121,
+   "endSec": 2974.35,
+   "text": "But",
+   "id": "bmr007-0901"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 2974.69,
+   "endSec": 2975.767,
+   "text": "It's getting ready.",
+   "id": "bmr007-0902"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 2974.69,
+   "endSec": 3004.441,
+   "text": "yeah, that's why I phrased it that way, yeah OK. Um human subjects approval on campus, uh and release forms worked out so the meeting participants have a chance to request audio pixelization of selected parts of the spee- their speech. Um audio pixelization software written and tested. Um preliminary analysis of overlaps in the pilot data we have transcribed, and exploratory analysis of long-distance inferences for topic coherence, that was – I was -",
+   "id": "bmr007-0903"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3004.441,
+   "endSec": 3010.034,
+   "text": "wasn't sure if those were the right way - that was the right way to describe that because of that little exercise that - that you and – and Lokendra did.",
+   "id": "bmr007-0904"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3010.6,
+   "endSec": 3012.536,
+   "text": "What was that called? The, uh say again?",
+   "id": "bmr007-0905"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3011.754,
+   "endSec": 3020.489,
+   "text": "I – well, I- I'm probably saying this wrong, but what I said was exploratory analysis of long-distance inferences for topic coherence. Something like that.",
+   "id": "bmr007-0906"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3021.556,
+   "endSec": 3035.605,
+   "text": "Um so, uh I - a lot of that was from, you know, what - what – what you two were doing so I – I sent it to you, and you know, please mail me, you know, the corrections or suggestions for changing I – I don't want to make this twice it's length but -",
+   "id": "bmr007-0907"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3032.034,
+   "endSec": 3032.549,
+   "text": "Mm-hmm.",
+   "id": "bmr007-0908"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3036.193,
+   "endSec": 3040.519,
+   "text": "but you know, just im- improve it. Um Is there anything anybody -",
+   "id": "bmr007-0909"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3038.65,
+   "endSec": 3041.7,
+   "text": "I – I did a bunch of stuff for supporting of digits.",
+   "id": "bmr007-0910"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3042.57,
+   "endSec": 3046.647,
+   "text": "\"Bunch of stuff for s-\" OK, maybe – maybe send me a sentence that's a little thought through about that.",
+   "id": "bmr007-0911"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3044.232,
+   "endSec": 3047.25,
+   "text": "So, OK, I'll send you a sentence that doesn't just say \"a bunch of\"?",
+   "id": "bmr007-0912"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3047.087,
+   "endSec": 3048.187,
+   "text": "\"Bunch of stuff\", yeah,",
+   "id": "bmr007-0913"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3047.999,
+   "endSec": 3048.505,
+   "text": "Yep.",
+   "id": "bmr007-0914"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3048.187,
+   "endSec": 3049.839,
+   "text": "\" stuff \" is probably bad too,",
+   "id": "bmr007-0915"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3048.938,
+   "endSec": 3050.727,
+   "text": "\"Stuff\" is not very technical.",
+   "id": "bmr007-0916"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3050.636,
+   "endSec": 3051.389,
+   "text": "Yeah, well.",
+   "id": "bmr007-0917"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3050.727,
+   "endSec": 3053.492,
+   "text": "I'll try to phrase it in passive voice.",
+   "id": "bmr007-0918"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3051.991,
+   "endSec": 3053.78,
+   "text": "Yeah. Yeah, yeah,",
+   "id": "bmr007-0919"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3053.509,
+   "endSec": 3054.765,
+   "text": "Technical stuff.",
+   "id": "bmr007-0920"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3054.266,
+   "endSec": 3055.573,
+   "text": "\" range of things \", yeah.",
+   "id": "bmr007-0921"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3057.19,
+   "endSec": 3066.99,
+   "text": "Um and – and you know, I sort of threw in what you did with what Jane did on – in – under the, uh uh preliminary analysis of overlaps. Uh",
+   "id": "bmr007-0922"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 3066.471,
+   "endSec": 3067.108,
+   "text": "Yeah.",
+   "id": "bmr007-0923"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3067.624,
+   "endSec": 3068.541,
+   "text": "uh",
+   "id": "bmr007-0924"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3069.73,
+   "endSec": 3074.851,
+   "text": "Thilo, can you tell us about all the work you've done on this project in the last, uh last three months? That's -",
+   "id": "bmr007-0925"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3069.735,
+   "endSec": 3070.693,
+   "text": "So – what is – what -",
+   "id": "bmr007-0926"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3072.099,
+   "endSec": 3074.583,
+   "text": "Um. Not really.",
+   "id": "bmr007-0927"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3075.858,
+   "endSec": 3079.462,
+   "text": "Um, I didn't get it. Wh- what is \"audio pixelization\"?",
+   "id": "bmr007-0928"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3075.921,
+   "endSec": 3076.766,
+   "text": "It's too complicated.",
+   "id": "bmr007-0929"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3079.272,
+   "endSec": 3082.188,
+   "text": "Uh, audio pix- wh- he did it, so why don't you explain it quickly?",
+   "id": "bmr007-0930"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3081.656,
+   "endSec": 3091.53,
+   "text": "It's just, uh beeping out parts that you don't want included in the meeting so, you know you can say things like, \"Well, this should probably not be on the record, but beep\"",
+   "id": "bmr007-0931"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3090.689,
+   "endSec": 3093.772,
+   "text": "OK, OK. I got that.",
+   "id": "bmr007-0932"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3093.124,
+   "endSec": 3103.799,
+   "text": "Yeah. We – we – we spent a – a – a fair amount of time early on just talk- dealing with this issue about op w- e- e- we realized, \"well, people are speaking in an impromptu way and they might say something that would embarrass them or others later\", and,",
+   "id": "bmr007-0933"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3103.828,
+   "endSec": 3104.359,
+   "text": "OK.",
+   "id": "bmr007-0934"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3104.275,
+   "endSec": 3109.639,
+   "text": "how do you get around that so in the consent form it says, well you - we will look at the transcripts later and if there's something that you're",
+   "id": "bmr007-0935"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3108.584,
+   "endSec": 3110.158,
+   "text": "OK, and you can say -",
+   "id": "bmr007-0936"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3109.639,
+   "endSec": 3110.778,
+   "text": "unhappy with, yeah.",
+   "id": "bmr007-0937"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3110.763,
+   "endSec": 3111.215,
+   "text": "OK.",
+   "id": "bmr007-0938"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3111.359,
+   "endSec": 3115.35,
+   "text": "But you don't want to just totally excise it because um",
+   "id": "bmr007-0939"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3116.468,
+   "endSec": 3126.03,
+   "text": "uh, well you have to be careful about excising it, how – how you excise it keeping the timing right and so forth so that at the moment tho- th- the idea we're running with is – is h- putting the beep over it.",
+   "id": "bmr007-0940"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3126.03,
+   "endSec": 3129.432,
+   "text": "Yeah, you can either beep or it can be silence. I – I couldn't decide.",
+   "id": "bmr007-0941"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3126.248,
+   "endSec": 3127.125,
+   "text": "OK.",
+   "id": "bmr007-0942"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 3128.825,
+   "endSec": 3129.673,
+   "text": "Ah, yeah.",
+   "id": "bmr007-0943"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3129.86,
+   "endSec": 3135.929,
+   "text": "which was the right way to do it. Beep is good auditorily, if someone is listening to it, there's no mistake that it's been beeped out,",
+   "id": "bmr007-0944"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3133.152,
+   "endSec": 3133.97,
+   "text": "Yeah.",
+   "id": "bmr007-0945"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3135.463,
+   "endSec": 3136.532,
+   "text": "Yeah.",
+   "id": "bmr007-0946"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3135.929,
+   "endSec": 3139.044,
+   "text": "but for software it's probably better for it to be silence.",
+   "id": "bmr007-0947"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3138.823,
+   "endSec": 3140.685,
+   "text": "No, no. You can – you know, you could make a m-",
+   "id": "bmr007-0948"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3139.337,
+   "endSec": 3140.349,
+   "text": "Hmm.",
+   "id": "bmr007-0949"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3140.685,
+   "endSec": 3144.184,
+   "text": "as long as you keep using the same beep, people could make a model of that beep, and -",
+   "id": "bmr007-0950"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3143.634,
+   "endSec": 3144.068,
+   "text": "Yep.",
+   "id": "bmr007-0951"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3144.056,
+   "endSec": 3145.068,
+   "text": "I like that idea.",
+   "id": "bmr007-0952"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3144.068,
+   "endSec": 3145.821,
+   "text": "And I use – it's – it's, uh",
+   "id": "bmr007-0953"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3144.965,
+   "endSec": 3146.83,
+   "text": "I think the beep is a really good idea.",
+   "id": "bmr007-0954"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3145.821,
+   "endSec": 3149.164,
+   "text": "it's an A below middle C beep, so",
+   "id": "bmr007-0955"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3146.186,
+   "endSec": 3148.396,
+   "text": "It's very clear. Then you don't think it's a long pause.",
+   "id": "bmr007-0956"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3146.32,
+   "endSec": 3146.812,
+   "text": "Yeah.",
+   "id": "bmr007-0957"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3147.361,
+   "endSec": 3147.882,
+   "text": "Also -",
+   "id": "bmr007-0958"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3148.727,
+   "endSec": 3153.192,
+   "text": "Yeah, it's more obvious that there was something there than if there's just silence.",
+   "id": "bmr007-0959"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3152.375,
+   "endSec": 3155.793,
+   "text": "Yeah, that – I mean, he's – he's removing the old thing and – and – and -",
+   "id": "bmr007-0960"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3152.454,
+   "endSec": 3152.826,
+   "text": "Yeah.",
+   "id": "bmr007-0961"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3152.659,
+   "endSec": 3153.309,
+   "text": "Yeah.",
+   "id": "bmr007-0962"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 3154.049,
+   "endSec": 3154.729,
+   "text": "Yeah",
+   "id": "bmr007-0963"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3154.458,
+   "endSec": 3154.892,
+   "text": "Yep.",
+   "id": "bmr007-0964"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3155.245,
+   "endSec": 3156.077,
+   "text": "Yea- right. Right.",
+   "id": "bmr007-0965"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3155.85,
+   "endSec": 3156.729,
+   "text": "Yeah, it's not -",
+   "id": "bmr007-0966"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3156.077,
+   "endSec": 3158.156,
+   "text": "But I mean if you just replaced it with silence,",
+   "id": "bmr007-0967"
+  },
+  {
+   "speaker": "mn014",
+   "startSec": 3158.017,
+   "endSec": 3158.39,
+   "text": "Yeah.",
+   "id": "bmr007-0968"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3158.156,
+   "endSec": 3160.352,
+   "text": "it's not clear whether that's really silence or -",
+   "id": "bmr007-0969"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 3159.315,
+   "endSec": 3159.946,
+   "text": "Yeah.",
+   "id": "bmr007-0970"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3159.44,
+   "endSec": 3160.184,
+   "text": "Yeah, I agree.",
+   "id": "bmr007-0971"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3159.746,
+   "endSec": 3160.287,
+   "text": "Yep.",
+   "id": "bmr007-0972"
+  },
+  {
+   "speaker": "mn005",
+   "startSec": 3159.946,
+   "endSec": 3160.597,
+   "text": "Yeah.",
+   "id": "bmr007-0973"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3160.184,
+   "endSec": 3162.916,
+   "text": "One – one question. Do you do it on all channels?",
+   "id": "bmr007-0974"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3160.355,
+   "endSec": 3161.222,
+   "text": "Yeah.",
+   "id": "bmr007-0975"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3162.511,
+   "endSec": 3163.324,
+   "text": "Of course.",
+   "id": "bmr007-0976"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3163.267,
+   "endSec": 3166.112,
+   "text": "Interesting. I like that. Yeah, I like that. Very clear.",
+   "id": "bmr007-0977"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3164.608,
+   "endSec": 3164.935,
+   "text": "Yeah.",
+   "id": "bmr007-0978"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3164.64,
+   "endSec": 3171.36,
+   "text": "Yeah you have to do it on all channels because it's, uh audible. Uh, it's – it's potentially audible, you could potentially recover it.",
+   "id": "bmr007-0979"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3167.843,
+   "endSec": 3168.534,
+   "text": "Very clear.",
+   "id": "bmr007-0980"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3171.516,
+   "endSec": 3173.288,
+   "text": "Ke- keep a back door.",
+   "id": "bmr007-0981"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3172.619,
+   "endSec": 3174.839,
+   "text": "Well, the other thing that – you know, I mean the – the alternative might be to s-",
+   "id": "bmr007-0982"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3172.694,
+   "endSec": 3181.075,
+   "text": "Yeah. Well, I – I haven't thrown away any of the meetings that I beeped. Actually yours is the only one that I beeped and then, uh the ar- DARPA meeting.",
+   "id": "bmr007-0983"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3179.716,
+   "endSec": 3181.483,
+   "text": "Notice how quiet I am.",
+   "id": "bmr007-0984"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3181.399,
+   "endSec": 3187.04,
+   "text": "Sorry, and then the DARPA meeting I just excised completely, so it's in a private directory.",
+   "id": "bmr007-0985"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3185.484,
+   "endSec": 3185.873,
+   "text": "Yeah.",
+   "id": "bmr007-0986"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3186.098,
+   "endSec": 3191.993,
+   "text": "You have some people who only have beeps as their speech in these meetings.",
+   "id": "bmr007-0987"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3186.154,
+   "endSec": 3186.926,
+   "text": "That's great.",
+   "id": "bmr007-0988"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3189.45,
+   "endSec": 3190.23,
+   "text": "Yeah.",
+   "id": "bmr007-0989"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3190.146,
+   "endSec": 3190.904,
+   "text": "OK.",
+   "id": "bmr007-0990"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3191.261,
+   "endSec": 3192.338,
+   "text": "They're easy to find, then.",
+   "id": "bmr007-0991"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3192.411,
+   "endSec": 3196.14,
+   "text": "Alright, so, uh I think we should, uh uh, go on to the digits?",
+   "id": "bmr007-0992"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3196.7,
+   "endSec": 3197.074,
+   "text": "OK.",
+   "id": "bmr007-0993"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3196.774,
+   "endSec": 3206.05,
+   "text": "I have one concept a- t- I – I want to say, which is that I think it's nice that you're preserving the time relations, s- so you're – you're not just cutting – you're not doing scissor snips. You're – you're keeping the, uh",
+   "id": "bmr007-0994"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3203.997,
+   "endSec": 3204.508,
+   "text": "Right.",
+   "id": "bmr007-0995"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3206.05,
+   "endSec": 3208.322,
+   "text": "the time duration of a – de – deleted – deleted part.",
+   "id": "bmr007-0996"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3207.144,
+   "endSec": 3208.053,
+   "text": "Yeah, definitely.",
+   "id": "bmr007-0997"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3207.351,
+   "endSec": 3208.109,
+   "text": "Yeah.",
+   "id": "bmr007-0998"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3208.322,
+   "endSec": 3209.392,
+   "text": "OK, good, digits.",
+   "id": "bmr007-0999"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3208.919,
+   "endSec": 3214.882,
+   "text": "Yeah, since we wanna possibly synchronize these things as well. Oh, I should have done that. Shoot. Oh well.",
+   "id": "bmr007-1000"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3213.923,
+   "endSec": 3214.395,
+   "text": "It's great.",
+   "id": "bmr007-1001"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3214.491,
+   "endSec": 3215.407,
+   "text": "Yeah. Oh-",
+   "id": "bmr007-1002"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3215.001,
+   "endSec": 3222.191,
+   "text": "So I guess if there's an overlap, like, if I'm saying something that's bleepable and somebody else overlaps during it they also get bleeped, too?",
+   "id": "bmr007-1003"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3220.531,
+   "endSec": 3222.37,
+   "text": "You'll lose it. There's no way around that.",
+   "id": "bmr007-1004"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3222.37,
+   "endSec": 3223.78,
+   "text": "Yeah. Um",
+   "id": "bmr007-1005"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3224.93,
+   "endSec": 3230.45,
+   "text": "I d- I did - before we do the digits, I did also wanna remind people, uh please do send me, you know, uh",
+   "id": "bmr007-1006"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3230.78,
+   "endSec": 3231.299,
+   "text": "Agenda?",
+   "id": "bmr007-1007"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3230.78,
+   "endSec": 3232.88,
+   "text": "thoughts for an agenda, yeah that – that would be",
+   "id": "bmr007-1008"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3232.138,
+   "endSec": 3232.525,
+   "text": "Mm-hmm.",
+   "id": "bmr007-1009"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3232.645,
+   "endSec": 3233.103,
+   "text": "Good.",
+   "id": "bmr007-1010"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3232.88,
+   "endSec": 3237.24,
+   "text": "that'd be good. Eh So that, uh, people's ideas don't get yeah, well",
+   "id": "bmr007-1011"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3234.761,
+   "endSec": 3236.622,
+   "text": "Thursday crept up on me this week.",
+   "id": "bmr007-1012"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3237.24,
+   "endSec": 3239.5,
+   "text": "it does creep up, doesn't it? OK.",
+   "id": "bmr007-1013"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3239.414,
+   "endSec": 3241.511,
+   "text": "And, I wanted to say, I think this is really interesting",
+   "id": "bmr007-1014"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3241.361,
+   "endSec": 3242.843,
+   "text": "It's cool stuff, definitely.",
+   "id": "bmr007-1015"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3241.373,
+   "endSec": 3242.608,
+   "text": "Thank you. Thank you.",
+   "id": "bmr007-1016"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3241.511,
+   "endSec": 3246.409,
+   "text": "analysis. I meant to say that before I started off on the Switchboard stuff. It's neat.",
+   "id": "bmr007-1017"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3244.162,
+   "endSec": 3248.354,
+   "text": "I was gonna say \"can you do that for the other meetings, can you do it for them?\" And, no actually, you can't.",
+   "id": "bmr007-1018"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3246.691,
+   "endSec": 3247.88,
+   "text": "Yeah. Does it take -",
+   "id": "bmr007-1019"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3246.847,
+   "endSec": 3248.605,
+   "text": "Thank you.",
+   "id": "bmr007-1020"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3247.288,
+   "endSec": 3250.601,
+   "text": "Actually – actually I – I thought that's what you were giving us was another meeting and I was like, \"Oh, OK!\"",
+   "id": "bmr007-1021"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3249.937,
+   "endSec": 3251.148,
+   "text": "\"Ooo, cool!\"",
+   "id": "bmr007-1022"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3250.466,
+   "endSec": 3252.071,
+   "text": "Yeah. Aw, thanks.",
+   "id": "bmr007-1023"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3251.714,
+   "endSec": 3253.684,
+   "text": "How long does it take, just briefly, like",
+   "id": "bmr007-1024"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3252.071,
+   "endSec": 3256.079,
+   "text": "No. I have the script now, so, I mean, it can work off the, uh",
+   "id": "bmr007-1025"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3253.684,
+   "endSec": 3255.634,
+   "text": "t- to - OK.",
+   "id": "bmr007-1026"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3255.141,
+   "endSec": 3255.722,
+   "text": "It's -",
+   "id": "bmr007-1027"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3255.634,
+   "endSec": 3256.748,
+   "text": "to label the, OK.",
+   "id": "bmr007-1028"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3256.079,
+   "endSec": 3257.416,
+   "text": "other thing ,",
+   "id": "bmr007-1029"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3256.623,
+   "endSec": 3258.3,
+   "text": "As soon as we get labels, yep.",
+   "id": "bmr007-1030"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3256.656,
+   "endSec": 3258.3,
+   "text": "But it has to be hand-labeled first?",
+   "id": "bmr007-1031"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3257.416,
+   "endSec": 3263.51,
+   "text": "but - Uh, well, yeah. Because, uh well, I mean once his – his algorithm is up and running",
+   "id": "bmr007-1032"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3262.704,
+   "endSec": 3263.83,
+   "text": "If it works well enough.",
+   "id": "bmr007-1033"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3264.15,
+   "endSec": 3265.245,
+   "text": "then we can do it that way.",
+   "id": "bmr007-1034"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3264.203,
+   "endSec": 3265.353,
+   "text": "Right now it's not.",
+   "id": "bmr007-1035"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3265.245,
+   "endSec": 3267.405,
+   "text": "But I – I just worked off of my",
+   "id": "bmr007-1036"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3265.5,
+   "endSec": 3265.966,
+   "text": "OK.",
+   "id": "bmr007-1037"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3265.983,
+   "endSec": 3266.894,
+   "text": "OK, go ahead",
+   "id": "bmr007-1038"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3266.235,
+   "endSec": 3266.907,
+   "text": "It's really neat.",
+   "id": "bmr007-1039"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3267.405,
+   "endSec": 3268.441,
+   "text": "Thanks. Appreciate that.",
+   "id": "bmr007-1040"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3268.296,
+   "endSec": 3270.027,
+   "text": "Not quite to the point where it works.",
+   "id": "bmr007-1041"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3269.225,
+   "endSec": 3278.104,
+   "text": "I think – what I – what this has, uh, caused me – so this discussion caused me to wanna subdivide these further. I'm gonna take a look at the, uh backchannels, how much we have anal- I hope to have that for next time.",
+   "id": "bmr007-1042"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3277.993,
+   "endSec": 3280.559,
+   "text": "Yeah, my – my algorithm worked great actually on these,",
+   "id": "bmr007-1043"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3278.159,
+   "endSec": 3279.244,
+   "text": "That'd be interesting.",
+   "id": "bmr007-1044"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3280.559,
+   "endSec": 3284.401,
+   "text": "but when you wear it like that or with the uh, lapel",
+   "id": "bmr007-1045"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3284.401,
+   "endSec": 3284.95,
+   "text": "Mm-hmm.",
+   "id": "bmr007-1046"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3284.401,
+   "endSec": 3288.372,
+   "text": "or if you have it very far from your face, that's when it starts failing.",
+   "id": "bmr007-1047"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3288.83,
+   "endSec": 3289.63,
+   "text": "Well, I can wear it,",
+   "id": "bmr007-1048"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3289.116,
+   "endSec": 3289.937,
+   "text": "Oh.",
+   "id": "bmr007-1049"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3289.63,
+   "endSec": 3290.192,
+   "text": "I mean if you -",
+   "id": "bmr007-1050"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3289.724,
+   "endSec": 3290.559,
+   "text": "It doesn't matter.",
+   "id": "bmr007-1051"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3291.258,
+   "endSec": 3291.48,
+   "text": "OK.",
+   "id": "bmr007-1052"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3291.48,
+   "endSec": 3295.458,
+   "text": "I mean, we want it to work, right? I – I don't want to change the way we do the meeting.",
+   "id": "bmr007-1053"
+  },
+  {
+   "speaker": "me018",
+   "startSec": 3292.729,
+   "endSec": 3293.691,
+   "text": "It's too late now.",
+   "id": "bmr007-1054"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3294.084,
+   "endSec": 3296.299,
+   "text": "I feel like this troublemaker.",
+   "id": "bmr007-1055"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3295.458,
+   "endSec": 3299.705,
+   "text": "It's uh - so, it was just a comment on the software, not a comment on",
+   "id": "bmr007-1056"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3300.97,
+   "endSec": 3302.957,
+   "text": "prescriptions on how you wear microphones.",
+   "id": "bmr007-1057"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3301.076,
+   "endSec": 3301.467,
+   "text": "OK.",
+   "id": "bmr007-1058"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3302.957,
+   "endSec": 3305.642,
+   "text": "Get the bolts, \"whh whh\"",
+   "id": "bmr007-1059"
+  },
+  {
+   "speaker": "me013",
+   "startSec": 3303.614,
+   "endSec": 3306.539,
+   "text": "OK, that's – let's – let's – let's do digits.",
+   "id": "bmr007-1060"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3304.992,
+   "endSec": 3307.111,
+   "text": "Let's do it. OK.",
+   "id": "bmr007-1061"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3306.545,
+   "endSec": 3307.033,
+   "text": "OK.",
+   "id": "bmr007-1062"
+  },
+  {
+   "speaker": "fe016",
+   "startSec": 3422.89,
+   "endSec": 3423.413,
+   "text": "I'm sorry.",
+   "id": "bmr007-1063"
+  },
+  {
+   "speaker": "me011",
+   "startSec": 3591.415,
+   "endSec": 3596.91,
+   "text": "OK, thank you.",
+   "id": "bmr007-1064"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3593.502,
+   "endSec": 3596.91,
+   "text": "Do you want us to put a mark on the bottom of these when they've actually been read, or",
+   "id": "bmr007-1065"
+  },
+  {
+   "speaker": "fe008",
+   "startSec": 3598.894,
+   "endSec": 3603.141,
+   "text": "do you just i- the only one that wasn't read is - is known, so we don't do it. OK.",
+   "id": "bmr007-1066"
+  }
+ ]
+}

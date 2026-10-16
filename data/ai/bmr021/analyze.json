@@ -1,0 +1,127 @@
+{
+  "meetingId": "bmr021",
+  "kind": "analyze",
+  "transcriptHash": "8804f0a7dcae4e9a2fa206f80d0d8be2cda7fb46f967409cba050f271bd89060",
+  "generatedAt": "2026-10-16T22:03:47.100Z",
+  "model": "claude-sonnet-5-5",
+  "payload": {
+    "headline": "The group discussed microphone replacements, file reorganization and disk space, Transcriber on NT, recognition experiments with the ICSI front-end, and detecting dead channels; it chose to buy two more Crown mikes.",
+    "chapters": [
+      {
+        "title": "Microphone issues and purchases",
+        "firstTurnId": "bmr021-0000"
+      },
+      {
+        "title": "Wireless system and Andrea mike",
+        "firstTurnId": "bmr021-0136"
+      },
+      {
+        "title": "File reorganization and disk space",
+        "firstTurnId": "bmr021-0189"
+      },
+      {
+        "title": "Disk crash and backup oddities",
+        "firstTurnId": "bmr021-0290"
+      },
+      {
+        "title": "Naming conventions",
+        "firstTurnId": "bmr021-0359"
+      },
+      {
+        "title": "Transcriber on Windows NT",
+        "firstTurnId": "bmr021-0419"
+      },
+      {
+        "title": "ICSI front-end recognition experiments",
+        "firstTurnId": "bmr021-0449"
+      },
+      {
+        "title": "Digits reading",
+        "firstTurnId": "bmr021-0573"
+      },
+      {
+        "title": "Detecting switched-off microphone channels",
+        "firstTurnId": "bmr021-0587"
+      }
+    ],
+    "actions": [
+      {
+        "text": "Buy two more of the Crown headset mikes and keep them available",
+        "ownerSpeaker": "me011",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr021-0088", "bmr021-0105"]
+      },
+      {
+        "text": "Change the key file field from mike number to mike type and record Crown or Sony for each mike",
+        "ownerSpeaker": "me011",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr021-0092"]
+      },
+      {
+        "text": "Check with Morgan about buying another wireless system so all channels become wireless",
+        "ownerSpeaker": "me011",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr021-0136", "bmr021-0144"]
+      },
+      {
+        "text": "Test the spare Shure mike and, if it works, replace the Andrea mike with it",
+        "ownerSpeaker": "me011",
+        "ownerName": null,
+        "dueText": "sometime today or tomorrow",
+        "turnIds": ["bmr021-0144"]
+      },
+      {
+        "text": "Run the SRI front-end without vocal tract length normalization as a diagnostic experiment",
+        "ownerSpeaker": "mn017",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr021-0511", "bmr021-0521"]
+      },
+      {
+        "text": "Put the Transcriber and Channeltrans install in a central place with a sysadmin so it works on all NT machines",
+        "ownerSpeaker": "mn014",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr021-0439", "bmr021-0444"]
+      },
+      {
+        "text": "Hold a separate session to list all file reorganization and naming convention changes",
+        "ownerSpeaker": null,
+        "ownerName": null,
+        "dueText": "next week",
+        "turnIds": ["bmr021-0343", "bmr021-0346"]
+      },
+      {
+        "text": "Review the naming conventions Speaker C sent out",
+        "ownerSpeaker": "fe008",
+        "ownerName": null,
+        "dueText": "by next week",
+        "turnIds": ["bmr021-0369", "bmr021-0372"]
+      },
+      {
+        "text": "Follow up with Dave Johnson on why the backup disk's wave files appear accessed every night",
+        "ownerSpeaker": "me011",
+        "ownerName": null,
+        "dueText": null,
+        "turnIds": ["bmr021-0326"]
+      }
+    ],
+    "decisions": [
+      {
+        "text": "Buy two more Crown mikes immediately as the first step to resolve the microphone shortage.",
+        "turnIds": ["bmr021-0088", "bmr021-0105"]
+      },
+      {
+        "text": "Shortening the segmented wave files is the short-term fix for disk space, requiring no coding.",
+        "turnIds": ["bmr021-0287"]
+      },
+      {
+        "text": "Reorganize files by updating naming conventions and putting files on one disk, keeping old copies until the next full backup, then deleting them.",
+        "turnIds": ["bmr021-0349", "bmr021-0351", "bmr021-0359"]
+      }
+    ]
+  }
+}
