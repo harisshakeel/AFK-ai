@@ -1,0 +1,4 @@
+# capture-hook bookkeeping (the logs themselves in .agent-logs/ are committed)
+.claude/hooks/.state/
+.claude/settings.local.json
+.DS_Store
