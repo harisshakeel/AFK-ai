@@ -21,6 +21,7 @@ const SUPABASE_STUBS = `
   create table auth.users (
     id uuid primary key, email text,
     is_anonymous boolean not null default false,
+    raw_app_meta_data jsonb not null default '{}',
     created_at timestamptz not null default now()
   );
   create function auth.jwt() returns jsonb language sql stable as $$
@@ -43,6 +44,10 @@ const SUPABASE_STUBS = `
   -- Supabase grants every new table in public to these roles by default, so a migration
   -- must revoke before it grants. Reproduced here so a table that skips the revoke shows.
   alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
+  -- The same for functions and sequences: a function revoked only "from public" keeps
+  -- these direct grants and stays callable from the browser, as it would in production.
+  alter default privileges in schema public grant all on functions to anon, authenticated, service_role;
+  alter default privileges in schema public grant all on sequences to anon, authenticated, service_role;
 `;
 
 const MIGRATIONS_DIR = join(process.cwd(), "supabase", "migrations");
@@ -76,7 +81,7 @@ async function migrate(): Promise<PGlite> {
 
 export type Caller =
   | { role: "anon" }
-  | { role: "authenticated"; userId: string; isAnonymous?: boolean }
+  | { role: "authenticated"; userId: string; isAnonymous?: boolean; providers?: string[] }
   | { role: "service_role" };
 
 /** Run one statement as a Supabase caller, inside a transaction that is rolled back on error. */
@@ -89,7 +94,14 @@ export async function as<T>(
   return db.transaction(async (tx) => {
     const claims =
       caller.role === "authenticated"
-        ? { sub: caller.userId, role: caller.role, is_anonymous: caller.isAnonymous ?? true }
+        ? {
+            sub: caller.userId,
+            role: caller.role,
+            is_anonymous: caller.isAnonymous ?? true,
+            app_metadata: {
+              providers: caller.providers ?? providersOf(caller.isAnonymous ?? true),
+            },
+          }
         : { role: caller.role };
     await tx.query("select set_config('request.jwt.claims', $1, true)", [JSON.stringify(claims)]);
     await tx.exec(`set local role ${caller.role}`);
@@ -98,15 +110,24 @@ export async function as<T>(
   });
 }
 
+/** The sign-in providers Supabase records: a guest's is "anonymous", everyone else's Google. */
+function providersOf(anonymous: boolean): string[] {
+  return anonymous ? ["anonymous"] : ["google"];
+}
+
 /** A user row; a guest is an anonymous identity, optionally made some days ago. */
 export async function createUser(
   db: PGlite,
   id: string,
-  { anonymous = false, ageDays = 0 }: { anonymous?: boolean; ageDays?: number } = {},
+  {
+    anonymous = false,
+    ageDays = 0,
+    providers = providersOf(anonymous),
+  }: { anonymous?: boolean; ageDays?: number; providers?: string[] } = {},
 ): Promise<string> {
   await db.query(
-    "insert into auth.users (id, is_anonymous, created_at) values ($1, $2, now() - make_interval(days => $3))",
-    [id, anonymous, ageDays],
+    "insert into auth.users (id, is_anonymous, raw_app_meta_data, created_at) values ($1, $2, $3, now() - make_interval(days => $4))",
+    [id, anonymous, JSON.stringify({ providers }), ageDays],
   );
   return id;
 }

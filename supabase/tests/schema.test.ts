@@ -576,6 +576,36 @@ describe("highlights, shares and ticks", () => {
     ).toBe(true);
   });
 
+  it("a new analysis keeps each visitor's tick on an action it words the same way", async () => {
+    await addMeeting(db, "seed1");
+    const apply = (payload: unknown) =>
+      as(db, { role: "service_role" }, "select public.apply_analysis('seed1', $1)", [
+        JSON.stringify(payload),
+      ]);
+    await apply(analysis("seed1"));
+    const actions = await db.query<{ id: string }>(
+      "select id from public.meeting_items where kind = 'action' order by idx",
+    );
+    for (const action of actions.rows) {
+      await as(db, visitor, "insert into public.item_states (item_id, done) values ($1, true)", [
+        action.id,
+      ]);
+    }
+    // The deck action comes back in other case and spacing; the pricing one is reworded.
+    const next = analysis("seed1");
+    next.actions = [
+      { ...next.actions[0]!, text: "  send the Deck " },
+      { ...next.actions[1]!, text: "Check the pricing page today" },
+    ];
+    await apply(next);
+    const ticks = await as<{ text: string; done: boolean }>(
+      db,
+      visitor,
+      "select i.text, s.done from public.item_states s join public.meeting_items i on i.id = s.item_id",
+    );
+    expect(ticks).toEqual([{ text: "  send the Deck ", done: true }]);
+  });
+
   it("caps highlights per visitor and links per highlight", async () => {
     await addMeeting(db, "seed1");
     // Filled by the service role (the write limit is per visitor and would stop at 60);
@@ -1583,8 +1613,43 @@ describe("memory saves as one statement (completion plan, batch 2)", () => {
 
     // The same stamp cannot be used twice: the second writer with t2's predecessor loses.
     await expect(save(user, "# People\n", kept!.at)).rejects.toThrow(/changed meanwhile/);
-    // Without a stamp (a fresh editor on a file it never loaded) the save is unconditional.
-    expect(await save(user, "# People\n", null)).not.toBe(t2);
+    // Without a stamp the editor believes there is no file: with one there, it is refused
+    // too, so a template opened before AFK wrote the file cannot replace it (audit F13).
+    await expect(save(user, "# People\n", null)).rejects.toThrow(/changed meanwhile/);
+    expect((await read(OWNER))?.content).toContain("Ana leads QA");
+  });
+
+  it("keeps the history files AFK's: no save, insert or update reaches them (audit D8)", async () => {
+    await expect(
+      asCaller(db, user, "select public.save_memory_file('history/actions.md', 'x')"),
+    ).rejects.toThrow(/written by AFK/);
+    await expect(
+      asCaller(
+        db,
+        user,
+        "insert into public.memory_files (owner_id, path, content) values ($1, 'history/meetings.md', 'x')",
+        [OWNER],
+      ),
+    ).rejects.toThrow(/row-level security/);
+    await asCaller(
+      db,
+      { role: "service_role" },
+      "select public.append_memory_lines($1, 'history/meetings.md', $2, '')",
+      [OWNER, ["- [2026-10-21] Weekly sync"]],
+    );
+    const changed = await asCaller<{ path: string }>(
+      db,
+      user,
+      "update public.memory_files set content = 'rewritten' where path = 'history/meetings.md' returning path",
+    );
+    expect(changed).toEqual([]);
+    // Forget everything still removes them.
+    const removed = await asCaller<{ path: string }>(
+      db,
+      user,
+      "delete from public.memory_files where path = 'history/meetings.md' returning path",
+    );
+    expect(removed).toEqual([{ path: "history/meetings.md" }]);
   });
 
   it("writes only the caller's own file, and never for an anonymous visitor", async () => {
@@ -1599,8 +1664,9 @@ describe("memory saves as one statement (completion plan, batch 2)", () => {
   });
 
   it("counts against the visitor's sixty writes a minute like every other write", async () => {
-    for (let i = 0; i < 60; i++) await save(user, `# People ${i}\n`, null);
-    await expect(save(user, "# People\n", null)).rejects.toThrow(/too many changes/);
+    let at: string | null = null;
+    for (let i = 0; i < 60; i++) at = await save(user, `# People ${i}\n`, at);
+    await expect(save(user, "# People\n", at)).rejects.toThrow(/too many changes/);
     // Refused means untouched: the last accepted content stands.
     expect((await read(OWNER))?.content).toBe("# People 59\n");
   });
@@ -1909,6 +1975,28 @@ describe("live presence (completion plan, batch 7, requirements L1 and L2)", () 
         { role: "authenticated", userId: OWNER },
         "select public.record_live_utterance('bot_live_0001', 'k9', 'x', 'y', true, 1, 1, 'z')",
       ),
+    ).rejects.toThrow(/permission denied/);
+  });
+
+  it("names each speaker heard so far once, for the live tie rule, to the service role only (audit F2)", async () => {
+    await db.query(
+      "insert into public.meetings (id, owner_id, title, status, bot_id) values ('live1', $1, 'Live', 'recording', 'bot_live_0001')",
+      [OWNER],
+    );
+    await db.query(
+      `insert into public.live_utterances (meeting_id, idempotency_key, speaker_name, timestamp_ms, text)
+       values ('live1', 'a', 'Haris Shakeel', 1, 'one'), ('live1', 'b', 'Haris Shakeel', 2, 'two'),
+              ('live1', 'c', 'Haris', 3, 'three'), ('live1', 'd', '', 4, 'four'),
+              ('live1', 'e', null, 5, 'five')`,
+    );
+    const names = await as<{ name: string }>(
+      db,
+      service,
+      "select public.live_speaker_names('live1') as name order by 1",
+    );
+    expect(names.map((row) => row.name)).toEqual(["Haris", "Haris Shakeel"]);
+    await expect(
+      as(db, { role: "authenticated", userId: OWNER }, "select public.live_speaker_names('live1')"),
     ).rejects.toThrow(/permission denied/);
   });
 
@@ -3142,5 +3230,510 @@ describe("fixes from the audit (2026-10-16)", () => {
       "select kind from public.processing_jobs where meeting_id = 'live-cal'",
     );
     expect(ingest.rows).toEqual([{ kind: "ingest_media" }]);
+  });
+});
+
+describe("fixes from the security review (2026-10-17)", () => {
+  const owner = { role: "authenticated", userId: OWNER, isAnonymous: false } as const;
+
+  const draft = async (meetingId: string) => {
+    await addMeeting(db, meetingId, { owner: OWNER });
+    const inserted = await db.query<{ id: string }>(
+      `insert into public.meeting_commands (meeting_id, source, kind, sentence, status, needs_approval, args) values ($1, 'typed', 'email', '/email Sam', 'proposed', true, '{"toNames": ["Sam"]}') returning id`,
+      [meetingId],
+    );
+    return inserted.rows[0]!.id;
+  };
+  const rewrite = async (id: string, note: string) =>
+    (
+      await as<{ ok: boolean }>(db, owner, "select public.rewrite_command($1, $2) as ok", [
+        id,
+        note,
+      ])
+    )[0]?.ok;
+
+  it("a draft can be rewritten three times, then no more: each rewrite is a Claude call", async () => {
+    const id = await draft("rw-cap");
+    for (const note of ["shorter", "warmer", "mention Friday"]) {
+      expect(await rewrite(id, note)).toBe(true);
+      // The parse returns the card as a draft again, as apply_commands() does.
+      await db.query("update public.meeting_commands set status = 'proposed' where id = $1", [id]);
+      await db.query("delete from public.processing_jobs where meeting_id = 'rw-cap'");
+    }
+    expect(await rewrite(id, "once more")).toBe(false);
+    const row = await db.query<{ status: string; rewrites: number }>(
+      "select status, rewrites from public.meeting_commands where id = $1",
+      [id],
+    );
+    expect(row.rows[0]).toEqual({ status: "proposed", rewrites: 3 });
+    const jobs = await db.query("select 1 from public.processing_jobs where meeting_id = 'rw-cap'");
+    expect(jobs.rows).toEqual([]);
+  });
+
+  it("a Share the notes card is never sent back to the parser: its body is the notes", async () => {
+    await addMeeting(db, "rw-notes", { owner: OWNER });
+    const inserted = await db.query<{ id: string }>(
+      `insert into public.meeting_commands (meeting_id, source, kind, sentence, status, needs_approval, args) values ('rw-notes', 'typed', 'email', '/email the notes to everyone', 'proposed', true, '{"toNames": [], "sharedNotes": true}') returning id`,
+    );
+    expect(await rewrite(inserted.rows[0]!.id, "shorter")).toBe(false);
+  });
+
+  it("a rewrite counts against the write limit, through the Data API as through the route", async () => {
+    const id = await draft("rw-limit");
+    await db.query(
+      "insert into public.visitor_writes (owner_id) select $1 from generate_series(1, 60)",
+      [OWNER],
+    );
+    await expect(rewrite(id, "shorter")).rejects.toThrow(/too many changes/);
+    const row = await db.query<{ status: string; rewrites: number }>(
+      "select status, rewrites from public.meeting_commands where id = $1",
+      [id],
+    );
+    expect(row.rows[0]).toEqual({ status: "proposed", rewrites: 0 });
+  });
+
+  it("only a Google identity is a Google user: an email-and-password account gets no memory or connectors", async () => {
+    const EMAIL_USER = "00000000-0000-4000-8000-00000000000e";
+    await createUser(db, EMAIL_USER, { providers: ["email"] });
+    const emailUser: Caller = {
+      role: "authenticated",
+      userId: EMAIL_USER,
+      isAnonymous: false,
+      providers: ["email"],
+    };
+    expect(await as(db, emailUser, "select public.is_google_user() as ok")).toEqual([
+      { ok: false },
+    ]);
+    expect(await as(db, owner, "select public.is_google_user() as ok")).toEqual([{ ok: true }]);
+
+    await expect(
+      as(
+        db,
+        emailUser,
+        "insert into public.memory_files (owner_id, path, content) values ($1, 'profile.md', 'x')",
+        [EMAIL_USER],
+      ),
+    ).rejects.toThrow(/row-level security/);
+    await as(
+      db,
+      { role: "service_role" },
+      "select public.store_connector($1, 'slack', 'Acme', 'ext-slack', '{}'::text[], '{}'::jsonb, 'v1.sealed.token.tag', null)",
+      [EMAIL_USER],
+    );
+    expect(await as(db, emailUser, "select id from public.connectors")).toEqual([]);
+
+    // The job chain's test for an owner: no Google identity is a guest; no owner is not.
+    const guests = await db.query<{ email: boolean; google: boolean; seed: boolean }>(
+      "select public.is_guest($1) as email, public.is_guest($2) as google, public.is_guest(null) as seed",
+      [EMAIL_USER, OWNER],
+    );
+    expect(guests.rows[0]).toEqual({ email: true, google: false, seed: false });
+  });
+
+  it("a meeting's address shows the notes said on the call, never one the owner typed", async () => {
+    await addMeeting(db, "sn", { owner: OWNER });
+    const note = async (source: "spoken" | "typed", text: string) => {
+      const command = await db.query<{ id: string }>(
+        "insert into public.meeting_commands (meeting_id, turn_id, source, kind, sentence, status, args) values ('sn', $1, $2, 'note', $3, 'applied', '{}') returning id",
+        [source === "spoken" ? "sn-0001" : null, source, `AFK, note ${text}`],
+      );
+      await db.query(
+        "insert into public.meeting_items (meeting_id, kind, source, command_id, idx, text) values ('sn', 'note', 'command', $1, $2, $3)",
+        [command.rows[0]!.id, source === "spoken" ? 0 : 1, text],
+      );
+    };
+    await note("spoken", "Blue option");
+    await note("typed", "Sam is on a PIP");
+    const link = await db.query<{ code: string }>(
+      "select code from public.meeting_links where meeting_id = 'sn'",
+    );
+    const shared = (
+      await as<{ shared: { items: Array<{ text: string }> } }>(
+        db,
+        { role: "service_role" },
+        "select public.get_shared_meeting($1) as shared",
+        [link.rows[0]!.code],
+      )
+    )[0]!.shared;
+    expect(shared.items.map((item) => item.text)).toEqual(["Blue option"]);
+  });
+
+  it("one identity can ask to be added three times, one row or many at once", async () => {
+    const visitor: Caller = { role: "authenticated", userId: VISITOR };
+    const insert = "insert into public.access_requests (email) values ($1)";
+    for (const email of ["a@gmail.com", "b@gmail.com", "c@gmail.com"]) {
+      await as(db, visitor, insert, [email]);
+    }
+    await expect(as(db, visitor, insert, ["d@gmail.com"])).rejects.toThrow(/at most 3/);
+    // Another identity has its own three; a multi-row insert counts every row.
+    const other: Caller = { role: "authenticated", userId: OTHER_VISITOR };
+    await expect(
+      as(
+        db,
+        other,
+        "insert into public.access_requests (email) values ('e@gmail.com'), ('f@gmail.com'), ('g@gmail.com'), ('h@gmail.com')",
+      ),
+    ).rejects.toThrow(/at most 3/);
+    await as(db, other, insert, ["e@gmail.com"]);
+    const rows = await db.query<{ count: number }>(
+      "select count(*)::int as count from public.access_requests",
+    );
+    expect(rows.rows[0]?.count).toBe(4);
+  });
+
+  it("fifty wrong PINs in a day, from any number of clients, switch a meeting's address off", async () => {
+    await addMeeting(db, "pb", { owner: OWNER });
+    const service: Caller = { role: "service_role" };
+    const link = (
+      await db.query<{ code: string; pin: string }>(
+        "select code, pin from public.meeting_links where meeting_id = 'pb'",
+      )
+    ).rows[0]!;
+    const wrong = link.pin === "0000" ? "1111" : "0000";
+    const open = async (pin: string, client: number) =>
+      (
+        await as<{ opened: { ok: boolean } }>(
+          db,
+          service,
+          "select public.open_meeting_link($1, $2, $3) as opened",
+          [link.code, pin, client.toString(16).padStart(32, "0")],
+        )
+      )[0]!.opened;
+    const enabled = async () =>
+      (
+        await db.query<{ enabled: boolean }>(
+          "select enabled from public.meeting_links where meeting_id = 'pb'",
+        )
+      ).rows[0]?.enabled;
+
+    // Nine clients with five wrong tries each stay under the budget; the tenth reaches it.
+    for (let client = 1; client <= 9; client += 1) {
+      for (let tryNo = 0; tryNo < 5; tryNo += 1) await open(wrong, client);
+    }
+    expect(await enabled()).toBe(true);
+    for (let tryNo = 0; tryNo < 5; tryNo += 1) await open(wrong, 10);
+    expect(await enabled()).toBe(false);
+    // Off means off, even for the right PIN from a fresh client.
+    expect((await open(link.pin, 11)).ok).toBe(false);
+
+    // The owner switching it on clears the count; the right PIN opens it again.
+    const owner: Caller = { role: "authenticated", userId: OWNER, isAnonymous: false };
+    await as(db, owner, "select public.set_meeting_link_enabled('pb', true)");
+    expect(await enabled()).toBe(true);
+    await open(wrong, 12);
+    expect(await enabled()).toBe(true);
+    expect((await open(link.pin, 13)).ok).toBe(true);
+  });
+
+  it("guests together use at most half of the day's bots, and a Google user still finds room", async () => {
+    await db.query("update public.app_settings set value = '4' where key = 'bot_daily_cap'");
+    const send = (id: string, owner: string) =>
+      db.query(
+        "insert into public.meetings (id, owner_id, title, status, source) values ($1, $2, 'Call', 'requested', '{\"kind\":\"bot\"}')",
+        [id, owner],
+      );
+    const guests = ["00000000-0000-4000-8000-0000000000a1", "00000000-0000-4000-8000-0000000000a2"];
+    const late = "00000000-0000-4000-8000-0000000000a3";
+    for (const id of [...guests, late]) await createUser(db, id, { anonymous: true });
+    await send("gb1", guests[0]!);
+    await send("gb2", guests[1]!);
+    await expect(send("gb3", late)).rejects.toThrow(/guests have used their half/);
+    // The other half is there for Google users, up to the whole cap.
+    await send("gb4", OWNER);
+    await send("gb5", STRANGER);
+    await expect(send("gb6", VISITOR)).rejects.toThrow(/fully booked/);
+    const rows = await db.query<{ guest: boolean; n: number }>(
+      "select guest, count(*)::int as n from public.bot_requests group by guest order by guest",
+    );
+    expect(rows.rows).toEqual([
+      { guest: false, n: 2 },
+      { guest: true, n: 2 },
+    ]);
+  });
+});
+
+describe("the welcome's memory files (audit F7)", () => {
+  it("adds the templates beside a file AFK already wrote, as the Data API's upsert does", async () => {
+    const google: Caller = { role: "authenticated", userId: OWNER, isAnonymous: false };
+    await as(
+      db,
+      google,
+      "insert into public.memory_files (owner_id, path, content) values ($1, 'context/people.md', 'learned')",
+      [OWNER],
+    );
+    await as(
+      db,
+      google,
+      "insert into public.memory_files (owner_id, path, content) values ($1, 'profile.md', 'me')",
+      [OWNER],
+    );
+    // PostgREST's upsert with ignoreDuplicates: insert ... on conflict do nothing.
+    await as(
+      db,
+      google,
+      "insert into public.memory_files (owner_id, path, content) values ($1, 'context/people.md', 'template'), ($1, 'context/projects.md', 'template') on conflict (owner_id, path) do nothing",
+      [OWNER],
+    );
+    const rows = await db.query<{ path: string; content: string }>(
+      "select path, content from public.memory_files where owner_id = $1 order by path",
+      [OWNER],
+    );
+    expect(rows.rows).toEqual([
+      { path: "context/people.md", content: "learned" },
+      { path: "context/projects.md", content: "template" },
+      { path: "profile.md", content: "me" },
+    ]);
+  });
+});
+
+describe("a meeting address's lock (audit F17)", () => {
+  it("gives five tries again once a lock has run out, not a fresh lock on every wrong try", async () => {
+    await addMeeting(db, "lk", { owner: OWNER });
+    const link = (
+      await db.query<{ code: string; pin: string }>(
+        "select code, pin from public.meeting_links where meeting_id = 'lk'",
+      )
+    ).rows[0]!;
+    const wrong = link.pin === "0000" ? "1111" : "0000";
+    const open = async (pin: string) =>
+      (
+        await as<{ opened: { ok: boolean; reason?: string; triesLeft?: number } }>(
+          db,
+          { role: "service_role" },
+          "select public.open_meeting_link($1, $2, $3) as opened",
+          [link.code, pin, "0123456789abcdef0123456789abcdef"],
+        )
+      )[0]!.opened;
+    for (let i = 0; i < 4; i += 1) await open(wrong);
+    expect(await open(wrong)).toMatchObject({ reason: "locked" });
+    // The lock runs out: the next wrong try is counted, not locked.
+    await db.query(
+      "update public.meeting_link_tries set locked_until = now() - interval '1 minute'",
+    );
+    expect(await open(wrong)).toEqual({ ok: false, reason: "wrong", triesLeft: 4 });
+    expect(await open(link.pin)).toMatchObject({ ok: true });
+  });
+});
+
+describe("sharing the notes (audit F4)", () => {
+  it("keeps one card waiting per meeting, and allows another once that one is dealt with", async () => {
+    await addMeeting(db, "sn4", { owner: OWNER });
+    const card = (status = "proposed") =>
+      db.query<{ id: string }>(
+        `insert into public.meeting_commands (meeting_id, source, kind, sentence, status, needs_approval, args) values ('sn4', 'typed', 'email', '/email the notes to everyone on the call', $1, true, '{"sharedNotes": true}') returning id`,
+        [status],
+      );
+    const first = await card();
+    await expect(card()).rejects.toThrow(/duplicate key|unique/);
+    await db.query("update public.meeting_commands set status = 'dismissed' where id = $1", [
+      first.rows[0]!.id,
+    ]);
+    await card();
+    // An ordinary email card is not held back by it.
+    await db.query(
+      `insert into public.meeting_commands (meeting_id, source, kind, sentence, status, needs_approval, args) values ('sn4', 'typed', 'email', '/email Sam', 'proposed', true, '{}')`,
+    );
+  });
+
+  it("the migration keeps the newest of the cards already doubled, so its index can be built", async () => {
+    await addMeeting(db, "sn4", { owner: OWNER });
+    // The database as it stood before migration 49, holding the doubled cards.
+    await db.exec("drop index public.meeting_commands_one_shared_notes");
+    for (const age of ["2 minutes", "1 minute"]) {
+      await db.query(
+        `insert into public.meeting_commands (meeting_id, source, kind, sentence, status, needs_approval, args, created_at) values ('sn4', 'typed', 'email', '/email the notes', 'proposed', true, '{"sharedNotes": true}', now() - $1::interval)`,
+        [age],
+      );
+    }
+    await db.exec(
+      readFileSync("supabase/migrations/20261016000049_one_shared_notes_card.sql", "utf8"),
+    );
+    const cards = await db.query<{ status: string }>(
+      "select status from public.meeting_commands where meeting_id = 'sn4' order by created_at",
+    );
+    expect(cards.rows.map((row) => row.status)).toEqual(["dismissed", "proposed"]);
+  });
+});
+
+describe("a parse that fails for good (audit F5)", () => {
+  const service: Caller = { role: "service_role" };
+  const jobs = async (meetingId: string) =>
+    (
+      await db.query<{ kind: string }>(
+        "select kind from public.processing_jobs where meeting_id = $1 order by kind",
+        [meetingId],
+      )
+    ).rows.map((row) => row.kind);
+
+  it("writes the notes only when there are none, and marks the waiting drafts not understood", async () => {
+    await addMeeting(db, "f5", { owner: OWNER });
+    await db.query("update public.meetings set summarized_at = now() where id = 'f5'");
+    await db.query("delete from public.processing_jobs where meeting_id = 'f5'");
+    const draft = await db.query<{ id: string }>(
+      `insert into public.meeting_commands (meeting_id, source, kind, sentence, status, needs_approval, args) values ('f5', 'typed', 'email', '/email Sam', 'detected', true, '{}') returning id`,
+    );
+    await as(db, service, "select public.job_failed_for_good('f5', 'detect_commands', null, 'x')");
+    expect(await jobs("f5")).toEqual([]);
+    const row = await db.query<{ status: string }>(
+      "select status from public.meeting_commands where id = $1",
+      [draft.rows[0]!.id],
+    );
+    expect(row.rows[0]?.status).toBe("unparsed");
+    // A meeting without notes yet still gets them.
+    await addMeeting(db, "f5b", { owner: OWNER });
+    await db.query("delete from public.processing_jobs where meeting_id = 'f5b'");
+    await as(db, service, "select public.job_failed_for_good('f5b', 'detect_commands', null, 'x')");
+    expect(await jobs("f5b")).toEqual(["analyze", "summarize"]);
+  });
+
+  it("tells the owner once per meeting, however often the notes are stamped again", async () => {
+    await addMeeting(db, "f5c", { owner: OWNER });
+    await db.query("delete from public.processing_jobs where meeting_id = 'f5c'");
+    await db.query("update public.meetings set summarized_at = now() where id = 'f5c'");
+    expect(await jobs("f5c")).toEqual(["notify_owner"]);
+    await db.query("delete from public.processing_jobs where meeting_id = 'f5c'");
+    await db.query(
+      "update public.meetings set summarized_at = now() + interval '1 hour' where id = 'f5c'",
+    );
+    expect(await jobs("f5c")).toEqual([]);
+  });
+});
+
+describe("a draft that arrives while its meeting's parse runs (audit F8)", () => {
+  const queued = async (meetingId: string) =>
+    (
+      await db.query<{ n: number }>(
+        "select count(*)::int as n from public.processing_jobs where meeting_id = $1 and kind = 'detect_commands' and status = 'queued'",
+        [meetingId],
+      )
+    ).rows[0]?.n;
+  const startParse = async (meetingId: string) => {
+    await db.query(
+      "insert into public.processing_jobs (meeting_id, kind) values ($1, 'detect_commands')",
+      [meetingId],
+    );
+    const job = await claim(db, ["detect_commands"]);
+    // The parse read its waiting rows a minute ago.
+    await db.query(
+      "update public.processing_jobs set started_at = now() - interval '1 minute' where id = $1",
+      [job!.id],
+    );
+    return job!;
+  };
+  const draft = (meetingId: string, updatedAt: string) =>
+    db.query(
+      `insert into public.meeting_commands (meeting_id, source, kind, sentence, status, needs_approval, args, updated_at) values ($1, 'typed', 'email', '/email Sam', 'detected', true, '{}', ${updatedAt})`,
+      [meetingId],
+    );
+
+  it("queues one more parse when the finished one could not have seen a waiting row", async () => {
+    await addMeeting(db, "f8", { owner: OWNER });
+    await db.query("delete from public.processing_jobs where meeting_id = 'f8'");
+    const job = await startParse("f8");
+    await draft("f8", "now()");
+    expect(await complete(db, job, "done", { commands: [] })).toBe(true);
+    expect(await queued("f8")).toBe(1);
+  });
+
+  it("queues nothing for a row the finished parse saw and left, so it cannot loop", async () => {
+    await addMeeting(db, "f8b", { owner: OWNER });
+    await db.query("delete from public.processing_jobs where meeting_id = 'f8b'");
+    await draft("f8b", "now() - interval '2 minutes'");
+    const job = await startParse("f8b");
+    expect(await complete(db, job, "done", { commands: [] })).toBe(true);
+    expect(await queued("f8b")).toBe(0);
+  });
+});
+
+describe("deleting a meeting (audit S1)", () => {
+  it("takes its spoken commands with it, however the cascades are ordered", async () => {
+    await addMeeting(db, "del", { owner: OWNER });
+    await db.query(
+      "insert into public.meeting_commands (meeting_id, turn_id, source, kind, sentence, status, args) values ('del', 'del-0001', 'spoken', 'note', 'AFK, note blue', 'applied', '{}')",
+    );
+    await db.query("delete from public.meetings where id = 'del'");
+    const left = await db.query("select 1 from public.meeting_commands where meeting_id = 'del'");
+    expect(left.rows).toEqual([]);
+  });
+});
+
+describe("privileges, enumerated (a revoke a migration forgets fails here)", () => {
+  it("every public table has Row Level Security on", async () => {
+    const off = await db.query<{ name: string }>(
+      "select c.relname as name from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relkind in ('r', 'p') and not c.relrowsecurity order by 1",
+    );
+    expect(off.rows).toEqual([]);
+  });
+
+  it("the browser roles can run only the functions meant for them", async () => {
+    const callable = await db.query<{ name: string; anon: boolean }>(
+      `select p.proname as name, bool_or(has_function_privilege('anon', p.oid, 'execute')) as anon
+       from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+       where n.nspname = 'public'
+         and p.prorettype <> 'trigger'::regtype
+         and not exists (select 1 from pg_depend d where d.objid = p.oid and d.deptype = 'e')
+       group by p.proname
+       having bool_or(has_function_privilege('anon', p.oid, 'execute'))
+           or bool_or(has_function_privilege('authenticated', p.oid, 'execute'))
+       order by 1`,
+    );
+    // Readers anyone may call (RLS still decides what they see), then the owner-only
+    // writers that check auth.uid() themselves. Everything else is the service role's.
+    expect(callable.rows).toEqual([
+      { name: "can_read_meeting", anon: true },
+      { name: "can_tick_item", anon: false },
+      { name: "get_shared_clip", anon: true },
+      { name: "is_google_user", anon: true },
+      { name: "list_meetings", anon: true },
+      { name: "note_visitor_write", anon: false },
+      { name: "review_meeting", anon: false },
+      { name: "rewrite_command", anon: false },
+      { name: "rotate_meeting_link", anon: false },
+      { name: "save_memory_file", anon: false },
+      { name: "search_meetings", anon: true },
+      { name: "set_meeting_link_enabled", anon: false },
+      { name: "snooze_wrap_up", anon: false },
+    ]);
+  });
+
+  it("what each browser role may do to each table", async () => {
+    const grants = await db.query<{ grant: string }>(
+      `select format('%s %s: %s', r.role, c.relname, string_agg(x.privilege, ', ' order by x.privilege)) as grant
+       from pg_class c
+       join pg_namespace n on n.oid = c.relnamespace
+       cross join (values ('anon'), ('authenticated')) as r(role)
+       cross join (values ('select'), ('insert'), ('update'), ('delete')) as x(privilege)
+       where n.nspname = 'public' and c.relkind in ('r', 'p', 'v')
+         and (has_table_privilege(r.role, c.oid, x.privilege)
+              or (x.privilege <> 'delete' and has_any_column_privilege(r.role, c.oid, x.privilege)))
+       group by r.role, c.relname
+       order by r.role, c.relname`,
+    );
+    // Column grants count (has_any_column_privilege); RLS narrows each to the caller's rows.
+    expect(grants.rows.map((row) => row.grant)).toEqual([
+      "anon chapters: select",
+      "anon item_citations: select",
+      "anon meeting_items: select",
+      "anon meeting_speakers: select",
+      "anon meetings: select",
+      "anon processing_jobs: select",
+      "anon transcript_turns: select",
+      "authenticated access_requests: insert",
+      "authenticated chapters: select",
+      "authenticated connectors: select",
+      "authenticated contacts: delete, select",
+      "authenticated highlights: delete, insert, select, update",
+      "authenticated item_citations: select",
+      "authenticated item_states: delete, insert, select, update",
+      "authenticated meeting_commands: select",
+      "authenticated meeting_items: select",
+      "authenticated meeting_links: select",
+      "authenticated meeting_speakers: select",
+      "authenticated meetings: select",
+      "authenticated memory_files: delete, insert, select, update",
+      "authenticated processing_jobs: select",
+      "authenticated share_links: insert, select, update",
+      "authenticated transcript_turns: select",
+    ]);
   });
 });

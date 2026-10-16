@@ -54,16 +54,19 @@ export type Database = {
         Row: {
           at: string
           client_key: string | null
+          guest: boolean
           owner_id: string
         }
         Insert: {
           at?: string
           client_key?: string | null
+          guest?: boolean
           owner_id: string
         }
         Update: {
           at?: string
           client_key?: string | null
+          guest?: boolean
           owner_id?: string
         }
         Relationships: []
@@ -481,6 +484,7 @@ export type Database = {
           meeting_id: string
           needs_approval: boolean
           result: Json | null
+          rewrites: number
           sentence: string
           source: string
           started_at: string | null
@@ -504,6 +508,7 @@ export type Database = {
           meeting_id: string
           needs_approval?: boolean
           result?: Json | null
+          rewrites?: number
           sentence: string
           source: string
           started_at?: string | null
@@ -527,6 +532,7 @@ export type Database = {
           meeting_id?: string
           needs_approval?: boolean
           result?: Json | null
+          rewrites?: number
           sentence?: string
           source?: string
           started_at?: string | null
@@ -756,6 +762,7 @@ export type Database = {
           status: string
           status_detail: string | null
           summarized_at: string | null
+          tie_noticed_at: string | null
           title: string
           transcript_hash: string | null
           updated_at: string
@@ -787,6 +794,7 @@ export type Database = {
           status?: string
           status_detail?: string | null
           summarized_at?: string | null
+          tie_noticed_at?: string | null
           title: string
           transcript_hash?: string | null
           updated_at?: string
@@ -818,6 +826,7 @@ export type Database = {
           status?: string
           status_detail?: string | null
           summarized_at?: string | null
+          tie_noticed_at?: string | null
           title?: string
           transcript_hash?: string | null
           updated_at?: string
@@ -1209,6 +1218,7 @@ export type Database = {
           title: string
         }[]
       }
+      live_speaker_names: { Args: { p_meeting_id: string }; Returns: string[] }
       mark_bot_finished: {
         Args: { p_bot_id: string; p_detail?: string; p_succeeded: boolean }
         Returns: string

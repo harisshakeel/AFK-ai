@@ -16,6 +16,12 @@ additional_redirect_urls = [
 enable_anonymous_sign_ins = true
 enable_manual_linking = true
 
+# Google is the only way to sign in. An email-and-password account would be a second,
+# unchecked way to the features that are Google accounts' alone (memory, contacts,
+# connectors); the app and the database also ask for Google itself (migration 44).
+[auth.email]
+enable_signup = false
+
 [auth.rate_limit]
 # New anonymous identities per hour per IP address (NFR Visitor boundary). Identities are
 # created on a visitor's first write, so an honest visitor needs one.
