@@ -1,0 +1,30 @@
+# Hosted project settings that live in the repo. `supabase config push` sends only the
+# properties declared here; everything else stays as set in the dashboard.
+project_id = "afk-ai"
+
+[auth]
+# Where sign-in returns to. The callback exchanges Google's code for a session; `**` lets
+# the `?next=` path through. Localhost is for development.
+site_url = "https://afk-ai-tau.vercel.app"
+additional_redirect_urls = [
+  "https://afk-ai-tau.vercel.app/auth/callback**",
+  "http://localhost:3000/auth/callback**",
+]
+# Visitors get an anonymous identity so their highlights, clips and ticks are theirs
+# (requirements: "Visitors don't sign in"). Manual linking lets an anonymous visitor who
+# later signs in with Google keep what they made.
+enable_anonymous_sign_ins = true
+enable_manual_linking = true
+
+[auth.rate_limit]
+# New anonymous identities per hour per IP address (NFR Visitor boundary). Identities are
+# created on a visitor's first write, so an honest visitor needs one.
+anonymous_users = 30
+
+# Operators sign in with Google. The client ID and secret come from the environment
+# (.env.local when pushing from the Mac); they are never written here.
+[auth.external.google]
+enabled = true
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
+skip_nonce_check = false
