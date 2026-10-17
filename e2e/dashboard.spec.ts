@@ -357,7 +357,8 @@ test.describe("signed in", () => {
     await find.fill("deck");
     await expect(page.getByText("1 of 1")).toBeVisible();
     await find.fill("");
-    if (phone) await page.getByRole("button", { name: "Notes" }).click();
+    // Exact: the header's "Email notes" button shows on phones too.
+    if (phone) await page.getByRole("button", { name: "Notes", exact: true }).click();
 
     // Email the notes: one email card to the people on the call, from the stored notes.
     await page.getByRole("button", { name: /Email (the )?notes/ }).click();
@@ -388,10 +389,15 @@ test.describe("signed in", () => {
     const started = Date.now();
     const typed = (text: string) =>
       page.request.post(`/api/meetings/${meetingId}/commands`, { data: { text } });
-    const save = (n: number) =>
-      page.request.put("/api/memory/profile.md", {
-        data: { content: `# Profile\n\n- Name: Tess\n- Saved: ${n}\n` },
+    // Each save names the version it replaces: without one a save only creates the file.
+    let version: string | null = null;
+    const save = async (n: number) => {
+      const response = await page.request.put("/api/memory/profile.md", {
+        data: { content: `# Profile\n\n- Name: Tess\n- Saved: ${n}\n`, updatedAt: version },
       });
+      if (response.ok()) version = ((await response.json()) as { updatedAt: string }).updatedAt;
+      return response;
+    };
     const change = (commandId: string, action: "approve" | "dismiss") =>
       page.request.post(`/api/commands/${commandId}`, { data: { action } });
     for (let i = 0; i < 17; i++) {

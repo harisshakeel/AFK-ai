@@ -96,10 +96,11 @@ region `ap-south-1`. Start at https://supabase.com/dashboard → the `afk-ai` pr
 - **Then stop email sign-ups:** `supabase config push` applies `[auth.email]
   enable_signup = false` from `config.toml`. Google is the only way to sign up; the app
   and the database treat any identity without Google as a guest anyway (migration 44),
-  so this only stops strangers making accounts that never expire. Leave the Email
-  provider itself on: the browser journeys create a throwaway user with the secret key
-  and sign it in with a password. **Check:** `POST <NEXT_PUBLIC_SUPABASE_URL>/auth/v1/signup`
-  with an email and password answers that sign-ups are not allowed.
+  so this only stops strangers making accounts that never expire. The CLI maps this
+  setting to the Email provider itself, so email sign-in with a password is off too; the
+  browser journeys create a throwaway user with the secret key and sign it in with a
+  one-time link the admin API mints. **Check:** `POST <NEXT_PUBLIC_SUPABASE_URL>/auth/v1/signup`
+  with an email and password answers that email sign-ups are disabled.
 
 ### 1f. Redirect URLs
 

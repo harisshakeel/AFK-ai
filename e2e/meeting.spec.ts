@@ -165,7 +165,7 @@ test.describe("meeting page", () => {
     await expect(chip).toHaveAttribute("aria-pressed", "false");
     expect(speaker.length).toBeGreaterThan(0);
 
-    if (phone) await page.getByRole("button", { name: "Notes" }).click();
+    if (phone) await page.getByRole("button", { name: "Notes", exact: true }).click();
     await page.getByRole("tab", { name: /Chapters/ }).click();
     const chapter = page.getByRole("tabpanel").getByRole("listitem").nth(3).getByRole("button");
     const chapterClock = (await chapter.textContent())?.match(/\d+:\d\d(?::\d\d)?/)?.[0];

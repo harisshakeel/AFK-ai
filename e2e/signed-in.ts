@@ -7,11 +7,12 @@ import { transcriptHash } from "../src/features/meetings/transcript-hash";
 
 /**
  * A signed-in browser for the journeys behind sign-in (dashboard, welcome, memory,
- * tasks). It creates a throwaway email-and-password user through Supabase's admin API
- * with the secret key from .env.local, marks Google among its providers (the app treats
- * only an identity with Google as a Google user, isGoogleUser()), signs it in with the
- * password grant, writes the session cookie the way @supabase/ssr does, and deletes the
- * user afterwards. Without .env.local (CI, a clean checkout) the caller skips.
+ * tasks). It creates a throwaway user through Supabase's admin API with the secret key
+ * from .env.local, marks Google among its providers (the app treats only an identity
+ * with Google as a Google user, isGoogleUser()), signs it in with a one-time link the
+ * admin API mints (the Email provider is off, so there is no password grant), writes the
+ * session cookie the way @supabase/ssr does, and deletes the user afterwards. Without
+ * .env.local (CI, a clean checkout) the caller skips.
  */
 type Env = { url: string; publishableKey: string; secretKey: string };
 
@@ -109,11 +110,10 @@ export async function signInAsNewUser(context: BrowserContext, baseURL: string):
   const env = requireEnv();
   await sweepStaleTestUsers(env);
   const email = `e2e-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}@afk.test`;
-  const password = `pw-${Math.random().toString(36).slice(2)}-${Date.now()}`;
 
   const created = await admin(env, "auth/v1/admin/users", {
     method: "POST",
-    json: { email, password, email_confirm: true, user_metadata: { full_name: "E2E Tester" } },
+    json: { email, email_confirm: true, user_metadata: { full_name: "E2E Tester" } },
   });
   if (!created.ok) throw new Error(`could not create the test user (${created.status})`);
   const { id } = (await created.json()) as { id: string };
@@ -121,27 +121,52 @@ export async function signInAsNewUser(context: BrowserContext, baseURL: string):
     const deleted = await admin(env, `auth/v1/admin/users/${id}`, { method: "DELETE" });
     if (!deleted.ok) console.warn(`test user ${email} was not deleted (${deleted.status})`);
   };
+  // Google is the only sign-in, so the Email provider is off and there is no password
+  // grant: the admin API mints a one-time link for the user, and /verify trades its hash
+  // for a session, as following the link would.
+  const link = await admin(env, "auth/v1/admin/generate_link", {
+    method: "POST",
+    json: { type: "magiclink", email },
+  });
+  const minted = link.ok
+    ? ((await link.json()) as { hashed_token?: string; properties?: { hashed_token?: string } })
+    : null;
+  const tokenHash = minted?.hashed_token ?? minted?.properties?.hashed_token;
+  if (!tokenHash) {
+    await dispose();
+    throw new Error(`could not mint a sign-in link for the test user (${link.status})`);
+  }
+  const signedIn = await fetch(`${env.url}/auth/v1/verify`, {
+    method: "POST",
+    headers: { apikey: env.publishableKey, "Content-Type": "application/json" },
+    body: JSON.stringify({ type: "magiclink", token_hash: tokenHash }),
+  });
+  if (!signedIn.ok) {
+    await dispose();
+    throw new Error(`sign-in with the one-time link failed (${signedIn.status})`);
+  }
+  const linked = (await signedIn.json()) as Record<string, unknown>;
   // app_metadata is the server's, written only with the secret key: the same field
-  // Supabase fills in when someone continues with Google.
+  // Supabase fills in when someone continues with Google. Signing in rebuilt it from the
+  // user's identities, so it is marked now, and a refreshed token carries it.
   const marked = await admin(env, `auth/v1/admin/users/${id}`, {
     method: "PUT",
     json: { app_metadata: { providers: ["email", "google"] } },
   });
-  if (!marked.ok) {
+  const refreshed = marked.ok
+    ? await fetch(`${env.url}/auth/v1/token?grant_type=refresh_token`, {
+        method: "POST",
+        headers: { apikey: env.publishableKey, "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh_token: linked.refresh_token }),
+      })
+    : null;
+  if (!refreshed?.ok) {
     await dispose();
-    throw new Error(`could not mark the test user as a Google user (${marked.status})`);
+    throw new Error(
+      `could not mark the test user as a Google user (${marked.status}, ${refreshed?.status})`,
+    );
   }
-
-  const signedIn = await fetch(`${env.url}/auth/v1/token?grant_type=password`, {
-    method: "POST",
-    headers: { apikey: env.publishableKey, "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!signedIn.ok) {
-    await dispose();
-    throw new Error(`password sign-in failed (${signedIn.status})`);
-  }
-  const session = (await signedIn.json()) as Record<string, unknown>;
+  const session = (await refreshed.json()) as Record<string, unknown>;
   if (!tokenHasGoogle(session.access_token)) {
     await dispose();
     throw new Error("the test user's token does not name Google among its providers");

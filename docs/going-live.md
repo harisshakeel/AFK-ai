@@ -46,9 +46,9 @@ only those, and everything else stays as set in the dashboard.
    address. A visitor needs one identity, so this only stops abuse.
 8. **No email sign-ups.** `supabase config push` applies `[auth.email] enable_signup =
    false`. The app and the database treat any identity without Google as a guest
-   (migration 44); this only stops strangers making accounts that never expire. The Email
-   provider stays on for the browser journeys, which sign a throwaway user in with a
-   password.
+   (migration 44); this only stops strangers making accounts that never expire. The CLI
+   maps it to the Email provider, so password sign-in is off as well; the browser
+   journeys sign their throwaway user in with a one-time link from the admin API.
 
 ## 2. The Claude API
 
